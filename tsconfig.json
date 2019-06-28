@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "noEmitHelpers": true,
+    "sourceMap": false
+  },
+  "include": [
+    "src",
+    "libs",
+    "bin/protobuf/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
