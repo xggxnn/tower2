@@ -39,6 +39,7 @@ export default class ProtoServer {
 
 		let data = this.dataList[0];
 		data["order"] = this.nextOrder;
+		console.log(".............", data);
 		wx.request(
 			{
 				url: ProtoServer.SERVER_URL,
@@ -46,7 +47,7 @@ export default class ProtoServer {
 				header: {
 					"content-type": "application/text"
 				},
-				method: "post",
+				method: "GET",
 				dataType: "text",
 				responseType: "text",
 				success: function (res) {
@@ -71,12 +72,12 @@ export default class ProtoServer {
 						Game.tipWin.showTip(this.errorStr(parseInt(json.errcode)), Laya.Handler.create(this, this.closeWait));
 					}
 					else {
-						console.log("   >>> back:", json.protoid, json);
+						// console.log("   >>> back:", json.protoId, json);
 						// // 用户数据变更
 						// if (json.hasOwnProperty("userData")) {
 						// 	this.parseUserData(json.userData);
 						// }
-						let pro = ProtoManager.getProto(json.protoid);
+						let pro = ProtoManager.getProto(json.protoId);
 						pro.callBack(json);
 					}
 					ProtoServer.dataList.shift();
@@ -84,6 +85,7 @@ export default class ProtoServer {
 				else {
 					console.error("出错啦，订单序号有错误~~~order：", json.order);
 					Game.tipWin.showTip("出错啦，订单序号有错误~~~\norder：" + json.order, Laya.Handler.create(this, this.closeWait));
+					return;
 				}
 			}
 			this.closeWait();
@@ -91,6 +93,7 @@ export default class ProtoServer {
 			// 服务器代码异常
 			console.error("服务器出错,data:", data);
 			console.error("服务器出错,error:", error);
+			return;
 		}
 		ProtoServer.calling = false;
 		ProtoServer.callServer();

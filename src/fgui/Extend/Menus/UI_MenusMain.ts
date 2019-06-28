@@ -5,6 +5,7 @@ import Game from "../../../Game";
 import { SelectionStatus } from "../../../gamemodule/DataEnums/SelectionStatus";
 import UI_selectionBtn from "./UI_selectionBtn";
 import Fun from "../../../Tool/Fun";
+import { MenuId } from "../../../gamemodule/MenuId";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_MenusMain extends fui_MenusMain {
@@ -45,6 +46,8 @@ export default class UI_MenusMain extends fui_MenusMain {
 		for (let i = 0, len = this.selectList.length; i < len; i++) {
 			(this.selectList[i].m_selBtn as UI_selectionBtn).onClick(this, this.slelectClick, [i]);
 		}
+
+		this.m_backBtn.onClick(this, this.backClick);
 	}
 	private selectList: Array<UI_Selection> = [];
 
@@ -54,6 +57,12 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.moduleWindow.createTrialUI();
 		// Game.proto.reqConfig();
 	}
+
+	backClick(): void {
+		Game.menu.open(MenuId.Home);
+		this.closeUI();
+	}
+
 	// 关闭ui
 	closeUI(): void {
 		this.moduleWindow.menuClose();

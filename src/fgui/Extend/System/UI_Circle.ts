@@ -37,7 +37,7 @@ export default class UI_Circle extends fui_Circle {
 		MenuLayer.showHideLayer(MenuLayerType.Loader, true)
 		let num = Math.floor(progress * 1000 / max);
 		if (num > 999) num = 999;
-		this.m_title.text = Fun.format("{0}.{1}%", Math.floor(num * 0.1), num % 10);
+		this.m_tips.text = Fun.format("{0}.{1}%", Math.floor(num * 0.1), num % 10);
 	}
 	showWait(): void {
 		this.m_c1.setSelectedIndex(1);

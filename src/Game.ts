@@ -18,6 +18,7 @@ import BattleMap from "./gamemodule/DataStructs/BattleMap";
 import BattleData from "./gamemodule/DataStructs/BattleData";
 import BattleScene from "./gamemodule/Models/BattleScene";
 import CSVConfig from "./dataInfo/CSVConfig";
+import ServerCSVConfig from "./dataInfo/ServerCSVConfig";
 
 export default class Game {
 
@@ -45,7 +46,7 @@ export default class Game {
 	// 游戏状态
 	static gameStatus: GameStatus = GameStatus.Load;
 
-
+	static configs: ServerCSVConfig;
 	// 模块管理器
 	static menu: MenuManager = new MenuManager();
 	// 游戏时间
@@ -99,6 +100,7 @@ export default class Game {
 	}
 
 	static onInstallComplete() {
+		Game.proto.reqConfig();
 		Game.gameStatus = GameStatus.Gaming;
 		Game.sound.install();
 		Game.sound.autoStopMusic = false;
@@ -108,10 +110,11 @@ export default class Game {
 		Game.battleMap.init();
 		this.menu.open(MenuId.Load);
 		// 资源加载完毕，打开主界面
-		this.menu.open(MenuId.MenuSelect);
+		this.menu.open(MenuId.Home);
 	}
 
 	static install(): void {
+		Game.configs = ServerCSVConfig.Instance;
 		Game.total = SystemToastMessag.Instance;
 		Game.tipWin = SystemTipWin.Instance;
 		Game.guide = SystemGuide.Instance;

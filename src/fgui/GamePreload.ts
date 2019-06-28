@@ -60,10 +60,9 @@ export default class GamePreload {
 
 	private static generate() {
 		this.addAssetForFguiPackagename(GuiPackageNames.System);
-		this.addAssetForFguiPackagename(GuiPackageNames.Battle);
 		this.addAssetForFguiPackagename(GuiPackageNames.Sound);
 		this.addAssetForFguiPackagename(GuiPackageNames.FSprite);
-		// this.addAssetForFguiPackagename(GuiPackageNames.Settings);
+		this.addAssetForFguiPackagename(GuiPackageNames.Home);
 
 		let dict: Dictionary<string, AssetItemInfo> = new Dictionary<string, AssetItemInfo>();
 		let packageDict: Dictionary<string, ResPackageConfig> = new Dictionary<string, ResPackageConfig>();

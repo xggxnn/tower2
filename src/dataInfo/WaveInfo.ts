@@ -5,63 +5,35 @@ export default class WaveInfo {
     private static infDic: Dictionary<string, Dictionary<string, any>> = new Dictionary<string, Dictionary<string, any>>();
     private curInf: Dictionary<string, any> = new Dictionary<string, any>();
 
-    /**
-     * id
-     */
+    public static serverInit(infDic: Dictionary<string, Dictionary<string, any>>): void {
+        this.infDic.clear();
+        this.infDic = infDic;
+    }
+
     public get id(): any {
         return this.curInf.getValue("id");
     }
-    /**
-     * ���ͼ
-     */
     public get map(): any {
         return this.curInf.getValue("map");
     }
-    /**
-     * С�ؿ�
-     */
     public get level(): any {
         return this.curInf.getValue("level");
     }
-    /**
-     * �ȼ�
-     */
     public get lv(): any {
         return this.curInf.getValue("lv");
     }
-    /**
-     * ����
-     */
     public get type(): any {
         return this.curInf.getValue("type");
     }
-    /**
-     * �Ѷȣ�1-10��
-     */
     public get difficulty(): any {
         return this.curInf.getValue("difficulty");
     }
-    /**
-     * ��������
-     */
     public get waveform(): any {
         return this.curInf.getValue("waveform");
     }
-    /**
-     * randomseed
-     */
     public get random1(): any {
         return this.curInf.getValue("random1");
     }
-    /**
-     * randomseed
-     */
-    public get random2(): any {
-        return this.curInf.getValue("random2");
-    }
-    /**
-     * �ؿ�ʱ��
-     */
     public get time(): any {
         return this.curInf.getValue("time");
     }
@@ -102,7 +74,6 @@ export default class WaveInfo {
         dic1.add("difficulty", "1");
         dic1.add("waveform", "1");
         dic1.add("random1", "2382");
-        dic1.add("random2", "0.44");
         dic1.add("time", "90");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
@@ -114,7 +85,6 @@ export default class WaveInfo {
         dic2.add("difficulty", "2");
         dic2.add("waveform", "2");
         dic2.add("random1", "7553");
-        dic2.add("random2", "0.18");
         dic2.add("time", "90");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
@@ -126,7 +96,6 @@ export default class WaveInfo {
         dic3.add("difficulty", "3");
         dic3.add("waveform", "3");
         dic3.add("random1", "1235");
-        dic3.add("random2", "0.53");
         dic3.add("time", "90");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
@@ -138,7 +107,6 @@ export default class WaveInfo {
         dic4.add("difficulty", "4");
         dic4.add("waveform", "1");
         dic4.add("random1", "3135");
-        dic4.add("random2", "0.65");
         dic4.add("time", "90");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
@@ -150,7 +118,6 @@ export default class WaveInfo {
         dic5.add("difficulty", "5");
         dic5.add("waveform", "2");
         dic5.add("random1", "4632");
-        dic5.add("random2", "0.81");
         dic5.add("time", "90");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
@@ -162,7 +129,6 @@ export default class WaveInfo {
         dic6.add("difficulty", "6");
         dic6.add("waveform", "3");
         dic6.add("random1", "3252");
-        dic6.add("random2", "0.93");
         dic6.add("time", "90");
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
@@ -174,7 +140,6 @@ export default class WaveInfo {
         dic7.add("difficulty", "7");
         dic7.add("waveform", "1");
         dic7.add("random1", "2454");
-        dic7.add("random2", "0.04");
         dic7.add("time", "90");
         this.infDic.add("7", dic7);
         let dic8 = new Dictionary<string, any>();
@@ -186,7 +151,6 @@ export default class WaveInfo {
         dic8.add("difficulty", "8");
         dic8.add("waveform", "2");
         dic8.add("random1", "5331");
-        dic8.add("random2", "0.19");
         dic8.add("time", "90");
         this.infDic.add("8", dic8);
         let dic9 = new Dictionary<string, any>();
@@ -198,7 +162,6 @@ export default class WaveInfo {
         dic9.add("difficulty", "9");
         dic9.add("waveform", "3");
         dic9.add("random1", "2316");
-        dic9.add("random2", "0.68");
         dic9.add("time", "90");
         this.infDic.add("9", dic9);
         let dic10 = new Dictionary<string, any>();
@@ -210,7 +173,6 @@ export default class WaveInfo {
         dic10.add("difficulty", "10");
         dic10.add("waveform", "1");
         dic10.add("random1", "6275");
-        dic10.add("random2", "0.35");
         dic10.add("time", "90");
         this.infDic.add("10", dic10);
         let dic11 = new Dictionary<string, any>();
@@ -222,7 +184,6 @@ export default class WaveInfo {
         dic11.add("difficulty", "1");
         dic11.add("waveform", "2");
         dic11.add("random1", "7538");
-        dic11.add("random2", "0.95");
         dic11.add("time", "90");
         this.infDic.add("11", dic11);
         let dic12 = new Dictionary<string, any>();
@@ -234,7 +195,6 @@ export default class WaveInfo {
         dic12.add("difficulty", "2");
         dic12.add("waveform", "3");
         dic12.add("random1", "5246");
-        dic12.add("random2", "0.32");
         dic12.add("time", "90");
         this.infDic.add("12", dic12);
         let dic13 = new Dictionary<string, any>();
@@ -246,7 +206,6 @@ export default class WaveInfo {
         dic13.add("difficulty", "3");
         dic13.add("waveform", "1");
         dic13.add("random1", "7525");
-        dic13.add("random2", "0.67");
         dic13.add("time", "90");
         this.infDic.add("13", dic13);
         let dic14 = new Dictionary<string, any>();
@@ -258,7 +217,6 @@ export default class WaveInfo {
         dic14.add("difficulty", "4");
         dic14.add("waveform", "2");
         dic14.add("random1", "2377");
-        dic14.add("random2", "0.95");
         dic14.add("time", "90");
         this.infDic.add("14", dic14);
         let dic15 = new Dictionary<string, any>();
@@ -270,7 +228,6 @@ export default class WaveInfo {
         dic15.add("difficulty", "5");
         dic15.add("waveform", "3");
         dic15.add("random1", "8462");
-        dic15.add("random2", "0.51");
         dic15.add("time", "90");
         this.infDic.add("15", dic15);
         let dic16 = new Dictionary<string, any>();
@@ -282,7 +239,6 @@ export default class WaveInfo {
         dic16.add("difficulty", "6");
         dic16.add("waveform", "1");
         dic16.add("random1", "7462");
-        dic16.add("random2", "0.33");
         dic16.add("time", "90");
         this.infDic.add("16", dic16);
         let dic17 = new Dictionary<string, any>();
@@ -294,7 +250,6 @@ export default class WaveInfo {
         dic17.add("difficulty", "7");
         dic17.add("waveform", "2");
         dic17.add("random1", "7684");
-        dic17.add("random2", "0.21");
         dic17.add("time", "90");
         this.infDic.add("17", dic17);
         let dic18 = new Dictionary<string, any>();
@@ -306,7 +261,6 @@ export default class WaveInfo {
         dic18.add("difficulty", "8");
         dic18.add("waveform", "3");
         dic18.add("random1", "7356");
-        dic18.add("random2", "0.39");
         dic18.add("time", "90");
         this.infDic.add("18", dic18);
         let dic19 = new Dictionary<string, any>();
@@ -318,7 +272,6 @@ export default class WaveInfo {
         dic19.add("difficulty", "9");
         dic19.add("waveform", "1");
         dic19.add("random1", "7643");
-        dic19.add("random2", "0.42");
         dic19.add("time", "90");
         this.infDic.add("19", dic19);
         let dic20 = new Dictionary<string, any>();
@@ -330,7 +283,6 @@ export default class WaveInfo {
         dic20.add("difficulty", "10");
         dic20.add("waveform", "2");
         dic20.add("random1", "2324");
-        dic20.add("random2", "0.47");
         dic20.add("time", "90");
         this.infDic.add("20", dic20);
         let dic21 = new Dictionary<string, any>();
@@ -342,7 +294,6 @@ export default class WaveInfo {
         dic21.add("difficulty", "1");
         dic21.add("waveform", "3");
         dic21.add("random1", "7633");
-        dic21.add("random2", "0.68");
         dic21.add("time", "90");
         this.infDic.add("21", dic21);
         let dic22 = new Dictionary<string, any>();
@@ -354,7 +305,6 @@ export default class WaveInfo {
         dic22.add("difficulty", "2");
         dic22.add("waveform", "1");
         dic22.add("random1", "8643");
-        dic22.add("random2", "0.6");
         dic22.add("time", "90");
         this.infDic.add("22", dic22);
         let dic23 = new Dictionary<string, any>();
@@ -366,7 +316,6 @@ export default class WaveInfo {
         dic23.add("difficulty", "3");
         dic23.add("waveform", "2");
         dic23.add("random1", "5482");
-        dic23.add("random2", "0.82");
         dic23.add("time", "90");
         this.infDic.add("23", dic23);
         let dic24 = new Dictionary<string, any>();
@@ -378,7 +327,6 @@ export default class WaveInfo {
         dic24.add("difficulty", "4");
         dic24.add("waveform", "3");
         dic24.add("random1", "2857");
-        dic24.add("random2", "0.88");
         dic24.add("time", "90");
         this.infDic.add("24", dic24);
         let dic25 = new Dictionary<string, any>();
@@ -390,7 +338,6 @@ export default class WaveInfo {
         dic25.add("difficulty", "5");
         dic25.add("waveform", "1");
         dic25.add("random1", "3927");
-        dic25.add("random2", "0.7");
         dic25.add("time", "90");
         this.infDic.add("25", dic25);
         let dic26 = new Dictionary<string, any>();
@@ -402,7 +349,6 @@ export default class WaveInfo {
         dic26.add("difficulty", "6");
         dic26.add("waveform", "2");
         dic26.add("random1", "6738");
-        dic26.add("random2", "0.11");
         dic26.add("time", "90");
         this.infDic.add("26", dic26);
         let dic27 = new Dictionary<string, any>();
@@ -414,7 +360,6 @@ export default class WaveInfo {
         dic27.add("difficulty", "7");
         dic27.add("waveform", "3");
         dic27.add("random1", "9307");
-        dic27.add("random2", "0.04");
         dic27.add("time", "90");
         this.infDic.add("27", dic27);
         let dic28 = new Dictionary<string, any>();
@@ -426,7 +371,6 @@ export default class WaveInfo {
         dic28.add("difficulty", "8");
         dic28.add("waveform", "1");
         dic28.add("random1", "4914");
-        dic28.add("random2", "0.6");
         dic28.add("time", "90");
         this.infDic.add("28", dic28);
         let dic29 = new Dictionary<string, any>();
@@ -438,7 +382,6 @@ export default class WaveInfo {
         dic29.add("difficulty", "9");
         dic29.add("waveform", "2");
         dic29.add("random1", "3729");
-        dic29.add("random2", "0.44");
         dic29.add("time", "90");
         this.infDic.add("29", dic29);
         let dic30 = new Dictionary<string, any>();
@@ -450,7 +393,6 @@ export default class WaveInfo {
         dic30.add("difficulty", "10");
         dic30.add("waveform", "3");
         dic30.add("random1", "4548");
-        dic30.add("random2", "0.4");
         dic30.add("time", "90");
         this.infDic.add("30", dic30);
         let dic31 = new Dictionary<string, any>();
@@ -462,7 +404,6 @@ export default class WaveInfo {
         dic31.add("difficulty", "1");
         dic31.add("waveform", "1");
         dic31.add("random1", "6395");
-        dic31.add("random2", "0.05");
         dic31.add("time", "90");
         this.infDic.add("31", dic31);
         let dic32 = new Dictionary<string, any>();
@@ -474,7 +415,6 @@ export default class WaveInfo {
         dic32.add("difficulty", "2");
         dic32.add("waveform", "2");
         dic32.add("random1", "3826");
-        dic32.add("random2", "0.12");
         dic32.add("time", "90");
         this.infDic.add("32", dic32);
         let dic33 = new Dictionary<string, any>();
@@ -486,7 +426,6 @@ export default class WaveInfo {
         dic33.add("difficulty", "3");
         dic33.add("waveform", "3");
         dic33.add("random1", "6437");
-        dic33.add("random2", "0.19");
         dic33.add("time", "90");
         this.infDic.add("33", dic33);
         let dic34 = new Dictionary<string, any>();
@@ -498,7 +437,6 @@ export default class WaveInfo {
         dic34.add("difficulty", "4");
         dic34.add("waveform", "1");
         dic34.add("random1", "6862");
-        dic34.add("random2", "0.7");
         dic34.add("time", "90");
         this.infDic.add("34", dic34);
         let dic35 = new Dictionary<string, any>();
@@ -510,7 +448,6 @@ export default class WaveInfo {
         dic35.add("difficulty", "5");
         dic35.add("waveform", "2");
         dic35.add("random1", "5629");
-        dic35.add("random2", "0.56");
         dic35.add("time", "90");
         this.infDic.add("35", dic35);
         let dic36 = new Dictionary<string, any>();
@@ -522,7 +459,6 @@ export default class WaveInfo {
         dic36.add("difficulty", "6");
         dic36.add("waveform", "3");
         dic36.add("random1", "1247");
-        dic36.add("random2", "0.33");
         dic36.add("time", "90");
         this.infDic.add("36", dic36);
         let dic37 = new Dictionary<string, any>();
@@ -534,7 +470,6 @@ export default class WaveInfo {
         dic37.add("difficulty", "7");
         dic37.add("waveform", "1");
         dic37.add("random1", "3651");
-        dic37.add("random2", "0.88");
         dic37.add("time", "90");
         this.infDic.add("37", dic37);
         let dic38 = new Dictionary<string, any>();
@@ -546,7 +481,6 @@ export default class WaveInfo {
         dic38.add("difficulty", "8");
         dic38.add("waveform", "2");
         dic38.add("random1", "6213");
-        dic38.add("random2", "0.49");
         dic38.add("time", "90");
         this.infDic.add("38", dic38);
         let dic39 = new Dictionary<string, any>();
@@ -558,7 +492,6 @@ export default class WaveInfo {
         dic39.add("difficulty", "9");
         dic39.add("waveform", "3");
         dic39.add("random1", "4622");
-        dic39.add("random2", "0.07");
         dic39.add("time", "90");
         this.infDic.add("39", dic39);
         let dic40 = new Dictionary<string, any>();
@@ -570,7 +503,6 @@ export default class WaveInfo {
         dic40.add("difficulty", "10");
         dic40.add("waveform", "1");
         dic40.add("random1", "5768");
-        dic40.add("random2", "0.39");
         dic40.add("time", "90");
         this.infDic.add("40", dic40);
     }

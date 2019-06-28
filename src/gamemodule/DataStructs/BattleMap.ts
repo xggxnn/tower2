@@ -103,19 +103,25 @@ export default class BattleMap {
         // 类型
         this.waveType = Math.floor(Number(this.waveInfo.type));
         // 难度
-        let _difficulty = Math.floor(Number(this.waveInfo.difficulty));
+        let _difficulty: number = Math.floor(Number(this.waveInfo.difficulty));
         // 曲线系数
         this.waveform = Math.floor(Number(this.waveInfo.waveform));
         // 随机种子
-        let seed1 = Number(this.waveInfo.random1);
+        let seed1: number = Number(this.waveInfo.random1);
         // 关卡时长
         this.waveTime = Number(this.waveInfo.time);
 
 
         // 难度效率
-        let _difEfficiency = Number(DifficultyEfficiencyInfo.getInfo(_difficulty).efficiency);
+        let _difEfficiency: number = 0;
+        let _difList: Array<DifficultyEfficiencyInfo> = DifficultyEfficiencyInfo.getList();
+        for (let i = _difList.length - 1; i >= 0; i--) {
+            if (Number(_difList[i].difficulty) == _difficulty) {
+                _difEfficiency = Number(_difList[i].val);
+            }
+        }
 
-        let _heroTypeInf = HeroTypeInfo.getInfo(this.waveType);
+        let _heroTypeInf: HeroTypeInfo = HeroTypeInfo.getInfo(this.waveType);
         // 基准攻速
         this.benchAtkSpeed = Number(_heroTypeInf.bench_atk_speed) * _difEfficiency;
         // 基准攻击力
@@ -235,11 +241,11 @@ export default class BattleMap {
                         this.nextCD = this.curTime + remain;
                     }
                     // 攻击判断
-                    else {
-                        let atkMark = this.benchMarkAtk * _xiaolv;
-                        let remain = Number(this.nextMonster.base_hp) / atkMark;
-                        this.nextCD = this.curTime + remain;
-                    }
+                    // else {
+                    //     let atkMark = this.benchMarkAtk * _xiaolv;
+                    //     let remain = Number(this.nextMonster.base_hp) / atkMark;
+                    //     this.nextCD = this.curTime + remain;
+                    // }
                     break;
                 }
             }

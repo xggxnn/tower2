@@ -46,6 +46,13 @@ export default class FGUIResPackageConfig {
 
 
         config = new ResPackageConfig();
+        config.packageName = "Home";
+        config.resDir = "fgui";
+        config.resBin = "Home.bin";
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
         config.packageName = "Menus";
         config.resDir = "fgui";
         config.resBin = "Menus.bin";

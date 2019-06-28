@@ -5,21 +5,17 @@ export default class WaveformInfo {
     private static infDic: Dictionary<string, Dictionary<string, any>> = new Dictionary<string, Dictionary<string, any>>();
     private curInf: Dictionary<string, any> = new Dictionary<string, any>();
 
-    /**
-     * id
-     */
+    public static serverInit(infDic: Dictionary<string, Dictionary<string, any>>): void {
+        this.infDic.clear();
+        this.infDic = infDic;
+    }
+
     public get id(): any {
         return this.curInf.getValue("id");
     }
-    /**
-     * ����ֵ(%)
-     */
     public get waveform(): any {
         return this.curInf.getValue("waveform");
     }
-    /**
-     * haveboss
-     */
     public get boss(): any {
         return this.curInf.getValue("boss");
     }
