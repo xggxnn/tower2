@@ -34,9 +34,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 
 		Game.parentObject = this.m_scenes.displayObject;
 		Game.bloodParent = this.m_bloods.root;
-		EventManager.once(EventKey.LOADER_OVER, this, this.open);
-		LoaderManager.resetShowLoad();
-		LoaderManager.addList(LoadFilesList.allResList);
 
 		Game.battleScene.stoneList.push(this.m_stone4 as UI_Stone);
 		Game.battleScene.stoneList.push(this.m_stone5 as UI_Stone);
@@ -58,6 +55,9 @@ export default class UI_BattleMain extends fui_BattleMain {
 		Game.battleScene.battleSeat.push(BattleSeat.create(this.m_base5, 7));
 		Game.battleScene.battleSeat.push(BattleSeat.create(this.m_base8, 8));
 
+		EventManager.once(EventKey.LOADER_OVER, this, this.open);
+		LoaderManager.resetShowLoad();
+		LoaderManager.addList(LoadFilesList.allResList);
 	}
 
 	private loadOver: boolean = false;
@@ -66,7 +66,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.loadOver = true;
 		Game.gameStatus = GameStatus.Pause;
 		Game.tipWin.showTip("点击底座召唤英雄或移除英雄", Handler.create(this, this.reTryPlay));
-
 	}
 
 	// 关闭ui
@@ -79,10 +78,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		if (this.loadOver) {
-			Game.tipWin.showTip("点击底座召唤英雄或移除英雄", Handler.create(this, this.reTryPlay));
-			Game.battleScene.initHeroSeat();
-		}
 		EventManager.on(EventKey.ENTER_FRAME, this, this.update);
 		EventManager.on(EventKey.GAMELOSE, this, this.gameLose);
 		EventManager.on(EventKey.GAMEWIN, this, this.gameWin);
@@ -92,6 +87,12 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.moduleWindow.createRightTop();
 		this.moduleWindow.createRightBottom();
 		this.moduleWindow.createTopMiddle();
+		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
+			Game.battleScene.battleSeat[i].onShow();
+		}
+		if (this.loadOver) {
+			Game.tipWin.showTip("点击确定开始游戏", Handler.create(this, this.reTryPlay));
+		}
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
@@ -102,17 +103,20 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	// 游戏重新开始本关卡
 	private reTryPlay(): void {
+		Game.battleScene.initHeroSeat();
 		EventManager.event(EventKey.RE_TRYPLAY);
 	}
 	private gameWin(): void {
 		Game.gameStatus = GameStatus.Win;
 		EventManager.event(EventKey.GAME_PAUSE);
 		this.moduleWindow.gameResult();
+		EventManager.off(EventKey.ENTER_FRAME, this, this.update);
 	}
 	private gameLose(): void {
 		Game.gameStatus = GameStatus.Failed;
 		EventManager.event(EventKey.GAME_PAUSE);
 		this.moduleWindow.gameResult();
+		EventManager.off(EventKey.ENTER_FRAME, this, this.update);
 	}
 	// update
 	private update(): void {
@@ -140,6 +144,9 @@ export default class UI_BattleMain extends fui_BattleMain {
 			if (enemy && !enemy.haveDeath) {
 				enemy.update(dt);
 			} else {
+				if (enemy) {
+					enemy.addClearEvent();
+				}
 				Game.battleScene.enemyList.splice(i, 1);
 			}
 		}

@@ -13,14 +13,13 @@ import BattleModel from "./BattleModel";
 import BattleSkillHalo from "./BattleSkillHalo";
 
 export default class BattleHero extends BattleModel {
-    public static create(id: string | number, index: number): BattleHero {
+    public static create(id: string | number, index: number | string): BattleHero {
         return new BattleHero(id, index);
     }
-    private constructor(id: string | number, index: number) {
+    private constructor(id: string | number, index: number | string) {
         super(true);
-        this._id = id;
-        this._index = index;
-
+        this._id = 12;//id;
+        this._index = Number(index);
         this._sk = Pools.skFetch("hero_" + this._id);
         this.sk.addStopEvent(Laya.Handler.create(this, this.overEvent));
         this.sk.addLableEvent(Laya.Handler.create(this, this.frameEvent));

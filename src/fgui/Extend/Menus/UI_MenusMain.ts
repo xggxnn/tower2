@@ -97,6 +97,14 @@ export default class UI_MenusMain extends fui_MenusMain {
 			}
 			this.selectList[i].setData(status, boss == 0, map, level);
 		}
+		if (this.moduleWindow.menuParameter.initFunction.count > 0) {
+			let fun: Function[] = this.moduleWindow.menuParameter.initFunction.getValues();
+			for (let i = 0, len = fun.length; i < len; i++) {
+				if (fun[i]) {
+					fun[i].apply(this.moduleWindow);
+				}
+			}
+		}
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {

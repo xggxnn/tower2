@@ -39,5 +39,8 @@ export default class MenusWin extends FWindow {
 			this.Trial = UI_Trial.createInstance();
 		}
 		this.windowAddChild(this.Trial);
+		if (!this.menuParameter.initFunction.hasKey(this.Trial.id)) {
+			this.menuParameter.initFunction.add(this.Trial.id, this.createTrialUI);
+		}
 	}
 }

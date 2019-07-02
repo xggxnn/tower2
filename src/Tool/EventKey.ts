@@ -28,6 +28,10 @@ export default class EventKey {
     public static get GAMEWIN(): string {
         return "GAMEWIN";
     }
+    // 退出战斗
+    public static get GAMEEXIT(): string {
+        return "GAMEEXIT";
+    }
     // 加载完成
     public static get LOADER_COMPLETE(): string {
         return "LOADER_COMPLETE";

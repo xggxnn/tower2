@@ -38,6 +38,9 @@ export default class UI_Trial extends fui_Trial {
 
 	// 关闭ui
 	closeUI(): void {
+		if (!this.moduleWindow.menuParameter.initFunction.hasKey(this.id)) {
+			this.moduleWindow.menuParameter.initFunction.remove(this.id);
+		}
 		this.moduleWindow.windowRemoveChild(this);
 	}
 	// 返回上一级ui

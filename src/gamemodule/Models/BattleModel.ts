@@ -14,9 +14,6 @@ export default class BattleModel extends Laya.Sprite {
     protected constructor(isUp: boolean) {
         super();
         // 模型动作暂停和恢复控制
-        // EventManager.on(EventKey.GAME_PAUSE, this, this.playPause);
-        // EventManager.on(EventKey.GAME_CONTINUE, this, this.playResume);
-        // EventManager.on(EventKey.RE_TRYPLAY, this, this.playResume);
     }
     protected _destination: Laya.Point = new Laya.Point();
     protected _posState: number = 0;
@@ -104,6 +101,7 @@ export default class BattleModel extends Laya.Sprite {
 
     // 敌人死亡
     protected enemyDeath(): void {
+        Game.battleScene.enemyList.splice(1, 0);
         this._haveDeath = true;
         if (this.blood) {
             // 回收血条
@@ -116,6 +114,11 @@ export default class BattleModel extends Laya.Sprite {
             this.shadow = null;
         }
         this.playDeath();
+    }
+    public addClearEvent(): void {
+        EventManager.on(EventKey.GAMEWIN, this, this.clearThis);
+        EventManager.on(EventKey.GAMEEXIT, this, this.clearThis);
+        EventManager.on(EventKey.GAMELOSE, this, this.clearThis);
     }
     public clearThis() {
         this._haveDeath = true;

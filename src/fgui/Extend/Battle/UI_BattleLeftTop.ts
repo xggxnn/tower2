@@ -1,5 +1,9 @@
 import fui_BattleLeftTop from "../../Generates/Battle/fui_BattleLeftTop";
 import BattleWin from "../../../gamemodule/Windows/BattleWin";
+import Game from "../../../Game";
+import { MenuId } from "../../../gamemodule/MenuId";
+import EventManager from "../../../Tool/EventManager";
+import EventKey from "../../../Tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleLeftTop extends fui_BattleLeftTop {
@@ -19,9 +23,16 @@ export default class UI_BattleLeftTop extends fui_BattleLeftTop {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-
+		this.m_waveBtn.onClick(this, this.clickWaveBtn);
 	}
-
+	clickWaveBtn(): void {
+		EventManager.event(EventKey.GAMEEXIT);
+		Game.battleScene.stoneReset();
+		Game.battleScene.clearEnemy();
+		Game.battleScene.clearHero();
+		this.closeUI();
+		Game.menu.open(MenuId.MenuSelect);
+	}
 	// 关闭ui
 	closeUI(): void {
 		this.moduleWindow.menuClose();

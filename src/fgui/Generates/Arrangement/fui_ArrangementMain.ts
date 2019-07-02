@@ -5,6 +5,9 @@
 export default class fui_ArrangementMain extends fairygui.GComponent {
 
 	public m_titles:fairygui.GTextField;
+	public m_select1:fairygui.GButton;
+	public m_select2:fairygui.GButton;
+	public m_select3:fairygui.GButton;
 	public m_seatList:fairygui.GList;
 	public m_heroList:fairygui.GList;
 	public m_backBtn:fairygui.GButton;
@@ -23,6 +26,9 @@ export default class fui_ArrangementMain extends fairygui.GComponent {
 		super.constructFromXML(xml);
 
 		this.m_titles = <fairygui.GTextField><any>(this.getChildAt(1));
+		this.m_select1 = <fairygui.GButton><any>(this.getChildAt(2));
+		this.m_select2 = <fairygui.GButton><any>(this.getChildAt(3));
+		this.m_select3 = <fairygui.GButton><any>(this.getChildAt(4));
 		this.m_seatList = <fairygui.GList><any>(this.getChildAt(5));
 		this.m_heroList = <fairygui.GList><any>(this.getChildAt(6));
 		this.m_backBtn = <fairygui.GButton><any>(this.getChildAt(7));

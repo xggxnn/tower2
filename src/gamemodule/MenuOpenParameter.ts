@@ -1,3 +1,5 @@
+import Dictionary from "../Tool/Dictionary";
+
 // ===========================
 // 打开menu参数接口
 // ---------------------------
@@ -12,4 +14,6 @@ export interface MenuOpenParameter {
 	// 不关闭其他子面板
 	dontCloseOther: boolean;
 
+	// 打开此窗口需要调用的函数
+	initFunction: Dictionary<string, Function>;
 }

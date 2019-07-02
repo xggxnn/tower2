@@ -27,7 +27,8 @@ export default class BattleScene {
     // 英雄列表
     public heroList: Array<BattleModel> = new Array<BattleModel>();
     // 指定为位置的英雄字典
-    public seatHeroDic: Dictionary<number, number> = new Dictionary<number, number>();
+    public seatHeroDic: Dictionary<number, Dictionary<number, number>> = new Dictionary<number, Dictionary<number, number>>();
+    public seatHeroSelect: number = 0;
     // 石头列表
     public stoneList: Array<UI_Stone> = new Array<UI_Stone>();
     // 底座列表
@@ -75,10 +76,13 @@ export default class BattleScene {
     }
     // 在指定位置生成英雄
     initHeroSeat(): void {
-        let list = this.seatHeroDic.getKeys();
-        for (let i = 0, len = list.length; i < len; i++) {
-            let hero = BattleHero.create(this.seatHeroDic.getValue(list[i]), list[i]);
-            Game.battleScene.heroList.push(hero);
+        if (this.seatHeroDic.hasKey(this.seatHeroSelect)) {
+            let cur = this.seatHeroDic.getValue(this.seatHeroSelect);
+            let list: number[] = cur.getKeys();
+            for (let i = 0, len = list.length; i < len; i++) {
+                let hero = BattleHero.create(cur.getValue(list[i]), list[i]);
+                Game.battleScene.heroList.push(hero);
+            }
         }
     }
 }

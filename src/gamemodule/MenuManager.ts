@@ -59,7 +59,7 @@ export default class MenuManager {
 
 			setTimeout(() => {
 				this.close(menuId);
-			}, 100);
+			}, 10);
 		}
 	}
 	// 获取最后打开的面板
@@ -96,7 +96,7 @@ export default class MenuManager {
 	 * @param args 携带的参数
 	 */
 	open(menuId: MenuId, ...args: any[]): MenuCtl {
-		return this._open(menuId, { openIndex: 0, args: args, dontCloseOther: false });
+		return this._open(menuId, { openIndex: 0, args: args, dontCloseOther: false, initFunction: new Dictionary<string, Function>() });
 	}
 	// 打开模块
 	private _open(menuId: MenuId, parametar: MenuOpenParameter) {

@@ -3,6 +3,9 @@ import ArrangementWin from "../../../gamemodule/Windows/ArrangementWin";
 import UI_PropBtn from "./UI_PropBtn";
 import Game from "../../../Game";
 import HeroInfo from "../../../dataInfo/HeroInfo";
+import EventManager from "../../../Tool/EventManager";
+import EventKey from "../../../Tool/EventKey";
+import Dictionary from "../../../Tool/Dictionary";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ArrangementMain extends fui_ArrangementMain {
@@ -36,7 +39,21 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_seatList.itemRenderer = Laya.Handler.create(this, this.initSeatItem, null, false);
 		// 列表内容单个item被点击
 		this.m_seatList.on(fairygui.Events.CLICK_ITEM, this, this.onClickSeatItem);
-		this.m_seatList.numItems = 9;
+
+		this.m_select1.onClick(this, this.selectClick, [0]);
+		this.m_select2.onClick(this, this.selectClick, [1]);
+		this.m_select3.onClick(this, this.selectClick, [2]);
+		this.selectBtnEnable();
+	}
+	private selectClick(index: number): void {
+		Game.battleScene.seatHeroSelect = index;
+		this.selectBtnEnable();
+		this.refrushHeroList();
+	}
+	private selectBtnEnable(): void {
+		this.m_select1.enabled = Game.battleScene.seatHeroSelect != 0;
+		this.m_select2.enabled = Game.battleScene.seatHeroSelect != 1;
+		this.m_select3.enabled = Game.battleScene.seatHeroSelect != 2;
 	}
 
 	private rect: Laya.Rectangle;
@@ -62,7 +79,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 	// 拖拽出列表范围
 	private onScrollout(): void {
-		if (this.dragItem == null) return;
+		Game.battleData.heroInf = null;
+		if (this.dragItem == null || this.dragItem.heroInf == null) return;
+		Game.battleData.heroInf = this.dragItem.heroInf;
 		var btn: fairygui.GButton = <fairygui.GButton>fairygui.GObject.cast(this.dragItem.displayObject);
 		fairygui.DragDropManager.inst.startDrag(btn, btn.icon, btn.icon);
 		this.m_heroList.scrollPane.cancelDragging();
@@ -70,13 +89,14 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 	// 在列表范围内抬起鼠标
 	private onScrollup(): void {
+		Game.battleData.heroInf = null;
 		this.dragItem = null;
 	}
 
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_PropBtn;
-		item.setData(index, this.heroList[index]);
+		item.setData(this.heroList[index]);
 	}
 	// 点击item
 	private onClickItem(obj: fairygui.GObject): void {
@@ -84,11 +104,28 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		// 转换为点击item在整个列表中的真实索引
 		var realIndex: number = this.m_heroList.childIndexToItemIndex(index);
 	}
+	private refrushHeroList(): void {
+		let list = HeroInfo.getList();
+		this.heroList = [];
+		if (!Game.battleScene.seatHeroDic.hasKey(Game.battleScene.seatHeroSelect)) {
+			Game.battleScene.seatHeroDic.add(Game.battleScene.seatHeroSelect, new Dictionary<number, number>());
+		}
+		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
+		let seatList = dic.getValues();
+		for (let i = 0, len = list.length; i < len; i++) {
+			if (seatList.indexOf(Number(list[i].id)) == -1) {
+				this.heroList.push(list[i]);
+			}
+		}
+		this.m_heroList.numItems = this.heroList.length;
+		this.m_seatList.numItems = 9;
+	}
+
 
 	// seat渲染item
 	private initSeatItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_PropBtn;
-		// item.title = "测试" + index;
+		item.seatSetData(index);
 	}
 	// seat点击item
 	private onClickSeatItem(obj: fairygui.GObject): void {
@@ -109,12 +146,12 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		this.heroList = HeroInfo.getList();
-		this.m_heroList.numItems = this.heroList.length;
+		EventManager.on(EventKey.ADD_HERO, this, this.refrushHeroList);
+		this.refrushHeroList();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-
+		EventManager.offAllCaller(this);
 	}
 
 

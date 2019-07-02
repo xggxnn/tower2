@@ -3,6 +3,7 @@ import EventKey from "../../Tool/EventKey";
 import Game from "../../Game";
 import BattleScene from "../Models/BattleScene";
 import { GameStatus } from "../DataEnums/GameStatus";
+import HeroInfo from "../../dataInfo/HeroInfo";
 
 export default class BattleData {
 
@@ -18,6 +19,7 @@ export default class BattleData {
         EventManager.on(EventKey.MAP_REFRUSH, this, this.mapRefrush);
         EventManager.on(EventKey.GAMEWIN, this, this.mapStopRefrush, [1]);
         EventManager.on(EventKey.GAMELOSE, this, this.mapStopRefrush, [2]);
+        EventManager.on(EventKey.GAMEEXIT, this, this.mapStopRefrush, [0]);
     }
 
     /*******************关卡相关**************************/
@@ -51,14 +53,21 @@ export default class BattleData {
     }
 
     /*******************英雄相关**************************/
-    // 当前选中列表中的哪一个item
-    private _selectInListIndex: number;
-    public get selectInListIndex(): number {
-        return this._selectInListIndex;
+
+    // 当前拖拽中的英雄信息
+    private _heroInf: HeroInfo;
+    public get heroInf(): HeroInfo {
+        return this._heroInf;
     }
-    public set selectInListIndex(v: number) {
-        this._selectInListIndex = v;
+    public set heroInf(v: HeroInfo) {
+        this._heroInf = v;
     }
+
+
+    public heroInSeat(seat: number, heroId: number): void {
+
+    }
+
 
 
     /*******************敌人相关**************************/
