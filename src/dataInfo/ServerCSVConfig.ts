@@ -16,15 +16,10 @@ export default class ServerCSVConfig {
         return ServerCSVConfig._Instance;
     }
 
-    private csvKeyDic: Dictionary<string, string> = new Dictionary<string, string>();
     private infDic: Dictionary<string, Dictionary<string, Dictionary<string, string>>> = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
     public setCSVInit(json: any): void {
-
         for (var key in json) {
-            if (!this.csvKeyDic.hasKey(key)) {
-                this.csvKeyDic.add(key, key);
-            }
             let inf = json[key];
             if (!this.infDic.hasKey(key)) {
                 this.infDic.add(key, new Dictionary<string, Dictionary<string, string>>());

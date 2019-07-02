@@ -12,8 +12,8 @@ export default class ProtoManager {
 	 * 获取配置表信息
 	 */
 	public reqConfig(): void {
-		let pro: Proto = ProtoManager.getProto(1000);
-		pro.send();
+		// let pro: Proto = ProtoManager.getProto(1000);
+		// pro.send();
 	}
 
 	/**

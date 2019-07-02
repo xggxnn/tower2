@@ -45,6 +45,7 @@ export default class MenuManager {
 		let ctl = this.getMenuCtl(menuId);
 		if (ctl) {
 			let backMenuId = ctl.backMenuId;
+			console.log(backMenuId, "backMenuId");
 			if (backMenuId > 0) {
 				let backMenuCtl = this.getMenuCtl(backMenuId);
 				if (backMenuCtl) {
@@ -62,9 +63,15 @@ export default class MenuManager {
 		}
 	}
 	// 获取最后打开的面板
-	getLastOpenMenuId(): MenuId {
-		if (this.stack.length > 0) {
-			return this.stack[this.stack.length - 1].menuId;
+	getLastOpenMenuId(excludeMenuId?: MenuId[]): MenuId {
+		for (let i = this.stack.length - 1; i >= 0; i--) {
+			let ctl = this.stack[i];
+			if (ctl.menuId != MenuId.Load) {
+				if (excludeMenuId && excludeMenuId.indexOf(ctl.menuId) != -1) {
+					continue;
+				}
+				return ctl.menuId;
+			}
 		}
 		return -1;
 	}

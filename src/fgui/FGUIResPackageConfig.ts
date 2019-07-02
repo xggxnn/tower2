@@ -22,10 +22,10 @@ export default class FGUIResPackageConfig {
 
 
         config = new ResPackageConfig();
-        config.packageName = "Bag";
+        config.packageName = "Arrangement";
         config.resDir = "fgui";
-        config.resBin = "Bag.bin";
-        config.resAtlas.push("Bag_atlas0.png");
+        config.resBin = "Arrangement.bin";
+        config.resAtlas.push("Arrangement_atlas0.png");
         this.addconfig(config);
 
 

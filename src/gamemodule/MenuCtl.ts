@@ -33,7 +33,7 @@ export default class MenuCtl {
 	// 关闭时间
 	closeTime: number = 0;
 	// 此次关闭是否销毁
-	closeIsDestory: boolean = true;
+	closeIsDestory: boolean = false;
 
 	open(parametar: MenuOpenParameter) {
 		this.openParametar = parametar;
@@ -79,7 +79,7 @@ export default class MenuCtl {
 			console.warn(`设置显示 但是模块已销毁 : ${this.menuId}`, "MenuId." + MenuId[this.menuId]);
 			return;
 		}
-		// console.log("设置显示面板 : ", "MenuId." + MenuId[this.menuId]);
+		console.log("设置显示面板 : ", "MenuId." + MenuId[this.menuId]);
 
 		this.moduleWindow.sShowComplete.addOnce(this.closeOther, this);
 
@@ -95,11 +95,12 @@ export default class MenuCtl {
 
 	// 关闭其他模块
 	protected closeOther() {
+		let hasCloseOtherMenu: boolean = false;
+		// 设置返回MenuID
+		let backMenuId = this.__menuManager.getLastOpenMenuId([this.menuId]);
+
 		if (!this.openParametar.dontCloseOther) {
 			let homeIsOpen = this.__menuManager.isOpened(MenuId.Home);
-			// 设置返回MenuID
-			let backMenuId = this.__menuManager.getLastOpenMenuId();
-			let hasCloseOtherMenu: boolean = false;
 			let list: MenuCtl[] = Game.menu.dict.getValues();
 			for (let i = 0; i < list.length; i++) {
 				let ctl = list[i];
@@ -112,8 +113,8 @@ export default class MenuCtl {
 					hasCloseOtherMenu = true;
 				}
 			}
-			this.backMenuId = hasCloseOtherMenu ? backMenuId : -1;
 		}
+		this.backMenuId = hasCloseOtherMenu ? backMenuId : -1;
 	}
 	// 关闭
 	close() {
@@ -133,8 +134,9 @@ export default class MenuCtl {
 	}
 	// 销毁
 	destory() {
-		if (this.moduleWindow) {
+		if (this.moduleWindow && this.menuId != MenuId.Load) {
 			console.log("销毁面板", "MenuId." + MenuId[this.menuId]);
+			this.moduleWindow.sShowComplete.remove(this.closeOther, this);
 			this.moduleWindow.dispose();
 			this.moduleWindow = null;
 		}

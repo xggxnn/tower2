@@ -51,6 +51,15 @@ export default class BattleData {
     }
 
     /*******************英雄相关**************************/
+    // 当前选中列表中的哪一个item
+    private _selectInListIndex: number;
+    public get selectInListIndex(): number {
+        return this._selectInListIndex;
+    }
+    public set selectInListIndex(v: number) {
+        this._selectInListIndex = v;
+    }
+
 
     /*******************敌人相关**************************/
 

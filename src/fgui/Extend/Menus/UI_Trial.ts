@@ -28,6 +28,7 @@ export default class UI_Trial extends fui_Trial {
 		this.m_seatBtn.onClick(this, this.seatClickBtn);
 	}
 	seatClickBtn(): void {
+		Game.menu.open(MenuId.Arrange);
 	}
 	// 开始挑战
 	startClick(): void {

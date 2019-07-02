@@ -39,7 +39,6 @@ export default class ProtoServer {
 
 		let data = this.dataList[0];
 		data["order"] = this.nextOrder;
-		console.log(".............", data);
 		wx.request(
 			{
 				url: ProtoServer.SERVER_URL,

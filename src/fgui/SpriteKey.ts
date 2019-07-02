@@ -66,7 +66,7 @@ export default class SpriteKey {
 
     }
 
-	static SoundPackageName = "fSprite";
+	static SoundPackageName = "FSprite";
 	static SoundPackageId = "88du1wab";
 
 	public static icon_1001 = "icon_1001.png";

@@ -3,10 +3,10 @@ import { MenuId } from "./MenuId";
 import ModuleConfig from "./ModuleConfig";
 import FWindow from "./FWindow";
 import SystemWin from "./Windows/SystemWin";
-import BagWin from "./Windows/BagWin";
 import BattleWin from "./Windows/BattleWin";
 import MenusWin from "./Windows/MenusWin";
 import HomeWin from "./Windows/HomeWin";
+import ArrangementWin from "./Windows/ArrangementWin";
 
 export default class MenuWindows {
 	static dict: Dictionary<MenuId, ModuleConfig> = new Dictionary<MenuId, ModuleConfig>();
@@ -20,9 +20,9 @@ export default class MenuWindows {
 
 	static install() {
 		MenuWindows.add(MenuId.Home, HomeWin);
-		MenuWindows.add(MenuId.Load, SystemWin);
-		MenuWindows.add(MenuId.Bag, BagWin);
 		MenuWindows.add(MenuId.Battle, BattleWin);
+		MenuWindows.add(MenuId.Arrange, ArrangementWin);
+		MenuWindows.add(MenuId.Load, SystemWin);
 		MenuWindows.add(MenuId.MenuSelect, MenusWin);
 	}
 }
