@@ -28,6 +28,7 @@ export default class BattleScene {
     public heroList: Array<BattleModel> = new Array<BattleModel>();
     // 指定为位置的英雄字典
     public seatHeroDic: Dictionary<number, Dictionary<number, number>> = new Dictionary<number, Dictionary<number, number>>();
+    // 当前那一列阵容生效
     public seatHeroSelect: number = 0;
     // 石头列表
     public stoneList: Array<UI_Stone> = new Array<UI_Stone>();

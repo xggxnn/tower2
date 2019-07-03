@@ -1,4 +1,4 @@
-// v1.3.0
+// v1.2.0
 //是否使用IDE自带的node环境和插件，设置false后，则使用自己环境(使用命令行方式执行)
 const useIDENode = process.argv[0].indexOf("LayaAir") > -1 ? true : false;
 //获取Node插件和工作路径
@@ -23,7 +23,7 @@ global.workSpaceDir = workSpaceDir;
 
 // 结合compile.js使用
 global.publish = true;
-const fileList = ["compile.js", "publish_xmgame.js", "publish_oppogame.js", "publish_vivogame.js"];
+const fileList = ["compile.js", "publish_xmgame.js", "publish_oppogame.js"];
 requireDir('./', {
 	filter: function (fullPath) {
 		// 只用到了compile.js和publish.js
@@ -34,8 +34,6 @@ requireDir('./', {
 		}
 	}
 });
-
-const QUICKGAMELIST = ["xmgame", "oppogame", "vivogame"];
 
 // 清理临时文件夹，加载配置
 let config,
@@ -62,11 +60,7 @@ gulp.task("loadConfig", function () {
 	global.platform = platform;
 	let file = fs.readFileSync(_path, "utf-8");
 	if (file) {
-		if (QUICKGAMELIST.includes(platform)) {
-			file = file.replace(/\$basePath/g, releaseDir + "/temprelease");
-		} else {
-			file = file.replace(/\$basePath/g, releaseDir);
-		}
+		file = file.replace(/\$basePath/g, releaseDir);
 		config = JSON.parse(file);
 		global.config = config;
 	}
@@ -102,13 +96,6 @@ gulp.task("clearReleaseDir", ["compile"], function (cb) {
 		} else if (platform === "oppogame") {
 			let oppoProjSrc = path.join(releaseDir, config.oppoInfo.projName);
 			delList = [`${oppoProjSrc}/**`, `!${oppoProjSrc}`, `!${oppoProjSrc}/dist/**`, `!${oppoProjSrc}/{manifest.json}`];
-		} else if (platform === "vivogame") {
-			let vvProj = path.join(releaseDir, config.vivoInfo.projName);
-			let vvProjSrc = path.join(vvProj, "src");
-			// 不要删掉manifest.json/main.js文件
-			// 这里不是node-glob语法，详见: https://github.com/sindresorhus/del
-			delList = [`${vvProjSrc}/**`, `!${vvProjSrc}`, `!${vvProjSrc}/sign/**`, `!${vvProjSrc}/{game.js,manifest.json}`];
-			delList = delList.concat(`${vvProj}/engine/**`, `${vvProj}/config/**`);
 		}
 		del(delList, { force: true }).then(paths => {
 			cb();
@@ -132,12 +119,12 @@ gulp.task("copyFile", ["clearReleaseDir"], function () {
 		config.copyFilesFilter = baseCopyFilter.concat([`!${workSpaceDir}/bin/index.html`, `!${workSpaceDir}/bin/{project.swan.json,swan-game-adapter.js}`]);
 	} else if (platform === "bdgame") { // 百度项目，不拷贝index.html，不拷贝微信bin目录中的文件
 		config.copyFilesFilter = baseCopyFilter.concat([`!${workSpaceDir}/bin/index.html`, `!${workSpaceDir}/bin/{project.config.json,weapp-adapter.js}`]);
-	} else { // web|QQ项目|快游戏，不拷贝微信、百度在bin目录中的文件
+	} else { // web|QQ项目|小米快游戏，不拷贝微信、百度在bin目录中的文件
 		config.copyFilesFilter = baseCopyFilter.concat([`!${workSpaceDir}/bin/{game.js,game.json,project.config.json,weapp-adapter.js,project.swan.json,swan-game-adapter.js}`]);
 	}
-	// 快游戏，需要新建一个快游戏项目，拷贝的只是项目的一部分，将文件先拷贝到文件夹的临时目录中去
+	// 小米快游戏，需要新建一个快游戏项目，拷贝的只是项目的一部分，将文件先拷贝到文件夹的临时目录中去
+	let QUICKGAMELIST = ["xmgame", "oppogame"];
 	if (QUICKGAMELIST.includes(platform)) {
-		config.copyFilesFilter = config.copyFilesFilter.concat(`!${workSpaceDir}/bin/index.html`);
 		releaseDir = global.tempReleaseDir = path.join(releaseDir, "temprelease");
 	}
 	global.releaseDir = releaseDir;
@@ -443,6 +430,6 @@ gulp.task("packfile", ["version2"], function() {
 });
 
 // 起始任务
-gulp.task("publish", ["buildXiaomiProj", "buildOPPOProj", "buildVivoProj"], function () {
+gulp.task("publish", ["buildXiaomiProj", "buildOPPOProj"], function () {
 	console.log("All tasks completed!");
 });

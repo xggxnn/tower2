@@ -45,7 +45,6 @@ export default class MenuManager {
 		let ctl = this.getMenuCtl(menuId);
 		if (ctl) {
 			let backMenuId = ctl.backMenuId;
-			console.log(backMenuId, "backMenuId");
 			if (backMenuId > 0) {
 				let backMenuCtl = this.getMenuCtl(backMenuId);
 				if (backMenuCtl) {

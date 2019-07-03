@@ -1,6 +1,7 @@
 import Fun from "../Tool/Fun";
 import EventManager from "../Tool/EventManager";
 import Game from "../Game";
+import LoaderManager from "./LoaderManager";
 
 export default class SystemManager {
 
@@ -42,13 +43,12 @@ export default class SystemManager {
 				console.log(result.code);
 				// ServerManager.login(result.code);
 				// let data = {
-				// 	// code: result.code,
-				// 	code: "lll0040",
+				// 	code: result.code,
 				// }
-				// if (UserData.inviter) {
-				// 	data["inviter"] = UserData.inviter;
+				// if (Game.userData.inviter) {
+				// 	data["inviter"] = Game.userData.inviter;
 				// }
-				// ProtoManager.login(data);
+				// Game.proto.login(data);
 			},
 			fail: null,
 			complete: null,
@@ -59,7 +59,7 @@ export default class SystemManager {
 	private static launchReady(): void {
 		let _launchInfo = wx["getLaunchOptionsSync"]();
 		if (_launchInfo.query && _launchInfo.query.hasOwnProperty("id")) {
-			// UserData.inviter = _launchInfo.query.id;
+			Game.userData.inviter = _launchInfo.query.id;
 		}
 		if (_launchInfo.query && _launchInfo.query.hasOwnProperty("channel")) {
 			SystemManager._channel = _launchInfo.query.channel;
@@ -290,10 +290,10 @@ export default class SystemManager {
 
 
 	public static loadError(): void {
-		// TipDialog.open("网络情况不佳！点击确认按钮尝试重新加载。", Laya.Handler.create(LoaderManager, LoaderManager.reload));
+		Game.tipWin.showTip("网络情况不佳！点击确认按钮尝试重新加载。", Laya.Handler.create(LoaderManager, LoaderManager.reload));
 	}
 	public static loadFail(): void {
-		// TipDialog.open("网络情况不佳！请点击确认按钮，调整手机网络通畅以后重开打开游戏。", Laya.Handler.create(SystemManager, SystemManager.retryGame));
+		Game.tipWin.showTip("网络情况不佳！请点击确认按钮，调整手机网络通畅以后重开打开游戏。", Laya.Handler.create(SystemManager, SystemManager.retryGame));
 	}
 
 	private static _linkUnlock: boolean = false;

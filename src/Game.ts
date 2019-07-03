@@ -19,6 +19,8 @@ import BattleData from "./gamemodule/DataStructs/BattleData";
 import BattleScene from "./gamemodule/Models/BattleScene";
 import CSVConfig from "./dataInfo/CSVConfig";
 import ServerCSVConfig from "./dataInfo/ServerCSVConfig";
+import PlayerData from "./gamemodule/DataStructs/PlayerData";
+import UserData from "./Tool/UserData";
 
 export default class Game {
 
@@ -56,7 +58,7 @@ export default class Game {
 	// 音效管理器
 	static sound: AudioManager = new AudioManager();
 	// 本地存储数据
-	static localStorage: GameLocalStorage = GameLocalStorage.Instance;
+	static localStorage: GameLocalStorage;
 	// 协议发送管理器
 	static proto: ProtoManager = new ProtoManager();
 	// 浮动消息
@@ -75,6 +77,10 @@ export default class Game {
 	static battleData: BattleData;
 	// 战斗表现
 	static battleScene: BattleScene;
+	// 玩家数据
+	static playData: PlayerData;
+	// 用户信息
+	static userData: UserData;
 
 
 	constructor() {
@@ -109,6 +115,7 @@ export default class Game {
 		Game.battleScene.init();
 		Game.battleMap.init();
 		this.menu.open(MenuId.Load);
+		SystemManager.login();
 		// 资源加载完毕，打开主界面
 		this.menu.open(MenuId.Home);
 	}
@@ -122,6 +129,9 @@ export default class Game {
 		Game.battleMap = BattleMap.Instance;
 		Game.battleData = BattleData.Instance;
 		Game.battleScene = BattleScene.Instance;
+		Game.localStorage = GameLocalStorage.Instance;
+		Game.playData = PlayerData.Instance;
+		Game.userData = UserData.Instance;
 	}
 
 	static ScreenSetting: ScreenSettingConfig = new ScreenSettingConfig();

@@ -5,7 +5,6 @@ import UI_GeneralBtn from "../../fgui/Extend/System/UI_GeneralBtn";
 import UI_GuideLayer from "../../fgui/Extend/System/UI_GuideLayer";
 import UI_OkBtn from "../../fgui/Extend/System/UI_OkBtn";
 import UI_PopupMenu from "../../fgui/Extend/System/UI_PopupMenu";
-import UI_PopupMenuitem from "../../fgui/Extend/System/UI_PopupMenuitem";
 import UI_ScrollTxt from "../../fgui/Extend/System/UI_ScrollTxt";
 import UI_TipWin from "../../fgui/Extend/System/UI_TipWin";
 import UI_TotalMessage from "../../fgui/Extend/System/UI_TotalMessage";
@@ -18,7 +17,6 @@ export default class SystemWin extends FWindow {
 	GuideLayer: UI_GuideLayer;
 	OkBtn: UI_OkBtn;
 	PopupMenu: UI_PopupMenu;
-	PopupMenuitem: UI_PopupMenuitem;
 	ScrollTxt: UI_ScrollTxt;
 	TipWin: UI_TipWin;
 	TotalMessage: UI_TotalMessage;
@@ -30,7 +28,6 @@ export default class SystemWin extends FWindow {
 		this.addAssetForFguiComponent(UI_GuideLayer);
 		this.addAssetForFguiComponent(UI_OkBtn);
 		this.addAssetForFguiComponent(UI_PopupMenu);
-		this.addAssetForFguiComponent(UI_PopupMenuitem);
 		this.addAssetForFguiComponent(UI_ScrollTxt);
 		this.addAssetForFguiComponent(UI_TipWin);
 		this.addAssetForFguiComponent(UI_TotalMessage);

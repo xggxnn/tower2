@@ -6,6 +6,7 @@ import { SelectionStatus } from "../../../gamemodule/DataEnums/SelectionStatus";
 import UI_selectionBtn from "./UI_selectionBtn";
 import Fun from "../../../Tool/Fun";
 import { MenuId } from "../../../gamemodule/MenuId";
+import ShareManager from "../../../Tool/ShareManager";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_MenusMain extends fui_MenusMain {
@@ -48,6 +49,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 		}
 
 		this.m_backBtn.onClick(this, this.backClick);
+		ShareManager.init();
 	}
 	private selectList: Array<UI_Selection> = [];
 

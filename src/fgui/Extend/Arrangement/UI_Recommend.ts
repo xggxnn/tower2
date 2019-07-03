@@ -1,32 +1,31 @@
-import fui_ArrangementMain from "../../Generates/Arrangement/fui_ArrangementMain";
+import fui_Recommend from "../../Generates/Arrangement/fui_Recommend";
 import ArrangementWin from "../../../gamemodule/Windows/ArrangementWin";
 import UI_PropBtn from "./UI_PropBtn";
 import Game from "../../../Game";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import EventManager from "../../../Tool/EventManager";
 import EventKey from "../../../Tool/EventKey";
-import Dictionary from "../../../Tool/Dictionary";
-import UI_Association from "./UI_Association";
+import UI_txt from "./UI_txt";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
-export default class UI_ArrangementMain extends fui_ArrangementMain {
+export default class UI_Recommend extends fui_Recommend {
 
 	moduleWindow: ArrangementWin;
 
 	public static DependPackages: string[] = ["Arrangement"];
 
-	public static createInstance(): UI_ArrangementMain {
-		return <UI_ArrangementMain>(fui_ArrangementMain.createInstance());
+	public static createInstance(): UI_Recommend {
+		return <UI_Recommend>(fui_Recommend.createInstance());
 	}
 	public static bind(): void {
-		fairygui.UIObjectFactory.setPackageItemExtension(UI_ArrangementMain.URL, UI_ArrangementMain);
+		fairygui.UIObjectFactory.setPackageItemExtension(UI_Recommend.URL, UI_Recommend);
 	}
 
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-		this.m_backBtn.onClick(this, this.backUI);
+		this.m_closeBtn.onClick(this, this.clickClose);
 		this.m_heroList.setVirtual();
 		// 设置列表渲染函数
 		this.m_heroList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
@@ -36,33 +35,28 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_heroList.on(Laya.Event.MOUSE_OUT, this, this.onScrollout);
 		this.m_heroList.on(Laya.Event.MOUSE_UP, this, this.onScrollup);
 
-		// 设置列表渲染函数
-		this.m_seatList.itemRenderer = Laya.Handler.create(this, this.initSeatItem, null, false);
-		// 列表内容单个item被点击
-		this.m_seatList.on(fairygui.Events.CLICK_ITEM, this, this.onClickSeatItem);
-
-		this.m_associationList.setVirtual();
-		// 设置列表渲染函数
-		this.m_associationList.itemRenderer = Laya.Handler.create(this, this.initAssociationItem, null, false);
-
-
-
-		this.m_select1.onClick(this, this.selectClick, [0]);
-		this.m_select2.onClick(this, this.selectClick, [1]);
-		this.m_select3.onClick(this, this.selectClick, [2]);
-		this.selectBtnEnable();
+		this.m_list.itemRenderer = Laya.Handler.create(this, this.initjibanItem, null, false);
 	}
-	private selectClick(index: number): void {
-		Game.battleScene.seatHeroSelect = index;
-		this.selectBtnEnable();
-		this.refrushHeroList();
-	}
-	private selectBtnEnable(): void {
-		this.m_select1.enabled = Game.battleScene.seatHeroSelect != 0;
-		this.m_select2.enabled = Game.battleScene.seatHeroSelect != 1;
-		this.m_select3.enabled = Game.battleScene.seatHeroSelect != 2;
+	clickClose(): void {
+		this.moduleWindow.windowRemoveChild(this);
 	}
 
+	// 渲染item
+	private initjibanItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_txt;
+		item.m_titles.text = "战士 X" + index;
+	}
+	// 渲染item
+	private initItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_PropBtn;
+		item.setData(this.heroList[index]);
+	}
+	// 点击item
+	private onClickItem(obj: fairygui.GObject): void {
+		let index = this.m_heroList.getChildIndex(obj);
+		// 转换为点击item在整个列表中的真实索引
+		var realIndex: number = this.m_heroList.childIndexToItemIndex(index);
+	}
 	private rect: Laya.Rectangle;
 	private dragItem: UI_PropBtn = null;
 	// 拖拽列表中
@@ -100,56 +94,19 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.dragItem = null;
 	}
 
-	// 渲染item
-	private initItem(index: number, obj: fairygui.GObject): void {
-		let item = obj as UI_PropBtn;
-		item.setData(this.heroList[index]);
-	}
-	// 点击item
-	private onClickItem(obj: fairygui.GObject): void {
-		let index = this.m_heroList.getChildIndex(obj);
-		// 转换为点击item在整个列表中的真实索引
-		var realIndex: number = this.m_heroList.childIndexToItemIndex(index);
-	}
+	private heroList: HeroInfo[] = [];
 	private refrushHeroList(): void {
 		let list = HeroInfo.getList();
 		this.heroList = [];
-		if (!Game.battleScene.seatHeroDic.hasKey(Game.battleScene.seatHeroSelect)) {
-			Game.battleScene.seatHeroDic.add(Game.battleScene.seatHeroSelect, new Dictionary<number, number>());
-		}
-		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
-		let seatList = dic.getValues();
 		for (let i = 0, len = list.length; i < len; i++) {
-			if (seatList.indexOf(Number(list[i].id)) == -1) {
+			if (Number(list[i].race) == 1) {
 				this.heroList.push(list[i]);
 			}
 		}
 		this.m_heroList.numItems = this.heroList.length;
-		this.m_seatList.numItems = 9;
-		this.m_associationList.numItems = 12;
+		this.m_list.numItems = 3;
 	}
 
-
-	// seat渲染item
-	private initSeatItem(index: number, obj: fairygui.GObject): void {
-		let item = obj as UI_PropBtn;
-		item.seatSetData(index);
-	}
-	// seat点击item
-	private onClickSeatItem(obj: fairygui.GObject): void {
-		let index = this.m_heroList.getChildIndex(obj);
-		// 转换为点击item在整个列表中的真实索引
-		var realIndex: number = this.m_seatList.childIndexToItemIndex(index);
-	}
-
-
-	// Association渲染item
-	private initAssociationItem(index: number, obj: fairygui.GObject): void {
-		let item = obj as UI_Association;
-		item.setData(index, this.moduleWindow);
-	}
-
-	private heroList: HeroInfo[] = [];
 
 	// 关闭ui
 	closeUI(): void {
@@ -171,4 +128,4 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 
 
 }
-UI_ArrangementMain.bind();
+UI_Recommend.bind();

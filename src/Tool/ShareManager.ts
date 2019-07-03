@@ -1,3 +1,5 @@
+import Game from "../Game";
+
 export default class ShareManager {
 	private static _title: string = "一边撸着猫一边就能玩的塔防--守护家园塔防";
 	public static set title(v: string) {
@@ -31,7 +33,7 @@ export default class ShareManager {
 			return {
 				title: ShareManager._title,
 				imageUrl: ShareManager._url,
-				// query: "id=" + UserData.openid,
+				query: "id=" + Game.userData.openid,
 			};
 		});
 	}
@@ -40,8 +42,7 @@ export default class ShareManager {
 		wx["shareAppMessage"]({
 			title: ShareManager._title,
 			imageUrl: ShareManager._url,
-			// query: "id=" + UserData.openid,
+			query: "id=" + Game.userData.openid,
 		});
-		// BJManager.BJstat("share");
 	}
 }

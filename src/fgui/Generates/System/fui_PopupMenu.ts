@@ -1,11 +1,11 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
-
+import fui_ScrollTxt from "./fui_ScrollTxt";
 
 export default class fui_PopupMenu extends fairygui.GComponent {
 
 	public m_popType:fairygui.Controller;
-	public m_list:fairygui.GList;
+	public m_tip:fui_ScrollTxt;
 
 	public static URL:string = "ui://130tmfxdnvpox";
 
@@ -21,6 +21,6 @@ export default class fui_PopupMenu extends fairygui.GComponent {
 		super.constructFromXML(xml);
 
 		this.m_popType = this.getControllerAt(0);
-		this.m_list = <fairygui.GList><any>(this.getChildAt(1));
+		this.m_tip = <fui_ScrollTxt><any>(this.getChildAt(1));
 	}
 }

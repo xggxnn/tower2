@@ -16,6 +16,8 @@ export default class LoaderManager {
 		// Laya.loader.retryDelay = 100;
 		Laya.loader.retryNum = 3;
 		Laya.loader.on(Laya.Event.ERROR, LoaderManager, LoaderManager.loadError);
+		EventManager.on(EventKey.LOADER_ERROR, SystemManager, SystemManager.loadError);
+		EventManager.on(EventKey.LOADER_FAIL, SystemManager, SystemManager.loadFail);
 		// Laya.MiniAdpter.enable();
 	}
 	private static network: boolean = true;
