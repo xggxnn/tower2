@@ -54,10 +54,10 @@ export default class UI_MenusMain extends fui_MenusMain {
 	private selectList: Array<UI_Selection> = [];
 
 	slelectClick(index: number): void {
-		Game.battleData.play_map = this.selectList[index].map;
-		Game.battleData.play_level = this.selectList[index].level;
+		let waveinf = this.selectList[index].waveInfo;
+		Game.battleData.play_map = waveinf.map;
+		Game.battleData.play_level = waveinf.level;
 		this.moduleWindow.createTrialUI();
-		// Game.proto.reqConfig();
 	}
 
 	backClick(): void {
@@ -75,29 +75,29 @@ export default class UI_MenusMain extends fui_MenusMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		this.m_select2.m_selBtn.m_end.setSelectedIndex(1);
-		let map = 0;
-		let level = 0;
+		// let map = 0;
+		// let level = 0;
 		for (let i = 0, len = this.selectList.length; i < len; i++) {
-			let boss = (i + 1) % 4;
-			level = boss;
-			if (boss == 0) {
-				level = 4;
-			}
-			if (level == 1) {
-				map++;
-			}
-			let status = SelectionStatus.None;
-			if (i == 0) {
-				status = SelectionStatus.Complete;
-			}
-			else if (i == 1) {
-				status = SelectionStatus.Progress;
-			}
-			else if (i == 2) {
-				status = SelectionStatus.Fighting;
-			}
-			this.selectList[i].setData(status, boss == 0, map, level);
+			// let boss = (i + 1) % 4;
+			// level = boss;
+			// if (boss == 0) {
+			// 	level = 4;
+			// }
+			// if (level == 1) {
+			// 	map++;
+			// }
+			// let status = SelectionStatus.None;
+			// if (i == 0) {
+			// 	status = SelectionStatus.Complete;
+			// }
+			// else if (i == 1) {
+			// 	status = SelectionStatus.Progress;
+			// }
+			// else if (i == 2) {
+			// 	status = SelectionStatus.Fighting;
+			// }
+			// this.selectList[i].setData(status, boss == 0, map, level);
+			this.selectList[i].setDate(i);
 		}
 		if (this.moduleWindow.menuParameter.initFunction.count > 0) {
 			let fun: Function[] = this.moduleWindow.menuParameter.initFunction.getValues();

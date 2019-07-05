@@ -2,6 +2,8 @@ import fui_HomeMain from "../../Generates/Home/fui_HomeMain";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
 import { MenuId } from "../../../gamemodule/MenuId";
+import EventManager from "../../../Tool/EventManager";
+import ProtoEvent from "../../../protobuf/ProtoEvent";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HomeMain extends fui_HomeMain {
@@ -25,10 +27,13 @@ export default class UI_HomeMain extends fui_HomeMain {
 		this.m_trialBtn.onClick(this, this.trialClick);
 		this.m_seatBtn.onClick(this, this.seatClick);
 		this.m_conquestBtn.onClick(this, this.conquestClick);
+		EventManager.on(ProtoEvent.WAVEINFO_CALL_BACK, this, this.waveInfoCall);
 	}
 
 	fightClick(): void {
-		console.log("fight");
+		Game.proto.waveInfo({});
+	}
+	private waveInfoCall(): void {
 		Game.menu.open(MenuId.MenuSelect);
 		this.closeUI();
 	}

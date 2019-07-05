@@ -1,5 +1,9 @@
 import fui_Association from "../../Generates/Arrangement/fui_Association";
 import ArrangementWin from "../../../gamemodule/Windows/ArrangementWin";
+import Association from "../../../gamemodule/DataStructs/Association";
+import Fun from "../../../Tool/Fun";
+import Game from "../../../Game";
+import AssociationAttributeInfo from "../../../dataInfo/AssociationAttributeInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Association extends fui_Association {
@@ -23,15 +27,19 @@ export default class UI_Association extends fui_Association {
 	}
 
 	recomClick(): void {
+		Game.battleData.association = this.datas;
 		this.moduleWindow.createRecommend();
 	}
-
-	setData(index: number, moduleWindow: ArrangementWin): void {
+	private datas: Association
+	setData(datas: Association, moduleWindow: ArrangementWin): void {
 		this.moduleWindow = moduleWindow;
-		switch (index) {
-			case 0:
-				this.m_title.text = "战士 X 1";
-				break;
+		this.datas = datas;
+		let att = AssociationAttributeInfo.getInfo(datas.attribute_id);
+		if (datas.hero.length > 0) {
+			this.m_title.text = Fun.format("{0} ", datas.names);
+		}
+		else {
+			this.m_title.text = Fun.format("{0} X {1} 触发 ", datas.names, datas.num) + Fun.format(att.des, datas.values);
 		}
 	}
 

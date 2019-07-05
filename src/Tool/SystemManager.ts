@@ -17,6 +17,10 @@ export default class SystemManager {
 
 	private static info = null;
 
+	public static initAllData(): void {
+		Game.waveData.init();
+	}
+
 	public static init(): void {
 		if (!Game.isMobile) return;
 		this.info = wx.getSystemInfoSync();
@@ -39,16 +43,13 @@ export default class SystemManager {
 	public static login(): void {
 		wx.login({
 			success: function (result) {
-				console.log(result);
-				console.log(result.code);
-				// ServerManager.login(result.code);
-				// let data = {
-				// 	code: result.code,
-				// }
-				// if (Game.userData.inviter) {
-				// 	data["inviter"] = Game.userData.inviter;
-				// }
-				// Game.proto.login(data);
+				let data = {
+					code: "11001",//result.code,
+				}
+				if (Game.userData.inviter) {
+					data["inviter"] = Game.userData.inviter;
+				}
+				Game.proto.login(data);
 			},
 			fail: null,
 			complete: null,

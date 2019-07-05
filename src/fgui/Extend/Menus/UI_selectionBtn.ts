@@ -45,7 +45,7 @@ export default class UI_selectionBtn extends fui_selectionBtn {
 	 * @param map 第几个地图
 	 * @param level 第几关
 	 */
-	public setData(isboss: boolean, map: number, level: number): void {
+	public setData(map: number, level: number, isboss?: boolean): void {
 		if (map < 0) map = 0;
 		if (map > 4) map = 4;
 		if (level < 0) level = 0;

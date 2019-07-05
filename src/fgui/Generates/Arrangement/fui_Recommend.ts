@@ -4,6 +4,7 @@
 
 export default class fui_Recommend extends fairygui.GComponent {
 
+	public m_type:fairygui.GTextField;
 	public m_race:fairygui.GTextField;
 	public m_heroList:fairygui.GList;
 	public m_list:fairygui.GList;
@@ -22,6 +23,7 @@ export default class fui_Recommend extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
+		this.m_type = <fairygui.GTextField><any>(this.getChildAt(1));
 		this.m_race = <fairygui.GTextField><any>(this.getChildAt(2));
 		this.m_heroList = <fairygui.GList><any>(this.getChildAt(4));
 		this.m_list = <fairygui.GList><any>(this.getChildAt(6));

@@ -22,6 +22,7 @@ export default class ProtoServer {
 	private static calling: boolean = false;
 	private static dataList: Array<Object> = [];
 	public static request(data: Object): void {
+		console.log("============request=========", data);
 		this.dataList.push(data);
 		this.callServer();
 	}
@@ -77,6 +78,7 @@ export default class ProtoServer {
 						// 	this.parseUserData(json.userData);
 						// }
 						let pro = ProtoManager.getProto(json.protoId);
+						console.log(json.protoId, json);
 						pro.callBack(json);
 					}
 					ProtoServer.dataList.shift();

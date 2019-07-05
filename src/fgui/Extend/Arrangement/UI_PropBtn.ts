@@ -26,19 +26,57 @@ export default class UI_PropBtn extends fui_PropBtn {
 		// ToDo
 
 		this.on(fairygui.Events.DROP, this, this.onDrop);
+		this.onClick(this, this.clickBtn);
+	}
+	// 按钮被点击
+	private clickBtn(): void {
+		if (this.heroInf != null) {
+			Game.battleData.clickHeroInf = this.heroInf;
+			this.moduleWindow.createHeroInfoUI();
+		}
+	}
+	// 上阵英雄拖拽开始
+	private ondragStarts(evt: laya.events.Event): void {
+		var btn: fairygui.GButton = <fairygui.GButton>fairygui.GObject.cast(evt.currentTarget);
+		btn.stopDrag();//取消对原目标的拖动，换成一个替代品
+		if (this.heroInf != null) {
+			Game.battleData.seatPos = this.seatIndex;
+			Game.battleData.heroInf = this.heroInf;
+			Game.battleData.seatBtn = this;
+			fairygui.DragDropManager.inst.startDrag(btn, btn.icon, btn.icon);
+			Game.battleData.startDrag = true;
+		}
 	}
 	// 拖拽松手在当前按钮上，替换内容
 	private onDrop(data: any, evt: laya.events.Event): void {
-		if (this.seatIndex == -1) return;
-		this.heroInf = Game.battleData.heroInf;
+		if (this.seatIndex == -1 || Game.battleData.heroInf == null) return;
+		if (Game.battleData.seatPos >= 0 && Game.battleData.seatPos == this.seatIndex) return;
+		if (Game.battleData.seatPos < 0) {
+			// 拖拽上阵
+			this.addHero(Game.battleData.heroInf);
+		}
+		else {
+			// 交换位置
+			let oldInf = this.heroInf;
+			this.addHero(Game.battleData.heroInf);
+			if (Game.battleData.seatBtn != null) {
+				Game.battleData.seatBtn.addHero(oldInf);
+				Game.battleData.seatBtn = null;
+			}
+		}
+	}
+	// 上阵英雄
+	public addHero(heroInf: HeroInfo): void {
+		this.heroInf = heroInf;
 		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
-		dic.add(Number(this.seatIndex), Number(this.heroInf.id));
+		dic.add(this.seatIndex, this.heroInf != null ? this.heroInf.id : 0);
 		this.seatSetData(this.seatIndex, this.heroInf);
 		EventManager.event(EventKey.ADD_HERO);
 	}
 	public heroInf: HeroInfo = null;
 	// 列表英雄赋值
-	public setData(heroInf: HeroInfo): void {
+	public setData(heroInf: HeroInfo, moduleWindow: ArrangementWin): void {
+		if (this.moduleWindow == null) this.moduleWindow = moduleWindow;
 		this.heroInf = heroInf;
 		this.title = heroInf.name;
 		let index: number = Number(this.heroInf.id);
@@ -76,22 +114,31 @@ export default class UI_PropBtn extends fui_PropBtn {
 
 	private seatIndex: number = -1;
 	// 上阵英雄赋值
-	public seatSetData(index: number, heroInf?: HeroInfo): void {
+	public seatSetData(index: number, heroInf: HeroInfo, moduleWindow?: ArrangementWin): void {
 		this.seatIndex = index;
+		if (!this.seatInit) {
+			this.seatInit = true;
+			this.draggable = true;
+			this.on(fairygui.Events.DRAG_START, this, this.ondragStarts);
+		}
 		if (heroInf) {
-			this.setData(heroInf);
+			this.setData(heroInf, moduleWindow);
 		}
 		else {
+			this.m_status.setSelectedIndex(0);
 			let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
 			if (dic.hasKey(this.seatIndex)) {
-				heroInf = HeroInfo.getInfo(dic.getValue(this.seatIndex));
-				this.setData(heroInf);
-			}
-			else {
-				this.m_status.setSelectedIndex(0);
+				let id = dic.getValue(this.seatIndex);
+				if (id > 0) {
+					heroInf = HeroInfo.getInfo(id);
+					if (heroInf) {
+						this.setData(heroInf, moduleWindow);
+					}
+				}
 			}
 		}
 	}
+	private seatInit: boolean = false;
 
 	// 关闭ui
 	closeUI(): void {

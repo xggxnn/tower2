@@ -96,7 +96,7 @@ export default class BattleModel extends Laya.Sprite {
     // 能否被攻击
     protected _canHit: boolean = true;
     public get canHit(): boolean {
-        return this._canHit;
+        return this._canHit && !this._haveDeath;
     }
 
     // 敌人死亡

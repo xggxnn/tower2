@@ -34,7 +34,8 @@ export default class BattleScene {
     public stoneList: Array<UI_Stone> = new Array<UI_Stone>();
     // 底座列表
     public battleSeat: Array<BattleSeat> = new Array<BattleSeat>();
-
+    // 敌人所在的攻击范围
+    public atkCellDIc: Dictionary<number, Array<BattleModel>> = new Dictionary<number, Array<BattleModel>>();
 
     // 生成敌人
     createEnemy(isTop: boolean, isboss: boolean = false) {

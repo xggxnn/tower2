@@ -8,6 +8,11 @@ export default class ProtoManager {
 		return ProtoHash.protoHash[protoid];
 	}
 
+	private sendPro(data: Object, id: number): void {
+		let pro: Proto = ProtoManager.getProto(id);
+		pro.send(data);
+	}
+
 	/**
 	 * 获取配置表信息
 	 */
@@ -18,15 +23,77 @@ export default class ProtoManager {
 
 	/**
 	 * 登录
-	 * @param data 登录的实例类proto
-	 * @param encode 发送到服务器是的数据编码方法
-	 * @param decode 收到服务器数据的解码方法
-	 * @example 
-	 * let encode: Function = Loginpackage.LoginReq.encode;
-	 * let decode: Function = Loginpackage.LoginResp.decode;
 	 */
 	public login(data: Object = {}): void {
-		let pro: Proto = ProtoManager.getProto(1001);
-		pro.send(data);
+		this.sendPro(data, 1001);
+	}
+	/**
+     * 玩家完成新手引导后调用(一个账号只会调用一次)
+     */
+	public initPlay(): void {
+		this.sendPro({}, 1002);
+	}
+	/**
+     * 获取关卡数据
+     * @param data 
+     */
+	public waveInfo(data: Object): void {
+		this.sendPro(data, 1003);
+	}
+	/**
+     * 选择关卡
+     * @param data 
+     */
+	public selectWave(data: Object): void {
+		this.sendPro(data, 1004);
+	}
+	/**
+     * 获取布阵
+     * @param data 
+     */
+	public getSeat(data: Object): void {
+		this.sendPro(data, 1005);
+	}
+	/**
+     * 设置布阵
+     * @param data 
+     */
+	public setSeat(data: Object): void {
+		this.sendPro(data, 1006);
+	}
+	/**
+     * 战斗结果奖励
+     * @param data 
+     */
+	public passWave(data: Object): void {
+		this.sendPro(data, 1007);
+	}
+	/**
+     * 升级
+     * @param data 
+     */
+	public upLevel(data: Object): void {
+		this.sendPro(data, 1008);
+	}
+	/**
+     * 升星
+     * @param data 
+     */
+	public upStar(data: Object): void {
+		this.sendPro(data, 1009);
+	}
+	/**
+     * 召唤，获得英雄
+     * @param data 
+     */
+	public synthetise(data: Object): void {
+		this.sendPro(data, 1010);
+	}
+	/**
+     * 悬赏
+     * @param data 
+     */
+	public offerReward(data: Object): void {
+		this.sendPro(data, 1011);
 	}
 }

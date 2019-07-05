@@ -38,8 +38,8 @@ export default class BattleSoldier extends BattleModel {
         if (isboss) {
             monsterInf = Game.battleMap.bossInfo;
         }
-        this.speed = Number(monsterInf.move_speed);
-        this.curHp = Number(monsterInf.hp);
+        this.speed = monsterInf.move_speed * 0.1;
+        this.curHp = monsterInf.hp;
         this.maxHp = this.curHp;
         this.blood.max = this.curHp;
         this.blood.value = this.maxHp;

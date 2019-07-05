@@ -7,5 +7,8 @@ export default class ProtoEvent {
 	public static get LOGIN_CALL_BACK(): string {
 		return this.getProtoEvent(1001);
 	}
+	public static get WAVEINFO_CALL_BACK(): string {
+		return this.getProtoEvent(1003);
+	}
 
 }

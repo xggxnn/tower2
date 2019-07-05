@@ -10,38 +10,38 @@ export default class MonsterInfo {
         this.infDic = infDic;
     }
 
-    public get id(): any {
-        return this.curInf.getValue("id");
+    public get id(): number {
+        return Number(this.curInf.getValue("id"));
     }
-    public get type(): any {
-        return this.curInf.getValue("type");
+    public get type(): number {
+        return Number(this.curInf.getValue("type"));
     }
-    public get move_speed(): any {
-        return this.curInf.getValue("move_speed");
+    public get move_speed(): number {
+        return Number(this.curInf.getValue("move_speed"));
     }
-    public get atk(): any {
-        return this.curInf.getValue("atk");
+    public get atk(): number {
+        return Number(this.curInf.getValue("atk"));
     }
-    public get atk_speed(): any {
-        return this.curInf.getValue("atk_speed");
+    public get atk_speed(): number {
+        return Number(this.curInf.getValue("atk_speed"));
     }
-    public get skill_id(): any {
-        return this.curInf.getValue("skill_id");
+    public get skill_id(): number {
+        return Number(this.curInf.getValue("skill_id"));
     }
-    public get sk(): any {
-        return this.curInf.getValue("sk");
+    public get sk(): number {
+        return Number(this.curInf.getValue("sk"));
     }
-    public get big_wave(): any {
-        return this.curInf.getValue("big_wave");
+    public get big_wave(): number {
+        return Number(this.curInf.getValue("big_wave"));
     }
-    public get hp(): any {
-        return this.curInf.getValue("hp");
+    public get hp(): number {
+        return Number(this.curInf.getValue("hp"));
     }
-    public get base_hp(): any {
-        return this.curInf.getValue("base_hp");
+    public get base_hp(): number {
+        return Number(this.curInf.getValue("base_hp"));
     }
-    public get base_num(): any {
-        return this.curInf.getValue("base_num");
+    public get base_num(): number {
+        return Number(this.curInf.getValue("base_num"));
     }
     constructor(id: string) {
         this.curInf = MonsterInfo.infDic.getValue(id);
@@ -99,7 +99,7 @@ export default class MonsterInfo {
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
-        dic3.add("type", "7");
+        dic3.add("type", "6");
         dic3.add("move_speed", "6");
         dic3.add("atk", "2");
         dic3.add("atk_speed", "1");
@@ -151,7 +151,7 @@ export default class MonsterInfo {
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
         dic7.add("id", "7");
-        dic7.add("type", "7");
+        dic7.add("type", "6");
         dic7.add("move_speed", "6");
         dic7.add("atk", "2");
         dic7.add("atk_speed", "1");
@@ -164,7 +164,7 @@ export default class MonsterInfo {
         this.infDic.add("7", dic7);
         let dic8 = new Dictionary<string, any>();
         dic8.add("id", "8");
-        dic8.add("type", "7");
+        dic8.add("type", "6");
         dic8.add("move_speed", "6");
         dic8.add("atk", "2");
         dic8.add("atk_speed", "1");

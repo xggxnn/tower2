@@ -21,6 +21,9 @@ import CSVConfig from "./dataInfo/CSVConfig";
 import ServerCSVConfig from "./dataInfo/ServerCSVConfig";
 import PlayerData from "./gamemodule/DataStructs/PlayerData";
 import UserData from "./Tool/UserData";
+import EventManager from "./Tool/EventManager";
+import ProtoEvent from "./protobuf/ProtoEvent";
+import WaveData from "./gamemodule/DataStructs/WaveData";
 
 export default class Game {
 
@@ -77,6 +80,8 @@ export default class Game {
 	static battleData: BattleData;
 	// 战斗表现
 	static battleScene: BattleScene;
+	// 关卡数据
+	static waveData: WaveData;
 	// 玩家数据
 	static playData: PlayerData;
 	// 用户信息
@@ -98,6 +103,7 @@ export default class Game {
 			Game.isAndroid = (agent.indexOf("Android") > -1);
 			Game.isMobile = Game.isIOS || Game.isAndroid;
 		}
+		EventManager.once(ProtoEvent.LOGIN_CALL_BACK, this, this.openHome);
 		Game.install();
 		LoaderManager.init();
 		GameInstaller.install();
@@ -115,9 +121,14 @@ export default class Game {
 		Game.battleScene.init();
 		Game.battleMap.init();
 		this.menu.open(MenuId.Load);
+		// 资源加载完毕，登录
 		SystemManager.login();
-		// 资源加载完毕，打开主界面
-		this.menu.open(MenuId.Home);
+	}
+
+	private openHome(): void {
+		SystemManager.initAllData();
+		// 登录完毕，打开主界面
+		Game.menu.open(MenuId.Home);
 	}
 
 	static install(): void {
@@ -132,6 +143,7 @@ export default class Game {
 		Game.localStorage = GameLocalStorage.Instance;
 		Game.playData = PlayerData.Instance;
 		Game.userData = UserData.Instance;
+		Game.waveData = WaveData.Instance;
 	}
 
 	static ScreenSetting: ScreenSettingConfig = new ScreenSettingConfig();

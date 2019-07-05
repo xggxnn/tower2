@@ -139,17 +139,93 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	// 更新敌人信息
 	private updateEnemy(dt: number): void {
-		for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
-			var enemy: BattleModel = Game.battleScene.enemyList[i];
-			if (enemy && !enemy.haveDeath) {
-				enemy.update(dt);
-			} else {
-				if (enemy) {
-					enemy.addClearEvent();
+		Game.battleScene.atkCellDIc.clear();
+		if (Game.battleScene.enemyList.length > 0) {
+			for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
+				var enemy: BattleModel = Game.battleScene.enemyList[i];
+				if (enemy && !enemy.haveDeath) {
+					enemy.update(dt);
+					if (enemy.canHit) {
+						let skx = enemy.sk.x;
+						let sky = enemy.sk.y;
+						if (skx < 276) {
+							this.addInAtkRange(0, enemy);
+						}
+						else if (skx > 1088) {
+							this.addInAtkRange(80, enemy);
+						}
+						else {
+							if (skx >= 276 && skx < 416) {
+								this.checkPos(skx, sky, enemy, 1);
+							}
+							if (skx >= 416 && skx < 500) {
+								this.checkPos(skx, sky, enemy, 2);
+							}
+							if (skx >= 500 && skx < 640) {
+								this.checkPos(skx, sky, enemy, 3);
+							}
+							if (skx > 640 && skx <= 724) {
+								this.checkPos(skx, sky, enemy, 4);
+							}
+							if (skx > 724 && skx <= 864) {
+								this.checkPos(skx, sky, enemy, 5);
+							}
+							if (skx > 864 && skx <= 948) {
+								this.checkPos(skx, sky, enemy, 6);
+							}
+							if (skx > 948 && skx <= 1088) {
+								this.checkPos(skx, sky, enemy, 7);
+							}
+						}
+					}
+				} else {
+					if (enemy) {
+						enemy.addClearEvent();
+					}
+					Game.battleScene.enemyList.splice(i, 1);
 				}
-				Game.battleScene.enemyList.splice(i, 1);
 			}
 		}
+	}
+	// 计算敌人位置
+	private checkPos(skx: number, sky: number, enemy, line: number): void {
+		let keys: number = line * 10;
+		if (sky < 324) {
+			// 最上边
+			this.addInAtkRange(keys + 5, enemy);
+		}
+		else if (sky >= 324 && sky < 397) {
+			// 最上排英雄站立一排
+			this.addInAtkRange(keys + 3, enemy);
+		}
+		else if (sky >= 397 && sky < 486) {
+			// 过道 上排石头
+			this.addInAtkRange(keys + 1, enemy);
+		}
+		else if (sky > 486 && sky < 560) {
+			// 中间一格 英雄站立一排
+			this.addInAtkRange(keys + 0, enemy);
+		}
+		else if (sky >= 560 && sky <= 648) {
+			// 过道 下排石头
+			this.addInAtkRange(keys + 2, enemy);
+		}
+		else if (sky > 648 && sky <= 720) {
+			// 最下边英雄站立一排
+			this.addInAtkRange(keys + 4, enemy);
+		}
+		else if (sky > 720) {
+			// 最下边
+			this.addInAtkRange(keys + 6, enemy);
+		}
+	}
+	// 存储位置敌人
+	private addInAtkRange(key: number, enemy: BattleModel): void {
+		if (!Game.battleScene.atkCellDIc.hasKey(key)) {
+			Game.battleScene.atkCellDIc.add(key, []);
+		}
+		let list = Game.battleScene.atkCellDIc.getValue(key);
+		list.push(enemy);
 	}
 	// 刷新层级关系
 	private refreshIndex() {

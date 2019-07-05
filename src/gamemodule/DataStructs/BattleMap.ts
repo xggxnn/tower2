@@ -101,31 +101,31 @@ export default class BattleMap {
         // 关卡
         this.waveInfo = WaveInfo.getInfo(v);
         // 类型
-        this.waveType = Math.floor(Number(this.waveInfo.type));
+        this.waveType = this.waveInfo.type;
         // 难度
-        let _difficulty: number = Math.floor(Number(this.waveInfo.difficulty));
+        let _difficulty: number = this.waveInfo.difficulty;
         // 曲线系数
-        this.waveform = Math.floor(Number(this.waveInfo.waveform));
+        this.waveform = this.waveInfo.waveform;
         // 随机种子
-        let seed1: number = Number(this.waveInfo.random1);
+        let seed1: number = this.waveInfo.random;
         // 关卡时长
-        this.waveTime = Number(this.waveInfo.time);
+        this.waveTime = this.waveInfo.time;
 
 
         // 难度效率
         let _difEfficiency: number = 0;
         let _difList: Array<DifficultyEfficiencyInfo> = DifficultyEfficiencyInfo.getList();
         for (let i = _difList.length - 1; i >= 0; i--) {
-            if (Number(_difList[i].difficulty) == _difficulty) {
-                _difEfficiency = Number(_difList[i].val);
+            if (_difList[i].difficulty == _difficulty) {
+                _difEfficiency = _difList[i].val;
             }
         }
 
         let _heroTypeInf: HeroTypeInfo = HeroTypeInfo.getInfo(this.waveType);
         // 基准攻速
-        this.benchAtkSpeed = Number(_heroTypeInf.bench_atk_speed) * _difEfficiency;
+        this.benchAtkSpeed = _heroTypeInf.bench_atk_speed * _difEfficiency;
         // 基准攻击力
-        this.benchMarkAtk = Number(_heroTypeInf.benchmark_atk) * _difEfficiency;
+        this.benchMarkAtk = _heroTypeInf.benchmark_atk * _difEfficiency;
         this.mathrandom1 = new MathRandom(seed1);
         this.nextCD = 0;
         this.curTime = 0;
@@ -214,10 +214,10 @@ export default class BattleMap {
                 if (this.curTime >= curTimePeriod * i) {
                     let _waveform1 = WaveformInfo.getInfo(i);
                     let _waveform2 = WaveformInfo.getInfo(i + 1);
-                    let _xiaolv = Number(_waveform1.waveform) + (Number(_waveform2.waveform) - Number(_waveform1.waveform)) * (this.curTime - curTimePeriod * i) / 10;
+                    let _xiaolv = _waveform1.waveform + (_waveform2.waveform - _waveform1.waveform) * (this.curTime - curTimePeriod * i) / 10;
                     let _waveforminf = WaveformInfo.getInfo(i + 1);
                     // 是否创建boss判断
-                    let bossNum = Number(_waveform1.boss);
+                    let bossNum = _waveform1.boss;
                     if (bossNum > 0) {
                         let dicNum = 0;
                         if (this.bossDic.hasKey(i)) {
@@ -236,7 +236,7 @@ export default class BattleMap {
                     if (true) {
                         // 最大攻速
                         let atkSpeed = this.benchAtkSpeed * _xiaolv;
-                        let remain = Number(this.nextMonster.base_num) / atkSpeed;
+                        let remain = this.nextMonster.base_num / atkSpeed;
                         remain = remain < 0.5 ? 0.5 : remain;
                         this.nextCD = this.curTime + remain;
                     }

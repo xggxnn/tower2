@@ -27,6 +27,7 @@ export default class UI_GameOver extends fui_GameOver {
 	}
 	gainClick(): void {
 		this.clearBattleScene();
+		Game.menu.open(MenuId.MenuSelect);
 	}
 	upClick(): void {
 		this.clearBattleScene();

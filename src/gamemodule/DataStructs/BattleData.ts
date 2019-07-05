@@ -4,6 +4,8 @@ import Game from "../../Game";
 import BattleScene from "../Models/BattleScene";
 import { GameStatus } from "../DataEnums/GameStatus";
 import HeroInfo from "../../dataInfo/HeroInfo";
+import Association from "./Association";
+import UI_PropBtn from "../../fgui/Extend/Arrangement/UI_PropBtn";
 
 export default class BattleData {
 
@@ -54,19 +56,61 @@ export default class BattleData {
 
     /*******************英雄相关**************************/
 
+
+
+    private _startDrag: boolean = false;
+    public get startDrag(): boolean {
+        return this._startDrag;
+    }
+    public set startDrag(v: boolean) {
+        this._startDrag = v;
+    }
+
     // 当前拖拽中的英雄信息
-    private _heroInf: HeroInfo;
+    private _heroInf: HeroInfo = null;
     public get heroInf(): HeroInfo {
         return this._heroInf;
     }
     public set heroInf(v: HeroInfo) {
         this._heroInf = v;
     }
-
-
-    public heroInSeat(seat: number, heroId: number): void {
-
+    // 当前拖拽中的英雄在阵上那个点
+    private _seatPos: number = -1;
+    public get seatPos(): number {
+        return this._seatPos;
     }
+    public set seatPos(v: number) {
+        this._seatPos = v;
+    }
+    // 拖拽前的按钮
+    private _seatBtn: UI_PropBtn = null;
+    public get seatBtn(): UI_PropBtn {
+        return this._seatBtn;
+    }
+    public set seatBtn(v: UI_PropBtn) {
+        this._seatBtn = v;
+    }
+    // 当前显示那个英雄详情
+    private _clickHeroInf: HeroInfo = null;
+    public get clickHeroInf(): HeroInfo {
+        return this._clickHeroInf;
+    }
+    public set clickHeroInf(v: HeroInfo) {
+        this._clickHeroInf = v;
+    }
+
+
+
+
+    // 当前展示那个羁绊信息
+    private _association: Association = null;
+    public get association(): Association {
+        return this._association;
+    }
+    public set association(v: Association) {
+        this._association = v;
+    }
+
 
 
 

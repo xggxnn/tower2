@@ -1,6 +1,6 @@
 import Dictionary from "../Tool/Dictionary"; 
 
-export default class HeroTypeInfo {
+export default class SkillHitTypeInfo {
 
     private static infDic: Dictionary<string, Dictionary<string, any>> = new Dictionary<string, Dictionary<string, any>>();
     private curInf: Dictionary<string, any> = new Dictionary<string, any>();
@@ -13,40 +13,31 @@ export default class HeroTypeInfo {
     public get id(): number {
         return Number(this.curInf.getValue("id"));
     }
-    public get name(): string {
-        return String(this.curInf.getValue("name"));
-    }
-    public get type(): number {
-        return Number(this.curInf.getValue("type"));
-    }
-    public get bench_atk_speed(): number {
-        return Number(this.curInf.getValue("bench_atk_speed"));
-    }
-    public get benchmark_atk(): number {
-        return Number(this.curInf.getValue("benchmark_atk"));
+    public get hit_type(): string {
+        return String(this.curInf.getValue("hit_type"));
     }
     constructor(id: string) {
-        this.curInf = HeroTypeInfo.infDic.getValue(id);
+        this.curInf = SkillHitTypeInfo.infDic.getValue(id);
     }
 
     /**
      * 依据id获得配置信息
      * @param id 配置id
      */
-    public static getInfo(id: any): HeroTypeInfo {
+    public static getInfo(id: any): SkillHitTypeInfo {
         let ids: string = String(id);
         if (this.infDic.hasKey(ids)) {
-            return new HeroTypeInfo(ids);
+            return new SkillHitTypeInfo(ids);
         }
         return null;
     }
-    private static infList: HeroTypeInfo[] = null;
-    public static getList(): Array<HeroTypeInfo> {
+    private static infList: SkillHitTypeInfo[] = null;
+    public static getList(): Array<SkillHitTypeInfo> {
         if (this.infList == null) {
             let list: string[] = this.infDic.getKeys();
             this.infList = [];
             for (let i = 0, len = list.length; i < len; i++) { 
-                this.infList.push(new HeroTypeInfo(list[i]));
+                this.infList.push(new SkillHitTypeInfo(list[i]));
             }
         }
         return this.infList;
@@ -55,45 +46,27 @@ export default class HeroTypeInfo {
         this.infDic = new Dictionary<string, Dictionary<string, any>>();
         let dic1 = new Dictionary<string, any>();
         dic1.add("id", "1");
-        dic1.add("name", "高频");
-        dic1.add("type", "1");
-        dic1.add("bench_atk_speed", "2.5");
-        dic1.add("benchmark_atk", "35.9");
+        dic1.add("hit_type", "单");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
         dic2.add("id", "2");
-        dic2.add("name", "高频偏高攻");
-        dic2.add("type", "2");
-        dic2.add("bench_atk_speed", "1.65");
-        dic2.add("benchmark_atk", "62");
+        dic2.add("hit_type", "多");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
-        dic3.add("name", "均衡高频");
-        dic3.add("type", "3");
-        dic3.add("bench_atk_speed", "1.1");
-        dic3.add("benchmark_atk", "102.7");
+        dic3.add("hit_type", "溅射");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
         dic4.add("id", "4");
-        dic4.add("name", "均衡高攻");
-        dic4.add("type", "4");
-        dic4.add("bench_atk_speed", "0.8");
-        dic4.add("benchmark_atk", "199.6");
+        dic4.add("hit_type", "范围");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
         dic5.add("id", "5");
-        dic5.add("name", "高爆偏高频");
-        dic5.add("type", "5");
-        dic5.add("bench_atk_speed", "0.6");
-        dic5.add("benchmark_atk", "395.7");
+        dic5.add("hit_type", "全屏");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
         dic6.add("id", "6");
-        dic6.add("name", "高爆");
-        dic6.add("type", "6");
-        dic6.add("bench_atk_speed", "0.45");
-        dic6.add("benchmark_atk", "697.5");
+        dic6.add("hit_type", "buff");
         this.infDic.add("6", dic6);
     }
     
