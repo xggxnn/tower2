@@ -55,6 +55,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 
 	slelectClick(index: number): void {
 		let waveinf = this.selectList[index].waveInfo;
+		Game.battleData.wave_id = waveinf.id;
 		Game.battleData.play_map = waveinf.map;
 		Game.battleData.play_level = waveinf.level;
 		this.moduleWindow.createTrialUI();

@@ -53,6 +53,7 @@ export default class BattleWin extends FWindow {
 		this.contentPane = this.content;
 		super.onMenuCreate();
 	}
+
 	// 游戏结束，胜利或失败
 	public gameResult(): void {
 		if (!this.GameOver || this.GameOver == null) {

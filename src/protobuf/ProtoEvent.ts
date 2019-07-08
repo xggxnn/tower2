@@ -10,5 +10,11 @@ export default class ProtoEvent {
 	public static get WAVEINFO_CALL_BACK(): string {
 		return this.getProtoEvent(1003);
 	}
+	public static get SELECTWAVE_CALL_BACK(): string {
+		return this.getProtoEvent(1004);
+	}
+	public static get PASSWAVE_CALL_BACK(): string {
+		return this.getProtoEvent(1007);
+	}
 
 }

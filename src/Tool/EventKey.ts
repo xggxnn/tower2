@@ -49,14 +49,20 @@ export default class EventKey {
     public static get LOADER_FAIL(): string {
         return "LOADER_FAIL";
     }
+    public static get SHOW_UI_WAIT(): string {
+        return "SHOW_UI_WAIT";
+    }
+    public static get CLOSE_UI_WAIT(): string {
+        return "CLOSE_UI_WAIT";
+    }
     /**
-     * 显示等待界面
+     * 显示系统等待界面
      */
     public static get SHOW_WAIT(): string {
         return "SHOW_WAIT";
     }
     /**
-     * 关闭等待界面
+     * 关闭系统等待界面
      */
     public static get CLOSE_WAIT(): string {
         return "CLOSE_WAIT";

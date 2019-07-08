@@ -50,6 +50,11 @@ export default class BattleScene {
         Game.battleMap.openMap(1, 1);
         Game.gameStatus = GameStatus.Gaming;
     }
+    clearBattleScene(): void {
+        Game.battleScene.stoneReset();
+        Game.battleScene.clearEnemy();
+        Game.battleScene.clearHero();
+    }
     // 石头重生
     stoneReset(): void {
         for (let i = 0; i < 6; i++) {
@@ -80,10 +85,12 @@ export default class BattleScene {
     initHeroSeat(): void {
         if (this.seatHeroDic.hasKey(this.seatHeroSelect)) {
             let cur = this.seatHeroDic.getValue(this.seatHeroSelect);
-            let list: number[] = cur.getKeys();
+            let list: number[] = cur.getValues();
             for (let i = 0, len = list.length; i < len; i++) {
-                let hero = BattleHero.create(cur.getValue(list[i]), list[i]);
-                Game.battleScene.heroList.push(hero);
+                if (list[i] > 0) {
+                    let hero = BattleHero.create(list[i], i);
+                    Game.battleScene.heroList.push(hero);
+                }
             }
         }
     }

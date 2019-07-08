@@ -3,6 +3,9 @@ import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import Game from "../../../Game";
 import { MenuId } from "../../../gamemodule/MenuId";
 import SpriteKey from "../../SpriteKey";
+import EventManager from "../../../Tool/EventManager";
+import ProtoEvent from "../../../protobuf/ProtoEvent";
+import EventKey from "../../../Tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Trial extends fui_Trial {
@@ -32,7 +35,16 @@ export default class UI_Trial extends fui_Trial {
 	}
 	// 开始挑战
 	startClick(): void {
+		EventManager.event(EventKey.SHOW_UI_WAIT);
+		let data = {
+			waveId: Game.battleData.wave_id,
+			fightType: 0,
+		}
+		Game.proto.selectWave(data);
+	}
+	private startFight(): void {
 		this.moduleWindow.menuClose();
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		Game.menu.open(MenuId.Battle);
 	}
 
@@ -49,13 +61,14 @@ export default class UI_Trial extends fui_Trial {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
+		EventManager.on(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
 		this.m_c1.setSelectedIndex(0);
 		this.m_mapid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_map]);
 		this.m_levelid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_level]);
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-
+		EventManager.off(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
 	}
 
 

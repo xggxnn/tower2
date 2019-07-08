@@ -117,7 +117,10 @@ export default class BattleData {
     /*******************敌人相关**************************/
 
     /*******************玩家操作相关**************************/
-    public play_map: number;
-    public play_level: number;
+    public map_skills: number[] = [1, 2, 3];
+    public wave_id: number = 1;
+    public fight_type: number = 0;
+    public play_map: number = 1;
+    public play_level: number = 1;
 
 }

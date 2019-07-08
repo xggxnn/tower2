@@ -65,7 +65,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		console.log("加载完毕sk");
 		this.loadOver = true;
 		Game.gameStatus = GameStatus.Pause;
-		Game.tipWin.showTip("点击底座召唤英雄或移除英雄", Handler.create(this, this.reTryPlay));
+		Game.tipWin.showTip("点击确定开始游戏", Handler.create(this, this.reTryPlay));
 	}
 
 	// 关闭ui

@@ -15,6 +15,7 @@ export default class Proto1004 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-
+        Game.battleData.wave_id = Number(json.waveId);
+        Game.battleData.fight_type = Number(json.fight_type);
     }
 }

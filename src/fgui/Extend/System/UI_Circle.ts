@@ -29,6 +29,8 @@ export default class UI_Circle extends fui_Circle {
 		EventManager.on(EventKey.LOADER_OVER, this, this.loadOver);
 		EventManager.on(EventKey.SHOW_WAIT, this, this.showWait);
 		EventManager.on(EventKey.CLOSE_WAIT, this, this.loadOver);
+		EventManager.on(EventKey.SHOW_UI_WAIT, this, this.showUiWait);
+		EventManager.on(EventKey.CLOSE_UI_WAIT, this, this.loadOver);
 		MenuLayer.showHideLayer(MenuLayerType.Loader, false)
 	}
 
@@ -41,6 +43,11 @@ export default class UI_Circle extends fui_Circle {
 	}
 	showWait(): void {
 		this.m_c1.setSelectedIndex(1);
+		MenuLayer.showHideLayer(MenuLayerType.Loader, true)
+	}
+	showUiWait(): void {
+		this.m_tips.text = "";
+		this.m_c1.setSelectedIndex(0);
 		MenuLayer.showHideLayer(MenuLayerType.Loader, true)
 	}
 	loadOver(): void {

@@ -25,6 +25,12 @@ export default class PlaySkillInfo {
     public get time(): number {
         return Number(this.curInf.getValue("time"));
     }
+    public get unlock(): number {
+        return Number(this.curInf.getValue("unlock"));
+    }
+    public get cd(): number {
+        return Number(this.curInf.getValue("cd"));
+    }
     constructor(id: string) {
         this.curInf = PlaySkillInfo.infDic.getValue(id);
     }
@@ -55,59 +61,75 @@ export default class PlaySkillInfo {
         this.infDic = new Dictionary<string, Dictionary<string, any>>();
         let dic1 = new Dictionary<string, any>();
         dic1.add("id", "1");
-        dic1.add("name", "攻击力加强・爆");
+        dic1.add("name", "攻击力加强?爆");
         dic1.add("des", "提升攻击力{0}%，持续{1}秒");
         dic1.add("val", "30");
         dic1.add("time", "5");
+        dic1.add("unlock", "1");
+        dic1.add("cd", "10");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
         dic2.add("id", "2");
-        dic2.add("name", "攻击力加强・恒");
+        dic2.add("name", "攻击力加强?恒");
         dic2.add("des", "提升攻击力{0}%，持续{1}秒");
         dic2.add("val", "10");
         dic2.add("time", "0");
+        dic2.add("unlock", "21");
+        dic2.add("cd", "40");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
-        dic3.add("name", "爆击率加强・爆");
+        dic3.add("name", "爆击率加强?爆");
         dic3.add("des", "提升爆击率{0}%，持续{1}秒");
         dic3.add("val", "20");
         dic3.add("time", "5");
+        dic3.add("unlock", "51");
+        dic3.add("cd", "30");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
         dic4.add("id", "4");
-        dic4.add("name", "爆击率加强・恒");
+        dic4.add("name", "爆击率加强?恒");
         dic4.add("des", "提升爆击率{0}%，持续{1}秒");
         dic4.add("val", "5");
         dic4.add("time", "0");
+        dic4.add("unlock", "51");
+        dic4.add("cd", "10");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
         dic5.add("id", "5");
-        dic5.add("name", "爆伤加强・爆");
+        dic5.add("name", "爆伤加强?爆");
         dic5.add("des", "提升爆伤{0}%，持续{1}秒");
         dic5.add("val", "100");
         dic5.add("time", "5");
+        dic5.add("unlock", "51");
+        dic5.add("cd", "40");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
         dic6.add("id", "6");
-        dic6.add("name", "爆伤加强・恒");
+        dic6.add("name", "爆伤加强?恒");
         dic6.add("des", "提升爆伤{0}%，持续{1}秒");
         dic6.add("val", "50");
         dic6.add("time", "0");
+        dic6.add("unlock", "51");
+        dic6.add("cd", "30");
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
         dic7.add("id", "7");
-        dic7.add("name", "攻速加强・爆");
+        dic7.add("name", "攻速加强?爆");
         dic7.add("des", "提升攻速{0}%，持续{1}秒");
         dic7.add("val", "100");
         dic7.add("time", "5");
+        dic7.add("unlock", "51");
+        dic7.add("cd", "10");
         this.infDic.add("7", dic7);
         let dic8 = new Dictionary<string, any>();
         dic8.add("id", "8");
-        dic8.add("name", "攻速加强・恒");
+        dic8.add("name", "攻速加强?恒");
         dic8.add("des", "提升攻速{0}%，持续{1}秒");
         dic8.add("val", "30");
         dic8.add("time", "0");
+        dic8.add("unlock", "51");
+        dic8.add("cd", "40");
         this.infDic.add("8", dic8);
     }
     
