@@ -30,6 +30,13 @@ export default class FGUIResPackageConfig {
 
 
         config = new ResPackageConfig();
+        config.packageName = "Bag";
+        config.resDir = "fgui";
+        config.resBin = "Bag.bin";
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
         config.packageName = "Battle";
         config.resDir = "fgui";
         config.resBin = "Battle.bin";

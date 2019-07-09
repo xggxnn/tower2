@@ -15,6 +15,7 @@ export default class Proto1008 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-
+        Game.playData.curLevel = Number(json.level);
+        Game.playData.curGold = Number(json.gold);
     }
 }

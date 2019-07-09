@@ -16,6 +16,23 @@ export default class EventKey {
         return "DATA_REQUEST";
     }
 
+    // 货币资源更新
+    public static get COIN_GOLD_UPDATE(): string {
+        return "MONEY_REFRUSH";
+    }
+    public static get COIN_DIAMOND_UPDATE(): string {
+        return "COIN_DIAMOND_UPDATE";
+    }
+    public static get COIN_JADEITE_UPDATE(): string {
+        return "COIN_JADEITE_UPDATE";
+    }
+    public static get HERO_LEVEL_UPDATE(): string {
+        return "HERO_LEVEL_UPDATE";
+    }
+    public static get HERO_STAR_UPDATE(): string {
+        return "HERO_STAR_UPDATE";
+    }
+
     // 重新开始当前游戏
     public static get RE_TRYPLAY(): string {
         return "RE_TRYPLAY";

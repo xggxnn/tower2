@@ -6,6 +6,10 @@ import { GameStatus } from "../DataEnums/GameStatus";
 import HeroInfo from "../../dataInfo/HeroInfo";
 import Association from "./Association";
 import UI_PropBtn from "../../fgui/Extend/Arrangement/UI_PropBtn";
+import Dictionary from "../../Tool/Dictionary";
+import AssociationRaceInfo from "../../dataInfo/AssociationRaceInfo";
+import FiveElementsInfo from "../../dataInfo/FiveElementsInfo";
+import AssociationCareerInfo from "../../dataInfo/AssociationCareerInfo";
 
 export default class BattleData {
 
@@ -111,16 +115,115 @@ export default class BattleData {
         this._association = v;
     }
 
-
-
+    // 刷新当前阵型上阵英雄的羁绊信息
+    public refrushAssociation(): Array<Association> {
+        let association: Array<Association> = [];
+        let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
+        let seatList = dic.getValues();
+        let raceDic: Dictionary<number, number> = new Dictionary<number, number>();
+        let careerDic: Dictionary<number, number> = new Dictionary<number, number>();
+        // 各位置英雄判断
+        for (let i = 0; i < 9; i++) {
+            if (seatList[i] > 0) {
+                let hero = HeroInfo.getInfo(seatList[i]);
+                let race = hero.race;
+                let career = hero.career;
+                if (!raceDic.hasKey(race)) {
+                    raceDic.add(race, 0);
+                }
+                let raceNum = raceDic.getValue(race) + 1;
+                raceDic.set(race, raceNum);
+                if (!careerDic.hasKey(career)) {
+                    careerDic.add(career, 0);
+                }
+                let careeNum = careerDic.getValue(career) + 1;
+                careerDic.set(career, careeNum);
+            }
+        }
+        // 判断羁绊
+        if (raceDic.count > 0) {
+            // 种族
+            let races = raceDic.getKeys();
+            let racelist = AssociationRaceInfo.getList();
+            let temraceList: Dictionary<number, AssociationRaceInfo> = new Dictionary<number, AssociationRaceInfo>();
+            for (let i = 0, len = racelist.length; i < len; i++) {
+                let temRace = racelist[i].race;
+                if (races.indexOf(String(temRace)) != -1) {
+                    if (racelist[i].num <= raceDic.getValue(temRace)) {
+                        if (temraceList.hasKey(temRace)) {
+                            let val = temraceList.getValue(temRace);
+                            if (racelist[i].num > val.num) {
+                                temraceList.add(racelist[i].race, racelist[i]);
+                            }
+                        }
+                        else {
+                            temraceList.add(racelist[i].race, racelist[i]);
+                        }
+                    }
+                }
+            }
+            if (temraceList.count > 0) {
+                let valList = temraceList.getValues();
+                for (let i = 0, len = valList.length; i < len; i++) {
+                    let _ass = new Association();
+                    _ass.num = valList[i].num;
+                    _ass.attribute_id = valList[i].attribute;
+                    _ass.values = valList[i].value;
+                    _ass.race = valList[i].race;
+                    _ass.names = FiveElementsInfo.getInfoWithType(_ass.race).name;
+                    association.push(_ass);
+                }
+            }
+        }
+        if (careerDic.count > 0) {
+            // 职业
+            let races = careerDic.getKeys();
+            let racelist = AssociationCareerInfo.getList();
+            let temraceList: Dictionary<number, AssociationCareerInfo> = new Dictionary<number, AssociationCareerInfo>();
+            for (let i = 0, len = racelist.length; i < len; i++) {
+                let temRace = racelist[i].career;
+                if (races.indexOf(String(temRace)) != -1) {
+                    if (racelist[i].num <= careerDic.getValue(temRace)) {
+                        if (temraceList.hasKey(temRace)) {
+                            let val = temraceList.getValue(temRace);
+                            if (racelist[i].num > val.num) {
+                                temraceList.add(racelist[i].career, racelist[i]);
+                            }
+                        }
+                        else {
+                            temraceList.add(racelist[i].career, racelist[i]);
+                        }
+                    }
+                }
+            }
+            if (temraceList.count > 0) {
+                let valList = temraceList.getValues();
+                for (let i = 0, len = valList.length; i < len; i++) {
+                    let _ass = new Association();
+                    _ass.num = valList[i].num;
+                    _ass.attribute_id = valList[i].attribute;
+                    _ass.values = valList[i].value;
+                    _ass.career = valList[i].career;
+                    _ass.names = FiveElementsInfo.getInfoWithType(_ass.career).name;
+                    association.push(_ass);
+                }
+            }
+        }
+        return association;
+    }
 
     /*******************敌人相关**************************/
 
     /*******************玩家操作相关**************************/
+    // 玩家技能
     public map_skills: number[] = [1, 2, 3];
+    // 关卡id
     public wave_id: number = 1;
+    // 战斗类型 0：闯关，1：试炼，2：探索
     public fight_type: number = 0;
+    // 地图
     public play_map: number = 1;
+    // 关卡
     public play_level: number = 1;
 
 }

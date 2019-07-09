@@ -7,6 +7,8 @@ import DifficultyEfficiencyInfo from "../../dataInfo/DifficultyEfficiencyInfo";
 import MonsterInfo from "../../dataInfo/MonsterInfo";
 import WaveInfo from "../../dataInfo/WaveInfo";
 import MathRandom from "../../Tool/MathRandom";
+import TimeHouseInfo from "../../dataInfo/TimeHouseInfo";
+import WaveStatus from "./WaveStatus";
 
 export default class BattleMap {
 
@@ -25,6 +27,8 @@ export default class BattleMap {
         this.wave = 0;
     }
 
+    private waveStatusList: Array<WaveStatus> = [];
+
     // 当前地图    
     private _curMap: number = 1;
     public get curMap(): number {
@@ -34,7 +38,7 @@ export default class BattleMap {
         this._curMap = v;
     }
     // 最大地图    
-    private _maxMap: number = 10;
+    private _maxMap: number = 1;
     public get maxMap(): number {
         return this._maxMap;
     }
@@ -42,7 +46,7 @@ export default class BattleMap {
         this._maxMap = v;
     }
     // 最大关卡
-    private _maxLv: number;
+    private _maxLv: number = 1;
     public get maxLv(): number {
         return this._maxLv;
     }
@@ -50,7 +54,7 @@ export default class BattleMap {
         this._maxLv = v;
     }
     // 当前关卡
-    private _curLv: number;
+    private _curLv: number = 1;
     public get curLv(): number {
         return this._curLv;
     }
@@ -127,6 +131,8 @@ export default class BattleMap {
         // 基准攻击力
         this.benchMarkAtk = _heroTypeInf.benchmark_atk * _difEfficiency;
         this.mathrandom1 = new MathRandom(seed1);
+        // 时间与精神房子
+        this.timeHouse = TimeHouseInfo.getInfoLv(this.waveInfo.lv);
         this.nextCD = 0;
         this.curTime = 0;
         this.bossDic.clear();
@@ -161,6 +167,15 @@ export default class BattleMap {
     public set nextMonster(v: MonsterInfo) {
         this._nextMonster = v;
     }
+    // 时间与精神的房子
+    private _timeHouse: TimeHouseInfo;
+    public get timeHouse(): TimeHouseInfo {
+        return this._timeHouse;
+    }
+    public set timeHouse(v: TimeHouseInfo) {
+        this._timeHouse = v;
+    }
+
 
     // 是否生成boss
     private _bossInfo: MonsterInfo;

@@ -2,6 +2,10 @@ import fui_BattleTopMiddle from "../../Generates/Battle/fui_BattleTopMiddle";
 import BattleWin from "../../../gamemodule/Windows/BattleWin";
 import UI_AssociationBtn from "./UI_AssociationBtn";
 import SpriteKey from "../../SpriteKey";
+import Association from "../../../gamemodule/DataStructs/Association";
+import Game from "../../../Game";
+import Fun from "../../../Tool/Fun";
+import AssociationAttributeInfo from "../../../dataInfo/AssociationAttributeInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
@@ -39,7 +43,8 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 	private onClickItem(obj: fairygui.GObject): void {
 		let index = this.m_associationList.getChildIndex(obj);
 		this.m_t0.stop();
-		this.m_title.text = "神谕：同时上阵N位天神时<br />[color=#51FC55]（2），攻击力提高15%[/color]<br />[color=#51FC55]（4），攻击力提高25%[/color]";
+		let att = AssociationAttributeInfo.getInfo(this.association[index].attribute_id);
+		this.m_title.text = Fun.format("[color=#61aa66]{0}[/color] X [color=#51FC55]{1}[/color] <br /> ", this.association[index].names, this.association[index].num) + Fun.format(att.des, this.association[index].values);//"神谕：同时上阵N位天神时<br />[color=#51FC55]（2），攻击力提高15%[/color]<br />[color=#51FC55]（4），攻击力提高25%[/color]";
 		this.m_title.height = 39 + 34 * 2;
 		this.m_c1.setSelectedIndex(1);
 		this.m_t0.play(Laya.Handler.create(this, this.hideMethod));
@@ -56,9 +61,11 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 	backUI(): void {
 		this.moduleWindow.menuBack();
 	}
+	private association: Association[] = [];
 	// 显示，相当于enable
 	onWindowShow(): void {
-		this.m_associationList.numItems = 3;
+		this.association = Game.battleData.refrushAssociation();
+		this.m_associationList.numItems = this.association.length;
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {

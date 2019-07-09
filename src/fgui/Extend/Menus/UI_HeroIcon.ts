@@ -22,6 +22,10 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 
 	}
 
+	public setData(): void {
+
+	}
+
 	// 关闭ui
 	closeUI(): void {
 		this.moduleWindow.menuClose();

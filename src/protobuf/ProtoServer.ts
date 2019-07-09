@@ -68,8 +68,8 @@ export default class ProtoServer {
 					if (json.hasOwnProperty("sysTime")) {
 						TimerManager.timestamp = json.sysTime;
 					}
-					if (json.hasOwnProperty("errcode")) {
-						Game.tipWin.showTip(this.errorStr(parseInt(json.errcode)), Laya.Handler.create(this, this.closeWait));
+					if (json.hasOwnProperty("errCode")) {
+						Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), Laya.Handler.create(this, this.closeWait));
 					}
 					else {
 						// console.log("   >>> back:", json.protoId, json);
@@ -78,7 +78,7 @@ export default class ProtoServer {
 						// 	this.parseUserData(json.userData);
 						// }
 						let pro = ProtoManager.getProto(json.protoId);
-						console.log(json.protoId, json);
+						console.log("  >>> back:" + json.protoId, json);
 						pro.callBack(json);
 					}
 					ProtoServer.dataList.shift();
@@ -104,7 +104,7 @@ export default class ProtoServer {
 	}
 	// 错误码处理
 	private static errorStr(code: number): string {
-		let str = null;
+		let str = "错误码：" + code;
 		switch (code) {
 			case 4006:
 				str = "金币不足";
@@ -132,6 +132,15 @@ export default class ProtoServer {
 				break;
 			case 4020:
 				str = "数据出错，请联系QQ群812835839管理员";
+				break;
+			case 5009:
+				str = "10级后可以升星";
+				break;
+			case 5011:
+				str = "20级后可以升星";
+				break;
+			case 5012:
+				str = "已经拥有此英雄，无法再次合成";
 				break;
 		}
 		return str;

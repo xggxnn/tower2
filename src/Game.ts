@@ -24,6 +24,7 @@ import UserData from "./Tool/UserData";
 import EventManager from "./Tool/EventManager";
 import ProtoEvent from "./protobuf/ProtoEvent";
 import WaveData from "./gamemodule/DataStructs/WaveData";
+import TickManager from "./Tool/TickManager";
 
 export default class Game {
 
@@ -72,6 +73,7 @@ export default class Game {
 	static guide: SystemGuide;
 	// 弹出popup
 	static popup: SystemPopup;
+	static tick: TickManager;
 
 
 	// 地图信息
@@ -119,7 +121,6 @@ export default class Game {
 		CSVConfig.InitAll();
 		Game.battleData.init();
 		Game.battleScene.init();
-		Game.battleMap.init();
 		this.menu.open(MenuId.Load);
 		// 资源加载完毕，登录
 		SystemManager.login();
@@ -144,6 +145,7 @@ export default class Game {
 		Game.playData = PlayerData.Instance;
 		Game.userData = UserData.Instance;
 		Game.waveData = WaveData.Instance;
+		Game.tick = TickManager.Instance;
 	}
 
 	static ScreenSetting: ScreenSettingConfig = new ScreenSettingConfig();

@@ -15,6 +15,7 @@ export default class Proto1009 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-
+        Game.playData.curJadeite = Number(json.jadeite);
+        Game.playData.curStar = Number(json.star);
     }
 }

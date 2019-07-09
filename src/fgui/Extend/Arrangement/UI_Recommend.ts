@@ -110,9 +110,6 @@ export default class UI_Recommend extends fui_Recommend {
 		let list = HeroInfo.getList();
 		this.heroList = [];
 		let ass = Game.battleData.association;
-		if (!Game.battleScene.seatHeroDic.hasKey(Game.battleScene.seatHeroSelect)) {
-			Game.battleScene.seatHeroDic.add(Game.battleScene.seatHeroSelect, new Dictionary<number, number>());
-		}
 		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
 		let seatList = dic.getValues();
 		for (let i = 0, len = list.length; i < len; i++) {

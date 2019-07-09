@@ -6,6 +6,8 @@ import { GameStatus } from "../../../gamemodule/DataEnums/GameStatus";
 import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import EventKey from "../../../Tool/EventKey";
+import UI_HeroIcon from "../Menus/UI_HeroIcon";
+import { Tick } from "../../../Tool/TickManager";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_GameOver extends fui_GameOver {
@@ -27,6 +29,12 @@ export default class UI_GameOver extends fui_GameOver {
 		// ToDo
 		this.m_gainBtn.onClick(this, this.gainClick);
 		this.m_upBtn.onClick(this, this.upClick);
+		this.m_rewardList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
+	}
+	// 渲染item
+	private initItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_HeroIcon;
+		item.setData();
 	}
 	gainClick(): void {
 		Game.battleScene.clearBattleScene();
@@ -46,12 +54,36 @@ export default class UI_GameOver extends fui_GameOver {
 		let data = {
 			winLose: Game.gameStatus == GameStatus.Win,
 			waveId: Game.battleData.wave_id,
+			fightType: Game.battleData.fight_type,
 		}
 		Game.proto.passWave(data);
 	}
-
+	private tick: Tick = null;
 	private showResult(): void {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		if (Game.gameStatus == GameStatus.Win) {
+			if (this.tick) {
+				this.tick.Stop();
+				Game.tick.clearTick(this.tick);
+				this.tick = null;
+			}
+			this.m_rewardList.numItems = 0;
+			this.tick = Game.tick.addTick(2, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false));
+			this.tick.Start();
+		}
+		else {
+			this.addNumOver();
+		}
+	}
+	private updateNum(): void {
+		this.m_rewardList.numItems++;
+	}
+	private addNumOver(): void {
+		if (this.tick) {
+			this.tick.Stop();
+			Game.tick.clearTick(this.tick);
+			this.tick = null;
+		}
 		this.m_gainBtn.visible = true;
 		this.m_upBtn.visible = true;
 	}

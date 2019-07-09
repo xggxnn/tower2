@@ -7,6 +7,7 @@ import BattleWin from "./Windows/BattleWin";
 import MenusWin from "./Windows/MenusWin";
 import HomeWin from "./Windows/HomeWin";
 import ArrangementWin from "./Windows/ArrangementWin";
+import BagWin from "./Windows/BagWin";
 
 export default class MenuWindows {
 	static dict: Dictionary<MenuId, ModuleConfig> = new Dictionary<MenuId, ModuleConfig>();
@@ -24,5 +25,6 @@ export default class MenuWindows {
 		MenuWindows.add(MenuId.Arrange, ArrangementWin);
 		MenuWindows.add(MenuId.Load, SystemWin);
 		MenuWindows.add(MenuId.MenuSelect, MenusWin);
+		MenuWindows.add(MenuId.Bag, BagWin);
 	}
 }

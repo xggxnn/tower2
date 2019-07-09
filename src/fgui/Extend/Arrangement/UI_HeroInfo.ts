@@ -4,6 +4,9 @@ import Game from "../../../Game";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import FiveElementsInfo from "../../../dataInfo/FiveElementsInfo";
 import Fun from "../../../Tool/Fun";
+import EventManager from "../../../Tool/EventManager";
+import EventKey from "../../../Tool/EventKey";
+import ProtoEvent from "../../../protobuf/ProtoEvent";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroInfo extends fui_HeroInfo {
@@ -24,6 +27,25 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 		this.m_closeBtn.onClick(this, this.closeUI);
+		this.m_gainmethod.onClick(this, this.clickGain);
+	}
+	private clickGain(): void {
+		if (Game.playData.curHero.indexOf(this.heroInf.id) == -1) {
+			// 英雄合成
+			EventManager.event(EventKey.SHOW_UI_WAIT);
+			let data = {
+				heroId: this.heroInf.id,
+			}
+			Game.proto.synthetise(data);
+		}
+		else {
+			Game.tipWin.showTip("你已拥有此英雄，无需再次合成", Laya.Handler.create(this, this.closeUI));
+		}
+	}
+
+	private synthetiseOver(): void {
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		this.closeUI();
 	}
 
 	// 关闭ui
@@ -37,6 +59,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	private heroInf: HeroInfo = null;
 	// 显示，相当于enable
 	onWindowShow(): void {
+		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetiseOver);
 		this.heroInf = Game.battleData.clickHeroInf;
 		if (this.heroInf != null) {
 			this.m_heroname.text = this.heroInf.name;
@@ -50,6 +73,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
+		EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetiseOver);
 		Game.battleData.clickHeroInf = null;
 		this.heroInf = null;
 	}

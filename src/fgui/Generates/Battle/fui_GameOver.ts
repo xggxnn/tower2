@@ -7,6 +7,7 @@ export default class fui_GameOver extends fairygui.GComponent {
 	public m_c1:fairygui.Controller;
 	public m_gainBtn:fairygui.GButton;
 	public m_upBtn:fairygui.GButton;
+	public m_rewardList:fairygui.GList;
 
 	public static URL:string = "ui://3jvhuirzngrsn";
 
@@ -24,5 +25,6 @@ export default class fui_GameOver extends fairygui.GComponent {
 		this.m_c1 = this.getControllerAt(0);
 		this.m_gainBtn = <fairygui.GButton><any>(this.getChildAt(7));
 		this.m_upBtn = <fairygui.GButton><any>(this.getChildAt(15));
+		this.m_rewardList = <fairygui.GList><any>(this.getChildAt(16));
 	}
 }

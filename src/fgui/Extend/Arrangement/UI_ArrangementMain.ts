@@ -12,6 +12,8 @@ import AssociationCareerInfo from "../../../dataInfo/AssociationCareerInfo";
 import AssociationSpecialInfo from "../../../dataInfo/AssociationSpecialInfo";
 import Association from "../../../gamemodule/DataStructs/Association";
 import FiveElementsInfo from "../../../dataInfo/FiveElementsInfo";
+import { Tick } from "../../../Tool/TickManager";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ArrangementMain extends fui_ArrangementMain {
@@ -52,15 +54,52 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 
 		// 下阵按钮
 		this.m_removeSeatBtn.on(fairygui.Events.DROP, this, this.onDropRemove);
+		// 升级
+		this.m_levelUpBtn.on(Laya.Event.MOUSE_DOWN, this, this.levelUpDown);
+		this.m_levelUpBtn.on(Laya.Event.MOUSE_OUT, this, this.levelUpUp);
+		this.m_levelUpBtn.on(Laya.Event.MOUSE_UP, this, this.levelUpUp);
+		// 升星
+		this.m_starUpBtn.onClick(this, this.starUpClick);
 
 		this.m_select1.onClick(this, this.selectClick, [0]);
 		this.m_select2.onClick(this, this.selectClick, [1]);
 		this.m_select3.onClick(this, this.selectClick, [2]);
 		this.selectBtnEnable();
 	}
+	private levelTick: Tick = null;
+	private _levelAdd: number = 0;
+	// 点击升级按钮
+	private levelUpDown(): void {
+		this._levelAdd = 0;
+		if (this.levelTick) {
+			this.levelTick.Stop();
+			Game.tick.clearTick(this.levelTick);
+			this.levelTick = null;
+		}
+		this.levelTick = Game.tick.addTick(9, Laya.Handler.create(this, this.levelAdd, null, false), null);
+		this.levelTick.Start();
+
+	}
+	private levelAdd(): void {
+		this._levelAdd++;
+	}
+	private levelUpUp(): void {
+		if (this.levelTick) {
+			this.levelTick.Stop();
+			Game.tick.clearTick(this.levelTick);
+			this.levelTick = null;
+			let data = {
+				upLevel: this._levelAdd,
+			}
+			Game.proto.upLevel(data);
+		}
+	}
+	// 点击升星按钮
+	private starUpClick(): void {
+		Game.proto.upStar({});
+	}
 	// 拖拽松手在当前按钮上，上阵英雄下阵
 	private onDropRemove(data: any, evt: laya.events.Event): void {
-		console.log(data, evt);
 		if (Game.battleData.seatPos == -1) return;
 		if (Game.battleData.heroInf == null) return;
 		if (Game.battleData.seatBtn != null) {
@@ -148,72 +187,136 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	private refrushHeroList(): void {
 		let list = HeroInfo.getList();
 		this.heroList = [];
-		if (!Game.battleScene.seatHeroDic.hasKey(Game.battleScene.seatHeroSelect)) {
-			Game.battleScene.seatHeroDic.add(Game.battleScene.seatHeroSelect, new Dictionary<number, number>());
-		}
 		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
 		let seatList = dic.getValues();
+		// this.raceDic.clear();
+		// this.careerDic.clear();
 		for (let i = 0, len = list.length; i < len; i++) {
-			if (seatList.indexOf(Number(list[i].id)) == -1) {
+			if (seatList.indexOf(list[i].id) == -1) {
 				this.heroList.push(list[i]);
 			}
+			// else {
+			// 	let race = list[i].race;
+			// 	let career = list[i].career;
+			// 	if (!this.raceDic.hasKey(race)) {
+			// 		this.raceDic.add(race, 0);
+			// 	}
+			// 	let raceNum = this.raceDic.getValue(race) + 1;
+			// 	this.raceDic.set(race, raceNum);
+			// 	if (!this.careerDic.hasKey(career)) {
+			// 		this.careerDic.add(career, 0);
+			// 	}
+			// 	let careeNum = this.careerDic.getValue(career) + 1;
+			// 	this.careerDic.set(career, careeNum);
+			// }
 		}
 		this.m_heroList.numItems = this.heroList.length;
 		this.m_seatList.numItems = 9;
+		this.refrushAssociation();
 	}
+	// private raceDic: Dictionary<number, number> = new Dictionary<number, number>();
+	// private careerDic: Dictionary<number, number> = new Dictionary<number, number>();
 	// 显示所有羁绊关系
 	private refrushAssociation(): void {
-		this.association = [];
-		let racelist = AssociationRaceInfo.getList();
-		for (let i = 0, len = racelist.length; i < len; i++) {
-			let _ass = new Association();
-			_ass.num = racelist[i].num;
-			_ass.attribute_id = racelist[i].attribute;
-			_ass.values = racelist[i].value;
-			_ass.race = racelist[i].race;
-			_ass.names = FiveElementsInfo.getInfoWithType(_ass.race).name;
-			this.association.push(_ass);
-		}
-		let careerlist = AssociationCareerInfo.getList();
-		for (let i = 0, len = careerlist.length; i < len; i++) {
-			let _ass = new Association();
-			_ass.num = careerlist[i].num;
-			_ass.attribute_id = careerlist[i].attribute;
-			_ass.values = careerlist[i].value;
-			_ass.career = careerlist[i].career;
-			_ass.names = FiveElementsInfo.getInfoWithType(_ass.career).name;
-			this.association.push(_ass);
-		}
-		let speciallist = AssociationSpecialInfo.getList();
-		for (let i = 0, len = speciallist.length; i < len; i++) {
-			let _ass = new Association();
-			_ass.names = speciallist[i].name;
-			_ass.attribute_id = speciallist[i].attribute;
-			_ass.values = speciallist[i].value;
-			let heros = [];
-			let hero1 = speciallist[i].hero1;
-			let hero2 = speciallist[i].hero2;
-			let hero3 = speciallist[i].hero3;
-			let hero4 = speciallist[i].hero4;
-			let hero5 = speciallist[i].hero5;
-			if (hero1 != 0) {
-				heros.push(hero1);
-			}
-			if (hero2 != 0) {
-				heros.push(hero2);
-			}
-			if (hero3 != 0) {
-				heros.push(hero3);
-			}
-			if (hero4 != 0) {
-				heros.push(hero4);
-			}
-			if (hero5 != 0) {
-				heros.push(hero5);
-			}
-			_ass.hero = heros;
-			this.association.push(_ass);
-		}
+		this.association = Game.battleData.refrushAssociation();
+		// if (this.raceDic.count > 0) {
+		// 	let races = this.raceDic.getKeys();
+		// 	let racelist = AssociationRaceInfo.getList();
+		// 	let temraceList: Dictionary<number, AssociationRaceInfo> = new Dictionary<number, AssociationRaceInfo>();
+		// 	for (let i = 0, len = racelist.length; i < len; i++) {
+		// 		let temRace = racelist[i].race;
+		// 		if (races.indexOf(String(temRace)) != -1) {
+		// 			if (racelist[i].num <= this.raceDic.getValue(temRace)) {
+		// 				if (temraceList.hasKey(temRace)) {
+		// 					let val = temraceList.getValue(temRace);
+		// 					if (racelist[i].num > val.num) {
+		// 						temraceList.add(racelist[i].race, racelist[i]);
+		// 					}
+		// 				}
+		// 				else {
+		// 					temraceList.add(racelist[i].race, racelist[i]);
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// 	if (temraceList.count > 0) {
+		// 		let valList = temraceList.getValues();
+		// 		for (let i = 0, len = valList.length; i < len; i++) {
+		// 			let _ass = new Association();
+		// 			_ass.num = valList[i].num;
+		// 			_ass.attribute_id = valList[i].attribute;
+		// 			_ass.values = valList[i].value;
+		// 			_ass.race = valList[i].race;
+		// 			_ass.names = FiveElementsInfo.getInfoWithType(_ass.race).name;
+		// 			this.association.push(_ass);
+		// 		}
+		// 	}
+		// }
+		// if (this.careerDic.count > 0) {
+		// 	let races = this.careerDic.getKeys();
+		// 	let racelist = AssociationCareerInfo.getList();
+		// 	let temraceList: Dictionary<number, AssociationCareerInfo> = new Dictionary<number, AssociationCareerInfo>();
+		// 	for (let i = 0, len = racelist.length; i < len; i++) {
+		// 		let temRace = racelist[i].career;
+		// 		if (races.indexOf(String(temRace)) != -1) {
+		// 			if (racelist[i].num <= this.careerDic.getValue(temRace)) {
+		// 				if (temraceList.hasKey(temRace)) {
+		// 					let val = temraceList.getValue(temRace);
+		// 					if (racelist[i].num > val.num) {
+		// 						temraceList.add(racelist[i].career, racelist[i]);
+		// 					}
+		// 				}
+		// 				else {
+		// 					temraceList.add(racelist[i].career, racelist[i]);
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// 	if (temraceList.count > 0) {
+		// 		let valList = temraceList.getValues();
+		// 		for (let i = 0, len = valList.length; i < len; i++) {
+		// 			let _ass = new Association();
+		// 			_ass.num = valList[i].num;
+		// 			_ass.attribute_id = valList[i].attribute;
+		// 			_ass.values = valList[i].value;
+		// 			_ass.career = valList[i].career;
+		// 			_ass.names = FiveElementsInfo.getInfoWithType(_ass.career).name;
+		// 			this.association.push(_ass);
+		// 		}
+		// 	}
+		// }
+
+
+		// let speciallist = AssociationSpecialInfo.getList();
+		// for (let i = 0, len = speciallist.length; i < len; i++) {
+		// 	let _ass = new Association();
+		// 	_ass.names = speciallist[i].name;
+		// 	_ass.attribute_id = speciallist[i].attribute;
+		// 	_ass.values = speciallist[i].value;
+		// 	let heros = [];
+		// 	let hero1 = speciallist[i].hero1;
+		// 	let hero2 = speciallist[i].hero2;
+		// 	let hero3 = speciallist[i].hero3;
+		// 	let hero4 = speciallist[i].hero4;
+		// 	let hero5 = speciallist[i].hero5;
+		// 	if (hero1 != 0) {
+		// 		heros.push(hero1);
+		// 	}
+		// 	if (hero2 != 0) {
+		// 		heros.push(hero2);
+		// 	}
+		// 	if (hero3 != 0) {
+		// 		heros.push(hero3);
+		// 	}
+		// 	if (hero4 != 0) {
+		// 		heros.push(hero4);
+		// 	}
+		// 	if (hero5 != 0) {
+		// 		heros.push(hero5);
+		// 	}
+		// 	_ass.hero = heros;
+		// 	this.association.push(_ass);
+		// }
 		this.m_associationList.numItems = this.association.length;
 	}
 
@@ -273,11 +376,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		Laya.stage.on(Laya.Event.MOUSE_UP, this, this.mouseUp);
 		Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.mouseUp);
 		EventManager.on(EventKey.ADD_HERO, this, this.refrushHeroList);
-		this.refrushHeroList();
-		this.refrushAssociation();
-		if (this.heroList.length > 0) {
-			this.m_heroList.scrollToView(0);
-		}
+		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.refreshHeroLevel);
+		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.refreshHeroStar);
+		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
@@ -286,6 +387,19 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		EventManager.offAllCaller(this);
 	}
 
-
+	private setData(): void {
+		this.refrushHeroList();
+		if (this.heroList.length > 0) {
+			this.m_heroList.scrollToView(0);
+		}
+		this.refreshHeroLevel();
+		this.refreshHeroStar();
+	}
+	private refreshHeroLevel(): void {
+		this.m_level.text = Fun.format("等级：{0}", Game.playData.curLevel);
+	}
+	private refreshHeroStar(): void {
+		this.m_star.text = Fun.format("星级：{0}", Game.playData.curStar);
+	}
 }
 UI_ArrangementMain.bind();

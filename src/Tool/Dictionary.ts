@@ -8,24 +8,21 @@ export default class Dictionary<K, T>{
 	}
 
 	add(key: string | number, val: T) {
-		if (this.hasKey(key) === false)
-		{
+		if (this.hasKey(key) === false) {
 			this._count++;
 		}
 		this.dict[key] = val;
 	}
 
 	set(key: string | number, val: T) {
-		if (this.hasKey(key) === false)
-		{
+		if (this.hasKey(key) === false) {
 			this._count++;
 		}
 		this.dict[key] = val;
 	}
 
 	remove(key: string | number) {
-		if (this.hasKey(key))
-		{
+		if (this.hasKey(key)) {
 			this._count--;
 		}
 		delete this.dict[key];
@@ -40,12 +37,10 @@ export default class Dictionary<K, T>{
 	}
 
 	getValueOrDefault(key: string | number, _default?: T) {
-		if (this.hasKey(key))
-		{
+		if (this.hasKey(key)) {
 			return this.getValue(key);
 		}
-		else
-		{
+		else {
 			return _default;
 		}
 	}
@@ -56,18 +51,16 @@ export default class Dictionary<K, T>{
 
 	getValues(): T[] {
 		let list: T[] = [];
-		for (var key in this.dict) 
-		{
+		for (var key in this.dict) {
 			list.push(this.dict[key]);
 		}
 
 		return list;
 	}
 
-	getKeys() {
+	getKeys(): string[] {
 		let list = [];
-		for (var key in this.dict) 
-		{
+		for (var key in this.dict) {
 			list.push(key);
 		}
 

@@ -70,6 +70,9 @@ export default class HeroInfo {
     public get gain_method(): number {
         return Number(this.curInf.getValue("gain_method"));
     }
+    public get combination_num(): number {
+        return Number(this.curInf.getValue("combination_num"));
+    }
     constructor(id: string) {
         this.curInf = HeroInfo.infDic.getValue(id);
     }
@@ -119,6 +122,7 @@ export default class HeroInfo {
         dic1.add("skill_crit", "0.0232");
         dic1.add("skill_burst", "1");
         dic1.add("gain_method", "0");
+        dic1.add("combination_num", "10");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
         dic2.add("id", "2");
@@ -141,6 +145,7 @@ export default class HeroInfo {
         dic2.add("skill_crit", "0.0231");
         dic2.add("skill_burst", "2");
         dic2.add("gain_method", "0");
+        dic2.add("combination_num", "10");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
@@ -163,6 +168,7 @@ export default class HeroInfo {
         dic3.add("skill_crit", "0.0233");
         dic3.add("skill_burst", "1");
         dic3.add("gain_method", "0");
+        dic3.add("combination_num", "10");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
         dic4.add("id", "4");
@@ -185,6 +191,7 @@ export default class HeroInfo {
         dic4.add("skill_crit", "0.0235");
         dic4.add("skill_burst", "2");
         dic4.add("gain_method", "0");
+        dic4.add("combination_num", "10");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
         dic5.add("id", "5");
@@ -207,6 +214,7 @@ export default class HeroInfo {
         dic5.add("skill_crit", "0.0229");
         dic5.add("skill_burst", "1");
         dic5.add("gain_method", "0");
+        dic5.add("combination_num", "10");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
         dic6.add("id", "6");
@@ -229,6 +237,7 @@ export default class HeroInfo {
         dic6.add("skill_crit", "0.0242");
         dic6.add("skill_burst", "1");
         dic6.add("gain_method", "0");
+        dic6.add("combination_num", "10");
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
         dic7.add("id", "7");
@@ -251,6 +260,7 @@ export default class HeroInfo {
         dic7.add("skill_crit", "0.0239");
         dic7.add("skill_burst", "2");
         dic7.add("gain_method", "0");
+        dic7.add("combination_num", "10");
         this.infDic.add("7", dic7);
         let dic8 = new Dictionary<string, any>();
         dic8.add("id", "8");
@@ -273,6 +283,7 @@ export default class HeroInfo {
         dic8.add("skill_crit", "0.0239");
         dic8.add("skill_burst", "1");
         dic8.add("gain_method", "0");
+        dic8.add("combination_num", "10");
         this.infDic.add("8", dic8);
         let dic9 = new Dictionary<string, any>();
         dic9.add("id", "9");
@@ -295,6 +306,7 @@ export default class HeroInfo {
         dic9.add("skill_crit", "0.0242");
         dic9.add("skill_burst", "2");
         dic9.add("gain_method", "0");
+        dic9.add("combination_num", "10");
         this.infDic.add("9", dic9);
         let dic10 = new Dictionary<string, any>();
         dic10.add("id", "10");
@@ -317,6 +329,7 @@ export default class HeroInfo {
         dic10.add("skill_crit", "0.0261");
         dic10.add("skill_burst", "1");
         dic10.add("gain_method", "0");
+        dic10.add("combination_num", "10");
         this.infDic.add("10", dic10);
         let dic11 = new Dictionary<string, any>();
         dic11.add("id", "11");
@@ -339,6 +352,7 @@ export default class HeroInfo {
         dic11.add("skill_crit", "0.0243");
         dic11.add("skill_burst", "2");
         dic11.add("gain_method", "0");
+        dic11.add("combination_num", "10");
         this.infDic.add("11", dic11);
         let dic12 = new Dictionary<string, any>();
         dic12.add("id", "12");
@@ -361,6 +375,7 @@ export default class HeroInfo {
         dic12.add("skill_crit", "0.0245");
         dic12.add("skill_burst", "1");
         dic12.add("gain_method", "0");
+        dic12.add("combination_num", "10");
         this.infDic.add("12", dic12);
         let dic13 = new Dictionary<string, any>();
         dic13.add("id", "13");
@@ -383,6 +398,7 @@ export default class HeroInfo {
         dic13.add("skill_crit", "0.0241");
         dic13.add("skill_burst", "1");
         dic13.add("gain_method", "0");
+        dic13.add("combination_num", "10");
         this.infDic.add("13", dic13);
         let dic14 = new Dictionary<string, any>();
         dic14.add("id", "14");
@@ -405,6 +421,7 @@ export default class HeroInfo {
         dic14.add("skill_crit", "0.0252");
         dic14.add("skill_burst", "2");
         dic14.add("gain_method", "0");
+        dic14.add("combination_num", "10");
         this.infDic.add("14", dic14);
         let dic15 = new Dictionary<string, any>();
         dic15.add("id", "15");
@@ -427,6 +444,7 @@ export default class HeroInfo {
         dic15.add("skill_crit", "0.0251");
         dic15.add("skill_burst", "1");
         dic15.add("gain_method", "0");
+        dic15.add("combination_num", "10");
         this.infDic.add("15", dic15);
         let dic16 = new Dictionary<string, any>();
         dic16.add("id", "16");
@@ -449,6 +467,7 @@ export default class HeroInfo {
         dic16.add("skill_crit", "0.0249");
         dic16.add("skill_burst", "2");
         dic16.add("gain_method", "0");
+        dic16.add("combination_num", "10");
         this.infDic.add("16", dic16);
         let dic17 = new Dictionary<string, any>();
         dic17.add("id", "17");
@@ -471,6 +490,7 @@ export default class HeroInfo {
         dic17.add("skill_crit", "0.0262");
         dic17.add("skill_burst", "1");
         dic17.add("gain_method", "0");
+        dic17.add("combination_num", "10");
         this.infDic.add("17", dic17);
         let dic18 = new Dictionary<string, any>();
         dic18.add("id", "18");
@@ -493,6 +513,7 @@ export default class HeroInfo {
         dic18.add("skill_crit", "0.0261");
         dic18.add("skill_burst", "2");
         dic18.add("gain_method", "0");
+        dic18.add("combination_num", "10");
         this.infDic.add("18", dic18);
         let dic19 = new Dictionary<string, any>();
         dic19.add("id", "19");
@@ -515,6 +536,7 @@ export default class HeroInfo {
         dic19.add("skill_crit", "0.0269");
         dic19.add("skill_burst", "1");
         dic19.add("gain_method", "0");
+        dic19.add("combination_num", "10");
         this.infDic.add("19", dic19);
         let dic20 = new Dictionary<string, any>();
         dic20.add("id", "20");
@@ -537,6 +559,7 @@ export default class HeroInfo {
         dic20.add("skill_crit", "0.0272");
         dic20.add("skill_burst", "1");
         dic20.add("gain_method", "0");
+        dic20.add("combination_num", "10");
         this.infDic.add("20", dic20);
         let dic21 = new Dictionary<string, any>();
         dic21.add("id", "21");
@@ -559,6 +582,7 @@ export default class HeroInfo {
         dic21.add("skill_crit", "0.0261");
         dic21.add("skill_burst", "2");
         dic21.add("gain_method", "0");
+        dic21.add("combination_num", "10");
         this.infDic.add("21", dic21);
         let dic22 = new Dictionary<string, any>();
         dic22.add("id", "22");
@@ -581,6 +605,7 @@ export default class HeroInfo {
         dic22.add("skill_crit", "0.0263");
         dic22.add("skill_burst", "1");
         dic22.add("gain_method", "0");
+        dic22.add("combination_num", "10");
         this.infDic.add("22", dic22);
         let dic23 = new Dictionary<string, any>();
         dic23.add("id", "23");
@@ -603,6 +628,7 @@ export default class HeroInfo {
         dic23.add("skill_crit", "0.0267");
         dic23.add("skill_burst", "2");
         dic23.add("gain_method", "0");
+        dic23.add("combination_num", "10");
         this.infDic.add("23", dic23);
         let dic24 = new Dictionary<string, any>();
         dic24.add("id", "24");
@@ -625,6 +651,7 @@ export default class HeroInfo {
         dic24.add("skill_crit", "0.0242");
         dic24.add("skill_burst", "1");
         dic24.add("gain_method", "0");
+        dic24.add("combination_num", "10");
         this.infDic.add("24", dic24);
         let dic25 = new Dictionary<string, any>();
         dic25.add("id", "25");
@@ -647,6 +674,7 @@ export default class HeroInfo {
         dic25.add("skill_crit", "0.0251");
         dic25.add("skill_burst", "2");
         dic25.add("gain_method", "0");
+        dic25.add("combination_num", "10");
         this.infDic.add("25", dic25);
         let dic26 = new Dictionary<string, any>();
         dic26.add("id", "26");
@@ -669,6 +697,7 @@ export default class HeroInfo {
         dic26.add("skill_crit", "0.0243");
         dic26.add("skill_burst", "1");
         dic26.add("gain_method", "0");
+        dic26.add("combination_num", "10");
         this.infDic.add("26", dic26);
         let dic27 = new Dictionary<string, any>();
         dic27.add("id", "27");
@@ -691,6 +720,7 @@ export default class HeroInfo {
         dic27.add("skill_crit", "0.025");
         dic27.add("skill_burst", "1");
         dic27.add("gain_method", "0");
+        dic27.add("combination_num", "10");
         this.infDic.add("27", dic27);
         let dic28 = new Dictionary<string, any>();
         dic28.add("id", "28");
@@ -713,6 +743,7 @@ export default class HeroInfo {
         dic28.add("skill_crit", "0.0272");
         dic28.add("skill_burst", "2");
         dic28.add("gain_method", "0");
+        dic28.add("combination_num", "10");
         this.infDic.add("28", dic28);
         let dic29 = new Dictionary<string, any>();
         dic29.add("id", "29");
@@ -735,6 +766,7 @@ export default class HeroInfo {
         dic29.add("skill_crit", "0.0271");
         dic29.add("skill_burst", "1");
         dic29.add("gain_method", "0");
+        dic29.add("combination_num", "10");
         this.infDic.add("29", dic29);
         let dic30 = new Dictionary<string, any>();
         dic30.add("id", "30");
@@ -757,6 +789,7 @@ export default class HeroInfo {
         dic30.add("skill_crit", "0");
         dic30.add("skill_burst", "2");
         dic30.add("gain_method", "0");
+        dic30.add("combination_num", "10");
         this.infDic.add("30", dic30);
         let dic31 = new Dictionary<string, any>();
         dic31.add("id", "31");
@@ -779,6 +812,7 @@ export default class HeroInfo {
         dic31.add("skill_crit", "0");
         dic31.add("skill_burst", "1");
         dic31.add("gain_method", "0");
+        dic31.add("combination_num", "10");
         this.infDic.add("31", dic31);
         let dic32 = new Dictionary<string, any>();
         dic32.add("id", "32");
@@ -801,6 +835,7 @@ export default class HeroInfo {
         dic32.add("skill_crit", "0");
         dic32.add("skill_burst", "2");
         dic32.add("gain_method", "0");
+        dic32.add("combination_num", "10");
         this.infDic.add("32", dic32);
         let dic33 = new Dictionary<string, any>();
         dic33.add("id", "33");
@@ -823,6 +858,7 @@ export default class HeroInfo {
         dic33.add("skill_crit", "0.0261");
         dic33.add("skill_burst", "1");
         dic33.add("gain_method", "0");
+        dic33.add("combination_num", "10");
         this.infDic.add("33", dic33);
         let dic34 = new Dictionary<string, any>();
         dic34.add("id", "34");
@@ -845,6 +881,7 @@ export default class HeroInfo {
         dic34.add("skill_crit", "0");
         dic34.add("skill_burst", "1");
         dic34.add("gain_method", "0");
+        dic34.add("combination_num", "10");
         this.infDic.add("34", dic34);
         let dic35 = new Dictionary<string, any>();
         dic35.add("id", "35");
@@ -867,6 +904,7 @@ export default class HeroInfo {
         dic35.add("skill_crit", "0.0273");
         dic35.add("skill_burst", "2");
         dic35.add("gain_method", "0");
+        dic35.add("combination_num", "10");
         this.infDic.add("35", dic35);
     }
     

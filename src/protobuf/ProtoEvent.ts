@@ -16,5 +16,8 @@ export default class ProtoEvent {
 	public static get PASSWAVE_CALL_BACK(): string {
 		return this.getProtoEvent(1007);
 	}
+	public static get SYNTHETISE_CALL_BACK(): string {
+		return this.getProtoEvent(1010);
+	}
 
 }

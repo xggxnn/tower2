@@ -5,6 +5,9 @@ import Game from "../../../Game";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import EventManager from "../../../Tool/EventManager";
 import EventKey from "../../../Tool/EventKey";
+import BagWin from "../../../gamemodule/Windows/BagWin";
+import Dictionary from "../../../Tool/Dictionary";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_PropBtn extends fui_PropBtn {
@@ -139,6 +142,42 @@ export default class UI_PropBtn extends fui_PropBtn {
 		}
 	}
 	private seatInit: boolean = false;
+	// 显示碎片
+	public clipsSetData(id: string, Clips: number, moduleWindow?: BagWin): void {
+		let heroInf = HeroInfo.getInfo(id);
+		this.title = Fun.format("{0}X{1}", heroInf.name, Clips);
+		let index: number = Number(heroInf.id);
+		while (index > 6) {
+			index -= 6;
+		}
+		switch (index) {
+			case 0:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1001)
+				break;
+			case 1:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1002)
+				break;
+			case 2:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1003)
+				break;
+			case 3:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1005)
+				break;
+			case 4:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1006)
+				break;
+			case 5:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1007)
+				break;
+			case 6:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1012)
+				break;
+			default:
+				this.icon = SpriteKey.getUrl(SpriteKey.icon_1001)
+				break;
+		}
+		this.m_status.setSelectedIndex(2);
+	}
 
 	// 关闭ui
 	closeUI(): void {
