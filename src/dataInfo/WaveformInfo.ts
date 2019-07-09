@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary"; 
+import Dictionary from "../Tool/Dictionary";
 
 export default class WaveformInfo {
 
@@ -12,6 +12,9 @@ export default class WaveformInfo {
 
     public get id(): number {
         return Number(this.curInf.getValue("id"));
+    }
+    public get type(): number {
+        return Number(this.curInf.getValue("type"));
     }
     public get waveform(): number {
         return Number(this.curInf.getValue("waveform"));
@@ -39,69 +42,90 @@ export default class WaveformInfo {
         if (this.infList == null) {
             let list: string[] = this.infDic.getKeys();
             this.infList = [];
-            for (let i = 0, len = list.length; i < len; i++) { 
+            for (let i = 0, len = list.length; i < len; i++) {
                 this.infList.push(new WaveformInfo(list[i]));
             }
         }
         return this.infList;
     }
+    public static getInfoWithType(type: number): Array<WaveformInfo> {
+        let list = WaveformInfo.getList();
+        let result: Array<WaveformInfo> = [];
+        for (let i = list.length - 1; i >= 0; i--) {
+            if (list[i].type == type) {
+                result.push(list[i]);
+            }
+        }
+        return result;
+    }
     static init() {
         this.infDic = new Dictionary<string, Dictionary<string, any>>();
         let dic0 = new Dictionary<string, any>();
         dic0.add("id", "0");
+        dic0.add("type", "1");
         dic0.add("waveform", "0");
         dic0.add("boss", "0");
         this.infDic.add("0", dic0);
         let dic1 = new Dictionary<string, any>();
         dic1.add("id", "1");
+        dic1.add("type", "1");
         dic1.add("waveform", "25");
         dic1.add("boss", "0");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
         dic2.add("id", "2");
+        dic2.add("type", "1");
         dic2.add("waveform", "37.5");
         dic2.add("boss", "0");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
+        dic3.add("type", "1");
         dic3.add("waveform", "50");
         dic3.add("boss", "0");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
         dic4.add("id", "4");
+        dic4.add("type", "1");
         dic4.add("waveform", "62.5");
         dic4.add("boss", "0");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
         dic5.add("id", "5");
+        dic5.add("type", "1");
         dic5.add("waveform", "75");
         dic5.add("boss", "0");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
         dic6.add("id", "6");
+        dic6.add("type", "1");
         dic6.add("waveform", "87.5");
         dic6.add("boss", "2");
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
         dic7.add("id", "7");
+        dic7.add("type", "1");
         dic7.add("waveform", "62.5");
         dic7.add("boss", "0");
         this.infDic.add("7", dic7);
         let dic8 = new Dictionary<string, any>();
         dic8.add("id", "8");
+        dic8.add("type", "1");
         dic8.add("waveform", "75");
         dic8.add("boss", "0");
         this.infDic.add("8", dic8);
         let dic9 = new Dictionary<string, any>();
         dic9.add("id", "9");
+        dic9.add("type", "1");
         dic9.add("waveform", "87.5");
         dic9.add("boss", "0");
         this.infDic.add("9", dic9);
         let dic10 = new Dictionary<string, any>();
         dic10.add("id", "10");
+        dic10.add("type", "1");
         dic10.add("waveform", "100");
         dic10.add("boss", "1");
         this.infDic.add("10", dic10);
     }
-    
+
 }

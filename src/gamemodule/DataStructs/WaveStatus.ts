@@ -8,12 +8,12 @@ export default class WaveStatus {
         this._id = v;
     }
 
-    private _comple: number = 0;
-    public get comple(): number {
-        return this._comple;
+    private _level: number = 0;
+    public get level(): number {
+        return this._level;
     }
-    public set comple(v: number) {
-        this._comple = v;
+    public set level(v: number) {
+        this._level = v;
     }
 
     private _time: number = 0;

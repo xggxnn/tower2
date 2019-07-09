@@ -20,7 +20,22 @@ export default class BattleMap {
         return BattleMap._Instance;
     }
 
-    public init(): void {
+    public init(json: Array<any>): void {
+        let maxId = 0;
+        let len = json.length;
+        if (len > 0) {
+            for (let i = 0; i < len; i++) {
+                let item = json[i];
+                if (maxId < item.id) {
+                    maxId = item.id;
+                }
+                let wavestatus = new WaveStatus();
+                wavestatus.id = item.id;
+                wavestatus.level = item.level;
+                wavestatus.time = item.time;
+                this.waveStatusDict.add(item.id, wavestatus);
+            }
+        }
         this.maxMap = 1;
         this.maxLv = 1;
         this.curLv = 0;
@@ -109,7 +124,7 @@ export default class BattleMap {
         // 难度
         let _difficulty: number = this.waveInfo.difficulty;
         // 曲线系数
-        this.waveform = this.waveInfo.waveform;
+        this.waveform = WaveformInfo.getInfoWithType(this.waveInfo.waveform);// this.waveInfo.waveform;
         // 随机种子
         let seed1: number = this.waveInfo.random;
         // 关卡时长
@@ -160,7 +175,7 @@ export default class BattleMap {
     // 基准攻击力
     private benchMarkAtk: number = 0;
     // 曲线类型
-    private waveform: number = 0;
+    private waveform: Array<WaveformInfo> = [];
     // 随机种子
     private mathrandom1: MathRandom = null;
     // 下一个敌人
@@ -263,8 +278,10 @@ export default class BattleMap {
                 if (this.curTime >= curTimePeriod * i) {
                     let _waveform1 = WaveformInfo.getInfo(i);
                     let _waveform2 = WaveformInfo.getInfo(i + 1);
+                    for (let ll = this.waveform.length - 1; ll >= 0; ll--) {
+                        // if (this.waveform[ll].waveform)
+                    }
                     let _xiaolv = _waveform1.waveform + (_waveform2.waveform - _waveform1.waveform) * (this.curTime - curTimePeriod * i) / 10;
-                    let _waveforminf = WaveformInfo.getInfo(i + 1);
                     // 是否创建boss判断
                     let bossNum = _waveform1.boss;
                     if (bossNum > 0 && listBoss.length > 0) {

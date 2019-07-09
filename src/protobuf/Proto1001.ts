@@ -45,5 +45,9 @@ export default class Proto1001 extends Proto {
         for (let i = clips.length - 1; i >= 0; i--) {
             clipsDic.add(clips[i].id, clips[i].clips);
         }
+        // 关卡情况
+        if (json.hasOwnProperty("map")) {
+            Game.battleMap.init(json.map);
+        }
     }
 }
