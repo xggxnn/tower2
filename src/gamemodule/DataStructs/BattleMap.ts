@@ -133,6 +133,10 @@ export default class BattleMap {
         this.mathrandom1 = new MathRandom(seed1);
         // 时间与精神房子
         this.timeHouse = TimeHouseInfo.getInfoLv(this.waveInfo.lv);
+        let tt = Math.floor(this.timeHouse.lv % 10);
+        if (tt < 0) tt = 0;
+        if (tt > 10) tt = 10;
+        this.timeHouseVal = this.timeHouse.vals[tt];
         this.nextCD = 0;
         this.curTime = 0;
         this.bossDic.clear();
@@ -175,6 +179,15 @@ export default class BattleMap {
     public set timeHouse(v: TimeHouseInfo) {
         this._timeHouse = v;
     }
+    // 时间与精神的房子具体值
+    private _timeHouseVal: number;
+    public get timeHouseVal(): number {
+        return this._timeHouseVal;
+    }
+    public set timeHouseVal(v: number) {
+        this._timeHouseVal = v;
+    }
+
 
 
     // 是否生成boss
@@ -216,11 +229,32 @@ export default class BattleMap {
         let listBoss: MonsterInfo[] = [];
         for (let i = infList.length - 1; i >= 0; i--) {
             if (infList[i].type == this.waveType) {
-                list.push(infList[i]);// 移除boss
+                // 适用关卡判断
+                let bigWave = infList[i].big_wave.toString();
+                let canAdd = false;
+                for (let k = bigWave.length - 1; k >= 0; k--) {
+                    if (this.curMap == Number(bigWave[k])) {
+                        canAdd = true;
+                        break;
+                    }
+                }
+                if (canAdd) {
+                    if (infList[i].boss == 1) {
+                        listBoss.push(infList[i]);
+                    }
+                    else {
+                        list.push(infList[i]);
+                    }
+                }
             }
         }
         if (list.length > 0) {
             this.nextMonster = list[Math.floor(this.mathrandom1.random(list.length))];// 
+        }
+        else {
+            console.log("敌人刷新完毕");
+            this.nextCD = this.curTime * 100;
+            return;
         }
         if (this.nextMonster != null) {
             this.wave++;
@@ -233,7 +267,7 @@ export default class BattleMap {
                     let _waveforminf = WaveformInfo.getInfo(i + 1);
                     // 是否创建boss判断
                     let bossNum = _waveform1.boss;
-                    if (bossNum > 0) {
+                    if (bossNum > 0 && listBoss.length > 0) {
                         let dicNum = 0;
                         if (this.bossDic.hasKey(i)) {
                             dicNum = this.bossDic.getValue(i);
@@ -242,13 +276,11 @@ export default class BattleMap {
                             dicNum++;
                             this.bossDic.set(i, dicNum);
                             // 生成一个boss
-                            if (listBoss.length > 0) {
-                                this.bossInfo = listBoss[Math.floor(this.mathrandom1.random(listBoss.length))];// 
-                            }
+                            this.bossInfo = listBoss[Math.floor(this.mathrandom1.random(listBoss.length))];
                         }
                     }
                     // 攻速判断
-                    if (true) {
+                    if (this.waveType == 1 || this.waveType == 2 || this.waveType == 3) {
                         // 最大攻速
                         let atkSpeed = this.benchAtkSpeed * _xiaolv;
                         let remain = this.nextMonster.base_num / atkSpeed;
@@ -256,11 +288,11 @@ export default class BattleMap {
                         this.nextCD = this.curTime + remain;
                     }
                     // 攻击判断
-                    // else {
-                    //     let atkMark = this.benchMarkAtk * _xiaolv;
-                    //     let remain = Number(this.nextMonster.base_hp) / atkMark;
-                    //     this.nextCD = this.curTime + remain;
-                    // }
+                    else {
+                        let atkMark = this.benchMarkAtk * _xiaolv;
+                        let remain = Number(this.nextMonster.base_hp) / atkMark;
+                        this.nextCD = this.curTime + remain;
+                    }
                     break;
                 }
             }

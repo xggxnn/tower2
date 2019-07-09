@@ -16,6 +16,9 @@ export default class MonsterInfo {
     public get type(): number {
         return Number(this.curInf.getValue("type"));
     }
+    public get boss(): number {
+        return Number(this.curInf.getValue("boss"));
+    }
     public get move_speed(): number {
         return Number(this.curInf.getValue("move_speed"));
     }
@@ -80,6 +83,7 @@ export default class MonsterInfo {
         let dic1 = new Dictionary<string, any>();
         dic1.add("id", "1");
         dic1.add("type", "5");
+        dic1.add("boss", "0");
         dic1.add("move_speed", "6");
         dic1.add("atk", "0");
         dic1.add("atk_speed", "0");
@@ -95,6 +99,7 @@ export default class MonsterInfo {
         let dic2 = new Dictionary<string, any>();
         dic2.add("id", "2");
         dic2.add("type", "6");
+        dic2.add("boss", "0");
         dic2.add("move_speed", "12");
         dic2.add("atk", "0");
         dic2.add("atk_speed", "0");
@@ -110,6 +115,7 @@ export default class MonsterInfo {
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
         dic3.add("type", "6");
+        dic3.add("boss", "0");
         dic3.add("move_speed", "6");
         dic3.add("atk", "2");
         dic3.add("atk_speed", "1");
@@ -125,6 +131,7 @@ export default class MonsterInfo {
         let dic4 = new Dictionary<string, any>();
         dic4.add("id", "4");
         dic4.add("type", "5");
+        dic4.add("boss", "0");
         dic4.add("move_speed", "6");
         dic4.add("atk", "0");
         dic4.add("atk_speed", "0");
@@ -140,6 +147,7 @@ export default class MonsterInfo {
         let dic5 = new Dictionary<string, any>();
         dic5.add("id", "5");
         dic5.add("type", "6");
+        dic5.add("boss", "0");
         dic5.add("move_speed", "12");
         dic5.add("atk", "0");
         dic5.add("atk_speed", "0");
@@ -155,6 +163,7 @@ export default class MonsterInfo {
         let dic6 = new Dictionary<string, any>();
         dic6.add("id", "6");
         dic6.add("type", "5");
+        dic6.add("boss", "0");
         dic6.add("move_speed", "6");
         dic6.add("atk", "0");
         dic6.add("atk_speed", "0");
@@ -170,6 +179,7 @@ export default class MonsterInfo {
         let dic7 = new Dictionary<string, any>();
         dic7.add("id", "7");
         dic7.add("type", "6");
+        dic7.add("boss", "0");
         dic7.add("move_speed", "6");
         dic7.add("atk", "2");
         dic7.add("atk_speed", "1");
@@ -185,6 +195,7 @@ export default class MonsterInfo {
         let dic8 = new Dictionary<string, any>();
         dic8.add("id", "8");
         dic8.add("type", "6");
+        dic8.add("boss", "0");
         dic8.add("move_speed", "6");
         dic8.add("atk", "2");
         dic8.add("atk_speed", "1");
@@ -200,6 +211,7 @@ export default class MonsterInfo {
         let dic9 = new Dictionary<string, any>();
         dic9.add("id", "9");
         dic9.add("type", "1");
+        dic9.add("boss", "0");
         dic9.add("move_speed", "8");
         dic9.add("atk", "0");
         dic9.add("atk_speed", "0");
@@ -215,6 +227,7 @@ export default class MonsterInfo {
         let dic10 = new Dictionary<string, any>();
         dic10.add("id", "10");
         dic10.add("type", "1");
+        dic10.add("boss", "0");
         dic10.add("move_speed", "8");
         dic10.add("atk", "0");
         dic10.add("atk_speed", "0");
@@ -230,6 +243,7 @@ export default class MonsterInfo {
         let dic11 = new Dictionary<string, any>();
         dic11.add("id", "11");
         dic11.add("type", "1");
+        dic11.add("boss", "0");
         dic11.add("move_speed", "9");
         dic11.add("atk", "0");
         dic11.add("atk_speed", "0");
@@ -245,6 +259,7 @@ export default class MonsterInfo {
         let dic12 = new Dictionary<string, any>();
         dic12.add("id", "12");
         dic12.add("type", "1");
+        dic12.add("boss", "0");
         dic12.add("move_speed", "9");
         dic12.add("atk", "0");
         dic12.add("atk_speed", "0");
@@ -260,6 +275,7 @@ export default class MonsterInfo {
         let dic13 = new Dictionary<string, any>();
         dic13.add("id", "13");
         dic13.add("type", "1");
+        dic13.add("boss", "0");
         dic13.add("move_speed", "10");
         dic13.add("atk", "0");
         dic13.add("atk_speed", "0");
@@ -275,6 +291,7 @@ export default class MonsterInfo {
         let dic14 = new Dictionary<string, any>();
         dic14.add("id", "14");
         dic14.add("type", "1");
+        dic14.add("boss", "0");
         dic14.add("move_speed", "10");
         dic14.add("atk", "0");
         dic14.add("atk_speed", "0");
@@ -290,6 +307,7 @@ export default class MonsterInfo {
         let dic15 = new Dictionary<string, any>();
         dic15.add("id", "15");
         dic15.add("type", "1");
+        dic15.add("boss", "0");
         dic15.add("move_speed", "11");
         dic15.add("atk", "0");
         dic15.add("atk_speed", "0");
@@ -305,6 +323,7 @@ export default class MonsterInfo {
         let dic16 = new Dictionary<string, any>();
         dic16.add("id", "16");
         dic16.add("type", "1");
+        dic16.add("boss", "0");
         dic16.add("move_speed", "11");
         dic16.add("atk", "0");
         dic16.add("atk_speed", "0");
@@ -320,6 +339,7 @@ export default class MonsterInfo {
         let dic17 = new Dictionary<string, any>();
         dic17.add("id", "17");
         dic17.add("type", "3");
+        dic17.add("boss", "0");
         dic17.add("move_speed", "11");
         dic17.add("atk", "0");
         dic17.add("atk_speed", "0");
@@ -335,6 +355,7 @@ export default class MonsterInfo {
         let dic18 = new Dictionary<string, any>();
         dic18.add("id", "18");
         dic18.add("type", "4");
+        dic18.add("boss", "0");
         dic18.add("move_speed", "11");
         dic18.add("atk", "1");
         dic18.add("atk_speed", "1");
@@ -350,6 +371,7 @@ export default class MonsterInfo {
         let dic19 = new Dictionary<string, any>();
         dic19.add("id", "19");
         dic19.add("type", "3");
+        dic19.add("boss", "0");
         dic19.add("move_speed", "12");
         dic19.add("atk", "0");
         dic19.add("atk_speed", "0");
@@ -365,6 +387,7 @@ export default class MonsterInfo {
         let dic20 = new Dictionary<string, any>();
         dic20.add("id", "20");
         dic20.add("type", "4");
+        dic20.add("boss", "0");
         dic20.add("move_speed", "12");
         dic20.add("atk", "1");
         dic20.add("atk_speed", "1");
@@ -380,6 +403,7 @@ export default class MonsterInfo {
         let dic21 = new Dictionary<string, any>();
         dic21.add("id", "21");
         dic21.add("type", "3");
+        dic21.add("boss", "0");
         dic21.add("move_speed", "13");
         dic21.add("atk", "0");
         dic21.add("atk_speed", "0");
@@ -395,6 +419,7 @@ export default class MonsterInfo {
         let dic22 = new Dictionary<string, any>();
         dic22.add("id", "22");
         dic22.add("type", "3");
+        dic22.add("boss", "0");
         dic22.add("move_speed", "13");
         dic22.add("atk", "0");
         dic22.add("atk_speed", "0");
@@ -410,6 +435,7 @@ export default class MonsterInfo {
         let dic23 = new Dictionary<string, any>();
         dic23.add("id", "23");
         dic23.add("type", "4");
+        dic23.add("boss", "0");
         dic23.add("move_speed", "14");
         dic23.add("atk", "1");
         dic23.add("atk_speed", "1");
@@ -425,6 +451,7 @@ export default class MonsterInfo {
         let dic24 = new Dictionary<string, any>();
         dic24.add("id", "24");
         dic24.add("type", "3");
+        dic24.add("boss", "0");
         dic24.add("move_speed", "14");
         dic24.add("atk", "0");
         dic24.add("atk_speed", "0");
@@ -440,6 +467,7 @@ export default class MonsterInfo {
         let dic25 = new Dictionary<string, any>();
         dic25.add("id", "25");
         dic25.add("type", "4");
+        dic25.add("boss", "0");
         dic25.add("move_speed", "15");
         dic25.add("atk", "1");
         dic25.add("atk_speed", "1");
@@ -455,6 +483,7 @@ export default class MonsterInfo {
         let dic26 = new Dictionary<string, any>();
         dic26.add("id", "26");
         dic26.add("type", "3");
+        dic26.add("boss", "0");
         dic26.add("move_speed", "15");
         dic26.add("atk", "0");
         dic26.add("atk_speed", "0");
@@ -470,6 +499,7 @@ export default class MonsterInfo {
         let dic27 = new Dictionary<string, any>();
         dic27.add("id", "27");
         dic27.add("type", "3");
+        dic27.add("boss", "0");
         dic27.add("move_speed", "16");
         dic27.add("atk", "0");
         dic27.add("atk_speed", "0");
@@ -485,6 +515,7 @@ export default class MonsterInfo {
         let dic28 = new Dictionary<string, any>();
         dic28.add("id", "28");
         dic28.add("type", "3");
+        dic28.add("boss", "0");
         dic28.add("move_speed", "16");
         dic28.add("atk", "0");
         dic28.add("atk_speed", "0");
@@ -500,6 +531,7 @@ export default class MonsterInfo {
         let dic29 = new Dictionary<string, any>();
         dic29.add("id", "29");
         dic29.add("type", "4");
+        dic29.add("boss", "0");
         dic29.add("move_speed", "17");
         dic29.add("atk", "1");
         dic29.add("atk_speed", "1");
@@ -515,6 +547,7 @@ export default class MonsterInfo {
         let dic30 = new Dictionary<string, any>();
         dic30.add("id", "30");
         dic30.add("type", "3");
+        dic30.add("boss", "0");
         dic30.add("move_speed", "17");
         dic30.add("atk", "0");
         dic30.add("atk_speed", "0");
@@ -530,6 +563,7 @@ export default class MonsterInfo {
         let dic31 = new Dictionary<string, any>();
         dic31.add("id", "31");
         dic31.add("type", "3");
+        dic31.add("boss", "0");
         dic31.add("move_speed", "18");
         dic31.add("atk", "0");
         dic31.add("atk_speed", "0");
@@ -545,6 +579,7 @@ export default class MonsterInfo {
         let dic32 = new Dictionary<string, any>();
         dic32.add("id", "32");
         dic32.add("type", "3");
+        dic32.add("boss", "0");
         dic32.add("move_speed", "18");
         dic32.add("atk", "0");
         dic32.add("atk_speed", "0");
@@ -560,6 +595,7 @@ export default class MonsterInfo {
         let dic33 = new Dictionary<string, any>();
         dic33.add("id", "33");
         dic33.add("type", "3");
+        dic33.add("boss", "0");
         dic33.add("move_speed", "19");
         dic33.add("atk", "0");
         dic33.add("atk_speed", "0");
@@ -575,6 +611,7 @@ export default class MonsterInfo {
         let dic34 = new Dictionary<string, any>();
         dic34.add("id", "34");
         dic34.add("type", "2");
+        dic34.add("boss", "0");
         dic34.add("move_speed", "19");
         dic34.add("atk", "0");
         dic34.add("atk_speed", "0");
@@ -590,6 +627,7 @@ export default class MonsterInfo {
         let dic35 = new Dictionary<string, any>();
         dic35.add("id", "35");
         dic35.add("type", "2");
+        dic35.add("boss", "0");
         dic35.add("move_speed", "15");
         dic35.add("atk", "0");
         dic35.add("atk_speed", "0");
@@ -605,6 +643,7 @@ export default class MonsterInfo {
         let dic36 = new Dictionary<string, any>();
         dic36.add("id", "36");
         dic36.add("type", "2");
+        dic36.add("boss", "0");
         dic36.add("move_speed", "19");
         dic36.add("atk", "0");
         dic36.add("atk_speed", "0");
@@ -620,6 +659,7 @@ export default class MonsterInfo {
         let dic37 = new Dictionary<string, any>();
         dic37.add("id", "37");
         dic37.add("type", "2");
+        dic37.add("boss", "0");
         dic37.add("move_speed", "15");
         dic37.add("atk", "0");
         dic37.add("atk_speed", "0");
@@ -635,6 +675,7 @@ export default class MonsterInfo {
         let dic38 = new Dictionary<string, any>();
         dic38.add("id", "38");
         dic38.add("type", "2");
+        dic38.add("boss", "0");
         dic38.add("move_speed", "19");
         dic38.add("atk", "0");
         dic38.add("atk_speed", "0");
@@ -650,6 +691,7 @@ export default class MonsterInfo {
         let dic39 = new Dictionary<string, any>();
         dic39.add("id", "39");
         dic39.add("type", "2");
+        dic39.add("boss", "0");
         dic39.add("move_speed", "15");
         dic39.add("atk", "0");
         dic39.add("atk_speed", "0");
@@ -665,6 +707,7 @@ export default class MonsterInfo {
         let dic40 = new Dictionary<string, any>();
         dic40.add("id", "40");
         dic40.add("type", "2");
+        dic40.add("boss", "0");
         dic40.add("move_speed", "19");
         dic40.add("atk", "0");
         dic40.add("atk_speed", "0");
@@ -680,6 +723,7 @@ export default class MonsterInfo {
         let dic41 = new Dictionary<string, any>();
         dic41.add("id", "41");
         dic41.add("type", "2");
+        dic41.add("boss", "0");
         dic41.add("move_speed", "19");
         dic41.add("atk", "0");
         dic41.add("atk_speed", "0");

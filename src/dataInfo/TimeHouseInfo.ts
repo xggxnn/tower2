@@ -64,6 +64,21 @@ export default class TimeHouseInfo {
     public get val10(): number {
         return Number(this.curInf.getValue("val10"));
     }
+    public get vals(): Array<number> {
+        let val: Array<number> = [];
+        val.push(this.val0);
+        val.push(this.val1);
+        val.push(this.val2);
+        val.push(this.val3);
+        val.push(this.val4);
+        val.push(this.val5);
+        val.push(this.val6);
+        val.push(this.val7);
+        val.push(this.val8);
+        val.push(this.val9);
+        val.push(this.val10);
+        return val;
+    }
     constructor(id: string) {
         this.curInf = TimeHouseInfo.infDic.getValue(id);
     }

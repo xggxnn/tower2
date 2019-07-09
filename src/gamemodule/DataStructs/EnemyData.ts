@@ -1,5 +1,6 @@
 import MonsterInfo from "../../dataInfo/MonsterInfo";
 import Point = Laya.Point;
+import Game from "../../Game";
 
 export default class EnemyData {
     public constructor() {
@@ -15,7 +16,7 @@ export default class EnemyData {
         this._monsterInf = v;
         this.splits = this._monsterInf.split;
         this.resurrection = this._monsterInf.resurrection;
-        this.curHp = this._monsterInf.hp;
+        this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal;
         this.maxHp = this.curHp;
     }
     // 敌人模型id
