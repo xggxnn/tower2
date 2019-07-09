@@ -26,13 +26,7 @@ export default class BattleModel extends Laya.Sprite {
     protected initPointTop: Point = new Point(1380, 480);
     protected initPointBom: Point = new Point(1380, 580);
     protected initPoint: Point = new Point();
-    protected initTop: boolean = false;
-    // 移动路径
-    protected movePath: Array<Point> = [];
-    // 当前移动点
-    protected curMoveIndex: number = 0;
-    // 当前处于那一列
-    protected curMoveX: number = 0;
+    protected initPos: number = 0;
     // 下一个动作攻击
     protected nextAttack: HeroAniEnums = HeroAniEnums.None;
     // 基础移动点
@@ -46,6 +40,15 @@ export default class BattleModel extends Laya.Sprite {
     protected shadow: UI_Shadow = null;
     // 战斗特效列表
     protected battleEffectList: Dictionary<string, BattleEffectEnemy> = new Dictionary<string, BattleEffectEnemy>();
+
+    // 敌人在那个攻击范围的格子内
+    private _atkRangIndex: number = -1;
+    public get atkRangIndex(): number {
+        return this._atkRangIndex;
+    }
+    public set atkRangIndex(v: number) {
+        this._atkRangIndex = v;
+    }
 
     public update(dt): void {
 

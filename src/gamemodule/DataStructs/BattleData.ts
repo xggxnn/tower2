@@ -10,6 +10,7 @@ import Dictionary from "../../Tool/Dictionary";
 import AssociationRaceInfo from "../../dataInfo/AssociationRaceInfo";
 import FiveElementsInfo from "../../dataInfo/FiveElementsInfo";
 import AssociationCareerInfo from "../../dataInfo/AssociationCareerInfo";
+import EnemyData from "./EnemyData";
 
 export default class BattleData {
 
@@ -43,9 +44,13 @@ export default class BattleData {
         if (Game.battleMap.curTime < Game.battleMap.waveTime) {
             if (Game.battleMap.curTime >= Game.battleMap.nextCD) {
                 Game.battleMap.enemyInf();
-                Game.battleScene.createEnemy(Game.battleMap.wave % 2 == 1);
+                let dataInf = new EnemyData();
+                dataInf.monsterInf = Game.battleMap.nextMonster
+                Game.battleScene.createEnemy(Game.battleMap.wave % 2, false, dataInf);
                 if (Game.battleMap.bossInfo != null) {
-                    Game.battleScene.createEnemy(Game.battleMap.wave % 2 == 0, true);
+                    let dataInf2 = new EnemyData();
+                    dataInf2.monsterInf = Game.battleMap.bossInfo
+                    Game.battleScene.createEnemy(Game.battleMap.wave % 2, true, dataInf2);
                 }
             }
         }

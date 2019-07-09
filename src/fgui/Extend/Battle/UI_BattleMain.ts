@@ -225,6 +225,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 			Game.battleScene.atkCellDIc.add(key, []);
 		}
 		let list = Game.battleScene.atkCellDIc.getValue(key);
+		enemy.atkRangIndex = key;
 		list.push(enemy);
 	}
 	// 刷新层级关系

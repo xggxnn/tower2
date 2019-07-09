@@ -26,8 +26,8 @@ export default class BattleMap {
         this.curLv = 0;
         this.wave = 0;
     }
-
-    private waveStatusList: Array<WaveStatus> = [];
+    // 关卡状态字典
+    public waveStatusDict: Dictionary<number, WaveStatus> = new Dictionary<number, WaveStatus>();
 
     // 当前地图    
     private _curMap: number = 1;
@@ -243,7 +243,7 @@ export default class BattleMap {
                             this.bossDic.set(i, dicNum);
                             // 生成一个boss
                             if (listBoss.length > 0) {
-                                this.bossInfo = listBoss[Math.floor(this.mathrandom1.random(list.length))];// 
+                                this.bossInfo = listBoss[Math.floor(this.mathrandom1.random(listBoss.length))];// 
                             }
                         }
                     }

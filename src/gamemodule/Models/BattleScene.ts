@@ -8,6 +8,8 @@ import EventKey from "../../Tool/EventKey";
 import { GameStatus } from "../DataEnums/GameStatus";
 import BattleHero from "./BattleHero";
 import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
+import MonsterInfo from "../../dataInfo/MonsterInfo";
+import EnemyData from "../DataStructs/EnemyData";
 
 export default class BattleScene {
 
@@ -38,8 +40,8 @@ export default class BattleScene {
     public atkCellDIc: Dictionary<number, Array<BattleModel>> = new Dictionary<number, Array<BattleModel>>();
 
     // 生成敌人
-    createEnemy(isTop: boolean, isboss: boolean = false) {
-        let soldier = BattleSoldier.create(isTop, isboss);
+    createEnemy(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null) {
+        let soldier = BattleSoldier.create(initPos, isboss, monster, initPoint);
         Game.total.toastMsg("出现第" + Game.battleMap.wave + "个敌人" + Game.battleMap.curTime, true);
         this.enemyList.push(soldier);
     }

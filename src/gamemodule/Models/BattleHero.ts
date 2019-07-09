@@ -38,10 +38,6 @@ export default class BattleHero extends BattleModel {
     }
     private posX: number = 0;
     private posY: number = 0;
-    // 当前可攻击列表
-    // private attackList: Array<BattleSoldier> = [];
-    // 可攻击列表敌人相对于英雄的关系
-    // private enemyTypeList: Dictionary<HeroEnemyDis, BattleSoldier> = new Dictionary<HeroEnemyDis, BattleSoldier>();
     // 当前正在攻击的敌人
     private curEnemy: BattleSoldier = null;
     // 当前已经攻击的敌人
@@ -88,7 +84,7 @@ export default class BattleHero extends BattleModel {
         if (this.currentState != HeroAniEnums.Stand) return;
 
         if (this.curEnemy != null && canUserList.length) {
-            var useSkillNum = canUserList.pop();//优先使用特殊技能
+            var useSkillNum = canUserList.pop(); //优先使用特殊技能
             this.sk.scaleX = this.curEnemy.sk.x > this.sk.x ? 1 : -1;
             this.curHitEnemy = this.curEnemy;
             this.playAttack();
@@ -99,11 +95,37 @@ export default class BattleHero extends BattleModel {
     // 查找可攻击敌人
     findEnemy() {
         // 当前攻击敌人是否可继续攻击
-        if (this.curEnemy != null && !this.curEnemy.canHit) this.curEnemy = null;
-        if (this.curEnemy != null) return;
+        if (this.curEnemy != null && !this.curEnemy.canHit) {
+            this.curEnemy = null;
+        }
+        // 此处需判断当前敌人是否在英雄的工具范围内
+        if (this.curEnemy != null) {
+            if (this.keyList.indexOf(this.curEnemy.atkRangIndex) == -1) {
+                this.curEnemy = null;
+            }
+            else {
+                return;
+            }
+        }
         if (Game.battleScene.atkCellDIc.count == 0) return;
+        if (this.keyList.length == 0) {
+            this.checkKeyList();
+        }
+        else {
+            for (let i = 0, len = this.keyList.length; i < len; i++) {
+                if (Game.battleScene.atkCellDIc.hasKey(this.keyList[i])) {
+                    let list = Game.battleScene.atkCellDIc.getValue(this.keyList[i]);
+                    if (list.length > 0) {
+                        this.curEnemy = list[0] as BattleSoldier;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    private checkKeyList(): void {
         // 一格攻击范围
-        let keyList: number[] = [];
+        this.keyList = [];
         let ten0 = Math.floor(this._index % 3);
         let ten = 1;
         if (ten0 == 1) {
@@ -115,7 +137,7 @@ export default class BattleHero extends BattleModel {
         if (this._index < 3) {
             let sim = 1;
             for (let i = 0; i < 9; i++) {
-                keyList.push(ten * 10 + sim);
+                this.keyList.push(ten * 10 + sim);
                 sim += 2;
                 if (sim > 5) {
                     ten++;
@@ -126,7 +148,7 @@ export default class BattleHero extends BattleModel {
         else if (this._index < 6) {
             let sim = 0;
             for (let i = 0; i < 9; i++) {
-                keyList.push(ten * 10 + sim);
+                this.keyList.push(ten * 10 + sim);
                 sim++;
                 if (sim > 2) {
                     ten++;
@@ -137,7 +159,7 @@ export default class BattleHero extends BattleModel {
         else {
             let sim = 2;
             for (let i = 0; i < 9; i++) {
-                keyList.push(ten * 10 + sim);
+                this.keyList.push(ten * 10 + sim);
                 sim += 2;
                 if (sim > 6) {
                     ten++;
@@ -145,9 +167,9 @@ export default class BattleHero extends BattleModel {
                 }
             }
         }
-        for (let i = 0, len = keyList.length; i < len; i++) {
-            if (Game.battleScene.atkCellDIc.hasKey(keyList[i])) {
-                let list = Game.battleScene.atkCellDIc.getValue(keyList[i]);
+        for (let i = 0, len = this.keyList.length; i < len; i++) {
+            if (Game.battleScene.atkCellDIc.hasKey(this.keyList[i])) {
+                let list = Game.battleScene.atkCellDIc.getValue(this.keyList[i]);
                 if (list.length > 0) {
                     this.curEnemy = list[0] as BattleSoldier;
                     break;
@@ -155,81 +177,8 @@ export default class BattleHero extends BattleModel {
             }
         }
     }
-    // if (this.curEnemy != null && !this.curEnemy.haveDeath && this.enemyInAttackRange(this.curEnemy)) {
-    //     return;
-    // }
-    // this.curEnemy = null;
-    // // 遍历查找可攻击敌人
-    // this.attackList = [];
-    // this.enemyTypeList.clear();
-    // for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
-    //     let soldier = Game.battleScene.enemyList[i] as BattleSoldier;
-    //     if (soldier && soldier.canHit && this.enemyInAttackRange(soldier)) {
-    //         this.attackList.push(soldier);
-    //     }
-    // }
-    // if (this.attackList.length < 1) {
-    //     return;
-    // }
-    // else if (this.attackList.length == 1) {
-    //     this.curEnemy = this.attackList[0];
-    // }
-    // else {
-    //     this.enemyHeroDis();
-    // }
-    // }
-    // 敌人是否在英雄攻击范围内
-    // enemyInAttackRange(enemy: BattleSoldier): boolean {
-    //     let skx = enemy.sk.x;
-    //     let sky = enemy.sk.y;
-    //     if (Math.abs(this.posX - skx) < 182 && Math.abs(this.posY - sky) < 125) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-    // 敌人相对于英雄的关系
-    // enemyHeroDis(): void {
-    //     for (let i = 0, len = this.attackList.length; i < len; i++) {
-    //         let item = this.attackList[i];
-    //         // 最危险，也就是最快能到达终点的
-    //         if (this.enemyTypeList.hasKey(HeroEnemyDis.Danger)) {
-    //             let item2 = this.enemyTypeList.getValue(HeroEnemyDis.Danger);
-    //             if (item.sk.x < item2.sk.x) {
-    //                 this.enemyTypeList.set(HeroEnemyDis.Danger, item);
-    //             }
-    //         }
-    //         else {
-    //             this.enemyTypeList.add(HeroEnemyDis.Danger, item);
-    //         }
-    //         // // 距离自己最近
-    //         // if (this.enemyTypeList.hasKey(HeroEnemyDis.MinDis)) {
-    //         //     let item2 = this.enemyTypeList.getValue(HeroEnemyDis.MinDis);
-    //         //     let dis1 = Fun.twoPositionDistance(item.sk.x, item.sk.y, this.sk.x, this.sk.y)
-    //         //     let dis2 = Fun.twoPositionDistance(item2.sk.x, item2.sk.y, this.sk.x, this.sk.y)
-    //         //     if (dis1 < dis2) {
-    //         //         this.enemyTypeList.set(HeroEnemyDis.MinDis, item);
-    //         //     }
-    //         // }
-    //         // else {
-    //         //     this.enemyTypeList.add(HeroEnemyDis.MinDis, item);
-    //         // }
-    //         // // 距离自己最远
-    //         // if (this.enemyTypeList.hasKey(HeroEnemyDis.MaxDis)) {
-    //         //     let item2 = this.enemyTypeList.getValue(HeroEnemyDis.MaxDis);
-    //         //     let dis1 = Fun.twoPositionDistance(item.sk.x, item.sk.y, this.sk.x, this.sk.y)
-    //         //     let dis2 = Fun.twoPositionDistance(item2.sk.x, item2.sk.y, this.sk.x, this.sk.y)
-    //         //     if (dis1 > dis2) {
-    //         //         this.enemyTypeList.set(HeroEnemyDis.MaxDis, item);
-    //         //     }
-    //         // }
-    //         // else {
-    //         //     this.enemyTypeList.add(HeroEnemyDis.MaxDis, item);
-    //         // }
-    //     }
-    //     // 攻击 最危险，也就是最快能到达终点的
-    //     this.curEnemy = this.enemyTypeList.getValue(HeroEnemyDis.Danger);
-    // }
-
+    // 可攻击到的格子范围
+    private keyList: number[] = [];
 
     private overEvent(): void {
         if (this.currentState != HeroAniEnums.Attack && this.currentState != HeroAniEnums.Skill) return;
@@ -246,8 +195,6 @@ export default class BattleHero extends BattleModel {
         EventManager.event(EventKey.ADD_HERO, [this._index, this]);
         EventManager.offAllCaller(this);
         this.curEnemy = null;
-        // this.attackList = [];
-        // this.enemyTypeList.clear();
         Pools.skRecycle(this.sk);
         this.destroy();
     }
