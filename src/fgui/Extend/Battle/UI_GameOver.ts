@@ -69,7 +69,7 @@ export default class UI_GameOver extends fui_GameOver {
 				this.tick = null;
 			}
 			this.m_rewardList.numItems = 0;
-			this.tick = Game.tick.addTick(Game.battleData.fight_result.length - 1, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 10);
+			this.tick = Game.tick.addTick(Game.battleData.fight_result.length - 1, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 20);
 			this.tick.Start();
 		}
 		else {

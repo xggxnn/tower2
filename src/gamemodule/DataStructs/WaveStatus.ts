@@ -1,5 +1,6 @@
 import EventManager from "../../Tool/EventManager";
 import EventKey from "../../Tool/EventKey";
+import TypedSignal from "../../Tool/TypedSignal";
 
 export default class WaveStatus {
 
@@ -34,8 +35,10 @@ export default class WaveStatus {
     }
     public set fightCd(v: number) {
         this._fightCd = v;
+        EventManager.off(EventKey.ENTER_SECOND, this, this.update);
         EventManager.on(EventKey.ENTER_SECOND, this, this.update);
     }
+    public sUpdateFightCd: TypedSignal<number> = new TypedSignal<number>();
     private update(): void {
         if (this._fightCd > 0) {
             this._fightCd--;
@@ -44,6 +47,7 @@ export default class WaveStatus {
             this._fightCd = 0;
             EventManager.off(EventKey.ENTER_SECOND, this, this.update);
         }
+        this.sUpdateFightCd.dispatch(this._fightCd);
     }
 
 }

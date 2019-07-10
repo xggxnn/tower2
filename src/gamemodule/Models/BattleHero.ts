@@ -30,11 +30,11 @@ export default class BattleHero extends BattleModel {
             Game.parentObject.addChild(this.sk);
 
             // 初始化技能
-            if (this.dataInf.heroInf.normal_id > 0) {
-                this.attackSkillList[0] = BattleSkillAttack.create(this.dataInf.heroInf.normal_id, this.dataInf.heroInf.normal_cd);
+            if (this.dataInf.heroInf.skill_id_1 > 0) {
+                this.attackSkillList[0] = BattleSkillAttack.create(this.dataInf.heroInf.skill_id_1);
             }
-            if (this.dataInf.heroInf.skill_id > 0) {
-                this.attackSkillList[0] = BattleSkillAttack.create(this.dataInf.heroInf.skill_id, this.dataInf.heroInf.skill_cd);
+            if (this.dataInf.heroInf.skill_id_2 > 0) {
+                this.attackSkillList[0] = BattleSkillAttack.create(this.dataInf.heroInf.skill_id_2);
             }
             this.init();
             EventManager.event(EventKey.ADD_HERO, [index, this]);
@@ -98,15 +98,14 @@ export default class BattleHero extends BattleModel {
         if (this.currentState != HeroAniEnums.Stand) return;
 
         if (this.curEnemy != null && canUserList.length) {
-            this.useSkillNum = canUserList.pop(); //优先使用特殊技能
-            this.currentAttackSkill = this.attackSkillList[this.useSkillNum];
+            let useSkillNum = canUserList.pop(); //优先使用特殊技能
+            this.currentAttackSkill = this.attackSkillList[useSkillNum];
             this.sk.scaleX = this.curEnemy.sk.x > this.sk.x ? 1 : -1;
             this.curHitEnemy = this.curEnemy;
-            this.castSkill(this.useSkillNum);
+            this.castSkill(useSkillNum);
             this.currentAttackSkill.cast();
         }
     }
-    public useSkillNum: number = 0;
     private castSkill(index: number): void {
         if (index == 0) {
             this.playAttack();
@@ -202,6 +201,11 @@ export default class BattleHero extends BattleModel {
     }
     // 可攻击到的格子范围
     private keyList: number[] = [];
+
+
+    public getCurrAp(): number {
+        return 0;
+    }
 
     private overEvent(): void {
         if (this.currentState != HeroAniEnums.Attack && this.currentState != HeroAniEnums.Skill) return;

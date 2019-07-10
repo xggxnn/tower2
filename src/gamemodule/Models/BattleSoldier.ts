@@ -326,13 +326,24 @@ export default class BattleSoldier extends BattleModel {
         // this.addBattleEffect(1, false).removeNum();// 移除
         if (this.blood) {
             this.blood.visible = true;
-            let sub = hero.dataInf.heroInf.normal_attack;
-            if (hero.useSkillNum == 1) {
-                sub = hero.dataInf.heroInf.skill_atk;
+            // 受伤害
+            let sub = skill.skillInfo.atk;
+            let _crit: number = 1;
+            if (/*!Game.playData.newbie &&*/ Math.random() < skill.skillInfo.crit * 10) {
+                _crit = 2 * skill.skillInfo.burst;
             }
+            sub *= _crit;
+
+            // 飘血
             let drop = Pools.fetch(UI_DriftingBlood);
             Game.bloodParent.addChild(drop);
             drop.setXY(this.blood.x - 50 + Math.random() * 50, this.blood.y);
+            if (_crit > 1) {
+                drop.m_c1.setSelectedIndex(1);
+            }
+            else {
+                drop.m_c1.setSelectedIndex(0);
+            }
             drop.title = Fun.format("-{0}", sub);
             drop.m_t0.play(Laya.Handler.create(this, () => {
                 Pools.recycle(drop);

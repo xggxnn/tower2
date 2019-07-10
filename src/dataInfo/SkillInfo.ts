@@ -22,6 +22,21 @@ export default class SkillInfo {
     public get hit_type(): number {
         return Number(this.curInf.getValue("hit_type"));
     }
+    public get range(): number {
+        return Number(this.curInf.getValue("range"));
+    }
+    public get cd(): number {
+        return Number(this.curInf.getValue("cd"));
+    }
+    public get atk(): number {
+        return Number(this.curInf.getValue("atk"));
+    }
+    public get crit(): number {
+        return Number(this.curInf.getValue("crit"));
+    }
+    public get burst(): number {
+        return Number(this.curInf.getValue("burst"));
+    }
     public get attack_audio_id(): number {
         return Number(this.curInf.getValue("attack_audio_id"));
     }
@@ -58,6 +73,11 @@ export default class SkillInfo {
         dic1.add("explain", "高爆率技能1");
         dic1.add("des", "普伤");
         dic1.add("hit_type", "1");
+        dic1.add("range", "1");
+        dic1.add("cd", "4");
+        dic1.add("atk", "139.2");
+        dic1.add("crit", "0.0232");
+        dic1.add("burst", "1");
         dic1.add("attack_audio_id", "100");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
@@ -65,6 +85,11 @@ export default class SkillInfo {
         dic2.add("explain", "直接伤害2");
         dic2.add("des", "普伤");
         dic2.add("hit_type", "1");
+        dic2.add("range", "1");
+        dic2.add("cd", "4");
+        dic2.add("atk", "139.8");
+        dic2.add("crit", "0.0231");
+        dic2.add("burst", "2");
         dic2.add("attack_audio_id", "100");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
@@ -72,6 +97,11 @@ export default class SkillInfo {
         dic3.add("explain", "直接伤害3");
         dic3.add("des", "普伤");
         dic3.add("hit_type", "1");
+        dic3.add("range", "1");
+        dic3.add("cd", "4");
+        dic3.add("atk", "139.6");
+        dic3.add("crit", "0.0233");
+        dic3.add("burst", "1");
         dic3.add("attack_audio_id", "100");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
@@ -79,6 +109,11 @@ export default class SkillInfo {
         dic4.add("explain", "直接伤害4");
         dic4.add("des", "普伤");
         dic4.add("hit_type", "1");
+        dic4.add("range", "1");
+        dic4.add("cd", "4");
+        dic4.add("atk", "140");
+        dic4.add("crit", "0.0235");
+        dic4.add("burst", "2");
         dic4.add("attack_audio_id", "100");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
@@ -86,6 +121,11 @@ export default class SkillInfo {
         dic5.add("explain", "高爆率buff1（敌）");
         dic5.add("des", "普伤");
         dic5.add("hit_type", "1");
+        dic5.add("range", "1");
+        dic5.add("cd", "2");
+        dic5.add("atk", "140.4");
+        dic5.add("crit", "0.0229");
+        dic5.add("burst", "1");
         dic5.add("attack_audio_id", "101");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
@@ -93,6 +133,11 @@ export default class SkillInfo {
         dic6.add("explain", "直接伤害6");
         dic6.add("des", "普伤");
         dic6.add("hit_type", "1");
+        dic6.add("range", "1");
+        dic6.add("cd", "2");
+        dic6.add("atk", "141.2");
+        dic6.add("crit", "0.0242");
+        dic6.add("burst", "1");
         dic6.add("attack_audio_id", "101");
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
@@ -100,6 +145,11 @@ export default class SkillInfo {
         dic7.add("explain", "直接伤害7");
         dic7.add("des", "普伤");
         dic7.add("hit_type", "1");
+        dic7.add("range", "1");
+        dic7.add("cd", "2");
+        dic7.add("atk", "141.8");
+        dic7.add("crit", "0.0239");
+        dic7.add("burst", "2");
         dic7.add("attack_audio_id", "101");
         this.infDic.add("7", dic7);
         let dic8 = new Dictionary<string, any>();
@@ -107,6 +157,11 @@ export default class SkillInfo {
         dic8.add("explain", "直接伤害8");
         dic8.add("des", "普伤");
         dic8.add("hit_type", "1");
+        dic8.add("range", "1");
+        dic8.add("cd", "1");
+        dic8.add("atk", "141.6");
+        dic8.add("crit", "0.0239");
+        dic8.add("burst", "1");
         dic8.add("attack_audio_id", "101");
         this.infDic.add("8", dic8);
         let dic9 = new Dictionary<string, any>();
@@ -114,6 +169,11 @@ export default class SkillInfo {
         dic9.add("explain", "直接伤害9");
         dic9.add("des", "普伤");
         dic9.add("hit_type", "1");
+        dic9.add("range", "1");
+        dic9.add("cd", "4");
+        dic9.add("atk", "141.4");
+        dic9.add("crit", "0.0242");
+        dic9.add("burst", "2");
         dic9.add("attack_audio_id", "102");
         this.infDic.add("9", dic9);
         let dic10 = new Dictionary<string, any>();
@@ -121,6 +181,11 @@ export default class SkillInfo {
         dic10.add("explain", "高爆伤技能1");
         dic10.add("des", "普伤");
         dic10.add("hit_type", "1");
+        dic10.add("range", "1");
+        dic10.add("cd", "4");
+        dic10.add("atk", "145.8");
+        dic10.add("crit", "0.0261");
+        dic10.add("burst", "1");
         dic10.add("attack_audio_id", "102");
         this.infDic.add("10", dic10);
         let dic11 = new Dictionary<string, any>();
@@ -128,6 +193,11 @@ export default class SkillInfo {
         dic11.add("explain", "直接伤害1");
         dic11.add("des", "普伤");
         dic11.add("hit_type", "1");
+        dic11.add("range", "1");
+        dic11.add("cd", "3");
+        dic11.add("atk", "142.8");
+        dic11.add("crit", "0.0243");
+        dic11.add("burst", "2");
         dic11.add("attack_audio_id", "103");
         this.infDic.add("11", dic11);
         let dic12 = new Dictionary<string, any>();
@@ -135,6 +205,11 @@ export default class SkillInfo {
         dic12.add("explain", "高爆伤技能2");
         dic12.add("des", "普伤");
         dic12.add("hit_type", "1");
+        dic12.add("range", "1");
+        dic12.add("cd", "2");
+        dic12.add("atk", "142");
+        dic12.add("crit", "0.0245");
+        dic12.add("burst", "1");
         dic12.add("attack_audio_id", "103");
         this.infDic.add("12", dic12);
         let dic13 = new Dictionary<string, any>();
@@ -142,6 +217,11 @@ export default class SkillInfo {
         dic13.add("explain", "提攻速同列1");
         dic13.add("des", "普伤");
         dic13.add("hit_type", "3");
+        dic13.add("range", "1");
+        dic13.add("cd", "3");
+        dic13.add("atk", "142.6");
+        dic13.add("crit", "0.0241");
+        dic13.add("burst", "1");
         dic13.add("attack_audio_id", "104");
         this.infDic.add("13", dic13);
         let dic14 = new Dictionary<string, any>();
@@ -149,6 +229,11 @@ export default class SkillInfo {
         dic14.add("explain", "直接伤害14");
         dic14.add("des", "普伤");
         dic14.add("hit_type", "1");
+        dic14.add("range", "1");
+        dic14.add("cd", "3");
+        dic14.add("atk", "143.2");
+        dic14.add("crit", "0.0252");
+        dic14.add("burst", "2");
         dic14.add("attack_audio_id", "104");
         this.infDic.add("14", dic14);
         let dic15 = new Dictionary<string, any>();
@@ -156,6 +241,11 @@ export default class SkillInfo {
         dic15.add("explain", "直接伤害15");
         dic15.add("des", "普伤");
         dic15.add("hit_type", "3");
+        dic15.add("range", "1");
+        dic15.add("cd", "3");
+        dic15.add("atk", "144");
+        dic15.add("crit", "0.0251");
+        dic15.add("burst", "1");
         dic15.add("attack_audio_id", "104");
         this.infDic.add("15", dic15);
         let dic16 = new Dictionary<string, any>();
@@ -163,6 +253,11 @@ export default class SkillInfo {
         dic16.add("explain", "直接伤害16");
         dic16.add("des", "普伤");
         dic16.add("hit_type", "3");
+        dic16.add("range", "1");
+        dic16.add("cd", "3");
+        dic16.add("atk", "144.6");
+        dic16.add("crit", "0.0249");
+        dic16.add("burst", "2");
         dic16.add("attack_audio_id", "104");
         this.infDic.add("16", dic16);
         let dic17 = new Dictionary<string, any>();
@@ -170,6 +265,11 @@ export default class SkillInfo {
         dic17.add("explain", "直接伤害17");
         dic17.add("des", "普伤");
         dic17.add("hit_type", "3");
+        dic17.add("range", "1");
+        dic17.add("cd", "3");
+        dic17.add("atk", "145.2");
+        dic17.add("crit", "0.0262");
+        dic17.add("burst", "1");
         dic17.add("attack_audio_id", "105");
         this.infDic.add("17", dic17);
         let dic18 = new Dictionary<string, any>();
@@ -177,6 +277,11 @@ export default class SkillInfo {
         dic18.add("explain", "直接伤害18");
         dic18.add("des", "普伤");
         dic18.add("hit_type", "1");
+        dic18.add("range", "1");
+        dic18.add("cd", "2");
+        dic18.add("atk", "145.8");
+        dic18.add("crit", "0.0261");
+        dic18.add("burst", "2");
         dic18.add("attack_audio_id", "105");
         this.infDic.add("18", dic18);
         let dic19 = new Dictionary<string, any>();
@@ -184,6 +289,11 @@ export default class SkillInfo {
         dic19.add("explain", "高爆率技能2");
         dic19.add("des", "普伤");
         dic19.add("hit_type", "1");
+        dic19.add("range", "1");
+        dic19.add("cd", "4");
+        dic19.add("atk", "147.6");
+        dic19.add("crit", "0.0269");
+        dic19.add("burst", "1");
         dic19.add("attack_audio_id", "103");
         this.infDic.add("19", dic19);
         let dic20 = new Dictionary<string, any>();
@@ -191,6 +301,11 @@ export default class SkillInfo {
         dic20.add("explain", "直接伤害5");
         dic20.add("des", "普伤");
         dic20.add("hit_type", "1");
+        dic20.add("range", "1");
+        dic20.add("cd", "3");
+        dic20.add("atk", "148");
+        dic20.add("crit", "0.0272");
+        dic20.add("burst", "1");
         dic20.add("attack_audio_id", "101");
         this.infDic.add("20", dic20);
         let dic21 = new Dictionary<string, any>();
@@ -198,6 +313,11 @@ export default class SkillInfo {
         dic21.add("explain", "时间机器");
         dic21.add("des", "普伤");
         dic21.add("hit_type", "4");
+        dic21.add("range", "1");
+        dic21.add("cd", "1");
+        dic21.add("atk", "145.8");
+        dic21.add("crit", "0.0261");
+        dic21.add("burst", "2");
         dic21.add("attack_audio_id", "106");
         this.infDic.add("21", dic21);
         let dic22 = new Dictionary<string, any>();
@@ -205,6 +325,11 @@ export default class SkillInfo {
         dic22.add("explain", "提攻速同族");
         dic22.add("des", "普伤");
         dic22.add("hit_type", "6");
+        dic22.add("range", "1");
+        dic22.add("cd", "2");
+        dic22.add("atk", "145.6");
+        dic22.add("crit", "0.0263");
+        dic22.add("burst", "1");
         dic22.add("attack_audio_id", "101");
         this.infDic.add("22", dic22);
         let dic23 = new Dictionary<string, any>();
@@ -212,6 +337,11 @@ export default class SkillInfo {
         dic23.add("explain", "直接伤害18");
         dic23.add("des", "普伤");
         dic23.add("hit_type", "2");
+        dic23.add("range", "1");
+        dic23.add("cd", "1");
+        dic23.add("atk", "146.8");
+        dic23.add("crit", "0.0267");
+        dic23.add("burst", "2");
         dic23.add("attack_audio_id", "101");
         this.infDic.add("23", dic23);
         let dic24 = new Dictionary<string, any>();
@@ -219,6 +349,11 @@ export default class SkillInfo {
         dic24.add("explain", "直接伤害19");
         dic24.add("des", "普伤");
         dic24.add("hit_type", "4");
+        dic24.add("range", "1");
+        dic24.add("cd", "3");
+        dic24.add("atk", "141.6");
+        dic24.add("crit", "0.0242");
+        dic24.add("burst", "1");
         dic24.add("attack_audio_id", "101");
         this.infDic.add("24", dic24);
         let dic25 = new Dictionary<string, any>();
@@ -226,6 +361,11 @@ export default class SkillInfo {
         dic25.add("explain", "减速加伤");
         dic25.add("des", "普伤");
         dic25.add("hit_type", "1");
+        dic25.add("range", "1");
+        dic25.add("cd", "2");
+        dic25.add("atk", "143.8");
+        dic25.add("crit", "0.0251");
+        dic25.add("burst", "2");
         dic25.add("attack_audio_id", "101");
         this.infDic.add("25", dic25);
         let dic26 = new Dictionary<string, any>();
@@ -233,6 +373,11 @@ export default class SkillInfo {
         dic26.add("explain", "灼烧加伤");
         dic26.add("des", "普伤");
         dic26.add("hit_type", "4");
+        dic26.add("range", "1");
+        dic26.add("cd", "3");
+        dic26.add("atk", "142.4");
+        dic26.add("crit", "0.0243");
+        dic26.add("burst", "1");
         dic26.add("attack_audio_id", "101");
         this.infDic.add("26", dic26);
         let dic27 = new Dictionary<string, any>();
@@ -240,6 +385,11 @@ export default class SkillInfo {
         dic27.add("explain", "残血斩杀");
         dic27.add("des", "普伤");
         dic27.add("hit_type", "1");
+        dic27.add("range", "1");
+        dic27.add("cd", "3");
+        dic27.add("atk", "144.2");
+        dic27.add("crit", "0.025");
+        dic27.add("burst", "1");
         dic27.add("attack_audio_id", "101");
         this.infDic.add("27", dic27);
         let dic28 = new Dictionary<string, any>();
@@ -247,6 +397,11 @@ export default class SkillInfo {
         dic28.add("explain", "直接伤害21");
         dic28.add("des", "特殊伤害");
         dic28.add("hit_type", "1");
+        dic28.add("range", "1");
+        dic28.add("cd", "4");
+        dic28.add("atk", "147.2");
+        dic28.add("crit", "0.0272");
+        dic28.add("burst", "2");
         dic28.add("attack_audio_id", "101");
         this.infDic.add("28", dic28);
         let dic29 = new Dictionary<string, any>();
@@ -254,6 +409,11 @@ export default class SkillInfo {
         dic29.add("explain", "高爆伤buff1（敌）");
         dic29.add("des", "普伤");
         dic29.add("hit_type", "3");
+        dic29.add("range", "1");
+        dic29.add("cd", "3");
+        dic29.add("atk", "147.8");
+        dic29.add("crit", "0.0271");
+        dic29.add("burst", "1");
         dic29.add("attack_audio_id", "103");
         this.infDic.add("29", dic29);
         let dic30 = new Dictionary<string, any>();
@@ -261,6 +421,11 @@ export default class SkillInfo {
         dic30.add("explain", "提攻速同行1");
         dic30.add("des", "普伤");
         dic30.add("hit_type", "6");
+        dic30.add("range", "1");
+        dic30.add("cd", "0");
+        dic30.add("atk", "0");
+        dic30.add("crit", "0");
+        dic30.add("burst", "2");
         dic30.add("attack_audio_id", "0");
         this.infDic.add("30", dic30);
         let dic31 = new Dictionary<string, any>();
@@ -268,6 +433,11 @@ export default class SkillInfo {
         dic31.add("explain", "增加普攻对象数量x秒");
         dic31.add("des", "buff");
         dic31.add("hit_type", "6");
+        dic31.add("range", "1");
+        dic31.add("cd", "0");
+        dic31.add("atk", "0");
+        dic31.add("crit", "0");
+        dic31.add("burst", "1");
         dic31.add("attack_audio_id", "0");
         this.infDic.add("31", dic31);
         let dic32 = new Dictionary<string, any>();
@@ -275,6 +445,11 @@ export default class SkillInfo {
         dic32.add("explain", "芭蕉扇");
         dic32.add("des", "普伤");
         dic32.add("hit_type", "3");
+        dic32.add("range", "1");
+        dic32.add("cd", "0");
+        dic32.add("atk", "0");
+        dic32.add("crit", "0");
+        dic32.add("burst", "2");
         dic32.add("attack_audio_id", "0");
         this.infDic.add("32", dic32);
         let dic33 = new Dictionary<string, any>();
@@ -282,6 +457,11 @@ export default class SkillInfo {
         dic33.add("explain", "提攻速同职");
         dic33.add("des", "普伤");
         dic33.add("hit_type", "6");
+        dic33.add("range", "1");
+        dic33.add("cd", "3");
+        dic33.add("atk", "146.6");
+        dic33.add("crit", "0.0261");
+        dic33.add("burst", "1");
         dic33.add("attack_audio_id", "104");
         this.infDic.add("33", dic33);
         let dic34 = new Dictionary<string, any>();
@@ -289,6 +469,11 @@ export default class SkillInfo {
         dic34.add("explain", "双倍伤害buff");
         dic34.add("des", "光环");
         dic34.add("hit_type", "6");
+        dic34.add("range", "1");
+        dic34.add("cd", "1");
+        dic34.add("atk", "0");
+        dic34.add("crit", "0");
+        dic34.add("burst", "1");
         dic34.add("attack_audio_id", "205");
         this.infDic.add("34", dic34);
         let dic35 = new Dictionary<string, any>();
@@ -296,6 +481,11 @@ export default class SkillInfo {
         dic35.add("explain", "直接伤害22");
         dic35.add("des", "控制");
         dic35.add("hit_type", "4");
+        dic35.add("range", "1");
+        dic35.add("cd", "3");
+        dic35.add("atk", "147.6");
+        dic35.add("crit", "0.0273");
+        dic35.add("burst", "2");
         dic35.add("attack_audio_id", "104");
         this.infDic.add("35", dic35);
     }

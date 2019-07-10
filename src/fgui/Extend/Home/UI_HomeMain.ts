@@ -43,8 +43,12 @@ export default class UI_HomeMain extends fui_HomeMain {
 		console.log("trialClick");
 	}
 	seatClick(): void {
-		console.log("seatClick");
-		Game.menu.open(MenuId.Arrange);
+		if (Game.playData.curHero.length > 0) {
+			Game.menu.open(MenuId.Arrange);
+		}
+		else {
+			Game.tipWin.showTip("你还没有一个英雄，无法设置阵容");
+		}
 	}
 	conquestClick(): void {
 		console.log("conquestClick");

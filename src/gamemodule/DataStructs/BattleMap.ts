@@ -23,19 +23,23 @@ export default class BattleMap {
     }
 
     public init(json: Array<any>): void {
-        let maxId = 0;
         let len = json.length;
         if (len > 0) {
             for (let i = 0; i < len; i++) {
                 let item = json[i];
-                if (maxId < item.id) {
-                    maxId = item.id;
-                }
                 let wavestatus = new WaveStatus();
                 wavestatus.id = item.id;
                 wavestatus.level = item.level;
                 wavestatus.time = item.time;
+                wavestatus.fightCd = item.cd;
                 this.waveStatusDict.add(item.id, wavestatus);
+            }
+        }
+        let maxId = 0;
+        let idList = this.waveStatusDict.getKeys();
+        for (let i = idList.length - 1; i >= 0; i--) {
+            if (maxId < Number(idList[i])) {
+                maxId = Number(idList[i]);
             }
         }
         // 第一次进入关卡
@@ -108,9 +112,17 @@ export default class BattleMap {
     }
     private levelWin(): void {
         EventManager.event(EventKey.GAMEWIN);
+        setTimeout(() => {
+            Game.gm.removeGmInf("挑战胜利");
+            Game.gm.removeGmInf("挑战失败");
+        }, 100);
     }
     private levelLose(): void {
         EventManager.event(EventKey.GAMELOSE);
+        setTimeout(() => {
+            Game.gm.removeGmInf("挑战胜利");
+            Game.gm.removeGmInf("挑战失败");
+        }, 100);
     }
 
 

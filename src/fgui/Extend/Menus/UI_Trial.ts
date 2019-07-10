@@ -7,6 +7,7 @@ import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import EventKey from "../../../Tool/EventKey";
 import WaveStatus from "../../../gamemodule/DataStructs/WaveStatus";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Trial extends fui_Trial {
@@ -32,7 +33,12 @@ export default class UI_Trial extends fui_Trial {
 		this.m_seatBtn.onClick(this, this.seatClickBtn);
 	}
 	seatClickBtn(): void {
-		Game.menu.open(MenuId.Arrange);
+		if (Game.playData.curHero.length > 0) {
+			Game.menu.open(MenuId.Arrange);
+		}
+		else {
+			Game.tipWin.showTip("你还没有一个英雄，无法设置阵容");
+		}
 	}
 	private fight_type: number = 0;
 	// 开始挑战
@@ -65,27 +71,49 @@ export default class UI_Trial extends fui_Trial {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
-		let item: WaveStatus = null;
+		this.item = null;
 		if (Game.battleMap.waveStatusDict.hasKey(Game.battleData.level_id)) {
-			item = Game.battleMap.waveStatusDict.getValue(Game.battleData.level_id);
+			this.item = Game.battleMap.waveStatusDict.getValue(Game.battleData.level_id);
 		}
 		this.fight_type = 0;
 		Game.battleData.trial_level = 0;
-		if (item) {
+		this.m_startBtn.enabled = true;
+		if (this.item) {
 			this.fight_type = 1;
-			Game.battleData.trial_level = item.level;
+			Game.battleData.trial_level = this.item.level;
 			this.m_c1.setSelectedIndex(1);
-			this.m_progress.value = Math.floor(item.level / 10 * 100);
+			this.m_progress.value = Math.floor(this.item.level / 10 * 100);
+			if (this.item.fightCd > 0) {
+				this.m_cdStatus.setSelectedIndex(1);
+				this.m_startBtn.enabled = false;
+				this.showFightCd(this.item.fightCd);
+				this.item.sUpdateFightCd.add(this.showFightCd, this);
+			}
+			else {
+				this.m_cdStatus.setSelectedIndex(0);
+			}
 		}
 		else {
 			this.m_c1.setSelectedIndex(0);
+			this.m_cdStatus.setSelectedIndex(0);
 		}
 		this.m_mapid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_map]);
 		this.m_levelid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_level]);
 	}
+	private showFightCd(cd: number): void {
+		this.m_cd.text = Fun.format("冷却时间：{0}", Fun.formatTime(cd));
+		if (cd <= 0) {
+			this.m_cdStatus.setSelectedIndex(0);
+			this.m_startBtn.enabled = true;
+		}
+	}
+	private item: WaveStatus = null;
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
 		EventManager.off(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
+		if (this.item) {
+			this.item.sUpdateFightCd.remove(this.showFightCd, this);
+		}
 	}
 
 

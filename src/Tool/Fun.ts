@@ -100,12 +100,13 @@ export default class Fun {
 
     /**
      * 格式化时间
-     * second 秒
-     * length 返回几组信息 
-     *          1表示只返回秒（没什么用） 
+     * @param second 秒
+     * @param length 返回几组信息
+     * @example         1表示只返回秒（没什么用）
      *          2表示返回分钟和秒数  3:04
      *          3表示 返回小时分钟和秒数 2:03:04
      *          4表示返回 天数 小时 分钟和秒数 1:02:03:04
+	 * @param tab 时间分隔符
      **/
 	public static formatTime(second: number, length: number = 3, tab: string = ":"): string {
 		second = Math.floor(second);
@@ -126,9 +127,14 @@ export default class Fun {
 			if (i != length - 1 && _b < 10) {
 				_s = "0" + _s;
 			}
-			_str += _s;
-			if (i != 0) {
-				_str += tab;
+			if (_str.length == 0 && _b == 0) {
+
+			}
+			else {
+				_str += _s;
+				if (i != 0) {
+					_str += tab;
+				}
 			}
 		}
 		return _str;

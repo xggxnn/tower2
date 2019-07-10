@@ -112,11 +112,6 @@ export default class FWindow extends fairygui.Window {
 	private setChildWindow(com: fairygui.GComponent) {
 		if (com) {
 			com["moduleWindow"] = this;
-			// if (com._children) {
-			// 	for (let i = 0; i < com._children.length; i++) {
-			// 		this.setChildWindow(com._children[i]);
-			// 	}
-			// }
 		}
 	}
 

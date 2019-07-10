@@ -33,12 +33,7 @@ export default class Proto1007 extends Proto {
             Game.battleData.fight_result.push(item);
         }
         if (json.hasOwnProperty("map")) {
-            let wavestatus = new WaveStatus();
-            wavestatus.id = json.map.id;
-            wavestatus.level = json.map.level;
-            wavestatus.time = json.map.time;
-            wavestatus.fightCd = json.map.cd;
-            Game.battleMap.waveStatusDict.add(json.map.id, wavestatus)
+            Game.battleMap.init([json.map]);
         }
         if (json.hasOwnProperty("clips")) {
             let clips = json.clips;

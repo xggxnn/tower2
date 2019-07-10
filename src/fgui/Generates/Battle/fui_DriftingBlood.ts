@@ -4,6 +4,7 @@
 
 export default class fui_DriftingBlood extends fairygui.GLabel {
 
+	public m_c1:fairygui.Controller;
 	public m_t0:fairygui.Transition;
 
 	public static URL:string = "ui://3jvhuirzepyri";
@@ -19,6 +20,7 @@ export default class fui_DriftingBlood extends fairygui.GLabel {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
+		this.m_c1 = this.getControllerAt(0);
 		this.m_t0 = this.getTransitionAt(0);
 	}
 }
