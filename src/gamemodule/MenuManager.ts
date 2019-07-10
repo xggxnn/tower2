@@ -121,6 +121,7 @@ export default class MenuManager {
 			if (ctl.menuId != MenuId.Home)
 				this.list.push(ctl);
 		}
+		if (menuId == MenuId.GM) parametar.dontCloseOther = true;
 		ctl.open(parametar);
 		let index = this.stack.indexOf(ctl);
 		if (index != -1)

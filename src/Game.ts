@@ -25,6 +25,7 @@ import EventManager from "./Tool/EventManager";
 import ProtoEvent from "./protobuf/ProtoEvent";
 import WaveData from "./gamemodule/DataStructs/WaveData";
 import TickManager from "./Tool/TickManager";
+import GMData from "./gamemodule/DataStructs/GMData";
 
 export default class Game {
 
@@ -90,6 +91,8 @@ export default class Game {
 	static userData: UserData;
 
 
+	static gm: GMData;
+
 	constructor() {
 		Game.gameStatus = GameStatus.Load;
 		Laya.init(1280, 720);
@@ -111,6 +114,7 @@ export default class Game {
 		GameInstaller.install();
 		SystemManager.init();
 		TimerManager.init();
+		window["TowerGame"] = Game;
 	}
 
 	static onInstallComplete() {
@@ -146,6 +150,7 @@ export default class Game {
 		Game.userData = UserData.Instance;
 		Game.waveData = WaveData.Instance;
 		Game.tick = TickManager.Instance;
+		Game.gm = GMData.Instance;
 	}
 
 	static ScreenSetting: ScreenSettingConfig = new ScreenSettingConfig();

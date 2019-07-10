@@ -20,6 +20,7 @@ export default class Proto1001 extends Proto {
         Game.playData.newbie = Boolean(json.newbie);
         // 货币情况
         Game.playData.curGold = Number(json.gold);
+        Game.playData.curDiamond = Number(json.diamond);
         Game.playData.curJadeite = Number(json.jadeite);
         Game.playData.curMagic = Number(json.magic);
         // 英雄等级和星级

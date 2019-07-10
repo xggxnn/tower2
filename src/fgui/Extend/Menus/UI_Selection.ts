@@ -1,6 +1,5 @@
 import fui_Selection from "../../Generates/Menus/fui_Selection";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
-import { SelectionStatus } from "../../../gamemodule/DataEnums/SelectionStatus";
 import UI_selectionBtn from "./UI_selectionBtn";
 import Game from "../../../Game";
 import WaveInfo from "../../../dataInfo/WaveInfo";
@@ -44,10 +43,6 @@ export default class UI_Selection extends fui_Selection {
 
 	}
 
-	// public map: number;
-	// public level: number;
-	private status: SelectionStatus = SelectionStatus.None;
-
 	public setDate(index: number): void {
 		let levelId = index + 1;
 		this.waveInfo = WaveInfo.getInfo(levelId);
@@ -62,8 +57,8 @@ export default class UI_Selection extends fui_Selection {
 			this.m_status.setSelectedIndex(1);
 		}
 		else {
-			console.log("other");
 			this.m_status.setSelectedIndex(0);
+			this.m_selBtn.enabled = false;
 		}
 	}
 	public waveInfo: WaveInfo = null;

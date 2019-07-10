@@ -99,10 +99,18 @@ export default class BattleMap {
             this.setwaveInf(Game.battleData.level_id);
             EventManager.event(EventKey.MAP_REFRUSH);
             Game.gameStatus = GameStatus.Gaming;
+            Game.gm.setGmInf("挑战胜利", Laya.Handler.create(this, this.levelWin, null, false))
+            Game.gm.setGmInf("挑战失败", Laya.Handler.create(this, this.levelLose, null, false))
         }
         else {
             Game.tipWin.showTip("无法进入，未知的关卡信息");
         }
+    }
+    private levelWin(): void {
+        EventManager.event(EventKey.GAMEWIN);
+    }
+    private levelLose(): void {
+        EventManager.event(EventKey.GAMELOSE);
     }
 
 
@@ -299,13 +307,13 @@ export default class BattleMap {
                         let atkSpeed = this.benchAtkSpeed * _xiaolv;
                         let remain = this.nextMonster.base_num / atkSpeed;
                         remain = remain < 0.5 ? 0.5 : remain;
-                        this.nextCD = this.curTime + remain + 100000;
+                        this.nextCD = this.curTime + remain;
                     }
                     // 攻击判断
                     else {
                         let atkMark = this.benchMarkAtk * _xiaolv;
                         let remain = Number(this.nextMonster.base_hp) / atkMark;
-                        this.nextCD = this.curTime + remain + 100000;
+                        this.nextCD = this.curTime + remain;
                     }
                     break;
                 }

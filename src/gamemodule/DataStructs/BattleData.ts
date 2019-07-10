@@ -235,6 +235,8 @@ export default class BattleData {
     public play_map: number = 1;
     // 关卡
     public play_level: number = 1;
+    // 试炼第几小关
+    public trial_level: number = 0;
 
     /*******************战斗结果相关**************************/
     public fight_result: Array<ItemInfo> = [];

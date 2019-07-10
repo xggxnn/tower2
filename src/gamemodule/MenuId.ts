@@ -5,4 +5,5 @@ export enum MenuId {
 	Load = 4,
 	MenuSelect = 5,
 	Bag = 6,
+	GM = 100,
 }

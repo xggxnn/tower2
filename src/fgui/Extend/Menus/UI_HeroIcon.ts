@@ -26,7 +26,12 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 
 	public setData(item: ItemInfo): void {
 		this.m_number.text = Fun.format("X {0}", item.itemNum);
-		this.m_c1.setSelectedIndex(2);
+		if (item.itemId < 10000) {
+			this.m_c1.setSelectedIndex(3);
+		}
+		else {
+			this.m_c1.setSelectedIndex(2);
+		}
 	}
 
 	// 关闭ui

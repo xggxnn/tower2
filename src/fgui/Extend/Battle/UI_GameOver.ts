@@ -55,6 +55,7 @@ export default class UI_GameOver extends fui_GameOver {
 			winLose: Game.gameStatus == GameStatus.Win,
 			waveId: Game.battleData.level_id,
 			fightType: Game.battleData.fight_type,
+			level: Game.battleData.trial_level,
 		}
 		Game.proto.passWave(data);
 	}

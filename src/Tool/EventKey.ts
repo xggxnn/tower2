@@ -2,16 +2,19 @@ export default class EventKey {
 
 
 
-
+    // 秒触发
     public static get ENTER_SECOND(): string {
         return "ENTER_SECOND";
     }
+    // 分钟触发
     public static get ENTER_MINUTE(): string {
         return "ENTER_MINUTE";
     }
+    // 帧触发
     public static get ENTER_FRAME(): string {
         return "ENTER_FRAME";
     }
+    // 下一秒触发
     public static get DATA_REQUEST(): string {
         return "DATA_REQUEST";
     }

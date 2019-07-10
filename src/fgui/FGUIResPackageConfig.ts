@@ -53,6 +53,13 @@ export default class FGUIResPackageConfig {
 
 
         config = new ResPackageConfig();
+        config.packageName = "GM";
+        config.resDir = "fgui";
+        config.resBin = "GM.bin";
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
         config.packageName = "Home";
         config.resDir = "fgui";
         config.resBin = "Home.bin";

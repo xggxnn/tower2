@@ -6,6 +6,7 @@ import SpriteKey from "../../SpriteKey";
 import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import EventKey from "../../../Tool/EventKey";
+import WaveStatus from "../../../gamemodule/DataStructs/WaveStatus";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Trial extends fui_Trial {
@@ -33,10 +34,11 @@ export default class UI_Trial extends fui_Trial {
 	seatClickBtn(): void {
 		Game.menu.open(MenuId.Arrange);
 	}
+	private fight_type: number = 0;
 	// 开始挑战
 	startClick(): void {
 		EventManager.event(EventKey.SHOW_UI_WAIT);
-		Game.battleData.fight_type = 0;
+		Game.battleData.fight_type = this.fight_type;
 		let data = {
 			waveId: Game.battleData.level_id,
 			fightType: Game.battleData.fight_type,
@@ -63,7 +65,21 @@ export default class UI_Trial extends fui_Trial {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
-		this.m_c1.setSelectedIndex(0);
+		let item: WaveStatus = null;
+		if (Game.battleMap.waveStatusDict.hasKey(Game.battleData.level_id)) {
+			item = Game.battleMap.waveStatusDict.getValue(Game.battleData.level_id);
+		}
+		this.fight_type = 0;
+		Game.battleData.trial_level = 0;
+		if (item) {
+			this.fight_type = 1;
+			Game.battleData.trial_level = item.level;
+			this.m_c1.setSelectedIndex(1);
+			this.m_progress.value = Math.floor(item.level / 10 * 100);
+		}
+		else {
+			this.m_c1.setSelectedIndex(0);
+		}
 		this.m_mapid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_map]);
 		this.m_levelid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_level]);
 	}

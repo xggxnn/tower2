@@ -31,12 +31,17 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	}
 	private clickGain(): void {
 		if (Game.playData.curHero.indexOf(this.heroInf.id) == -1) {
-			// 英雄合成
-			EventManager.event(EventKey.SHOW_UI_WAIT);
-			let data = {
-				heroId: this.heroInf.id,
+			if (Game.playData.curClips.getValue(this.heroInf.id) >= 10) {
+				// 英雄合成
+				EventManager.event(EventKey.SHOW_UI_WAIT);
+				let data = {
+					heroId: this.heroInf.id,
+				}
+				Game.proto.synthetise(data);
 			}
-			Game.proto.synthetise(data);
+			else {
+				Game.tipWin.showTip("碎片数量不足，无法合成");
+			}
 		}
 		else {
 			Game.tipWin.showTip("你已拥有此英雄，无需再次合成", Laya.Handler.create(this, this.closeUI));

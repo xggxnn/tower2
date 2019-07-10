@@ -185,30 +185,15 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	// }
 	// 刷新英雄列表
 	private refrushHeroList(): void {
-		let list = HeroInfo.getList();
+		let list = Game.playData.curHero;
 		this.heroList = [];
 		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
 		let seatList = dic.getValues();
-		// this.raceDic.clear();
-		// this.careerDic.clear();
 		for (let i = 0, len = list.length; i < len; i++) {
-			if (seatList.indexOf(list[i].id) == -1) {
-				this.heroList.push(list[i]);
+			if (seatList.indexOf(list[i]) == -1) {
+				let hero = HeroInfo.getInfo(list[i]);
+				this.heroList.push(hero);
 			}
-			// else {
-			// 	let race = list[i].race;
-			// 	let career = list[i].career;
-			// 	if (!this.raceDic.hasKey(race)) {
-			// 		this.raceDic.add(race, 0);
-			// 	}
-			// 	let raceNum = this.raceDic.getValue(race) + 1;
-			// 	this.raceDic.set(race, raceNum);
-			// 	if (!this.careerDic.hasKey(career)) {
-			// 		this.careerDic.add(career, 0);
-			// 	}
-			// 	let careeNum = this.careerDic.getValue(career) + 1;
-			// 	this.careerDic.set(career, careeNum);
-			// }
 		}
 		this.m_heroList.numItems = this.heroList.length;
 		this.m_seatList.numItems = 9;

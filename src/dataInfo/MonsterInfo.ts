@@ -93,7 +93,7 @@ export default class MonsterInfo {
         dic1.add("hp", "20");
         dic1.add("base_hp", "20");
         dic1.add("base_num", "1");
-        dic1.add("split", "1");
+        dic1.add("split", "0");
         dic1.add("resurrection", "0");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
@@ -109,7 +109,7 @@ export default class MonsterInfo {
         dic2.add("hp", "40");
         dic2.add("base_hp", "40");
         dic2.add("base_num", "1");
-        dic2.add("split", "1");
+        dic2.add("split", "0");
         dic2.add("resurrection", "0");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
@@ -125,7 +125,7 @@ export default class MonsterInfo {
         dic3.add("hp", "20");
         dic3.add("base_hp", "20");
         dic3.add("base_num", "1");
-        dic3.add("split", "1");
+        dic3.add("split", "0");
         dic3.add("resurrection", "0");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
@@ -141,7 +141,7 @@ export default class MonsterInfo {
         dic4.add("hp", "30");
         dic4.add("base_hp", "30");
         dic4.add("base_num", "1");
-        dic4.add("split", "1");
+        dic4.add("split", "0");
         dic4.add("resurrection", "0");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
@@ -157,7 +157,7 @@ export default class MonsterInfo {
         dic5.add("hp", "50");
         dic5.add("base_hp", "50");
         dic5.add("base_num", "1");
-        dic5.add("split", "1");
+        dic5.add("split", "0");
         dic5.add("resurrection", "0");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
@@ -173,7 +173,7 @@ export default class MonsterInfo {
         dic6.add("hp", "50");
         dic6.add("base_hp", "50");
         dic6.add("base_num", "1");
-        dic6.add("split", "1");
+        dic6.add("split", "0");
         dic6.add("resurrection", "0");
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
@@ -189,7 +189,7 @@ export default class MonsterInfo {
         dic7.add("hp", "18");
         dic7.add("base_hp", "18");
         dic7.add("base_num", "1");
-        dic7.add("split", "1");
+        dic7.add("split", "0");
         dic7.add("resurrection", "0");
         this.infDic.add("7", dic7);
         let dic8 = new Dictionary<string, any>();
@@ -205,7 +205,7 @@ export default class MonsterInfo {
         dic8.add("hp", "15");
         dic8.add("base_hp", "15");
         dic8.add("base_num", "1");
-        dic8.add("split", "1");
+        dic8.add("split", "0");
         dic8.add("resurrection", "0");
         this.infDic.add("8", dic8);
         let dic9 = new Dictionary<string, any>();
@@ -221,7 +221,7 @@ export default class MonsterInfo {
         dic9.add("hp", "10");
         dic9.add("base_hp", "10");
         dic9.add("base_num", "1");
-        dic9.add("split", "1");
+        dic9.add("split", "0");
         dic9.add("resurrection", "0");
         this.infDic.add("9", dic9);
         let dic10 = new Dictionary<string, any>();
@@ -237,7 +237,7 @@ export default class MonsterInfo {
         dic10.add("hp", "9");
         dic10.add("base_hp", "9");
         dic10.add("base_num", "1");
-        dic10.add("split", "1");
+        dic10.add("split", "0");
         dic10.add("resurrection", "0");
         this.infDic.add("10", dic10);
         let dic11 = new Dictionary<string, any>();
@@ -253,7 +253,7 @@ export default class MonsterInfo {
         dic11.add("hp", "8");
         dic11.add("base_hp", "8");
         dic11.add("base_num", "1");
-        dic11.add("split", "1");
+        dic11.add("split", "0");
         dic11.add("resurrection", "0");
         this.infDic.add("11", dic11);
         let dic12 = new Dictionary<string, any>();
@@ -269,7 +269,7 @@ export default class MonsterInfo {
         dic12.add("hp", "7");
         dic12.add("base_hp", "7");
         dic12.add("base_num", "1");
-        dic12.add("split", "1");
+        dic12.add("split", "0");
         dic12.add("resurrection", "0");
         this.infDic.add("12", dic12);
         let dic13 = new Dictionary<string, any>();
@@ -285,7 +285,7 @@ export default class MonsterInfo {
         dic13.add("hp", "6");
         dic13.add("base_hp", "6");
         dic13.add("base_num", "1");
-        dic13.add("split", "1");
+        dic13.add("split", "0");
         dic13.add("resurrection", "0");
         this.infDic.add("13", dic13);
         let dic14 = new Dictionary<string, any>();
@@ -301,7 +301,7 @@ export default class MonsterInfo {
         dic14.add("hp", "5");
         dic14.add("base_hp", "5");
         dic14.add("base_num", "1");
-        dic14.add("split", "1");
+        dic14.add("split", "0");
         dic14.add("resurrection", "0");
         this.infDic.add("14", dic14);
         let dic15 = new Dictionary<string, any>();
@@ -317,7 +317,7 @@ export default class MonsterInfo {
         dic15.add("hp", "4");
         dic15.add("base_hp", "4");
         dic15.add("base_num", "1");
-        dic15.add("split", "1");
+        dic15.add("split", "0");
         dic15.add("resurrection", "0");
         this.infDic.add("15", dic15);
         let dic16 = new Dictionary<string, any>();
@@ -333,7 +333,7 @@ export default class MonsterInfo {
         dic16.add("hp", "3");
         dic16.add("base_hp", "3");
         dic16.add("base_num", "1");
-        dic16.add("split", "1");
+        dic16.add("split", "0");
         dic16.add("resurrection", "0");
         this.infDic.add("16", dic16);
         let dic17 = new Dictionary<string, any>();
@@ -349,7 +349,7 @@ export default class MonsterInfo {
         dic17.add("hp", "3");
         dic17.add("base_hp", "3");
         dic17.add("base_num", "1");
-        dic17.add("split", "1");
+        dic17.add("split", "0");
         dic17.add("resurrection", "0");
         this.infDic.add("17", dic17);
         let dic18 = new Dictionary<string, any>();
@@ -365,7 +365,7 @@ export default class MonsterInfo {
         dic18.add("hp", "3");
         dic18.add("base_hp", "3");
         dic18.add("base_num", "1");
-        dic18.add("split", "1");
+        dic18.add("split", "0");
         dic18.add("resurrection", "0");
         this.infDic.add("18", dic18);
         let dic19 = new Dictionary<string, any>();
@@ -381,7 +381,7 @@ export default class MonsterInfo {
         dic19.add("hp", "3");
         dic19.add("base_hp", "3");
         dic19.add("base_num", "1");
-        dic19.add("split", "1");
+        dic19.add("split", "0");
         dic19.add("resurrection", "0");
         this.infDic.add("19", dic19);
         let dic20 = new Dictionary<string, any>();
@@ -397,7 +397,7 @@ export default class MonsterInfo {
         dic20.add("hp", "3");
         dic20.add("base_hp", "3");
         dic20.add("base_num", "1");
-        dic20.add("split", "1");
+        dic20.add("split", "0");
         dic20.add("resurrection", "0");
         this.infDic.add("20", dic20);
         let dic21 = new Dictionary<string, any>();
@@ -413,7 +413,7 @@ export default class MonsterInfo {
         dic21.add("hp", "3");
         dic21.add("base_hp", "3");
         dic21.add("base_num", "1");
-        dic21.add("split", "1");
+        dic21.add("split", "0");
         dic21.add("resurrection", "0");
         this.infDic.add("21", dic21);
         let dic22 = new Dictionary<string, any>();
@@ -429,7 +429,7 @@ export default class MonsterInfo {
         dic22.add("hp", "3");
         dic22.add("base_hp", "3");
         dic22.add("base_num", "1");
-        dic22.add("split", "1");
+        dic22.add("split", "0");
         dic22.add("resurrection", "0");
         this.infDic.add("22", dic22);
         let dic23 = new Dictionary<string, any>();
@@ -445,7 +445,7 @@ export default class MonsterInfo {
         dic23.add("hp", "3");
         dic23.add("base_hp", "3");
         dic23.add("base_num", "1");
-        dic23.add("split", "1");
+        dic23.add("split", "0");
         dic23.add("resurrection", "0");
         this.infDic.add("23", dic23);
         let dic24 = new Dictionary<string, any>();
@@ -461,7 +461,7 @@ export default class MonsterInfo {
         dic24.add("hp", "3");
         dic24.add("base_hp", "3");
         dic24.add("base_num", "1");
-        dic24.add("split", "1");
+        dic24.add("split", "0");
         dic24.add("resurrection", "0");
         this.infDic.add("24", dic24);
         let dic25 = new Dictionary<string, any>();
@@ -477,7 +477,7 @@ export default class MonsterInfo {
         dic25.add("hp", "3");
         dic25.add("base_hp", "3");
         dic25.add("base_num", "1");
-        dic25.add("split", "1");
+        dic25.add("split", "0");
         dic25.add("resurrection", "0");
         this.infDic.add("25", dic25);
         let dic26 = new Dictionary<string, any>();
@@ -493,7 +493,7 @@ export default class MonsterInfo {
         dic26.add("hp", "3");
         dic26.add("base_hp", "3");
         dic26.add("base_num", "1");
-        dic26.add("split", "1");
+        dic26.add("split", "0");
         dic26.add("resurrection", "0");
         this.infDic.add("26", dic26);
         let dic27 = new Dictionary<string, any>();
@@ -509,7 +509,7 @@ export default class MonsterInfo {
         dic27.add("hp", "3");
         dic27.add("base_hp", "3");
         dic27.add("base_num", "1");
-        dic27.add("split", "1");
+        dic27.add("split", "0");
         dic27.add("resurrection", "0");
         this.infDic.add("27", dic27);
         let dic28 = new Dictionary<string, any>();
@@ -525,7 +525,7 @@ export default class MonsterInfo {
         dic28.add("hp", "3");
         dic28.add("base_hp", "3");
         dic28.add("base_num", "1");
-        dic28.add("split", "1");
+        dic28.add("split", "0");
         dic28.add("resurrection", "0");
         this.infDic.add("28", dic28);
         let dic29 = new Dictionary<string, any>();
@@ -541,7 +541,7 @@ export default class MonsterInfo {
         dic29.add("hp", "3");
         dic29.add("base_hp", "3");
         dic29.add("base_num", "1");
-        dic29.add("split", "1");
+        dic29.add("split", "0");
         dic29.add("resurrection", "0");
         this.infDic.add("29", dic29);
         let dic30 = new Dictionary<string, any>();
@@ -557,7 +557,7 @@ export default class MonsterInfo {
         dic30.add("hp", "3");
         dic30.add("base_hp", "3");
         dic30.add("base_num", "1");
-        dic30.add("split", "1");
+        dic30.add("split", "0");
         dic30.add("resurrection", "0");
         this.infDic.add("30", dic30);
         let dic31 = new Dictionary<string, any>();
@@ -573,7 +573,7 @@ export default class MonsterInfo {
         dic31.add("hp", "3");
         dic31.add("base_hp", "3");
         dic31.add("base_num", "1");
-        dic31.add("split", "1");
+        dic31.add("split", "0");
         dic31.add("resurrection", "0");
         this.infDic.add("31", dic31);
         let dic32 = new Dictionary<string, any>();
@@ -589,7 +589,7 @@ export default class MonsterInfo {
         dic32.add("hp", "3");
         dic32.add("base_hp", "3");
         dic32.add("base_num", "1");
-        dic32.add("split", "1");
+        dic32.add("split", "0");
         dic32.add("resurrection", "0");
         this.infDic.add("32", dic32);
         let dic33 = new Dictionary<string, any>();
@@ -605,7 +605,7 @@ export default class MonsterInfo {
         dic33.add("hp", "3");
         dic33.add("base_hp", "3");
         dic33.add("base_num", "1");
-        dic33.add("split", "1");
+        dic33.add("split", "0");
         dic33.add("resurrection", "0");
         this.infDic.add("33", dic33);
         let dic34 = new Dictionary<string, any>();
@@ -621,7 +621,7 @@ export default class MonsterInfo {
         dic34.add("hp", "0.5");
         dic34.add("base_hp", "0.5");
         dic34.add("base_num", "7");
-        dic34.add("split", "1");
+        dic34.add("split", "0");
         dic34.add("resurrection", "0");
         this.infDic.add("34", dic34);
         let dic35 = new Dictionary<string, any>();
@@ -637,7 +637,7 @@ export default class MonsterInfo {
         dic35.add("hp", "2");
         dic35.add("base_hp", "2");
         dic35.add("base_num", "7");
-        dic35.add("split", "1");
+        dic35.add("split", "0");
         dic35.add("resurrection", "0");
         this.infDic.add("35", dic35);
         let dic36 = new Dictionary<string, any>();
@@ -653,7 +653,7 @@ export default class MonsterInfo {
         dic36.add("hp", "0.5");
         dic36.add("base_hp", "0.5");
         dic36.add("base_num", "6");
-        dic36.add("split", "1");
+        dic36.add("split", "0");
         dic36.add("resurrection", "0");
         this.infDic.add("36", dic36);
         let dic37 = new Dictionary<string, any>();
@@ -669,7 +669,7 @@ export default class MonsterInfo {
         dic37.add("hp", "3");
         dic37.add("base_hp", "3");
         dic37.add("base_num", "6");
-        dic37.add("split", "1");
+        dic37.add("split", "0");
         dic37.add("resurrection", "0");
         this.infDic.add("37", dic37);
         let dic38 = new Dictionary<string, any>();
@@ -685,7 +685,7 @@ export default class MonsterInfo {
         dic38.add("hp", "1");
         dic38.add("base_hp", "1");
         dic38.add("base_num", "7");
-        dic38.add("split", "1");
+        dic38.add("split", "0");
         dic38.add("resurrection", "0");
         this.infDic.add("38", dic38);
         let dic39 = new Dictionary<string, any>();
@@ -701,7 +701,7 @@ export default class MonsterInfo {
         dic39.add("hp", "4");
         dic39.add("base_hp", "4");
         dic39.add("base_num", "7");
-        dic39.add("split", "1");
+        dic39.add("split", "0");
         dic39.add("resurrection", "0");
         this.infDic.add("39", dic39);
         let dic40 = new Dictionary<string, any>();
@@ -717,7 +717,7 @@ export default class MonsterInfo {
         dic40.add("hp", "1");
         dic40.add("base_hp", "1");
         dic40.add("base_num", "6");
-        dic40.add("split", "1");
+        dic40.add("split", "0");
         dic40.add("resurrection", "0");
         this.infDic.add("40", dic40);
         let dic41 = new Dictionary<string, any>();
@@ -733,7 +733,7 @@ export default class MonsterInfo {
         dic41.add("hp", "1");
         dic41.add("base_hp", "1");
         dic41.add("base_num", "6");
-        dic41.add("split", "1");
+        dic41.add("split", "0");
         dic41.add("resurrection", "0");
         this.infDic.add("41", dic41);
     }

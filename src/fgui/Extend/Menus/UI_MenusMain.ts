@@ -2,7 +2,6 @@ import fui_MenusMain from "../../Generates/Menus/fui_MenusMain";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import UI_Selection from "./UI_Selection";
 import Game from "../../../Game";
-import { SelectionStatus } from "../../../gamemodule/DataEnums/SelectionStatus";
 import UI_selectionBtn from "./UI_selectionBtn";
 import Fun from "../../../Tool/Fun";
 import { MenuId } from "../../../gamemodule/MenuId";
