@@ -12,6 +12,7 @@ import PlaySkillInfo from "./PlaySkillInfo";
 import SkillInfo from "./SkillInfo";
 import SkillHitTypeInfo from "./SkillHitTypeInfo";
 import TimeHouseInfo from "./TimeHouseInfo";
+import TrialInfo from "./TrialInfo";
 import WaveInfo from "./WaveInfo";
 import WaveformInfo from "./WaveformInfo";
 
@@ -33,6 +34,7 @@ export default class CSVConfig {
 		SkillInfo.init();
 		SkillHitTypeInfo.init();
 		TimeHouseInfo.init();
+		TrialInfo.init();
 		WaveInfo.init();
 		WaveformInfo.init();
 
