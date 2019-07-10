@@ -53,7 +53,6 @@ export default class UI_Selection extends fui_Selection {
 			this.m_progress.text = Fun.format("{0} %", item.level / 10 * 100)
 		}
 		else if (Game.battleMap.maxMapId == levelId) {
-			console.log("map id == waveid");
 			this.m_status.setSelectedIndex(1);
 		}
 		else {

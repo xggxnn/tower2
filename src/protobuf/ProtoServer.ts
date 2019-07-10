@@ -22,7 +22,9 @@ export default class ProtoServer {
 	private static calling: boolean = false;
 	private static dataList: Array<Object> = [];
 	public static request(data: Object): void {
-		console.log("============request=========", data);
+		console.log("============request=========");
+		console.log(data);
+		console.log("============request=========");
 		this.dataList.push(data);
 		this.callServer();
 	}
@@ -78,7 +80,9 @@ export default class ProtoServer {
 						// 	this.parseUserData(json.userData);
 						// }
 						let pro = ProtoManager.getProto(json.protoId);
-						console.log("  >>> back:" + json.protoId, json);
+						console.log("-------------back-----------", json.protoId);
+						console.log(json);
+						console.log("-------------back-----------");
 						pro.callBack(json);
 					}
 					ProtoServer.dataList.shift();

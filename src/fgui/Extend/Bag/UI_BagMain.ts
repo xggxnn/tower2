@@ -1,11 +1,11 @@
 import fui_BagMain from "../../Generates/Bag/fui_BagMain";
 import BagWin from "../../../gamemodule/Windows/BagWin";
-import UI_PropBtn from "../Arrangement/UI_PropBtn";
 import Game from "../../../Game";
 import Dictionary from "../../../Tool/Dictionary";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
+import UI_PropBtn from "../Arrangement/UI_PropBtn";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BagMain extends fui_BagMain {
@@ -61,7 +61,7 @@ export default class UI_BagMain extends fui_BagMain {
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_PropBtn;
-		item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]), this.moduleWindow);
+		item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
 	}
 	// 点击item
 	private onClickItem(obj: fairygui.GObject): void {
