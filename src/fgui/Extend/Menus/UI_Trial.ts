@@ -38,7 +38,7 @@ export default class UI_Trial extends fui_Trial {
 		EventManager.event(EventKey.SHOW_UI_WAIT);
 		Game.battleData.fight_type = 0;
 		let data = {
-			waveId: Game.battleData.wave_id,
+			waveId: Game.battleData.level_id,
 			fightType: Game.battleData.fight_type,
 		}
 		Game.proto.selectWave(data);

@@ -9,6 +9,8 @@ import WaveInfo from "../../dataInfo/WaveInfo";
 import MathRandom from "../../Tool/MathRandom";
 import TimeHouseInfo from "../../dataInfo/TimeHouseInfo";
 import WaveStatus from "./WaveStatus";
+import Game from "../../Game";
+import { GameStatus } from "../DataEnums/GameStatus";
 
 export default class BattleMap {
 
@@ -36,10 +38,22 @@ export default class BattleMap {
                 this.waveStatusDict.add(item.id, wavestatus);
             }
         }
-        this.maxMap = 1;
-        this.maxLv = 1;
-        this.curLv = 0;
-        this.wave = 0;
+        // 第一次进入关卡
+        if (maxId == 0) {
+            let curwaveinf = WaveInfo.getInfo(1);
+            this.maxMapId = curwaveinf.id;
+        }
+        else {
+            let curwaveinf = WaveInfo.getInfo(maxId);
+            let waveinf = WaveInfo.getInfo(maxId + 1);
+            if (waveinf) {
+                this.maxMapId = waveinf.id;
+            }
+            else {
+                // 已通关
+                this.maxMapId = curwaveinf.id;
+            }
+        }
     }
     // 关卡状态字典
     public waveStatusDict: Dictionary<number, WaveStatus> = new Dictionary<number, WaveStatus>();
@@ -52,46 +66,21 @@ export default class BattleMap {
     public set curMap(v: number) {
         this._curMap = v;
     }
-    // 最大地图    
-    private _maxMap: number = 1;
-    public get maxMap(): number {
-        return this._maxMap;
+    // 最大地图  id 
+    private _maxMapId: number = 1;
+    public get maxMapId(): number {
+        return this._maxMapId;
     }
-    public set maxMap(v: number) {
-        this._maxMap = v;
-    }
-    // 最大关卡
-    private _maxLv: number = 1;
-    public get maxLv(): number {
-        return this._maxLv;
-    }
-    public set maxLv(v: number) {
-        this._maxLv = v;
-    }
-    // 当前关卡
-    private _curLv: number = 1;
-    public get curLv(): number {
-        return this._curLv;
-    }
-    public set curLv(v: number) {
-        if (this.curMap == this.maxMap) {
-            if (v > this.maxLv) {
-                v = this.maxLv;
-            }
-        }
-        if (v == 0) v = 1;
-        this.wave = 0;
-        this.maxWave = 10;
-        this._curLv = v;
-        this.setwaveInf(this._curLv);
+    public set maxMapId(v: number) {
+        this._maxMapId = v;
     }
     // 关卡波次（当前关卡第几个敌人）
-    private _wave: number = 0;
-    public get wave(): number {
-        return this._wave;
+    private _levelWave: number = 0;
+    public get levelWave(): number {
+        return this._levelWave;
     }
-    public set wave(v: number) {
-        this._wave = v;
+    public set levelWave(v: number) {
+        this._levelWave = v;
     }
     // 关卡最大波次（最大几个敌人）
     private _maxWave: number;
@@ -102,14 +91,17 @@ export default class BattleMap {
         this._maxWave = v;
     }
 
-    public openMap(mapid: number, lv: number): void {
-        if (mapid <= this.maxMap) {
-            this.curMap = mapid;
-            this.curLv = lv;
+    public openMap(): void {
+        let curwaveinf = WaveInfo.getInfo(Game.battleData.level_id);
+        if (curwaveinf) {
+            this.curMap = curwaveinf.map;
+            this.levelWave = 0;
+            this.setwaveInf(Game.battleData.level_id);
             EventManager.event(EventKey.MAP_REFRUSH);
+            Game.gameStatus = GameStatus.Gaming;
         }
         else {
-            console.log("无法进入此地图");
+            Game.tipWin.showTip("无法进入，未知的关卡信息");
         }
     }
 
@@ -272,14 +264,19 @@ export default class BattleMap {
             return;
         }
         if (this.nextMonster != null) {
-            this.wave++;
+            this.levelWave++;
             let curTimePeriod = Math.floor(this.waveTime / 10);
             for (let i = 9; i >= 0; i--) {
                 if (this.curTime >= curTimePeriod * i) {
-                    let _waveform1 = WaveformInfo.getInfo(i);
-                    let _waveform2 = WaveformInfo.getInfo(i + 1);
+                    let _waveform1: WaveformInfo;
+                    let _waveform2: WaveformInfo;
                     for (let ll = this.waveform.length - 1; ll >= 0; ll--) {
-                        // if (this.waveform[ll].waveform)
+                        if (this.waveform[ll].index == i) {
+                            _waveform1 = this.waveform[ll];
+                        }
+                        else if (this.waveform[ll].index == i + 1) {
+                            _waveform2 = this.waveform[ll];
+                        }
                     }
                     let _xiaolv = _waveform1.waveform + (_waveform2.waveform - _waveform1.waveform) * (this.curTime - curTimePeriod * i) / 10;
                     // 是否创建boss判断

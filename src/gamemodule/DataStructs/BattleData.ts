@@ -46,11 +46,11 @@ export default class BattleData {
                 Game.battleMap.enemyInf();
                 let dataInf = new EnemyData();
                 dataInf.monsterInf = Game.battleMap.nextMonster
-                Game.battleScene.createEnemy(Game.battleMap.wave % 2, false, dataInf);
+                Game.battleScene.createEnemy(Game.battleMap.levelWave % 2, false, dataInf);
                 if (Game.battleMap.bossInfo != null) {
                     let dataInf2 = new EnemyData();
                     dataInf2.monsterInf = Game.battleMap.bossInfo
-                    Game.battleScene.createEnemy(Game.battleMap.wave % 2, true, dataInf2);
+                    Game.battleScene.createEnemy(Game.battleMap.levelWave % 2, true, dataInf2);
                 }
             }
         }
@@ -99,7 +99,7 @@ export default class BattleData {
     public set seatBtn(v: UI_PropBtn) {
         this._seatBtn = v;
     }
-    // 当前显示那个英雄详情
+    // 当前显示那个英雄详情 -- 打开英雄详情时调用
     private _clickHeroInf: HeroInfo = null;
     public get clickHeroInf(): HeroInfo {
         return this._clickHeroInf;
@@ -111,7 +111,7 @@ export default class BattleData {
 
 
 
-    // 当前展示那个羁绊信息
+    // 当前展示那个羁绊信息 --- 点击推荐羁绊时使用
     private _association: Association = null;
     public get association(): Association {
         return this._association;
@@ -223,7 +223,7 @@ export default class BattleData {
     // 玩家技能
     public map_skills: number[] = [1, 2, 3];
     // 关卡id
-    public wave_id: number = 1;
+    public level_id: number = 1;
     // 战斗类型 0：闯关，1：试炼，2：探索
     public fight_type: number = 0;
     // 地图

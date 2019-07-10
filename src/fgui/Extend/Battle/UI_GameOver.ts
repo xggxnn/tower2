@@ -53,7 +53,7 @@ export default class UI_GameOver extends fui_GameOver {
 		this.m_c1.setSelectedIndex(value);
 		let data = {
 			winLose: Game.gameStatus == GameStatus.Win,
-			waveId: Game.battleData.wave_id,
+			waveId: Game.battleData.level_id,
 			fightType: Game.battleData.fight_type,
 		}
 		Game.proto.passWave(data);

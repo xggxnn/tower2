@@ -55,7 +55,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 
 	slelectClick(index: number): void {
 		let waveinf = this.selectList[index].waveInfo;
-		Game.battleData.wave_id = waveinf.id;
+		Game.battleData.level_id = waveinf.id;
 		Game.battleData.play_map = waveinf.map;
 		Game.battleData.play_level = waveinf.level;
 		this.moduleWindow.createTrialUI();
@@ -76,28 +76,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		// let map = 0;
-		// let level = 0;
 		for (let i = 0, len = this.selectList.length; i < len; i++) {
-			// let boss = (i + 1) % 4;
-			// level = boss;
-			// if (boss == 0) {
-			// 	level = 4;
-			// }
-			// if (level == 1) {
-			// 	map++;
-			// }
-			// let status = SelectionStatus.None;
-			// if (i == 0) {
-			// 	status = SelectionStatus.Complete;
-			// }
-			// else if (i == 1) {
-			// 	status = SelectionStatus.Progress;
-			// }
-			// else if (i == 2) {
-			// 	status = SelectionStatus.Fighting;
-			// }
-			// this.selectList[i].setData(status, boss == 0, map, level);
 			this.selectList[i].setDate(i);
 		}
 		if (this.moduleWindow.menuParameter.initFunction.count > 0) {

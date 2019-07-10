@@ -42,15 +42,14 @@ export default class BattleScene {
     // 生成敌人
     createEnemy(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null) {
         let soldier = BattleSoldier.create(initPos, isboss, monster, initPoint);
-        Game.total.toastMsg("出现第" + Game.battleMap.wave + "个敌人" + Game.battleMap.curTime, true);
+        Game.total.toastMsg("出现第" + Game.battleMap.levelWave + "个敌人" + Game.battleMap.curTime, true);
         this.enemyList.push(soldier);
     }
     // 重新开始游戏
     reTryPlay(): void {
         this.stoneReset();
         this.clearEnemy();
-        Game.battleMap.openMap(1, 1);
-        Game.gameStatus = GameStatus.Gaming;
+        Game.battleMap.openMap();
     }
     clearBattleScene(): void {
         Game.battleScene.stoneReset();

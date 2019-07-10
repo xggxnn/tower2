@@ -46,37 +46,19 @@ export default class UI_Selection extends fui_Selection {
 	// public map: number;
 	// public level: number;
 	private status: SelectionStatus = SelectionStatus.None;
-	/**
-	 * 当前关卡状态
-	 * @param status 枚举SelectionStatus
-	 * @param isboss 是否boss关卡
-	 * @param map 第几个地图
-	 * @param level 第几关
-	 */
-	public setData(status: SelectionStatus, isboss: boolean, map: number, level: number): void {
-		// this.status = status;
-		// this.map = map;
-		// this.level = level;
-		// this.m_status.setSelectedIndex(this.status);
-		// switch (this.status) {
-		// 	case SelectionStatus.Progress:
-		// 		{
-		// 			this.m_progress.text = "90%";
-		// 			this.m_gain.text = "2500金币";
-		// 		}
-		// 		break;
-		// 	case SelectionStatus.Complete:
-		// 		{
-		// 			this.m_progress.text = "100%";
-		// 			this.m_time.text = "3小时34分";
-		// 		}
-		// 		break;
-		// }
-		// (this.m_selBtn as UI_selectionBtn).setData(isboss, map, level);
-	}
+
 	public setDate(index: number): void {
 		let waveId = index + 1;
 		this.waveInfo = WaveInfo.getInfo(waveId);
+		if (Game.battleMap.waveStatusDict.hasKey(waveId)) {
+
+		}
+		else if (Game.battleMap.maxMapId == waveId) {
+
+		}
+		else {
+
+		}
 		(this.m_selBtn as UI_selectionBtn).setData(this.waveInfo.map, this.waveInfo.level);
 		let waveStatus = Game.waveData.waveStatus(waveId);
 		if (waveStatus) {
