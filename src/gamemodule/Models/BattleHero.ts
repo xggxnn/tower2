@@ -11,6 +11,7 @@ import Fun from "../../Tool/Fun";
 import BattleSkillAttack from "./BattleSkillAttack";
 import BattleModel from "./BattleModel";
 import BattleSkillHalo from "./BattleSkillHalo";
+import HeroData from "../DataStructs/HeroData";
 
 export default class BattleHero extends BattleModel {
     public static create(id: string | number, index: number | string): BattleHero {
@@ -18,19 +19,30 @@ export default class BattleHero extends BattleModel {
     }
     private constructor(id: string | number, index: number | string) {
         super(true);
-        this._id = 12;//id;
-        this._index = Number(index);
-        this._sk = Pools.skFetch("hero_" + this._id);
-        this.sk.addStopEvent(Laya.Handler.create(this, this.overEvent));
-        this.sk.addLableEvent(Laya.Handler.create(this, this.frameEvent));
-        Game.parentObject.addChild(this.sk);
+        this.dataInf = new HeroData();
+        this.dataInf.setHeroInf(id);
+        if (this.dataInf.heroInf) {
+            this._id = 12;//id;
+            this._index = Number(index);
+            this._sk = Pools.skFetch("hero_" + this._id);
+            this.sk.addStopEvent(Laya.Handler.create(this, this.overEvent));
+            this.sk.addLableEvent(Laya.Handler.create(this, this.frameEvent));
+            Game.parentObject.addChild(this.sk);
 
-        this.interval = 1500 + Math.random() * 1000;
-        this.attackSkillList[0] = BattleSkillAttack.create(0);
-        this.init();
-        EventManager.event(EventKey.ADD_HERO, [index, this]);
+            // 初始化技能
+            if (this.dataInf.heroInf.normal_id > 0) {
+                this.attackSkillList[0] = BattleSkillAttack.create(this.dataInf.heroInf.normal_id, this.dataInf.heroInf.normal_cd);
+            }
+            if (this.dataInf.heroInf.skill_id > 0) {
+                this.attackSkillList[0] = BattleSkillAttack.create(this.dataInf.heroInf.skill_id, this.dataInf.heroInf.skill_cd);
+            }
+            this.init();
+            EventManager.event(EventKey.ADD_HERO, [index, this]);
+        }
     }
-    private interval: number = 0;
+    // 英雄数据
+    public dataInf: HeroData = null;
+
     private _id: string | number;
     private _index: number;
     public get index(): number {
@@ -48,6 +60,8 @@ export default class BattleHero extends BattleModel {
     public get haloList(): Array<BattleSkillHalo> {
         return this.haloSkillList;
     }
+    // 当前使用那个技能
+    private currentAttackSkill: BattleSkillAttack = null;
 
     private init() {
         this.playStand();
@@ -72,7 +86,7 @@ export default class BattleHero extends BattleModel {
 
         if (this.currentState == HeroAniEnums.Attack || this.currentState == HeroAniEnums.Skill) {
             this.standTime += dt;
-            if (this.standTime > this.interval) {
+            if (this.standTime > 2000) {
                 this.playStand();
             }
             return;
@@ -84,11 +98,20 @@ export default class BattleHero extends BattleModel {
         if (this.currentState != HeroAniEnums.Stand) return;
 
         if (this.curEnemy != null && canUserList.length) {
-            var useSkillNum = canUserList.pop(); //优先使用特殊技能
+            this.useSkillNum = canUserList.pop(); //优先使用特殊技能
+            this.currentAttackSkill = this.attackSkillList[this.useSkillNum];
             this.sk.scaleX = this.curEnemy.sk.x > this.sk.x ? 1 : -1;
             this.curHitEnemy = this.curEnemy;
+            this.castSkill(this.useSkillNum);
+            this.currentAttackSkill.cast();
+        }
+    }
+    public useSkillNum: number = 0;
+    private castSkill(index: number): void {
+        if (index == 0) {
             this.playAttack();
-            this.attackSkillList[useSkillNum].cast();
+        } else {
+            this.playCast();
         }
     }
 
@@ -183,11 +206,12 @@ export default class BattleHero extends BattleModel {
     private overEvent(): void {
         if (this.currentState != HeroAniEnums.Attack && this.currentState != HeroAniEnums.Skill) return;
         this.playStand();
+        this.currentAttackSkill = null;
     }
     private frameEvent(event: Laya.EventData): void {
         if (this.curHitEnemy == null || this.curHitEnemy.haveDeath) return;
         if (event.name == "cast_time") {
-            this.curHitEnemy.skillHit(this);
+            this.curHitEnemy.skillHit(this, this.currentAttackSkill);
         }
     }
 

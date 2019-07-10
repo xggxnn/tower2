@@ -11,6 +11,8 @@ import AssociationRaceInfo from "../../dataInfo/AssociationRaceInfo";
 import FiveElementsInfo from "../../dataInfo/FiveElementsInfo";
 import AssociationCareerInfo from "../../dataInfo/AssociationCareerInfo";
 import EnemyData from "./EnemyData";
+import ItemInfo from "./ItemInfo";
+import Signal from "../../Tool/Signal";
 
 export default class BattleData {
 
@@ -21,6 +23,8 @@ export default class BattleData {
         }
         return BattleData._Instance;
     }
+
+    public countdown: Signal = new Signal();
 
     public init(): void {
         EventManager.on(EventKey.MAP_REFRUSH, this, this.mapRefrush);
@@ -41,6 +45,7 @@ export default class BattleData {
         if (Game.gameStatus != GameStatus.Gaming) return;
         let dt = Laya.timer.delta * 0.001;
         Game.battleMap.curTime += dt;
+        this.countdown.dispatch();
         if (Game.battleMap.curTime < Game.battleMap.waveTime) {
             if (Game.battleMap.curTime >= Game.battleMap.nextCD) {
                 Game.battleMap.enemyInf();
@@ -56,7 +61,7 @@ export default class BattleData {
         }
         else {
             if (Game.battleScene.enemyList.length == 0) {
-                if (Game.battleMap.curTime >= Game.battleMap.waveTime + 1) {
+                if (Game.battleMap.curTime >= Game.battleMap.waveTime + 2) {
                     EventManager.event(EventKey.GAMEWIN);
                 }
             }
@@ -230,5 +235,8 @@ export default class BattleData {
     public play_map: number = 1;
     // 关卡
     public play_level: number = 1;
+
+    /*******************战斗结果相关**************************/
+    public fight_result: Array<ItemInfo> = [];
 
 }

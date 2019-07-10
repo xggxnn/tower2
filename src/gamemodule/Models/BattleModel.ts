@@ -141,7 +141,7 @@ export default class BattleModel extends Laya.Sprite {
 
     // 受击特效
     public addBattleEffect(id: number, loop: boolean): BattleEffectEnemy {
-        let key: string = "" + id;
+        let key: string = String(id);
         let _effect: BattleEffectEnemy = null;
         if (this.battleEffectList.hasKey(key)) {
             _effect = this.battleEffectList.getValue(key);

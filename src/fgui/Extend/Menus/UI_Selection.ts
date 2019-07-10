@@ -4,6 +4,7 @@ import { SelectionStatus } from "../../../gamemodule/DataEnums/SelectionStatus";
 import UI_selectionBtn from "./UI_selectionBtn";
 import Game from "../../../Game";
 import WaveInfo from "../../../dataInfo/WaveInfo";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Selection extends fui_Selection {
@@ -48,25 +49,21 @@ export default class UI_Selection extends fui_Selection {
 	private status: SelectionStatus = SelectionStatus.None;
 
 	public setDate(index: number): void {
-		let waveId = index + 1;
-		this.waveInfo = WaveInfo.getInfo(waveId);
-		if (Game.battleMap.waveStatusDict.hasKey(waveId)) {
-
-		}
-		else if (Game.battleMap.maxMapId == waveId) {
-
-		}
-		else {
-
-		}
+		let levelId = index + 1;
+		this.waveInfo = WaveInfo.getInfo(levelId);
 		(this.m_selBtn as UI_selectionBtn).setData(this.waveInfo.map, this.waveInfo.level);
-		let waveStatus = Game.waveData.waveStatus(waveId);
-		if (waveStatus) {
+		if (Game.battleMap.waveStatusDict.hasKey(levelId)) {
+			let item = Game.battleMap.waveStatusDict.getValue(levelId);
+			this.m_status.setSelectedIndex(2);
+			this.m_progress.text = Fun.format("{0} %", item.level / 10 * 100)
+		}
+		else if (Game.battleMap.maxMapId == levelId) {
+			console.log("map id == waveid");
 			this.m_status.setSelectedIndex(1);
 		}
 		else {
+			console.log("other");
 			this.m_status.setSelectedIndex(0);
-			this.m_selBtn.enabled = false;
 		}
 	}
 	public waveInfo: WaveInfo = null;

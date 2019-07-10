@@ -25,16 +25,16 @@ export default class UI_HomeMain extends fui_HomeMain {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-		this.m_fightBtn.onClick(this, this.fightClick);
+		this.m_fightBtn.onClick(this, this.waveInfoCall);
 		this.m_trialBtn.onClick(this, this.trialClick);
 		this.m_seatBtn.onClick(this, this.seatClick);
 		this.m_conquestBtn.onClick(this, this.conquestClick);
-		EventManager.on(ProtoEvent.WAVEINFO_CALL_BACK, this, this.waveInfoCall);
+		// EventManager.on(ProtoEvent.WAVEINFO_CALL_BACK, this, this.waveInfoCall);
 	}
 
-	fightClick(): void {
-		Game.proto.waveInfo({});
-	}
+	// fightClick(): void {
+	// 	Game.proto.waveInfo({});
+	// }
 	private waveInfoCall(): void {
 		Game.menu.open(MenuId.MenuSelect);
 		this.closeUI();

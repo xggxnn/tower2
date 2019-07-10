@@ -15,6 +15,8 @@ import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
 import UI_DriftingBlood from "../../fgui/Extend/Battle/UI_DriftingBlood";
 import MonsterInfo from "../../dataInfo/MonsterInfo";
 import { GameStatus } from "../DataEnums/GameStatus";
+import BattleSkillAttack from "./BattleSkillAttack";
+import Fun from "../../Tool/Fun";
 
 export default class BattleSoldier extends BattleModel {
     public static create(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null): BattleSoldier {
@@ -32,6 +34,7 @@ export default class BattleSoldier extends BattleModel {
             }
             this.dataInf.skId = this._id;
             this.dataInf.scales = new Laya.Point(this._sk.scaleX, this._sk.scaleY);
+            this.dataInf.shadowScales = new Laya.Point(1.7, 1.7);
         }
         else if (initPos == 2) {
             this._sk = Pools.skFetch("enemy_" + this.dataInf.skId);
@@ -50,7 +53,7 @@ export default class BattleSoldier extends BattleModel {
         // 添加阴影
         this.shadow = Pools.fetch(UI_Shadow);
 
-        this.shadow.setScale(1.7, 1.7);
+        this.shadow.setScale(this.dataInf.shadowScales.x, this.dataInf.shadowScales.y);
         Game.parentObject.addChild(this.shadow.displayObject);
         this.initPos = initPos;
         this.init(initPoint);
@@ -61,15 +64,10 @@ export default class BattleSoldier extends BattleModel {
     private updateBlood(x, y): void {
         this.sk.pos(x, y);
         if (this.blood) {
-            this.blood.setXY(x - 30, y - 150);
+            this.blood.setXY(x, y - 150);
         }
         if (this.shadow) {
-            // if (this._id == 1) {
-            //     this.shadow.setXY(x - 30, y - 15);
-            // }
-            // else {
-            this.shadow.setXY(x - 55, y - 35);
-            // }
+            this.shadow.setXY(x, y);
         }
     }
 
@@ -277,8 +275,8 @@ export default class BattleSoldier extends BattleModel {
     private overEvent(): void {
         switch (this.currentState) {
             case HeroAniEnums.Death:
-                let point1: Laya.Point = new Laya.Point(this.sk.x, this.sk.y + 5 + Math.random() * 10);
-                let point2: Laya.Point = new Laya.Point(this.sk.x, this.sk.y - 5 - Math.random() * 10);
+                let point1: Laya.Point = new Laya.Point(this.sk.x, this.sk.y + 15 + Math.random() * 10);
+                let point2: Laya.Point = new Laya.Point(this.sk.x, this.sk.y - 15 - Math.random() * 10);
                 Pools.skRecycle(this.sk);
                 if (Game.gameStatus == GameStatus.Gaming) {
                     if (this.dataInf.resurrection > 0) {
@@ -320,7 +318,7 @@ export default class BattleSoldier extends BattleModel {
         }
     }
     // 受到攻击
-    public skillHit(hero: BattleHero) {
+    public skillHit(hero: BattleHero, skill: BattleSkillAttack) {
         if (this.dataInf.curHp <= 0) {
             return;
         }
@@ -328,11 +326,14 @@ export default class BattleSoldier extends BattleModel {
         // this.addBattleEffect(1, false).removeNum();// 移除
         if (this.blood) {
             this.blood.visible = true;
-            let sub = 100 + Math.floor(Math.random() * 50);
+            let sub = hero.dataInf.heroInf.normal_attack;
+            if (hero.useSkillNum == 1) {
+                sub = hero.dataInf.heroInf.skill_atk;
+            }
             let drop = Pools.fetch(UI_DriftingBlood);
             Game.bloodParent.addChild(drop);
             drop.setXY(this.blood.x - 50 + Math.random() * 50, this.blood.y);
-            drop.title = "-" + sub;
+            drop.title = Fun.format("-{0}", sub);
             drop.m_t0.play(Laya.Handler.create(this, () => {
                 Pools.recycle(drop);
             }), 1);

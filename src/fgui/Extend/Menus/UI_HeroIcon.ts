@@ -1,5 +1,7 @@
 import fui_HeroIcon from "../../Generates/Menus/fui_HeroIcon";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
+import ItemInfo from "../../../gamemodule/DataStructs/ItemInfo";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroIcon extends fui_HeroIcon {
@@ -22,8 +24,9 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 
 	}
 
-	public setData(): void {
-
+	public setData(item: ItemInfo): void {
+		this.m_number.text = Fun.format("X {0}", item.itemNum);
+		this.m_c1.setSelectedIndex(2);
 	}
 
 	// 关闭ui

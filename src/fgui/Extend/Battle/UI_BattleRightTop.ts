@@ -1,5 +1,7 @@
 import fui_BattleRightTop from "../../Generates/Battle/fui_BattleRightTop";
 import BattleWin from "../../../gamemodule/Windows/BattleWin";
+import Game from "../../../Game";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleRightTop extends fui_BattleRightTop {
@@ -21,7 +23,13 @@ export default class UI_BattleRightTop extends fui_BattleRightTop {
 		// ToDo
 
 	}
-
+	countdown(): void {
+		let cd = Math.floor(Game.battleMap.waveTime - Game.battleMap.curTime);
+		this.m_time.text = Fun.format("刷怪剩余时间：{0}秒", Math.floor(cd));
+		if (cd <= 0) {
+			Game.battleData.countdown.remove(this.countdown, this);
+		}
+	}
 	// 关闭ui
 	closeUI(): void {
 		this.moduleWindow.menuClose();
@@ -32,11 +40,11 @@ export default class UI_BattleRightTop extends fui_BattleRightTop {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-
+		Game.battleData.countdown.add(this.countdown, this);
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-
+		Game.battleData.countdown.remove(this.countdown, this);
 	}
 
 

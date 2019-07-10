@@ -299,13 +299,13 @@ export default class BattleMap {
                         let atkSpeed = this.benchAtkSpeed * _xiaolv;
                         let remain = this.nextMonster.base_num / atkSpeed;
                         remain = remain < 0.5 ? 0.5 : remain;
-                        this.nextCD = this.curTime + remain;
+                        this.nextCD = this.curTime + remain + 100000;
                     }
                     // 攻击判断
                     else {
                         let atkMark = this.benchMarkAtk * _xiaolv;
                         let remain = Number(this.nextMonster.base_hp) / atkMark;
-                        this.nextCD = this.curTime + remain;
+                        this.nextCD = this.curTime + remain + 100000;
                     }
                     break;
                 }

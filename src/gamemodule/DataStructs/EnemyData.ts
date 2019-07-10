@@ -3,9 +3,7 @@ import Point = Laya.Point;
 import Game from "../../Game";
 
 export default class EnemyData {
-    public constructor() {
-
-    }
+    public constructor() { }
 
 
     private _monsterInf: MonsterInfo;
@@ -114,6 +112,15 @@ export default class EnemyData {
     public set scales(v: Point) {
         this._sc = v;
     }
+    // 阴影大小
+    private _shadowScales: Point;
+    public get shadowScales(): Point {
+        return this._shadowScales;
+    }
+    public set shadowScales(v: Point) {
+        this._shadowScales = v;
+    }
+
 
     // 复活敌人
     public resurrectionEnemy(): void {
@@ -126,6 +133,7 @@ export default class EnemyData {
         this.maxHp *= 0.9;
         this.curHp = this.maxHp;
         this.scales = new Laya.Point(this.scales.x * 0.9, this.scales.y * 0.9);
+        this.shadowScales = new Laya.Point(this.shadowScales.x * 0.9, this.shadowScales.y * 0.9);
     }
     // 分裂敌人
     public static createSplitNew(old: EnemyData): EnemyData {
@@ -135,6 +143,7 @@ export default class EnemyData {
         dat.maxHp = old.maxHp;
         dat.curHp = old.curHp;
         dat.scales = old.scales;
+        dat.shadowScales = old.shadowScales;
         dat.splits = old.splits;
         dat.resurrection = old.resurrection;
         dat.curStarIndex = old.curStarIndex;

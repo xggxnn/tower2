@@ -1,5 +1,6 @@
 import fui_selectionBtn from "../../Generates/Menus/fui_selectionBtn";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
+import Game from "../../../Game";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_selectionBtn extends fui_selectionBtn {
@@ -46,9 +47,9 @@ export default class UI_selectionBtn extends fui_selectionBtn {
 	 * @param level 第几关
 	 */
 	public setData(map: number, level: number, isboss?: boolean): void {
-		if (map < 0) map = 0;
+		if (map < 1) map = 1;
 		if (map > 4) map = 4;
-		if (level < 0) level = 0;
+		if (level < 1) level = 1;
 		if (level > 4) level = 4;
 		this.m_pic.setSelectedIndex(isboss ? 1 : 0);
 		this.m_top.setSelectedIndex(map - 1);

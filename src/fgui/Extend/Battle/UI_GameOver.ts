@@ -34,7 +34,7 @@ export default class UI_GameOver extends fui_GameOver {
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_HeroIcon;
-		item.setData();
+		item.setData(Game.battleData.fight_result[index]);
 	}
 	gainClick(): void {
 		Game.battleScene.clearBattleScene();
@@ -61,14 +61,14 @@ export default class UI_GameOver extends fui_GameOver {
 	private tick: Tick = null;
 	private showResult(): void {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
-		if (Game.gameStatus == GameStatus.Win) {
+		if (Game.gameStatus == GameStatus.Win && Game.battleData.fight_result.length > 0) {
 			if (this.tick) {
 				this.tick.Stop();
 				Game.tick.clearTick(this.tick);
 				this.tick = null;
 			}
 			this.m_rewardList.numItems = 0;
-			this.tick = Game.tick.addTick(2, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false));
+			this.tick = Game.tick.addTick(Game.battleData.fight_result.length - 1, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 10);
 			this.tick.Start();
 		}
 		else {
@@ -76,7 +76,9 @@ export default class UI_GameOver extends fui_GameOver {
 		}
 	}
 	private updateNum(): void {
-		this.m_rewardList.numItems++;
+		if (Game.battleData.fight_result.length > this.m_rewardList.numItems) {
+			this.m_rewardList.numItems++;
+		}
 	}
 	private addNumOver(): void {
 		if (this.tick) {
