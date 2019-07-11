@@ -20,6 +20,14 @@ export default class HeroData {
         this._skId = v;
     }
 
+    // 当前攻击力
+    public get curAp(): number {
+        // 等级加成
+        // 星级加成
+        // buff加成
+        // 羁绊加成
+        return 0;
+    }
 
 
 }

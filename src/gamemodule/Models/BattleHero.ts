@@ -202,11 +202,6 @@ export default class BattleHero extends BattleModel {
     // 可攻击到的格子范围
     private keyList: number[] = [];
 
-
-    public getCurrAp(): number {
-        return 0;
-    }
-
     private overEvent(): void {
         if (this.currentState != HeroAniEnums.Attack && this.currentState != HeroAniEnums.Skill) return;
         this.playStand();

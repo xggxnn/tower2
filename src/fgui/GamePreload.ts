@@ -64,6 +64,7 @@ export default class GamePreload {
 		this.addAssetForFguiPackagename(GuiPackageNames.Sound);
 		this.addAssetForFguiPackagename(GuiPackageNames.FSprite);
 		this.addAssetForFguiPackagename(GuiPackageNames.Home);
+		this.addAssetForFguiPackagename(GuiPackageNames.Arrangement);
 
 		let dict: Dictionary<string, AssetItemInfo> = new Dictionary<string, AssetItemInfo>();
 		let packageDict: Dictionary<string, ResPackageConfig> = new Dictionary<string, ResPackageConfig>();

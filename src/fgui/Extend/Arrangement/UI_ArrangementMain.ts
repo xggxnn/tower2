@@ -203,7 +203,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	// private careerDic: Dictionary<number, number> = new Dictionary<number, number>();
 	// 显示所有羁绊关系
 	private refrushAssociation(): void {
-		this.association = Game.battleData.refrushAssociation();
+		this.association = Game.battleData.refrushAssociation(true);
 		// if (this.raceDic.count > 0) {
 		// 	let races = this.raceDic.getKeys();
 		// 	let racelist = AssociationRaceInfo.getList();

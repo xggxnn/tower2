@@ -125,13 +125,27 @@ export default class BattleData {
         this._association = v;
     }
 
+    private _curAssociation: Array<Association> = null;
     // 刷新当前阵型上阵英雄的羁绊信息
-    public refrushAssociation(): Array<Association> {
+    public refrushAssociation(init: boolean = false): Array<Association> {
+        if (init) {
+            this._curAssociation = null;
+        }
+        if (this._curAssociation == null) {
+            this._curAssociation = [];
+        }
+        else {
+            return this._curAssociation;
+        }
         let association: Array<Association> = [];
         let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
         let seatList = dic.getValues();
+        // 种族
         let raceDic: Dictionary<number, number> = new Dictionary<number, number>();
+        // 职业
         let careerDic: Dictionary<number, number> = new Dictionary<number, number>();
+        // 点|特殊
+        let pointDic: Dictionary<number, number> = new Dictionary<number, number>();
         // 各位置英雄判断
         for (let i = 0; i < 9; i++) {
             if (seatList[i] > 0) {
@@ -219,6 +233,7 @@ export default class BattleData {
                 }
             }
         }
+        this._curAssociation = association;
         return association;
     }
 
