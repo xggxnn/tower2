@@ -25,7 +25,8 @@ export default class UI_BattleRightTop extends fui_BattleRightTop {
 	}
 	countdown(): void {
 		let cd = Math.floor(Game.battleMap.waveTime - Game.battleMap.curTime);
-		this.m_time.text = Fun.format("刷怪剩余时间：{0}秒", Math.floor(cd));
+		let nextCd = Math.floor(Game.battleMap.waveTime - Game.battleMap.nextCD);
+		this.m_time.text = Fun.format("刷怪剩余时间：{0}秒，下一个怪{1}秒后出现", cd, nextCd);
 		if (cd <= 0) {
 			Game.battleData.countdown.remove(this.countdown, this);
 		}

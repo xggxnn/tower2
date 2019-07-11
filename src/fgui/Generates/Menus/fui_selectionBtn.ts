@@ -5,8 +5,8 @@
 export default class fui_selectionBtn extends fairygui.GButton {
 
 	public m_pic:fairygui.Controller;
-	public m_top:fairygui.Controller;
-	public m_end:fairygui.Controller;
+	public m_first:fairygui.GLoader;
+	public m_end:fairygui.GLoader;
 
 	public static URL:string = "ui://pdzut3twudz4h";
 
@@ -22,7 +22,7 @@ export default class fui_selectionBtn extends fairygui.GButton {
 		super.constructFromXML(xml);
 
 		this.m_pic = this.getControllerAt(1);
-		this.m_top = this.getControllerAt(2);
-		this.m_end = this.getControllerAt(3);
+		this.m_first = <fairygui.GLoader><any>(this.getChildAt(3));
+		this.m_end = <fairygui.GLoader><any>(this.getChildAt(4));
 	}
 }

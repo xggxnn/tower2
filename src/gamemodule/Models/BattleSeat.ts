@@ -14,7 +14,7 @@ export default class BattleSeat extends Laya.Sprite {
         super();
         this.facade = facade;
         this._index = index;
-        this.facade.onClick(this, this.onClick);
+        // this.facade.onClick(this, this.onClick);
     }
     private facade: fairygui.GComponent = null;
     private _index: number;
@@ -24,34 +24,12 @@ export default class BattleSeat extends Laya.Sprite {
         EventManager.on(EventKey.REMOVE_HERO, this, this.removeHero);
     }
     public onClose(): void {
-        this.facade.offClick(this, this.onClick);
+        // this.facade.offClick(this, this.onClick);
         EventManager.offAllCaller(this);
     }
-    onClick(): void {
-        // if (!PlayerData.newbie) {
-        //     EventManager.event(ConstEvent.CLICK_SEAT, this._index);
-        // }
-
-        Game.sound.playSound(SoundKey.click);
-        // if (Game.battleScene.seatHeroDic.hasKey(this._index)) {
-        //     for (let i = Game.battleScene.heroList.length - 1; i >= 0; i--) {
-        //         var hero: BattleHero = Game.battleScene.heroList[i] as BattleHero;
-        //         if (hero.index == this._index) {
-        //             Game.battleScene.heroList.splice(i, 1);
-        //             hero.removeThis();
-        //             Game.total.toastMsg("英雄被移除了！");
-        //             Game.battleScene.seatHeroDic.remove(this._index);
-        //             break;
-        //         }
-        //     }
-        // }
-        // else {
-        //     Game.total.toastMsg("太好了，英雄召唤成功");
-        //     let hero = BattleHero.create(12, this._index);
-        //     Game.battleScene.heroList.push(hero);
-        //     Game.battleScene.seatHeroDic.add(this._index, 12);
-        // }
-    }
+    // onClick(): void {
+    //     Game.sound.playSound(SoundKey.click);
+    // }
     private update(): void {
         this.frame++;
         if (this.frame % this.INTERVAL != 0) return;

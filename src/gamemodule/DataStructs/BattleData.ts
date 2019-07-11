@@ -13,6 +13,7 @@ import AssociationCareerInfo from "../../dataInfo/AssociationCareerInfo";
 import EnemyData from "./EnemyData";
 import ItemInfo from "./ItemInfo";
 import Signal from "../../Tool/Signal";
+import AssociationSpecialInfo from "../../dataInfo/AssociationSpecialInfo";
 
 export default class BattleData {
 
@@ -118,6 +119,9 @@ export default class BattleData {
 
     // 当前展示那个羁绊信息 --- 点击推荐羁绊时使用
     private _association: Association = null;
+    /**
+     * 当前展示那个羁绊信息 --- 点击推荐羁绊时使用
+     */
     public get association(): Association {
         return this._association;
     }
@@ -233,6 +237,32 @@ export default class BattleData {
                 }
             }
         }
+        // 点羁绊判断
+        let speciallist = AssociationSpecialInfo.getList();
+        for (let i = 0, len = speciallist.length; i < len; i++) {
+            let item = speciallist[i];
+            let heros = speciallist[i].Hers;
+            let heroLen = heros.length;
+            if (heroLen > 0) {
+                for (let k = 0; k < 9; k++) {
+                    if (seatList[k] > 0) {
+                        if (heros.indexOf(seatList[k]) != -1) {
+                            heroLen--;
+                        }
+                    }
+                }
+                if (heroLen = 0) {
+                    let _ass = new Association();
+                    _ass.attribute_id = item.attribute;
+                    _ass.values = item.value;
+                    _ass.names = item.name;
+                    _ass.hero = heros;
+                    association.push(_ass);
+                }
+            }
+        }
+
+
         this._curAssociation = association;
         return association;
     }

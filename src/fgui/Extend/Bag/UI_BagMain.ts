@@ -6,6 +6,7 @@ import HeroInfo from "../../../dataInfo/HeroInfo";
 import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import UI_PropBtn from "../Arrangement/UI_PropBtn";
+import UI_HeroIcon from "../Menus/UI_HeroIcon";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BagMain extends fui_BagMain {
@@ -60,7 +61,9 @@ export default class UI_BagMain extends fui_BagMain {
 	}
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
-		let item = obj as UI_PropBtn;
+		// let item = obj as UI_PropBtn;
+		// item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
+		let item = obj as UI_HeroIcon;
 		item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
 	}
 	// 点击item

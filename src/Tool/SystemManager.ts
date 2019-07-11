@@ -44,7 +44,7 @@ export default class SystemManager {
 		wx.login({
 			success: function (result) {
 				let data = {
-					code: "11005",//result.code,
+					code: result.code,
 				}
 				if (Game.userData.inviter) {
 					data["inviter"] = Game.userData.inviter;

@@ -97,8 +97,38 @@ export default class UI_Trial extends fui_Trial {
 			this.m_c1.setSelectedIndex(0);
 			this.m_cdStatus.setSelectedIndex(0);
 		}
-		this.m_mapid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_map]);
-		this.m_levelid.icon = SpriteKey.getUrl(SpriteKey[Game.battleData.play_level]);
+		let first = SpriteKey.num1;
+		switch (Game.battleData.play_map) {
+			case 1:
+				first = SpriteKey.num1;
+				break;
+			case 2:
+				first = SpriteKey.num2;
+				break;
+			case 3:
+				first = SpriteKey.num3;
+				break;
+			case 4:
+				first = SpriteKey.num4;
+				break;
+		}
+		let end = SpriteKey.num1;
+		switch (Game.battleData.play_level) {
+			case 1:
+				end = SpriteKey.num1;
+				break;
+			case 2:
+				end = SpriteKey.num2;
+				break;
+			case 3:
+				end = SpriteKey.num3;
+				break;
+			case 4:
+				end = SpriteKey.num4;
+				break;
+		}
+		this.m_mapid.icon = SpriteKey.getUrl(first);
+		this.m_levelid.icon = SpriteKey.getUrl(end);
 	}
 	private showFightCd(cd: number): void {
 		this.m_cd.text = Fun.format("冷却时间：{0}", Fun.formatTime(cd));

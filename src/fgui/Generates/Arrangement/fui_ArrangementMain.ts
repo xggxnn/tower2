@@ -18,6 +18,9 @@ export default class fui_ArrangementMain extends fairygui.GComponent {
 	public m_associationList:fairygui.GList;
 	public m_recommendPos:fairygui.GLoader;
 	public m_removeSeatBtn:fairygui.GButton;
+	public m_feicui:fairygui.GTextField;
+	public m_baoshi:fairygui.GTextField;
+	public m_gold:fairygui.GTextField;
 
 	public static URL:string = "ui://9wh71t3fog780";
 
@@ -46,5 +49,8 @@ export default class fui_ArrangementMain extends fairygui.GComponent {
 		this.m_associationList = <fairygui.GList><any>(this.getChildAt(15));
 		this.m_recommendPos = <fairygui.GLoader><any>(this.getChildAt(16));
 		this.m_removeSeatBtn = <fairygui.GButton><any>(this.getChildAt(17));
+		this.m_feicui = <fairygui.GTextField><any>(this.getChildAt(18));
+		this.m_baoshi = <fairygui.GTextField><any>(this.getChildAt(19));
+		this.m_gold = <fairygui.GTextField><any>(this.getChildAt(20));
 	}
 }

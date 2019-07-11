@@ -1,4 +1,5 @@
 import HeroInfo from "../../dataInfo/HeroInfo";
+import Game from "../../Game";
 
 export default class HeroData {
     public constructor() { }
@@ -23,9 +24,13 @@ export default class HeroData {
     // 当前攻击力
     public get curAp(): number {
         // 等级加成
+        Game.playData.curLevel;
         // 星级加成
+        Game.playData.curStar;
         // buff加成
         // 羁绊加成
+        let ass = Game.battleData.refrushAssociation();
+
         return 0;
     }
 

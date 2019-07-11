@@ -5,6 +5,8 @@ import MenuWindows from "./MenuWindows";
 import { MenuOpenParameter } from "./MenuOpenParameter";
 import { MenuCtlStateType } from "./MenuCtlStateType";
 import Game from "../Game";
+import EventManager from "../Tool/EventManager";
+import EventKey from "../Tool/EventKey";
 
 export default class MenuManager {
 
@@ -58,7 +60,7 @@ export default class MenuManager {
 
 			setTimeout(() => {
 				this.close(menuId);
-			}, 10);
+			}, 5);
 		}
 	}
 	// 获取最后打开的面板
@@ -99,6 +101,9 @@ export default class MenuManager {
 	}
 	// 打开模块
 	private _open(menuId: MenuId, parametar: MenuOpenParameter) {
+		if (menuId != MenuId.Load) {
+			EventManager.event(EventKey.SHOW_UI_WAIT);
+		}
 		let ctl = this.getMenuCtl(menuId);
 		if (!ctl) {
 

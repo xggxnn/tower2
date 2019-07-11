@@ -63,6 +63,7 @@ export default class FGUIResPackageConfig {
         config.packageName = "Home";
         config.resDir = "fgui";
         config.resBin = "Home.bin";
+        config.resAtlas.push("Home_atlas0.png");
         this.addconfig(config);
 
 

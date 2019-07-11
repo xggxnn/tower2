@@ -82,36 +82,8 @@ export default class UI_PropBtn extends fui_PropBtn {
 		if (this.moduleWindow == null) this.moduleWindow = moduleWindow;
 		this.heroInf = heroInf;
 		this.title = heroInf.name;
-		let index: number = Number(this.heroInf.id);
-		while (index > 6) {
-			index -= 6;
-		}
-		switch (index) {
-			case 0:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1001)
-				break;
-			case 1:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1002)
-				break;
-			case 2:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1003)
-				break;
-			case 3:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1005)
-				break;
-			case 4:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1006)
-				break;
-			case 5:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1007)
-				break;
-			case 6:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1012)
-				break;
-			default:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1001)
-				break;
-		}
+		this.icon = SpriteKey.getUrl("icon" + this.heroInf.id + ".png");
+
 		this.m_status.setSelectedIndex(2);
 	}
 
@@ -146,36 +118,7 @@ export default class UI_PropBtn extends fui_PropBtn {
 	public clipsSetData(id: string, Clips: number, moduleWindow?: BagWin): void {
 		let heroInf = HeroInfo.getInfo(id);
 		this.title = Fun.format("{0}X{1}", heroInf.name, Clips);
-		let index: number = Number(heroInf.id);
-		while (index > 6) {
-			index -= 6;
-		}
-		switch (index) {
-			case 0:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1001)
-				break;
-			case 1:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1002)
-				break;
-			case 2:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1003)
-				break;
-			case 3:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1005)
-				break;
-			case 4:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1006)
-				break;
-			case 5:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1007)
-				break;
-			case 6:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1012)
-				break;
-			default:
-				this.icon = SpriteKey.getUrl(SpriteKey.icon_1001)
-				break;
-		}
+		this.icon = SpriteKey.getUrl("icon" + heroInf.id + ".png");
 		this.m_status.setSelectedIndex(2);
 	}
 

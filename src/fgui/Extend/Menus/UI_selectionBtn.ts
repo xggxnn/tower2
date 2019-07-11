@@ -1,6 +1,7 @@
 import fui_selectionBtn from "../../Generates/Menus/fui_selectionBtn";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import Game from "../../../Game";
+import SpriteKey from "../../SpriteKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_selectionBtn extends fui_selectionBtn {
@@ -52,8 +53,38 @@ export default class UI_selectionBtn extends fui_selectionBtn {
 		if (level < 1) level = 1;
 		if (level > 4) level = 4;
 		this.m_pic.setSelectedIndex(isboss ? 1 : 0);
-		this.m_top.setSelectedIndex(map - 1);
-		this.m_end.setSelectedIndex(level - 1);
+		let first = SpriteKey.num1;
+		switch (map) {
+			case 1:
+				first = SpriteKey.num1;
+				break;
+			case 2:
+				first = SpriteKey.num2;
+				break;
+			case 3:
+				first = SpriteKey.num3;
+				break;
+			case 4:
+				first = SpriteKey.num4;
+				break;
+		}
+		let end = SpriteKey.num1;
+		switch (level) {
+			case 1:
+				end = SpriteKey.num1;
+				break;
+			case 2:
+				end = SpriteKey.num2;
+				break;
+			case 3:
+				end = SpriteKey.num3;
+				break;
+			case 4:
+				end = SpriteKey.num4;
+				break;
+		}
+		this.m_first.icon = SpriteKey.getUrl(first);
+		this.m_end.icon = SpriteKey.getUrl(end);
 	}
 
 }

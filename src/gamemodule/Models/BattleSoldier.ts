@@ -25,19 +25,16 @@ export default class BattleSoldier extends BattleModel {
     private constructor(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null) {
         super(true);
         this.dataInf = monster;
+        this._id = 28;// this.dataInf.skId;
+        this._sk = Pools.skFetch("enemy_" + this._id);
         if (initPos == 0 || initPos == 1) {
-            this._id = 1;
-            if (Math.random() * 6 < 3) this._id = 28
-            this._sk = Pools.skFetch("enemy_" + this._id);
-            if (this._id == 1) {
-                this._sk.scale(2, 2);
-            }
-            this.dataInf.skId = this._id;
+            // if (this._id == 1) {
+            //     this._sk.scale(2, 2);
+            // }
             this.dataInf.scales = new Laya.Point(this._sk.scaleX, this._sk.scaleY);
             this.dataInf.shadowScales = new Laya.Point(1.7, 1.7);
         }
         else if (initPos == 2) {
-            this._sk = Pools.skFetch("enemy_" + this.dataInf.skId);
             this._sk.scale(this.dataInf.scales.x, this.dataInf.scales.y);
         }
         this.playStand();

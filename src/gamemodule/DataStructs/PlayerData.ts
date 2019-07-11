@@ -30,7 +30,7 @@ export default class PlayerData {
         return this._curGold;
     }
     public set curGold(v: number) {
-        this._curGold = v;
+        this._curGold = Math.floor(v);
         EventManager.event(EventKey.COIN_GOLD_UPDATE);
     }
     // 当前翡翠
@@ -39,7 +39,7 @@ export default class PlayerData {
         return this._curJadeite;
     }
     public set curJadeite(v: number) {
-        this._curJadeite = v;
+        this._curJadeite = Math.floor(v);
         EventManager.event(EventKey.COIN_JADEITE_UPDATE);
     }
     // 当前宝石
@@ -48,7 +48,7 @@ export default class PlayerData {
         return this._curDiamond;
     }
     public set curDiamond(v: number) {
-        this._curDiamond = v;
+        this._curDiamond = Math.floor(v);
         EventManager.event(EventKey.COIN_DIAMOND_UPDATE);
     }
     // 当前魔尘数量
@@ -57,7 +57,7 @@ export default class PlayerData {
         return this._curMagic;
     }
     public set curMagic(v: number) {
-        this._curMagic = v;
+        this._curMagic = Math.floor(v);
     }
 
     // 当前等级

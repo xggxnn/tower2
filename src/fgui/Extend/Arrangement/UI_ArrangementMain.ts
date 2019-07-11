@@ -107,6 +107,15 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			Game.battleData.seatBtn = null;
 		}
 	}
+	private refreshCoinGold(): void {
+		this.m_gold.text = Fun.format("金币：{0}", Game.playData.curGold);
+	}
+	private refreshCoinDiamond(): void {
+		this.m_baoshi.text = Fun.format("宝石：{0}", Game.playData.curDiamond);
+	}
+	private refreshCoinJadeite(): void {
+		this.m_feicui.text = Fun.format("翡翠：{0}", Game.playData.curJadeite);
+	}
 	// 切换布阵
 	private selectClick(index: number): void {
 		Game.battleScene.seatHeroSelect = index;
@@ -363,6 +372,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		EventManager.on(EventKey.ADD_HERO, this, this.refrushHeroList);
 		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.refreshHeroLevel);
 		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.refreshHeroStar);
+		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinGold);
+		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinDiamond);
+		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinJadeite);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
@@ -379,6 +391,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		}
 		this.refreshHeroLevel();
 		this.refreshHeroStar();
+		this.refreshCoinGold();
+		this.refreshCoinDiamond();
+		this.refreshCoinJadeite();
 	}
 	private refreshHeroLevel(): void {
 		this.m_level.text = Fun.format("等级：{0}", Game.playData.curLevel);

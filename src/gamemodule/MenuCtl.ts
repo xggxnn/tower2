@@ -70,7 +70,7 @@ export default class MenuCtl {
 	// 加载完成
 	private onLoadComplete() {
 		this.setShow();
-		EventManager.event(EventKey.LOADER_OVER);
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
 	}
 
 	protected setShow(): void {
@@ -95,6 +95,7 @@ export default class MenuCtl {
 
 	// 关闭其他模块
 	protected closeOther() {
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		let hasCloseOtherMenu: boolean = false;
 		// 设置返回MenuID
 		let backMenuId = this.__menuManager.getLastOpenMenuId([this.menuId]);
@@ -104,7 +105,7 @@ export default class MenuCtl {
 			let list: MenuCtl[] = Game.menu.dict.getValues();
 			for (let i = 0; i < list.length; i++) {
 				let ctl = list[i];
-				if (ctl.menuId == MenuId.Home)
+				if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load)
 					continue;
 
 				if (ctl != this) {

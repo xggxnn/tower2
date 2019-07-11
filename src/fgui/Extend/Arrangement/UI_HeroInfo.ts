@@ -7,6 +7,7 @@ import Fun from "../../../Tool/Fun";
 import EventManager from "../../../Tool/EventManager";
 import EventKey from "../../../Tool/EventKey";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
+import SpriteKey from "../../SpriteKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroInfo extends fui_HeroInfo {
@@ -53,6 +54,20 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		this.closeUI();
 	}
 
+	setData(): void {
+		this.heroInf = Game.battleData.clickHeroInf;
+		if (this.heroInf != null) {
+			this.m_heroname.text = this.heroInf.name;
+			this.m_race.text = Fun.format("五行：{0}", FiveElementsInfo.getInfoWithType(this.heroInf.race).name);
+			this.m_career.text = Fun.format("门派：{0}", FiveElementsInfo.getInfoWithType(this.heroInf.career).name);
+			this.m_icons.icon = SpriteKey.getUrl("icon" + this.heroInf.id + ".png");
+		}
+		else {
+			console.log("未发现英雄信息");
+			this.closeUI();
+		}
+	}
+
 	// 关闭ui
 	closeUI(): void {
 		this.moduleWindow.windowRemoveChild(this);
@@ -65,16 +80,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetiseOver);
-		this.heroInf = Game.battleData.clickHeroInf;
-		if (this.heroInf != null) {
-			this.m_heroname.text = this.heroInf.name;
-			this.m_race.text = Fun.format("五行：{0}", FiveElementsInfo.getInfoWithType(this.heroInf.race).name);
-			this.m_career.text = Fun.format("门派：{0}", FiveElementsInfo.getInfoWithType(this.heroInf.career).name);
-		}
-		else {
-			console.log("未发现英雄信息");
-			this.closeUI();
-		}
+		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {

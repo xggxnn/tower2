@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary"; 
+import Dictionary from "../Tool/Dictionary";
 
 export default class AssociationSpecialInfo {
 
@@ -37,6 +37,25 @@ export default class AssociationSpecialInfo {
     public get value(): number {
         return Number(this.curInf.getValue("value"));
     }
+    public get Hers(): Array<number> {
+        let hers: Array<number> = [];
+        if (this.hero1 > 0) {
+            hers.push(this.hero1);
+        }
+        if (this.hero2 > 0) {
+            hers.push(this.hero2);
+        }
+        if (this.hero3 > 0) {
+            hers.push(this.hero3);
+        }
+        if (this.hero4 > 0) {
+            hers.push(this.hero4);
+        }
+        if (this.hero5 > 0) {
+            hers.push(this.hero5);
+        }
+        return hers;
+    }
     constructor(id: string) {
         this.curInf = AssociationSpecialInfo.infDic.getValue(id);
     }
@@ -57,7 +76,7 @@ export default class AssociationSpecialInfo {
         if (this.infList == null) {
             let list: string[] = this.infDic.getKeys();
             this.infList = [];
-            for (let i = 0, len = list.length; i < len; i++) { 
+            for (let i = 0, len = list.length; i < len; i++) {
                 this.infList.push(new AssociationSpecialInfo(list[i]));
             }
         }
@@ -77,5 +96,5 @@ export default class AssociationSpecialInfo {
         dic1.add("value", "1");
         this.infDic.add("1", dic1);
     }
-    
+
 }

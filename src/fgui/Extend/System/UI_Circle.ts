@@ -24,7 +24,6 @@ export default class UI_Circle extends fui_Circle {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-
 		EventManager.on(EventKey.LOADER_PROGRESS, this, this.setProgress);
 		EventManager.on(EventKey.LOADER_OVER, this, this.loadOver);
 		EventManager.on(EventKey.SHOW_WAIT, this, this.showWait);

@@ -16,6 +16,7 @@ export default class EnemyData {
         this.resurrection = this._monsterInf.resurrection;
         this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal;
         this.maxHp = this.curHp;
+        this.skId = this._monsterInf.sk;
     }
     // 敌人模型id
     private _skId: number = 1;

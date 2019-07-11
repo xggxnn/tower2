@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary"; 
+import Dictionary from "../Tool/Dictionary";
 
 export default class WaveInfo {
 
@@ -69,7 +69,7 @@ export default class WaveInfo {
         if (this.infList == null) {
             let list: string[] = this.infDic.getKeys();
             this.infList = [];
-            for (let i = 0, len = list.length; i < len; i++) { 
+            for (let i = 0, len = list.length; i < len; i++) {
                 this.infList.push(new WaveInfo(list[i]));
             }
         }
@@ -114,7 +114,7 @@ export default class WaveInfo {
         dic3.add("lv", "7");
         dic3.add("type", "3");
         dic3.add("difficulty", "3");
-        dic3.add("waveform", "3");
+        dic3.add("waveform", "2");
         dic3.add("random", "1235");
         dic3.add("time", "90");
         dic3.add("total_fight", "1");
@@ -273,5 +273,5 @@ export default class WaveInfo {
         dic13.add("diamonds", "4");
         this.infDic.add("13", dic13);
     }
-    
+
 }

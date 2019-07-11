@@ -31,6 +31,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 		Game.sound.playMusic(SoundKey.bgm_1, 0);
+		this._startGame = false;
 
 		Game.parentObject = this.m_scenes.displayObject;
 		Game.bloodParent = this.m_bloods.root;
@@ -63,9 +64,10 @@ export default class UI_BattleMain extends fui_BattleMain {
 	private loadOver: boolean = false;
 	private open(): void {
 		console.log("加载完毕sk");
-		this.loadOver = true;
 		Game.gameStatus = GameStatus.Pause;
-		Game.tipWin.showTip("点击确定开始游戏", Handler.create(this, this.reTryPlay));
+		// Game.tipWin.showTip("点击确定开始游戏", Handler.create(this, this.reTryPlay));
+		this.reTryPlay();
+		this.loadOver = true;
 	}
 
 	// 关闭ui
@@ -90,8 +92,11 @@ export default class UI_BattleMain extends fui_BattleMain {
 		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
 			Game.battleScene.battleSeat[i].onShow();
 		}
+		Game.gameStatus = GameStatus.Pause;
+		this._startGame = false;
 		if (this.loadOver) {
-			Game.tipWin.showTip("点击确定开始游戏", Handler.create(this, this.reTryPlay));
+			// Game.tipWin.showTip("点击确定开始游戏", Handler.create(this, this.reTryPlay));
+			this.reTryPlay();
 		}
 	}
 	// 关闭时调用，相当于disable
@@ -101,10 +106,14 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		EventManager.off(EventKey.ENTER_FRAME, this, this.update);
 	}
+	private _startGame: boolean = false;
 	// 游戏重新开始本关卡
 	private reTryPlay(): void {
-		Game.battleScene.initHeroSeat();
-		EventManager.event(EventKey.RE_TRYPLAY);
+		if (!this._startGame) {
+			this._startGame = true;
+			Game.battleScene.initHeroSeat();
+			EventManager.event(EventKey.RE_TRYPLAY);
+		}
 	}
 	private gameWin(): void {
 		Game.gameStatus = GameStatus.Win;

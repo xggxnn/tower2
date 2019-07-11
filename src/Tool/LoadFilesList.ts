@@ -10,7 +10,6 @@ export default class LoadFilesList {
     // sk文件夹内的enemy类别的加载列表 
     static get sk_enemy_ResList() {
         let _list: Array<string> = [];
-        _list.push("res/sk/enemy_1.sk");
         _list.push("res/sk/enemy_28.sk");
         return _list;
     }

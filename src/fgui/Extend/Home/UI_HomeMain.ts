@@ -6,6 +6,9 @@ import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import Fun from "../../../Tool/Fun";
 import EventKey from "../../../Tool/EventKey";
+import UI_conquestBtn from "./UI_conquestBtn";
+import UI_seatBtn from "./UI_seatBtn";
+import UI_fightBtn from "./UI_fightBtn";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HomeMain extends fui_HomeMain {
@@ -25,17 +28,13 @@ export default class UI_HomeMain extends fui_HomeMain {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-		this.m_fightBtn.onClick(this, this.waveInfoCall);
-		this.m_trialBtn.onClick(this, this.trialClick);
+		this.m_fightBtn.onClick(this, this.menuselect);
 		this.m_seatBtn.onClick(this, this.seatClick);
 		this.m_conquestBtn.onClick(this, this.conquestClick);
-		// EventManager.on(ProtoEvent.WAVEINFO_CALL_BACK, this, this.waveInfoCall);
+		this.m_bagBtn.onClick(this, this.bagClick);
 	}
 
-	// fightClick(): void {
-	// 	Game.proto.waveInfo({});
-	// }
-	private waveInfoCall(): void {
+	private menuselect(): void {
 		Game.menu.open(MenuId.MenuSelect);
 		this.closeUI();
 	}
@@ -50,24 +49,29 @@ export default class UI_HomeMain extends fui_HomeMain {
 			Game.tipWin.showTip("你还没有一个英雄，无法设置阵容");
 		}
 	}
+	bagClick(): void {
+		Game.menu.open(MenuId.Bag);
+	}
 	conquestClick(): void {
 		console.log("conquestClick");
-		Game.menu.open(MenuId.Bag);
 	}
 
 	setData(): void {
 		this.refreshCoinGold();
 		this.refreshCoinDiamond();
 		this.refreshCoinJadeite();
+		(this.m_conquestBtn as UI_conquestBtn).setData();
+		(this.m_seatBtn as UI_seatBtn).setData();
+		(this.m_fightBtn as UI_fightBtn).setData();
 	}
 	private refreshCoinGold(): void {
-		this.m_gold.text = Fun.format("金币：{0}", Game.playData.curGold);
+		this.m_gold.text = Fun.format("{0}", Game.playData.curGold);
 	}
 	private refreshCoinDiamond(): void {
-		this.m_baoshi.text = Fun.format("宝石：{0}", Game.playData.curDiamond);
+		this.m_diamond.text = Fun.format("{0}", Game.playData.curDiamond);
 	}
 	private refreshCoinJadeite(): void {
-		this.m_feicui.text = Fun.format("翡翠：{0}", Game.playData.curJadeite);
+		this.m_jadeite.text = Fun.format("{0}", Game.playData.curJadeite);
 	}
 
 	// 关闭ui

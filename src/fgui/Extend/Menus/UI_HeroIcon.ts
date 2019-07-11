@@ -2,6 +2,8 @@ import fui_HeroIcon from "../../Generates/Menus/fui_HeroIcon";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import ItemInfo from "../../../gamemodule/DataStructs/ItemInfo";
 import Fun from "../../../Tool/Fun";
+import HeroInfo from "../../../dataInfo/HeroInfo";
+import SpriteKey from "../../SpriteKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroIcon extends fui_HeroIcon {
@@ -32,6 +34,14 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 		else {
 			this.m_c1.setSelectedIndex(2);
 		}
+	}
+
+	// 显示碎片
+	public clipsSetData(id: string, Clips: number): void {
+		let heroInf = HeroInfo.getInfo(id);
+		this.m_number.text = Fun.format("{0}X{1}", heroInf.name, Clips);
+		this.m_headIcon.icon = SpriteKey.getUrl("icon" + heroInf.id + ".png");
+		this.m_c1.setSelectedIndex(3);
 	}
 
 	// 关闭ui
