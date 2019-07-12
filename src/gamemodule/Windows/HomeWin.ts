@@ -4,6 +4,7 @@ import UI_HomeMain from "../../fgui/Extend/Home/UI_HomeMain";
 import UI_conquestBtn from "../../fgui/Extend/Home/UI_conquestBtn";
 import UI_fightBtn from "../../fgui/Extend/Home/UI_fightBtn";
 import UI_seatBtn from "../../fgui/Extend/Home/UI_seatBtn";
+import UI_HeadIcon from "../../fgui/Extend/Menus/UI_HeadIcon";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class HomeWin extends FWindow {
 	content: UI_HomeMain;
@@ -16,6 +17,7 @@ export default class HomeWin extends FWindow {
 		this.addAssetForFguiComponent(UI_conquestBtn);
 		this.addAssetForFguiComponent(UI_fightBtn);
 		this.addAssetForFguiComponent(UI_seatBtn);
+		this.addAssetForFguiComponent(UI_HeadIcon);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_HomeMain.createInstance();

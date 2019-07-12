@@ -61,11 +61,11 @@ export default class UI_PropBtn extends fui_PropBtn {
 		else {
 			// 交换位置
 			let oldInf = this.heroInf;
-			this.addHero(Game.battleData.heroInf);
 			if (Game.battleData.seatBtn != null) {
 				Game.battleData.seatBtn.addHero(oldInf);
 				Game.battleData.seatBtn = null;
 			}
+			this.addHero(Game.battleData.heroInf);
 		}
 	}
 	// 上阵英雄
@@ -84,7 +84,7 @@ export default class UI_PropBtn extends fui_PropBtn {
 		this.title = heroInf.name;
 		this.icon = SpriteKey.getUrl("icon" + this.heroInf.id + ".png");
 
-		this.m_status.setSelectedIndex(2);
+		this.m_status.setSelectedIndex(1);
 	}
 
 	private seatIndex: number = -1;
@@ -119,7 +119,7 @@ export default class UI_PropBtn extends fui_PropBtn {
 		let heroInf = HeroInfo.getInfo(id);
 		this.title = Fun.format("{0}X{1}", heroInf.name, Clips);
 		this.icon = SpriteKey.getUrl("icon" + heroInf.id + ".png");
-		this.m_status.setSelectedIndex(2);
+		this.m_status.setSelectedIndex(1);
 	}
 
 	// 关闭ui

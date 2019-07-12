@@ -64,7 +64,6 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_select1.onClick(this, this.selectClick, [0]);
 		this.m_select2.onClick(this, this.selectClick, [1]);
 		this.m_select3.onClick(this, this.selectClick, [2]);
-		this.selectBtnEnable();
 	}
 	private levelTick: Tick = null;
 	private _levelAdd: number = 0;
@@ -110,22 +109,15 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	private refreshCoinGold(): void {
 		this.m_gold.text = Fun.format("金币：{0}", Game.playData.curGold);
 	}
-	private refreshCoinDiamond(): void {
-		this.m_baoshi.text = Fun.format("宝石：{0}", Game.playData.curDiamond);
-	}
 	private refreshCoinJadeite(): void {
-		this.m_feicui.text = Fun.format("翡翠：{0}", Game.playData.curJadeite);
+		this.m_jadeite.text = Fun.format("翡翠：{0}", Game.playData.curJadeite);
 	}
 	// 切换布阵
 	private selectClick(index: number): void {
-		Game.battleScene.seatHeroSelect = index;
-		this.selectBtnEnable();
-		this.refrushHeroList();
-	}
-	private selectBtnEnable(): void {
-		this.m_select1.enabled = Game.battleScene.seatHeroSelect != 0;
-		this.m_select2.enabled = Game.battleScene.seatHeroSelect != 1;
-		this.m_select3.enabled = Game.battleScene.seatHeroSelect != 2;
+		if (Game.battleScene.seatHeroSelect != index) {
+			Game.battleScene.seatHeroSelect = index;
+			this.refrushHeroList();
+		}
 	}
 
 	private rect: Laya.Rectangle;
@@ -208,109 +200,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_seatList.numItems = 9;
 		this.refrushAssociation();
 	}
-	// private raceDic: Dictionary<number, number> = new Dictionary<number, number>();
-	// private careerDic: Dictionary<number, number> = new Dictionary<number, number>();
 	// 显示所有羁绊关系
 	private refrushAssociation(): void {
 		this.association = Game.battleData.refrushAssociation(true);
-		// if (this.raceDic.count > 0) {
-		// 	let races = this.raceDic.getKeys();
-		// 	let racelist = AssociationRaceInfo.getList();
-		// 	let temraceList: Dictionary<number, AssociationRaceInfo> = new Dictionary<number, AssociationRaceInfo>();
-		// 	for (let i = 0, len = racelist.length; i < len; i++) {
-		// 		let temRace = racelist[i].race;
-		// 		if (races.indexOf(String(temRace)) != -1) {
-		// 			if (racelist[i].num <= this.raceDic.getValue(temRace)) {
-		// 				if (temraceList.hasKey(temRace)) {
-		// 					let val = temraceList.getValue(temRace);
-		// 					if (racelist[i].num > val.num) {
-		// 						temraceList.add(racelist[i].race, racelist[i]);
-		// 					}
-		// 				}
-		// 				else {
-		// 					temraceList.add(racelist[i].race, racelist[i]);
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// 	if (temraceList.count > 0) {
-		// 		let valList = temraceList.getValues();
-		// 		for (let i = 0, len = valList.length; i < len; i++) {
-		// 			let _ass = new Association();
-		// 			_ass.num = valList[i].num;
-		// 			_ass.attribute_id = valList[i].attribute;
-		// 			_ass.values = valList[i].value;
-		// 			_ass.race = valList[i].race;
-		// 			_ass.names = FiveElementsInfo.getInfoWithType(_ass.race).name;
-		// 			this.association.push(_ass);
-		// 		}
-		// 	}
-		// }
-		// if (this.careerDic.count > 0) {
-		// 	let races = this.careerDic.getKeys();
-		// 	let racelist = AssociationCareerInfo.getList();
-		// 	let temraceList: Dictionary<number, AssociationCareerInfo> = new Dictionary<number, AssociationCareerInfo>();
-		// 	for (let i = 0, len = racelist.length; i < len; i++) {
-		// 		let temRace = racelist[i].career;
-		// 		if (races.indexOf(String(temRace)) != -1) {
-		// 			if (racelist[i].num <= this.careerDic.getValue(temRace)) {
-		// 				if (temraceList.hasKey(temRace)) {
-		// 					let val = temraceList.getValue(temRace);
-		// 					if (racelist[i].num > val.num) {
-		// 						temraceList.add(racelist[i].career, racelist[i]);
-		// 					}
-		// 				}
-		// 				else {
-		// 					temraceList.add(racelist[i].career, racelist[i]);
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// 	if (temraceList.count > 0) {
-		// 		let valList = temraceList.getValues();
-		// 		for (let i = 0, len = valList.length; i < len; i++) {
-		// 			let _ass = new Association();
-		// 			_ass.num = valList[i].num;
-		// 			_ass.attribute_id = valList[i].attribute;
-		// 			_ass.values = valList[i].value;
-		// 			_ass.career = valList[i].career;
-		// 			_ass.names = FiveElementsInfo.getInfoWithType(_ass.career).name;
-		// 			this.association.push(_ass);
-		// 		}
-		// 	}
-		// }
-
-
-		// let speciallist = AssociationSpecialInfo.getList();
-		// for (let i = 0, len = speciallist.length; i < len; i++) {
-		// 	let _ass = new Association();
-		// 	_ass.names = speciallist[i].name;
-		// 	_ass.attribute_id = speciallist[i].attribute;
-		// 	_ass.values = speciallist[i].value;
-		// 	let heros = [];
-		// 	let hero1 = speciallist[i].hero1;
-		// 	let hero2 = speciallist[i].hero2;
-		// 	let hero3 = speciallist[i].hero3;
-		// 	let hero4 = speciallist[i].hero4;
-		// 	let hero5 = speciallist[i].hero5;
-		// 	if (hero1 != 0) {
-		// 		heros.push(hero1);
-		// 	}
-		// 	if (hero2 != 0) {
-		// 		heros.push(hero2);
-		// 	}
-		// 	if (hero3 != 0) {
-		// 		heros.push(hero3);
-		// 	}
-		// 	if (hero4 != 0) {
-		// 		heros.push(hero4);
-		// 	}
-		// 	if (hero5 != 0) {
-		// 		heros.push(hero5);
-		// 	}
-		// 	_ass.hero = heros;
-		// 	this.association.push(_ass);
-		// }
 		this.m_associationList.numItems = this.association.length;
 	}
 
@@ -329,8 +221,8 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 
 	// Association渲染item
 	private initAssociationItem(index: number, obj: fairygui.GObject): void {
-		let item = obj as UI_Association;
-		item.setData(this.association[index], this.moduleWindow);
+		// let item = obj as UI_Association;
+		// item.setData(this.association[index], this.moduleWindow);
 	}
 
 	private heroList: HeroInfo[] = [];
@@ -373,7 +265,6 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.refreshHeroLevel);
 		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.refreshHeroStar);
 		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinGold);
-		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinDiamond);
 		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinJadeite);
 		this.setData();
 	}
@@ -392,7 +283,6 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.refreshHeroLevel();
 		this.refreshHeroStar();
 		this.refreshCoinGold();
-		this.refreshCoinDiamond();
 		this.refreshCoinJadeite();
 	}
 	private refreshHeroLevel(): void {
