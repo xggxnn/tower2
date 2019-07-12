@@ -70,6 +70,7 @@ export default class BattleMap {
     public set curMap(v: number) {
         this._curMap = v;
     }
+
     // 最大地图  id 
     private _maxMapId: number = 1;
     public get maxMapId(): number {
@@ -98,7 +99,7 @@ export default class BattleMap {
     public openMap(): void {
         let curwaveinf = WaveInfo.getInfo(Game.battleData.level_id);
         if (curwaveinf) {
-            this.curMap = curwaveinf.map;
+            this.curMap = curwaveinf.id;
             this.levelWave = 0;
             this.setwaveInf(Game.battleData.level_id);
             EventManager.event(EventKey.MAP_REFRUSH);

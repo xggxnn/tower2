@@ -97,8 +97,10 @@ export default class UI_Trial extends fui_Trial {
 			this.m_c1.setSelectedIndex(0);
 			this.m_cdStatus.setSelectedIndex(0);
 		}
+		let map = Game.battleData.level_id % 10;
+		let level = Game.battleData.level_id / 10;
 		let first = SpriteKey.num1;
-		switch (Game.battleData.play_map) {
+		switch (map) {
 			case 1:
 				first = SpriteKey.num1;
 				break;
@@ -113,7 +115,7 @@ export default class UI_Trial extends fui_Trial {
 				break;
 		}
 		let end = SpriteKey.num1;
-		switch (Game.battleData.play_level) {
+		switch (level) {
 			case 1:
 				end = SpriteKey.num1;
 				break;

@@ -43,9 +43,9 @@ export default class UI_selectionBtn extends fui_selectionBtn {
 
 	/**
 	 * 
-	 * @param isboss 是否boss关卡
 	 * @param map 第几个地图
 	 * @param level 第几关
+	 * @param isboss 是否boss关卡
 	 */
 	public setData(map: number, level: number, isboss?: boolean): void {
 		if (map < 1) map = 1;

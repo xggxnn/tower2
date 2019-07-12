@@ -2,7 +2,6 @@ import fui_Selection from "../../Generates/Menus/fui_Selection";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import UI_selectionBtn from "./UI_selectionBtn";
 import Game from "../../../Game";
-import WaveInfo from "../../../dataInfo/WaveInfo";
 import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
@@ -45,8 +44,9 @@ export default class UI_Selection extends fui_Selection {
 
 	public setDate(index: number): void {
 		let levelId = index + 1;
-		this.waveInfo = WaveInfo.getInfo(levelId);
-		(this.m_selBtn as UI_selectionBtn).setData(this.waveInfo.map, this.waveInfo.level);
+		let map = levelId % 10;
+		let level = levelId / 10;
+		(this.m_selBtn as UI_selectionBtn).setData(map, level);
 		if (Game.battleMap.waveStatusDict.hasKey(levelId)) {
 			let item = Game.battleMap.waveStatusDict.getValue(levelId);
 			this.m_status.setSelectedIndex(2);
@@ -62,7 +62,6 @@ export default class UI_Selection extends fui_Selection {
 			this.m_selBtn.enabled = false;
 		}
 	}
-	public waveInfo: WaveInfo = null;
 
 }
 UI_Selection.bind();

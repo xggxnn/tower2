@@ -6,7 +6,7 @@ import Game from "../Game";
 
 export default class ProtoServer {
 	private static get SERVER_URL(): string {
-		return "http://192.168.10.178/td2/v1/facade.php";
+		return "https://td2.yz063.com/td2/v1/facade.php";
 	}
 	public static init(): void {
 		EventManager.on(EventKey.ENTER_SECOND, ProtoServer, ProtoServer.update);
