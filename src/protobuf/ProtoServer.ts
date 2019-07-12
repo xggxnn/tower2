@@ -70,10 +70,11 @@ export default class ProtoServer {
 					if (json.hasOwnProperty("sysTime")) {
 						TimerManager.timestamp = json.sysTime;
 					}
-					if (json.hasOwnProperty("errCode")) {
-						Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), Laya.Handler.create(this, this.closeWait));
-					}
-					else {
+					// if (json.hasOwnProperty("errCode")) {
+					// 	Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), Laya.Handler.create(this, this.closeWait));
+					// }
+					// else
+					{
 						// console.log("   >>> back:", json.protoId, json);
 						// // 用户数据变更
 						// if (json.hasOwnProperty("userData")) {

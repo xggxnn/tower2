@@ -41,6 +41,7 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "Battle.bin";
         config.resAtlas.push("Battle_atlas0.png");
+        config.resAtlas.push("Battle_atlas_n1s01.png");
         this.addconfig(config);
 
 
@@ -64,6 +65,7 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "Home.bin";
         config.resAtlas.push("Home_atlas0.png");
+        config.resAtlas.push("Home_atlas_j5ct1m.png");
         this.addconfig(config);
 
 
@@ -72,6 +74,7 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "Menus.bin";
         config.resAtlas.push("Menus_atlas0.png");
+        config.resAtlas.push("Menus_atlas_udz43.png");
         this.addconfig(config);
 
 

@@ -12,8 +12,5 @@ loadLib("libs/laya.core.js")
 loadLib("libs/laya.ani.js")
 loadLib("libs/laya.html.js")
 loadLib("libs/fairygui/fairygui.js")
-loadLib("libs/dom.js")
-loadLib("libs/dom_parser.js")
-loadLib("libs/sax.js")
 //-----libs-end-------
 loadLib("js/bundle.js");

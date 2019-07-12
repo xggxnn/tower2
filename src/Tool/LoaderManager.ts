@@ -7,18 +7,17 @@ export default class LoaderManager {
 
 	private static loadHash: Object = {};
 	public static init(): void {
-		// Laya.MiniAdpter.autoCacheFile = false;
-		// Laya.MiniAdpter.nativefiles = [
-		// 	"res_code",
-		// 	"res_font"
-		// ];
+		Laya.MiniAdpter.autoCacheFile = false;
+		Laya.MiniAdpter.nativefiles = [
+			"res"
+		];
 		// Laya.URL.basePath = "http://192.168.10.127/";
 		// Laya.loader.retryDelay = 100;
 		Laya.loader.retryNum = 3;
 		Laya.loader.on(Laya.Event.ERROR, LoaderManager, LoaderManager.loadError);
 		EventManager.on(EventKey.LOADER_ERROR, SystemManager, SystemManager.loadError);
 		EventManager.on(EventKey.LOADER_FAIL, SystemManager, SystemManager.loadFail);
-		// Laya.MiniAdpter.enable();
+		Laya.MiniAdpter.enable();
 	}
 	private static network: boolean = true;
 	public static loadError(url: string): void {
