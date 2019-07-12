@@ -280,10 +280,12 @@ export default class BattleMap {
         }
         else {
             console.log("敌人刷新完毕");
-            this.nextCD = this.curTime * 100;
-            return;
+            if (listBoss.length == 0) {
+                this.nextCD = this.curTime * 100;
+                return;
+            }
         }
-        if (this.nextMonster != null) {
+        if (this.nextMonster != null || listBoss.length > 0) {
             this.levelWave++;
             let curTimePeriod = Math.floor(this.waveTime / 10);
             for (let i = 9; i >= 0; i--) {
@@ -312,6 +314,9 @@ export default class BattleMap {
                             // 生成一个boss
                             this.bossInfo = listBoss[Math.floor(this.mathrandom1.random(listBoss.length))];
                         }
+                    }
+                    if (this.nextMonster == null) {
+                        break;
                     }
                     // 攻速判断
                     if (this.waveType == 1 || this.waveType == 2 || this.waveType == 3) {

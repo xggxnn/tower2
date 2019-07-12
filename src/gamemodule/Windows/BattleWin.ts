@@ -1,6 +1,5 @@
 import FWindow from "../FWindow";
 import UI_AssociationBtn from "../../fgui/Extend/Battle/UI_AssociationBtn";
-import UI_bagua from "../../fgui/Extend/Battle/UI_bagua";
 import UI_BattleLeftBottom from "../../fgui/Extend/Battle/UI_BattleLeftBottom";
 import UI_BattleLeftTop from "../../fgui/Extend/Battle/UI_BattleLeftTop";
 import UI_BattleMain from "../../fgui/Extend/Battle/UI_BattleMain";
@@ -19,7 +18,6 @@ export default class BattleWin extends FWindow {
 	content: UI_BattleMain;
 
 	AssociationBtn: UI_AssociationBtn;
-	bagua: UI_bagua;
 	BattleLeftBottom: UI_BattleLeftBottom;
 	BattleLeftTop: UI_BattleLeftTop;
 	BattleRightBottom: UI_BattleRightBottom;
@@ -34,7 +32,6 @@ export default class BattleWin extends FWindow {
 	constructor() {
 		super();
 		this.addAssetForFguiComponent(UI_AssociationBtn);
-		this.addAssetForFguiComponent(UI_bagua);
 		this.addAssetForFguiComponent(UI_BattleLeftBottom);
 		this.addAssetForFguiComponent(UI_BattleLeftTop);
 		this.addAssetForFguiComponent(UI_BattleMain);

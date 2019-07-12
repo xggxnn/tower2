@@ -50,10 +50,14 @@ export default class BattleData {
         if (Game.battleMap.curTime < Game.battleMap.waveTime) {
             if (Game.battleMap.curTime >= Game.battleMap.nextCD) {
                 Game.battleMap.enemyInf();
-                let dataInf = new EnemyData();
-                dataInf.monsterInf = Game.battleMap.nextMonster
-                Game.battleScene.createEnemy(Game.battleMap.levelWave % 2, false, dataInf);
+                if (Game.battleMap.nextMonster != null) {
+                    // 生成怪物
+                    let dataInf = new EnemyData();
+                    dataInf.monsterInf = Game.battleMap.nextMonster
+                    Game.battleScene.createEnemy(Game.battleMap.levelWave % 2, false, dataInf);
+                }
                 if (Game.battleMap.bossInfo != null) {
+                    // 生成boss
                     let dataInf2 = new EnemyData();
                     dataInf2.monsterInf = Game.battleMap.bossInfo
                     Game.battleScene.createEnemy(Game.battleMap.levelWave % 2, true, dataInf2);

@@ -19,7 +19,7 @@ export default class UI_seatBtn extends fui_seatBtn {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-
+		this.m_hitTip.bold = true;
 	}
 
 	public setData(): void {

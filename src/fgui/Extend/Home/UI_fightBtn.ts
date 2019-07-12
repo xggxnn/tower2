@@ -21,7 +21,7 @@ export default class UI_fightBtn extends fui_fightBtn {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-
+		this.m_cur.bold = true;
 	}
 
 	public setData(): void {
@@ -34,6 +34,7 @@ export default class UI_fightBtn extends fui_fightBtn {
 		}
 		let waveInf = WaveInfo.getInfo(id);
 		this.m_cur.setVar("map", waveInf.map.toString()).setVar("level", waveInf.level.toString()).flushVars();
+
 	}
 
 	// 关闭ui
