@@ -4,6 +4,7 @@ import fui_GeneralBtns from "./fui_GeneralBtns";
 
 export default class fui_HeroInfo extends fairygui.GComponent {
 
+	public m_teshu:fairygui.Controller;
 	public m_closeBtn:fairygui.GButton;
 	public m_heroname:fairygui.GTextField;
 	public m_icons:fairygui.GLoader;
@@ -35,6 +36,7 @@ export default class fui_HeroInfo extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
+		this.m_teshu = this.getControllerAt(0);
 		this.m_closeBtn = <fairygui.GButton><any>(this.getChildAt(4));
 		this.m_heroname = <fairygui.GTextField><any>(this.getChildAt(5));
 		this.m_icons = <fairygui.GLoader><any>(this.getChildAt(8));

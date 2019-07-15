@@ -5,6 +5,7 @@ import BattleHero from "./BattleHero";
 import BattleBuffHalo from "./BattleBuffHalo";
 import BattleSkillHalo from "./BattleSkillHalo";
 import EventKey from "../../Tool/EventKey";
+import UI_BattleMain from "../../fgui/Extend/Battle/UI_BattleMain";
 
 export default class BattleSeat extends Laya.Sprite {
     static create(facade: fairygui.GComponent, index: number): BattleSeat {
@@ -14,22 +15,23 @@ export default class BattleSeat extends Laya.Sprite {
         super();
         this.facade = facade;
         this._index = index;
-        // this.facade.onClick(this, this.onClick);
+        this.facade.onClick(this, this.onClick);
     }
     private facade: fairygui.GComponent = null;
     private _index: number;
-    public onShow(): void {
+    public onShow(battleMain: UI_BattleMain): void {
+        this.battleMain = battleMain;
         EventManager.on(EventKey.ENTER_FRAME, this, this.update);
         EventManager.on(EventKey.ADD_HERO, this, this.addHero);
         EventManager.on(EventKey.REMOVE_HERO, this, this.removeHero);
     }
     public onClose(): void {
-        // this.facade.offClick(this, this.onClick);
         EventManager.offAllCaller(this);
     }
-    // onClick(): void {
-    //     Game.sound.playSound(SoundKey.click);
-    // }
+    battleMain: UI_BattleMain;
+    onClick(): void {
+        this.battleMain.showHeroInfo(this._index);
+    }
     private update(): void {
         this.frame++;
         if (this.frame % this.INTERVAL != 0) return;

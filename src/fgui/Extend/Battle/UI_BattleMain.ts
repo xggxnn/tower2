@@ -11,6 +11,7 @@ import { GameStatus } from "../../../gamemodule/DataEnums/GameStatus";
 import Handler = Laya.Handler;
 import BattleModel from "../../../gamemodule/Models/BattleModel";
 import UI_Stone from "./UI_Stone";
+import HeroInfo from "../../../dataInfo/HeroInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleMain extends fui_BattleMain {
@@ -90,7 +91,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.moduleWindow.createRightBottom();
 		this.moduleWindow.createTopMiddle();
 		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
-			Game.battleScene.battleSeat[i].onShow();
+			Game.battleScene.battleSeat[i].onShow(this);
 		}
 		Game.gameStatus = GameStatus.Pause;
 		this._startGame = false;
@@ -106,6 +107,16 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		EventManager.off(EventKey.ENTER_FRAME, this, this.update);
 	}
+
+	showHeroInfo(index: number): void {
+		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
+		let seatList = dic.getValues();
+		if (seatList[index] > 0) {
+			Game.battleData.clickHeroInf = HeroInfo.getInfo(seatList[index]);
+			this.moduleWindow.createHeroInfoUI();
+		}
+	}
+
 	private _startGame: boolean = false;
 	// 游戏重新开始本关卡
 	private reTryPlay(): void {

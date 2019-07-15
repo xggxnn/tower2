@@ -9,6 +9,7 @@ import FiveElementsInfo from "../../../dataInfo/FiveElementsInfo";
 import SpriteKey from "../../SpriteKey";
 import EventKey from "../../../Tool/EventKey";
 import FWindow from "../../../gamemodule/FWindow";
+import SkillInfo from "../../../dataInfo/SkillInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroInfo extends fui_HeroInfo {
@@ -63,6 +64,13 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 			this.m_race.text = Fun.format("五行：{0}", FiveElementsInfo.getInfoWithType(this.heroInf.race).name);
 			this.m_career.text = Fun.format("门派：{0}", FiveElementsInfo.getInfoWithType(this.heroInf.career).name);
 			this.m_icons.icon = SpriteKey.getUrl("icon" + this.heroInf.id + ".png");
+			let skill = SkillInfo.getInfo(this.heroInf.skill_id_1);
+			this.m_atk.setVar("count", skill.atk.toFixed(1)).flushVars();
+			this.m_atkspeed.setVar("count", (1 / skill.cd).toFixed(1)).flushVars();
+			this.m_cirt.setVar("count", (skill.crit * 100).toFixed(1)).flushVars();
+			this.m_burst.setVar("count", (skill.burst * 100).toFixed(0)).flushVars();
+			let skill2 = SkillInfo.getInfo(this.heroInf.skill_id_2);
+			this.m_skillname.setVar("count", skill2.explain).flushVars();
 		}
 		else {
 			console.log("未发现英雄信息");

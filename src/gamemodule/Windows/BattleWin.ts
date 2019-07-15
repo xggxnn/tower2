@@ -13,6 +13,7 @@ import UI_Shadow from "../../fgui/Extend/Battle/UI_Shadow";
 import UI_SkillBtn from "../../fgui/Extend/Battle/UI_SkillBtn";
 import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
 import Fun from "../../Tool/Fun";
+import UI_HeroInfo from "../../fgui/Extend/Home/UI_HeroInfo";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class BattleWin extends FWindow {
 	content: UI_BattleMain;
@@ -29,6 +30,7 @@ export default class BattleWin extends FWindow {
 	Shadow: UI_Shadow;
 	SkillBtn: UI_SkillBtn;
 	Stone: UI_Stone;
+	HeroInfoUI: UI_HeroInfo;
 	constructor() {
 		super();
 		this.addAssetForFguiComponent(UI_AssociationBtn);
@@ -44,6 +46,7 @@ export default class BattleWin extends FWindow {
 		this.addAssetForFguiComponent(UI_Shadow);
 		this.addAssetForFguiComponent(UI_SkillBtn);
 		this.addAssetForFguiComponent(UI_Stone);
+		this.addAssetForFguiComponent(UI_HeroInfo);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_BattleMain.createInstance();
@@ -97,5 +100,12 @@ export default class BattleWin extends FWindow {
 		}
 		this.windowAddChild(this.BattleTopMiddle);
 		this.BattleTopMiddle.setXY(Fun.topMiddlePoint.x, Fun.topMiddlePoint.y);
+	}
+	public createHeroInfoUI() {
+		if (!this.HeroInfoUI || this.HeroInfoUI == null) {
+			this.HeroInfoUI = UI_HeroInfo.createInstance();
+		}
+		this.windowAddChild(this.HeroInfoUI);
+		this.HeroInfoUI.setWin(this, false);
 	}
 }

@@ -68,6 +68,8 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_select2.onClick(this, this.selectClick, [1]);
 		this.m_select3.onClick(this, this.selectClick, [2]);
 
+		fairygui.DragDropManager.inst.dragAgent.setScale(0.5, 0.5);
+
 		this.tuijianInit();
 		this.qianghuaInit();
 	}

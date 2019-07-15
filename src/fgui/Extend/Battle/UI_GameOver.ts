@@ -47,6 +47,7 @@ export default class UI_GameOver extends fui_GameOver {
 
 	setData(): void {
 		EventManager.event(EventKey.SHOW_UI_WAIT);
+		this.m_rewardList.numItems = 0;
 		this.m_gainBtn.visible = false;
 		this.m_upBtn.visible = false;
 		let value: number = Game.gameStatus == GameStatus.Win ? 0 : 1;
@@ -68,7 +69,6 @@ export default class UI_GameOver extends fui_GameOver {
 				Game.tick.clearTick(this.tick);
 				this.tick = null;
 			}
-			this.m_rewardList.numItems = 0;
 			this.tick = Game.tick.addTick(Game.battleData.fight_result.length - 1, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 20);
 			this.tick.Start();
 		}
