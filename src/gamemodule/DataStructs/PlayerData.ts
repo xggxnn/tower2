@@ -60,8 +60,8 @@ export default class PlayerData {
         this._curMagic = Math.floor(v);
     }
 
-    // 当前等级
     private _curStar: number = 0;
+    // 当前星级
     public get curStar(): number {
         return this._curStar;
     }
@@ -69,8 +69,8 @@ export default class PlayerData {
         this._curStar = v;
         EventManager.event(EventKey.HERO_STAR_UPDATE);
     }
-    // 当前星级
     private _curLevel: number = 0;
+    // 当前等级
     public get curLevel(): number {
         return this._curLevel;
     }
@@ -78,6 +78,45 @@ export default class PlayerData {
         this._curLevel = v;
         EventManager.event(EventKey.HERO_LEVEL_UPDATE);
     }
+
+    private _curFightVal: number = 0;
+    // 当前总战力
+    public get curFightVal(): number {
+        return this._curFightVal;
+    }
+    public set curFightVal(v: number) {
+        this._curFightVal = v;
+    }
+
+    private _curSpeedVal: number = 0;
+    // 当前总攻速
+    public get curSpeedVal(): number {
+        return this._curSpeedVal;
+    }
+    public set curSpeedVal(v: number) {
+        this._curSpeedVal = v;
+    }
+
+    private _curCritVal: number = 0;
+    // 当前总暴击
+    public get curCritVal(): number {
+        return this._curCritVal;
+    }
+    public set curCritVal(v: number) {
+        this._curCritVal = v;
+    }
+
+    private _curBurstVal: number = 0;
+    // 当前总爆伤
+    public get curBurstVal(): number {
+        return this._curBurstVal;
+    }
+    public set curBurstVal(v: number) {
+        this._curBurstVal = v;
+    }
+
+
+
     // 当前英雄碎片数量
     private _curClips: Dictionary<number, number> = new Dictionary<number, number>();
     public get curClips(): Dictionary<number, number> {

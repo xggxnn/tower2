@@ -34,7 +34,7 @@ export default class UI_Trial extends fui_Trial {
 	}
 	seatClickBtn(): void {
 		if (Game.playData.curHero.length > 0) {
-			Game.menu.open(MenuId.Arrange);
+			Game.menu.open(MenuId.Arrange, this.m_c1.selectedIndex);
 		}
 		else {
 			Game.tipWin.showTip("你还没有一个英雄，无法设置阵容");
@@ -71,6 +71,8 @@ export default class UI_Trial extends fui_Trial {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
+		this.m_curFight.setVar("count", Game.playData.curFightVal.toFixed(1)).flushVars();
+		this.m_curSpeed.setVar("count", Game.playData.curSpeedVal.toFixed(1)).flushVars();
 		this.item = null;
 		if (Game.battleMap.waveStatusDict.hasKey(Game.battleData.level_id)) {
 			this.item = Game.battleMap.waveStatusDict.getValue(Game.battleData.level_id);
@@ -97,40 +99,9 @@ export default class UI_Trial extends fui_Trial {
 			this.m_c1.setSelectedIndex(0);
 			this.m_cdStatus.setSelectedIndex(0);
 		}
-		let map = Game.battleData.level_id % 10;
-		let level = Game.battleData.level_id / 10;
-		let first = SpriteKey.num1;
-		switch (map) {
-			case 1:
-				first = SpriteKey.num1;
-				break;
-			case 2:
-				first = SpriteKey.num2;
-				break;
-			case 3:
-				first = SpriteKey.num3;
-				break;
-			case 4:
-				first = SpriteKey.num4;
-				break;
-		}
-		let end = SpriteKey.num1;
-		switch (level) {
-			case 1:
-				end = SpriteKey.num1;
-				break;
-			case 2:
-				end = SpriteKey.num2;
-				break;
-			case 3:
-				end = SpriteKey.num3;
-				break;
-			case 4:
-				end = SpriteKey.num4;
-				break;
-		}
-		this.m_mapid.icon = SpriteKey.getUrl(first);
-		this.m_levelid.icon = SpriteKey.getUrl(end);
+		let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
+		this.m_mapid.icon = SpriteKey.getUrl(Fun.numToUrl(mapLevel.map));
+		this.m_levelid.icon = SpriteKey.getUrl(Fun.numToUrl(mapLevel.level));
 	}
 	private showFightCd(cd: number): void {
 		this.m_cd.text = Fun.format("冷却时间：{0}", Fun.formatTime(cd));

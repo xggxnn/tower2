@@ -14,6 +14,7 @@ import EnemyData from "./EnemyData";
 import ItemInfo from "./ItemInfo";
 import Signal from "../../Tool/Signal";
 import AssociationSpecialInfo from "../../dataInfo/AssociationSpecialInfo";
+import SkillInfo from "../../dataInfo/SkillInfo";
 
 export default class BattleData {
 
@@ -118,7 +119,26 @@ export default class BattleData {
         this._clickHeroInf = v;
     }
 
-
+    /**
+     * 刷新当前阵容战力信息
+     */
+    public refrushSeatFightInf(): void {
+        let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
+        let seatList = dic.getValues();
+        Game.playData.curFightVal = 0;
+        Game.playData.curSpeedVal = 0;
+        Game.playData.curCritVal = 0;
+        Game.playData.curBurstVal = 0;
+        for (let i = 0; i < 9; i++) {
+            if (seatList[i] > 0) {
+                let skill = SkillInfo.getInfo(seatList[i]);
+                Game.playData.curSpeedVal += 1 / skill.cd;
+                Game.playData.curFightVal += skill.atk;
+                Game.playData.curCritVal += skill.crit;
+                Game.playData.curBurstVal += skill.burst
+            }
+        }
+    }
 
 
     // 当前展示那个羁绊信息 --- 点击推荐羁绊时使用

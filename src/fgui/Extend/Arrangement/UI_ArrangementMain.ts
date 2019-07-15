@@ -16,6 +16,8 @@ import Fun from "../../../Tool/Fun";
 import UI_AssItem from "./UI_AssItem";
 import AssociationAttributeInfo from "../../../dataInfo/AssociationAttributeInfo";
 import TimeHouseInfo from "../../../dataInfo/TimeHouseInfo";
+import SpriteKey from "../../SpriteKey";
+import SkillInfo from "../../../dataInfo/SkillInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ArrangementMain extends fui_ArrangementMain {
@@ -111,10 +113,10 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		}
 	}
 	private refreshCoinGold(): void {
-		this.m_gold.text = Fun.format("金币：{0}", Game.playData.curGold);
+		this.m_gold.text = Fun.format("{0}", Fun.formatNumberUnit(Game.playData.curGold));
 	}
 	private refreshCoinJadeite(): void {
-		this.m_jadeite.text = Fun.format("翡翠：{0}", Game.playData.curJadeite);
+		this.m_jadeite.text = Fun.format("{0}", Fun.formatNumberUnit(Game.playData.curJadeite));
 	}
 	// 切换布阵
 	private selectClick(index: number): void {
@@ -198,12 +200,29 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.heroList = [];
 		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
 		let seatList = dic.getValues();
+		let speed = 0;
+		let atk = 0;
+		let crit = 0;
+		let burst = 0;
 		for (let i = 0, len = list.length; i < len; i++) {
 			if (seatList.indexOf(list[i]) == -1) {
 				let hero = HeroInfo.getInfo(list[i]);
 				this.heroList.push(hero);
 			}
+			else {
+				let skill = SkillInfo.getInfo(list[i]);
+				speed += 1 / skill.cd;
+				atk += skill.atk;
+				crit += skill.crit;
+				burst += skill.burst
+			}
 		}
+		Game.playData.curFightVal = atk;
+		Game.playData.curSpeedVal = speed;
+		this.m_hit2.setVar("count", atk.toFixed(1)).flushVars();
+		this.m_speed2.setVar("count", speed.toFixed(1)).flushVars();
+		this.m_cirt2.setVar("count", (crit * 100).toFixed(1)).flushVars();
+		this.m_burt2.setVar("count", (burst * 100).toFixed(0)).flushVars();
 		this.m_heroList.numItems = this.heroList.length;
 		this.m_seatList.numItems = 9;
 		this.refrushAssociation();
@@ -285,6 +304,16 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 	// 界面赋值
 	private setData(): void {
+		var args: Array<any> = this.moduleWindow.menuParameter.args;
+		if (args.length > 0) {
+			let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
+			this.m_titleMap.icon = SpriteKey.getUrl(Fun.numToUrl(mapLevel.map));
+			this.m_titleLevel.icon = SpriteKey.getUrl(Fun.numToUrl(mapLevel.level));
+			this.m_showTitle.setSelectedIndex(args[0] + 1);
+		}
+		else {
+			this.m_showTitle.setSelectedIndex(0);
+		}
 		this.changeStatus(0);
 		this.refrushHeroList();
 		if (this.heroList.length > 0) {

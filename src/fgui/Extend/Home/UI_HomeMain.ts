@@ -66,13 +66,13 @@ export default class UI_HomeMain extends fui_HomeMain {
 		(this.m_fightBtn as UI_fightBtn).setData();
 	}
 	private refreshCoinGold(): void {
-		this.m_gold.text = Fun.format("{0}", Game.playData.curGold);
+		this.m_gold.text = Fun.format("{0}", Fun.formatNumberUnit(Game.playData.curGold));
 	}
 	private refreshCoinDiamond(): void {
-		this.m_diamond.text = Fun.format("{0}", Game.playData.curDiamond);
+		this.m_diamond.text = Fun.format("{0}", Fun.formatNumberUnit(Game.playData.curDiamond));
 	}
 	private refreshCoinJadeite(): void {
-		this.m_jadeite.text = Fun.format("{0}", Game.playData.curJadeite);
+		this.m_jadeite.text = Fun.format("{0}", Fun.formatNumberUnit(Game.playData.curJadeite));
 	}
 
 	// 关闭ui

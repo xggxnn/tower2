@@ -1,6 +1,7 @@
 import fui_fightBtn from "../../Generates/Home/fui_fightBtn";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_fightBtn extends fui_fightBtn {
@@ -31,9 +32,8 @@ export default class UI_fightBtn extends fui_fightBtn {
 		if (Game.battleMap.maxMapId > 1) {
 			id = Game.battleMap.maxMapId;
 		}
-		let map = id % 10;
-		let level = id / 10;
-		this.m_cur.setVar("map", map.toString()).setVar("level", level.toString()).flushVars();
+		let ml = Fun.idToMapLevel(id);
+		this.m_cur.setVar("map", ml.map.toString()).setVar("level", ml.level.toString()).flushVars();
 
 	}
 

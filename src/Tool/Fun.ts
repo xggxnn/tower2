@@ -1,5 +1,6 @@
 import Game from "../Game";
 import Dictionary from "./Dictionary";
+import SpriteKey from "../fgui/SpriteKey";
 
 export default class Fun {
 	public static format(value, ...args): string {
@@ -291,10 +292,29 @@ export default class Fun {
 		return this._ScenePoint.getValue("topMiddlePoint");
 	}
 
+	public static numToUrl(num: number): string {
+		let result = SpriteKey.num1;
+		switch (num) {
+			case 1:
+				result = SpriteKey.num1;
+				break;
+			case 2:
+				result = SpriteKey.num2;
+				break;
+			case 3:
+				result = SpriteKey.num3;
+				break;
+			case 4:
+				result = SpriteKey.num4;
+				break;
+		}
+		return result;
+	}
+
 	/**
 	 * 格式化数字
 	 * @param value 数字
-	 * @param fixed 保留几位小数
+	 * @param fixed 保留几位小数，默认1位小数
 	 */
 	public static formatNumberUnit(value: number, fixed: number = 1): string {
 		var str = ""
@@ -329,15 +349,35 @@ export default class Fun {
 
 		return result;
 	}
+
+	/**
+	 * 依据关卡id，获取map和level
+	 * @param id 
+	 */
+	public static idToMapLevel(id: number): any {
+		if (id < 1) id = 1;
+		id = id + 10;
+		let map = Math.floor(id / 10);
+		let level = Math.floor(id % 10);
+		if (level == 0 && map > 1) {
+			map--;
+			level = 10;
+		}
+		let result: Object = {
+			map: map,
+			level: level,
+		}
+		return result;
+	}
 }
 
 class __NumberUnitValue {
-	static K: number = 1000;
-	static M: number = 1000 * 1000;
-	static B: number = 1000 * 1000 * 100;
+	static K: number = 10000;
+	static M: number = 10000 * 100;
+	static B: number = 10000 * 10000;
 }
 class __NumberUnitText {
-	static B: string = "千";
+	static K: string = "万";
 	static M: string = "百万";
-	static K: string = "亿";
+	static B: string = "亿";
 }

@@ -44,9 +44,8 @@ export default class UI_Selection extends fui_Selection {
 
 	public setDate(index: number): void {
 		let levelId = index + 1;
-		let map = levelId % 10;
-		let level = levelId / 10;
-		(this.m_selBtn as UI_selectionBtn).setData(map, level);
+		let mapLevel = Fun.idToMapLevel(levelId);
+		(this.m_selBtn as UI_selectionBtn).setData(mapLevel.map, mapLevel.level);
 		if (Game.battleMap.waveStatusDict.hasKey(levelId)) {
 			let item = Game.battleMap.waveStatusDict.getValue(levelId);
 			this.m_status.setSelectedIndex(2);

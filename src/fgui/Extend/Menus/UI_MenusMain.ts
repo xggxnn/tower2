@@ -72,6 +72,9 @@ export default class UI_MenusMain extends fui_MenusMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
+
+		Game.battleData.refrushSeatFightInf();
+
 		for (let i = 0, len = this.selectList.length; i < len; i++) {
 			this.selectList[i].setDate(i);
 		}
