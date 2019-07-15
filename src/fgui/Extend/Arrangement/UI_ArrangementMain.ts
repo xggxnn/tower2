@@ -6,7 +6,6 @@ import HeroInfo from "../../../dataInfo/HeroInfo";
 import EventManager from "../../../Tool/EventManager";
 import EventKey from "../../../Tool/EventKey";
 import Dictionary from "../../../Tool/Dictionary";
-import UI_Association from "./UI_Association";
 import AssociationRaceInfo from "../../../dataInfo/AssociationRaceInfo";
 import AssociationCareerInfo from "../../../dataInfo/AssociationCareerInfo";
 import AssociationSpecialInfo from "../../../dataInfo/AssociationSpecialInfo";
@@ -14,6 +13,9 @@ import Association from "../../../gamemodule/DataStructs/Association";
 import FiveElementsInfo from "../../../dataInfo/FiveElementsInfo";
 import { Tick } from "../../../Tool/TickManager";
 import Fun from "../../../Tool/Fun";
+import UI_AssItem from "./UI_AssItem";
+import AssociationAttributeInfo from "../../../dataInfo/AssociationAttributeInfo";
+import TimeHouseInfo from "../../../dataInfo/TimeHouseInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ArrangementMain extends fui_ArrangementMain {
@@ -37,8 +39,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_heroList.setVirtual();
 		// 设置列表渲染函数
 		this.m_heroList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
-		// 列表内容单个item被点击
-		// this.m_heroList.on(fairygui.Events.CLICK_ITEM, this, this.onClickItem);
+
 		this.m_heroList.on(Laya.Event.MOUSE_MOVE, this, this.onScroll);
 		this.m_heroList.on(Laya.Event.MOUSE_OUT, this, this.onScrollout);
 		this.m_heroList.on(Laya.Event.MOUSE_UP, this, this.onScrollup);
@@ -64,6 +65,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_select1.onClick(this, this.selectClick, [0]);
 		this.m_select2.onClick(this, this.selectClick, [1]);
 		this.m_select3.onClick(this, this.selectClick, [2]);
+
+		this.tuijianInit();
+		this.qianghuaInit();
 	}
 	private levelTick: Tick = null;
 	private _levelAdd: number = 0;
@@ -120,29 +124,32 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		}
 	}
 
-	private rect: Laya.Rectangle;
 	private dragItem: UI_PropBtn = null;
-	// 拖拽列表中
+	// 拖拽英雄列表中
 	private onScroll(): void {
 		if (Game.battleData.startDrag) return;
 		if (this.dragItem == null) {
-			this.rect = this.m_heroList.localToGlobalRect(0, 0, this.m_heroList.width, this.m_heroList.height);
-			let cur: number = 0;
-			while (this.dragItem == null && cur < this.m_heroList.numItems) {
+			let listNum = this.m_heroList.numItems;
+			for (let cur = 0; cur < listNum; cur++) {
+				if (cur >= listNum - this.m_heroList.getFirstChildInView()) {
+					break;
+				}
 				let item = this.m_heroList.getChildAt(cur) as UI_PropBtn;
-				let rect = item.localToGlobalRect(0, 0, item.width, item.height);
-				if (rect.x >= this.rect.x + this.rect.width) {
-					break;
+				if (item) {
+					if (this.m_heroList.scrollPane.isChildInView(item)) {
+						let itemRect = item.localToGlobalRect(0, 0, item.width, item.height);
+						if (Laya.stage.mouseX < itemRect.x) {
+							break;
+						}
+						if (Laya.stage.mouseX > itemRect.x) {
+							this.dragItem = item
+						}
+					}
 				}
-				if (rect.x < Laya.stage.mouseX && rect.x + item.width > Laya.stage.mouseX) {
-					this.dragItem = item;
-					break;
-				}
-				cur++;
 			}
 		}
 	}
-	// 拖拽出列表范围
+	// 拖拽出英雄列表范围
 	private onScrollout(): void {
 		if (Game.battleData.startDrag) return;
 		if (this.dragItem == null || this.dragItem.heroInf == null) return;
@@ -170,20 +177,21 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 				Game.battleData.startDrag = false;
 			}, 10);
 		}
+		else {
+			Game.battleData.heroInf = null;
+			this.dragItem = null;
+			Game.battleData.seatPos = -1;
+			this.mouseupTimeout = -1;
+			Game.battleData.startDrag = false;
+		}
 	}
 	private mouseupTimeout: number = -1;
 
-	// 渲染item
+	// 渲染item 英雄列表的item
 	private initItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_PropBtn;
 		item.setData(this.heroList[index], this.moduleWindow);
 	}
-	// // 点击item
-	// private onClickItem(obj: fairygui.GObject): void {
-	// 	let index = this.m_heroList.getChildIndex(obj);
-	// 	// 转换为点击item在整个列表中的真实索引
-	// 	var realIndex: number = this.m_heroList.childIndexToItemIndex(index);
-	// }
 	// 刷新英雄列表
 	private refrushHeroList(): void {
 		let list = Game.playData.curHero;
@@ -221,8 +229,8 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 
 	// Association渲染item
 	private initAssociationItem(index: number, obj: fairygui.GObject): void {
-		// let item = obj as UI_Association;
-		// item.setData(this.association[index], this.moduleWindow);
+		let item = obj as UI_AssItem;
+		item.setData(this.association[index], this);
 	}
 
 	private heroList: HeroInfo[] = [];
@@ -262,6 +270,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		Laya.stage.on(Laya.Event.MOUSE_UP, this, this.mouseUp);
 		Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.mouseUp);
 		EventManager.on(EventKey.ADD_HERO, this, this.refrushHeroList);
+		EventManager.on(EventKey.ADD_HERO, this, this.refrushTuijianHeroList);
 		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.refreshHeroLevel);
 		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.refreshHeroStar);
 		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinGold);
@@ -274,8 +283,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		Laya.stage.off(Laya.Event.MOUSE_OUT, this, this.mouseUp);
 		EventManager.offAllCaller(this);
 	}
-
+	// 界面赋值
 	private setData(): void {
+		this.changeStatus(0);
 		this.refrushHeroList();
 		if (this.heroList.length > 0) {
 			this.m_heroList.scrollToView(0);
@@ -284,12 +294,250 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.refreshHeroStar();
 		this.refreshCoinGold();
 		this.refreshCoinJadeite();
+		this.m_tab.setSelectedIndex(Game.battleScene.seatHeroSelect);
 	}
+	// 刷新英雄等级
 	private refreshHeroLevel(): void {
-		this.m_level.text = Fun.format("等级：{0}", Game.playData.curLevel);
+		let timeHouse: TimeHouseInfo = TimeHouseInfo.getInfoLv(Game.playData.curLevel);
+		this.m_levelUpBtn.title = Fun.formatNumberUnit(timeHouse.cost_gold);
+		this.m_level.setVar("count", Game.playData.curLevel.toString()).flushVars();
 	}
+	// 刷新英雄星级
 	private refreshHeroStar(): void {
-		this.m_star.text = Fun.format("星级：{0}", Game.playData.curStar);
+		let list = TimeHouseInfo.getList();
+		for (let i = list.length - 1; i >= 0; i--) {
+			if (list[i].star == Game.playData.curStar && list[i].cost_jadeite > 0) {
+				this.m_starUpBtn.title = Fun.formatNumberUnit(list[i].cost_jadeite);
+				break;
+			}
+		}
+		this.m_star.setVar("count", Game.playData.curStar.toString()).flushVars();
 	}
+
+
+
+
+	// 切换状态
+	public changeStatus(index: number): void {
+		if (this.m_page.selectedIndex != index) {
+			this.m_page.setSelectedIndex(index);
+			if (index == 1) {
+				// 强化
+			}
+			else if (index == 2) {
+				// 推荐阵容
+				this.refrushTuijianHeroList();
+			}
+		}
+	}
+
+	/***********************	推荐相关	************************ */
+	private tuijianInit(): void {
+		this.m_tuijianbackBtn.onClick(this, this.changeStatus, [0]);
+		this.m_tuijianheroList.setVirtual();
+		// 设置列表渲染函数
+		this.m_tuijianheroList.itemRenderer = Laya.Handler.create(this, this.initTuijianItem, null, false);
+
+		this.m_tuijianheroList.on(Laya.Event.MOUSE_MOVE, this, this.onScrollTuijian);
+		this.m_tuijianheroList.on(Laya.Event.MOUSE_OUT, this, this.onScrolloutTuijian);
+		this.m_tuijianheroList.on(Laya.Event.MOUSE_UP, this, this.onScrollup);
+	}
+
+	private tuijianHeroList: HeroInfo[] = [];
+	private tuijianAssociation: Association = null;
+	// 刷新推荐英雄列表
+	private refrushTuijianHeroList(): void {
+		if (this.m_page.selectedIndex != 2) return;
+		let list = Game.playData.curHero;
+		this.tuijianHeroList = [];
+		let ass = Game.battleData.association;
+		let dic = Game.battleScene.seatHeroDic.getValue(Game.battleScene.seatHeroSelect);
+		let seatList = dic.getValues();
+		for (let i = 0, len = list.length; i < len; i++) {
+			if (seatList.indexOf(list[i]) != -1) {
+				continue;
+			}
+			let hero = HeroInfo.getInfo(list[i]);
+			if (ass.race != 0) {
+				if (hero.race == ass.race) {
+					this.tuijianHeroList.push(hero);
+				}
+			}
+			else if (ass.career != 0) {
+				if (hero.career == ass.career) {
+					this.tuijianHeroList.push(hero);
+				}
+			}
+			else if (ass.hero.length > 0) {
+				for (let k = ass.hero.length - 1; k >= 0; k--) {
+					if (ass.hero[k] == list[i]) {
+						this.tuijianHeroList.push(hero);
+					}
+				}
+			}
+		}
+		this.m_tuijianheroList.numItems = this.tuijianHeroList.length;
+		let assocationLength = 0;
+		for (let i = 0, len = seatList.length; i < len; i++) {
+			if (ass.race != 0) {
+				if (seatList[i] > 0) {
+					let hero = HeroInfo.getInfo(seatList[i]);
+					if (hero.race == ass.race) {
+						assocationLength++;
+					}
+				}
+			}
+			else if (ass.career != 0) {
+				if (seatList[i] > 0) {
+					let hero = HeroInfo.getInfo(seatList[i]);
+					if (hero.career == ass.career) {
+						assocationLength++;
+					}
+				}
+			}
+			else if (ass.hero.length > 0) {
+				for (let k = ass.hero.length - 1; k >= 0; k--) {
+					if (ass.hero.indexOf(seatList[i]) != -1) {
+						assocationLength++;
+					}
+				}
+			}
+		}
+
+		this.tuijianAssociation = null;
+		if (ass.race != 0) {
+			//"职业羁绊：";
+			let racelist = AssociationRaceInfo.getList();
+			let names = FiveElementsInfo.getInfoWithType(ass.race).name;
+			for (let i = 0, len = racelist.length; i < len; i++) {
+				if (racelist[i].race == ass.race && racelist[i].num <= assocationLength) {
+					let _ass = new Association();
+					_ass.names = names;
+					_ass.num = racelist[i].num;
+					_ass.attribute_id = racelist[i].attribute;
+					_ass.values = racelist[i].value;
+					_ass.race = racelist[i].race;
+					if (this.tuijianAssociation == null) {
+						this.tuijianAssociation = _ass;
+					}
+					else {
+						if (this.tuijianAssociation.num < _ass.num) {
+							this.tuijianAssociation = _ass;
+						}
+					}
+				}
+			}
+		}
+		else if (ass.career != 0) {
+			//"种族羁绊：";
+			let careerlist = AssociationCareerInfo.getList();
+			let names = FiveElementsInfo.getInfoWithType(ass.career).name;
+			for (let i = 0, len = careerlist.length; i < len; i++) {
+				if (careerlist[i].career == ass.career && careerlist[i].num <= assocationLength) {
+					let _ass = new Association();
+					_ass.names = names;
+					_ass.num = careerlist[i].num;
+					_ass.attribute_id = careerlist[i].attribute;
+					_ass.values = careerlist[i].value;
+					_ass.career = careerlist[i].career;
+					if (this.tuijianAssociation == null) {
+						this.tuijianAssociation = _ass;
+					}
+					else {
+						if (this.tuijianAssociation.num < _ass.num) {
+							this.tuijianAssociation = _ass;
+						}
+					}
+				}
+			}
+		}
+		else if (ass.hero.length > 0) {
+			// "特殊羁绊：";
+		}
+
+		if (this.tuijianAssociation != null) {
+			let att = AssociationAttributeInfo.getInfo(this.tuijianAssociation.attribute_id);
+			this.m_tip.text = Fun.format("{0} X {1} 触发 ", this.tuijianAssociation.names, this.tuijianAssociation.num) + Fun.format(att.des, this.tuijianAssociation.values);
+		}
+		else {
+			this.m_tip.text = "无";
+		}
+	}
+
+	// 渲染item 英雄列表的item
+	private initTuijianItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_PropBtn;
+		item.setData(this.tuijianHeroList[index], this.moduleWindow);
+	}
+
+	// 拖拽推荐英雄列表中
+	private onScrollTuijian(): void {
+		if (Game.battleData.startDrag) return;
+		if (this.dragItem == null) {
+			let listNum = this.m_tuijianheroList.numItems;
+			for (let cur = 0; cur < listNum; cur++) {
+				if (cur >= listNum - this.m_tuijianheroList.getFirstChildInView()) {
+					break;
+				}
+				let item = this.m_tuijianheroList.getChildAt(cur) as UI_PropBtn;
+				if (item) {
+					if (this.m_tuijianheroList.scrollPane.isChildInView(item)) {
+						let itemRect = item.localToGlobalRect(0, 0, item.width, item.height);
+						if (Laya.stage.mouseX < itemRect.x) {
+							break;
+						}
+						if (Laya.stage.mouseX > itemRect.x) {
+							this.dragItem = item
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 拖拽出英雄列表范围
+	private onScrolloutTuijian(): void {
+		if (Game.battleData.startDrag) return;
+		if (this.dragItem == null || this.dragItem.heroInf == null) return;
+		Game.battleData.seatPos = -1;
+		Game.battleData.heroInf = this.dragItem.heroInf;
+		var btn: fairygui.GButton = <fairygui.GButton>fairygui.GObject.cast(this.dragItem.displayObject);
+		fairygui.DragDropManager.inst.startDrag(btn, btn.icon, btn.icon);
+		Game.battleData.startDrag = true;
+		this.m_tuijianheroList.scrollPane.scrollToView(this.m_tuijianheroList.getFirstChildInView());
+	}
+
+	/***********************	强化相关	************************ */
+	private qianghuaInit(): void {
+		this.m_qianghuabackBtn.onClick(this, this.changeStatus, [0]);
+		// this.m_hitBtn.visible = true;
+		// this.m_hitBtn.onClick(this, this.changeStatus, [1]);
+
+		// this.m_qianghuaheroList.setVirtual();
+		// // 设置列表渲染函数
+		// this.m_qianghuaheroList.itemRenderer = Laya.Handler.create(this, this.initQianghuaItem, null, false);
+
+		// this.m_qianghuaheroList.on(Laya.Event.MOUSE_MOVE, this, this.onScrollTuijian);
+		// this.m_qianghuaheroList.on(Laya.Event.MOUSE_OUT, this, this.onScrollout);
+		// this.m_qianghuaheroList.on(Laya.Event.MOUSE_UP, this, this.onScrollup);
+
+		// this.m_qianghuaheroList2.setVirtual();
+		// // 设置列表渲染函数
+		// this.m_qianghuaheroList2.itemRenderer = Laya.Handler.create(this, this.initTuijianItem, null, false);
+
+		// this.m_qianghuaheroList2.on(Laya.Event.MOUSE_MOVE, this, this.onScrollTuijian);
+		// this.m_qianghuaheroList2.on(Laya.Event.MOUSE_OUT, this, this.onScrollout);
+		// this.m_qianghuaheroList2.on(Laya.Event.MOUSE_UP, this, this.onScrollup);
+	}
+	// private qianghuaHeroList: HeroInfo[] = [];
+	// // 渲染item 英雄列表的item
+	// private initQianghuaItem(index: number, obj: fairygui.GObject): void {
+	// 	let item = obj as UI_PropBtn;
+	// 	item.setData(this.qianghuaHeroList[index], this.moduleWindow);
+	// }
+
+
+
+
 }
 UI_ArrangementMain.bind();

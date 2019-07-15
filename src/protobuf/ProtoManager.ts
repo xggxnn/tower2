@@ -21,6 +21,14 @@ export default class ProtoManager {
 		// pro.send();
 	}
 
+	public addHeroClip(id: number, clips: number): void {
+		let data = {
+			heroId: id,
+			clips: clips,
+		}
+		this.sendPro(data, 101);
+	}
+
 	/**
 	 * 登录
 	 */

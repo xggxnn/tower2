@@ -2,9 +2,9 @@
 
 
 
-export default class fui_HeadIcon extends fairygui.GComponent {
+export default class fui_HeadIcon extends fairygui.GLabel {
 
-	public m_icon:fairygui.GLoader;
+	public m_icons:fairygui.GLoader;
 
 	public static URL:string = "ui://pdzut3twngrs10";
 
@@ -19,6 +19,6 @@ export default class fui_HeadIcon extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
-		this.m_icon = <fairygui.GLoader><any>(this.getChildAt(0));
+		this.m_icons = <fairygui.GLoader><any>(this.getChildAt(0));
 	}
 }

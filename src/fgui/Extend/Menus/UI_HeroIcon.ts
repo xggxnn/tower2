@@ -4,6 +4,7 @@ import ItemInfo from "../../../gamemodule/DataStructs/ItemInfo";
 import Fun from "../../../Tool/Fun";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import SpriteKey from "../../SpriteKey";
+import UI_HeadIcon from "./UI_HeadIcon";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroIcon extends fui_HeroIcon {
@@ -40,7 +41,7 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 	public clipsSetData(id: string, Clips: number): void {
 		let heroInf = HeroInfo.getInfo(id);
 		this.m_number.text = Fun.format("{0}X{1}", heroInf.name, Clips);
-		this.m_headIcon.icon = SpriteKey.getUrl("icon" + heroInf.id + ".png");
+		this.m_headIcon.m_icons.icon = SpriteKey.getUrl("icon" + heroInf.id + ".png");
 		this.m_c1.setSelectedIndex(3);
 	}
 

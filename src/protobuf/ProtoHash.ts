@@ -10,6 +10,7 @@ import Proto1008 from "./Proto1008";
 import Proto1009 from "./Proto1009";
 import Proto1010 from "./Proto1010";
 import Proto1011 from "./Proto1011";
+import Proto101 from "./Proto101";
 
 export default class ProtoHash {
     static protoHash: Object = {
@@ -25,5 +26,6 @@ export default class ProtoHash {
         "1009": new Proto1009(),
         "1010": new Proto1010(),
         "1011": new Proto1011(),
+        "101": new Proto101(),
     }
 }

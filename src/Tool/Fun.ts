@@ -290,4 +290,54 @@ export default class Fun {
 		}
 		return this._ScenePoint.getValue("topMiddlePoint");
 	}
+
+	/**
+	 * 格式化数字
+	 * @param value 数字
+	 * @param fixed 保留几位小数
+	 */
+	public static formatNumberUnit(value: number, fixed: number = 1): string {
+		var str = ""
+		if (value >= __NumberUnitValue.B * 10) {
+			value = value / __NumberUnitValue.B;
+			str = value.toFixed(fixed + 1).slice(0, -1) + __NumberUnitText.B;
+		}
+		else if (value >= __NumberUnitValue.M * 10) {
+			value = value / __NumberUnitValue.M;
+			str = value.toFixed(fixed + 1).slice(0, -1) + __NumberUnitText.M;
+		}
+		else if (value >= __NumberUnitValue.K * 10) {
+			value = value / __NumberUnitValue.K;
+			str = value.toFixed(fixed + 1).slice(0, -1) + __NumberUnitText.K;
+		}
+		else {
+			str = Math.floor(value) + "";
+		}
+
+		var a = str.split(".")
+		var num = parseInt(a[0]);
+		var result = num.toLocaleString('en-US');
+
+		if (a.length >= 2) {
+			if (fixed > 0) {
+				result = result + "." + a[1];
+			}
+			else {
+				result = result + a[1];
+			}
+		}
+
+		return result;
+	}
+}
+
+class __NumberUnitValue {
+	static K: number = 1000;
+	static M: number = 1000 * 1000;
+	static B: number = 1000 * 1000 * 100;
+}
+class __NumberUnitText {
+	static B: string = "千";
+	static M: string = "百万";
+	static K: string = "亿";
 }

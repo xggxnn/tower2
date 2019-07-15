@@ -1,22 +1,23 @@
-import fui_Association from "../../Generates/Arrangement/fui_Association";
+import fui_AssItem from "../../Generates/Arrangement/fui_AssItem";
 import ArrangementWin from "../../../gamemodule/Windows/ArrangementWin";
 import Association from "../../../gamemodule/DataStructs/Association";
+import AssociationAttributeInfo from "../../../dataInfo/AssociationAttributeInfo";
 import Fun from "../../../Tool/Fun";
 import Game from "../../../Game";
-import AssociationAttributeInfo from "../../../dataInfo/AssociationAttributeInfo";
+import UI_ArrangementMain from "./UI_ArrangementMain";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
-export default class UI_Association extends fui_Association {
+export default class UI_AssItem extends fui_AssItem {
 
 	moduleWindow: ArrangementWin;
 
 	public static DependPackages: string[] = ["Arrangement"];
 
-	public static createInstance(): UI_Association {
-		return <UI_Association>(fui_Association.createInstance());
+	public static createInstance(): UI_AssItem {
+		return <UI_AssItem>(fui_AssItem.createInstance());
 	}
 	public static bind(): void {
-		fairygui.UIObjectFactory.setPackageItemExtension(UI_Association.URL, UI_Association);
+		fairygui.UIObjectFactory.setPackageItemExtension(UI_AssItem.URL, UI_AssItem);
 	}
 
 	protected constructFromXML(xml: any): void {
@@ -28,18 +29,19 @@ export default class UI_Association extends fui_Association {
 
 	recomClick(): void {
 		Game.battleData.association = this.datas;
-		this.moduleWindow.createRecommend();
+		this.main.changeStatus(2);
 	}
+	private main: UI_ArrangementMain
 	private datas: Association
-	setData(datas: Association, moduleWindow: ArrangementWin): void {
-		this.moduleWindow = moduleWindow;
+	setData(datas: Association, main: UI_ArrangementMain): void {
+		this.main = main;
 		this.datas = datas;
 		let att = AssociationAttributeInfo.getInfo(datas.attribute_id);
 		if (datas.hero.length > 0) {
-			this.m_title.text = Fun.format("{0} ", datas.names);
+			this.title = Fun.format("{0} ", datas.names);
 		}
 		else {
-			this.m_title.text = Fun.format("{0} X {1} 触发 ", datas.names, datas.num) + Fun.format(att.des, datas.values);
+			this.title = Fun.format("{0} X {1} 触发 ", datas.names, datas.num) + Fun.format(att.des, datas.values);
 		}
 	}
 
@@ -62,4 +64,4 @@ export default class UI_Association extends fui_Association {
 
 
 }
-UI_Association.bind();
+UI_AssItem.bind();
