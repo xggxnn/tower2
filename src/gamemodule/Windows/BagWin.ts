@@ -10,7 +10,6 @@ export default class BagWin extends FWindow {
 	constructor() {
 		super();
 		this.addAssetForFguiComponent(UI_BagMain);
-		this.addAssetForFguiComponent(UI_HeroInfo);
 		this.addAssetForFguiComponent(UI_BagItem);
 	}
 	protected onMenuCreate(): void {

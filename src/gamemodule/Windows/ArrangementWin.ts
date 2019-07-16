@@ -12,7 +12,6 @@ export default class ArrangementWin extends FWindow {
 		super();
 		this.addAssetForFguiComponent(UI_ArrangementMain);
 		this.addAssetForFguiComponent(UI_PropBtn);
-		this.addAssetForFguiComponent(UI_HeroInfo);
 		this.addAssetForFguiComponent(UI_AssItem);
 	}
 	protected onMenuCreate(): void {
