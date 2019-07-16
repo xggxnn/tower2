@@ -30,26 +30,40 @@ export default class UI_BagMain extends fui_BagMain {
 		this.m_list.setVirtual();
 		// 设置列表渲染函数
 		this.m_list.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
-		// 列表内容单个item被点击
-		this.m_list.on(fairygui.Events.CLICK_ITEM, this, this.onClickItem);
 
 		this.m_closeBtn.onClick(this, this.backUI);
 		this.m_kabaoBtn.onClick(this, this.changeType, [0]);
 		this.m_heroBtn.onClick(this, this.changeType, [1]);
 	}
 
-	private curSelect: number = 0;
+	private curSelect: number = -1;
+	// 切换页签
 	private changeType(index: number) {
 		if (this.curSelect != index) {
 			this.curSelect = index;
 			this.m_tab.setSelectedIndex(this.curSelect);
-			if (this.curSelect == 1) {
-				this.datas = Game.playData.curClips;
-				this.idList = Game.playData.curClips.getKeys();
-				this.m_list.numItems = this.datas.count;
-			}
-			else if (this.curSelect == 0) {
-				this.m_list.numItems = 0;
+			switch (this.curSelect) {
+				case 0:
+					{
+						this.m_list.numItems = Game.playData.curGift.length;
+					}
+					break;
+				case 1:
+					{
+						let hero = HeroInfo.getList();
+						this.datas.clear();
+						for (let i = 0, len = hero.length; i < len; i++) {
+							if (Game.playData.curClips.hasKey(hero[i].id)) {
+								this.datas.add(hero[i].id, Game.playData.curClips.getValue(hero[i].id));
+							}
+							else {
+								this.datas.add(hero[i].id, 0);
+							}
+						}
+						this.idList = this.datas.getKeys();
+						this.m_list.numItems = this.datas.count;
+					}
+					break;
 			}
 		}
 	}
@@ -73,37 +87,25 @@ export default class UI_BagMain extends fui_BagMain {
 	}
 
 	private setData(): void {
-		this.changeType(1);
-
+		this.changeType(0);
 	}
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
-		// let item = obj as UI_PropBtn;
-		// item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
 		let item = obj as UI_BagItem;
-		if (this.curSelect == 0) {
-
-		}
-		else if (this.curSelect == 1) {
-			item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
-		}
-	}
-	// 点击item
-	private onClickItem(obj: fairygui.GObject): void {
-		let index = this.m_list.getChildIndex(obj);
-		// 转换为点击item在整个列表中的真实索引
-		var realIndex: number = this.m_list.childIndexToItemIndex(index);
-		if (this.curSelect == 0) {
-
-		}
-		else if (this.curSelect == 1) {
-			let heroInf = HeroInfo.getInfo(this.idList[realIndex]);;
-			if (heroInf != null) {
-				Game.battleData.clickHeroInf = heroInf;
-				this.moduleWindow.createHeroInfoUI();
-			}
+		switch (this.curSelect) {
+			case 0:
+				{
+					item.giftSetData(index, this.moduleWindow);
+				}
+				break;
+			case 1:
+				{
+					item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]), this.moduleWindow);
+				}
+				break;
 		}
 	}
+	// 英雄碎片情况
 	private datas: Dictionary<number, number> = new Dictionary<number, number>();
 	private idList: Array<string> = [];
 }

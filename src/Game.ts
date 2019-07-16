@@ -114,7 +114,6 @@ export default class Game {
 		GameInstaller.install();
 		SystemManager.init();
 		TimerManager.init();
-		window["TowerGame"] = Game;
 	}
 
 	static onInstallComplete() {
@@ -189,3 +188,4 @@ export default class Game {
 		}
 	}
 }
+window["Game"] = Game;

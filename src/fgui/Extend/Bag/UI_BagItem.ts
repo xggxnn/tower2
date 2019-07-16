@@ -2,6 +2,8 @@ import fui_BagItem from "../../Generates/Bag/fui_BagItem";
 import BagWin from "../../../gamemodule/Windows/BagWin";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import SpriteKey from "../../SpriteKey";
+import Game from "../../../Game";
+import GiftData from "../../../gamemodule/DataStructs/GiftData";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BagItem extends fui_BagItem {
@@ -21,15 +23,49 @@ export default class UI_BagItem extends fui_BagItem {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-
+		this.m_checkBtn.onClick(this, this.checkClick);
+	}
+	private types: number = 0;
+	private checkClick(): void {
+		if (this.moduleWindow) {
+			switch (this.types) {
+				case 1:
+					{
+						this.moduleWindow.createGainReward();
+					}
+					break;
+				case 2:
+					{
+						if (this.heroInf != null) {
+							Game.battleData.clickHeroInf = this.heroInf;
+							this.moduleWindow.createHeroInfoUI();
+						}
+					}
+					break;
+			}
+		}
 	}
 
+	public giftSetData(index: number, moduleWindow: BagWin): void {
+		this.moduleWindow = moduleWindow;
+		this.types = 1;
+		let giftdata: GiftData = Game.playData.curGift[index];
+		this.m_tip.text = giftdata.types;
+		this.m_price.setVar("count", giftdata.price.toString()).setVar("price", giftdata.priceTypes).flushVars();
+		this.m_buyNum.setVar("count", giftdata.count.toString()).flushVars();
+		this.m_pic.icon = SpriteKey.getUrl(SpriteKey.Gift);
+		this.m_type.setSelectedIndex(0);
+		this.m_checkBtn.title = "打开";
+	}
+	private heroInf: HeroInfo = null;
 	// 显示碎片
-	public clipsSetData(id: string, Clips: number): void {
-		let heroInf = HeroInfo.getInfo(id);
+	public clipsSetData(id: string, Clips: number, moduleWindow: BagWin): void {
+		this.moduleWindow = moduleWindow;
+		this.types = 2;
+		this.heroInf = HeroInfo.getInfo(id);
 		this.m_clipsNum.setVar("count", Clips.toString()).flushVars();
-		this.m_heroName.setVar("name", heroInf.name).flushVars();
-		this.m_pic.icon = SpriteKey.getUrl("icon" + heroInf.id + ".png");
+		this.m_heroName.setVar("name", this.heroInf.name).flushVars();
+		this.m_pic.icon = SpriteKey.getUrl("icon" + this.heroInf.id + ".png");
 		this.m_type.setSelectedIndex(1);
 		this.m_checkBtn.title = "查看";
 	}

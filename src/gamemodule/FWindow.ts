@@ -83,6 +83,7 @@ export default class FWindow extends fairygui.Window {
 
 	windowAddChild(com: fairygui.GComponent) {
 		if (com) {
+			com["fwindow"] = this;
 			if (!this.windowChildren.hasKey(this.menuId)) {
 				this.windowChildren.add(this.menuId, new Dictionary<number, any>());
 			}

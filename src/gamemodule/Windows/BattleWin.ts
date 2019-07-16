@@ -105,6 +105,5 @@ export default class BattleWin extends FWindow {
 			this.HeroInfoUI = UI_HeroInfo.createInstance();
 		}
 		this.windowAddChild(this.HeroInfoUI);
-		this.HeroInfoUI.setWin(this);
 	}
 }

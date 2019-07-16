@@ -26,6 +26,5 @@ export default class ArrangementWin extends FWindow {
 			this.HeroInfoUI = UI_HeroInfo.createInstance();
 		}
 		this.windowAddChild(this.HeroInfoUI);
-		this.HeroInfoUI.setWin(this);
 	}
 }

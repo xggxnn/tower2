@@ -74,7 +74,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 					this.m_gainmethod.title = "合成";
 				}
 				else {
-					this.m_gainmethod.title = "碎片数量不足";
+					this.m_gainmethod.title = "数量不足";
 					this.m_gainmethod.enabled = false;
 				}
 			}
@@ -88,9 +88,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 			this.closeUI();
 		}
 	}
-	public setWin(fwindow: FWindow) {
-		this.fwindow = fwindow;
-	}
+
 	// 关闭ui
 	closeUI(): void {
 		if (this.fwindow) {

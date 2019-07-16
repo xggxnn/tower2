@@ -8,7 +8,7 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 
 	public static DependPackages: string[] = ["System"];
 
-	public static createInstance(): UI_ItemIcon { 
+	public static createInstance(): UI_ItemIcon {
 		return <UI_ItemIcon>(fui_ItemIcon.createInstance());
 	}
 	public static bind(): void {
@@ -17,8 +17,8 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
-        // 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
-        // ToDo
+		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
+		// ToDo
 
 	}
 
@@ -33,12 +33,18 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 	// 显示，相当于enable
 	onWindowShow(): void {
 
-    }
-    // 关闭时调用，相当于disable
-    onWindowHide(): void {
+	}
+	// 关闭时调用，相当于disable
+	onWindowHide(): void {
 
-    }
+	}
 
+	public index: number;
+	public setData(index: number): void {
+		this.index = index;
+		this.m_number.setVar("count", index.toString()).flushVars();
+		this.m_c1.setSelectedIndex(2);
+	}
 
 }
 UI_ItemIcon.bind();

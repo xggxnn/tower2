@@ -1,6 +1,7 @@
 import EventManager from "../../Tool/EventManager";
 import EventKey from "../../Tool/EventKey";
 import Dictionary from "../../Tool/Dictionary";
+import GiftData from "./GiftData";
 
 export default class PlayerData {
     private static _Instance: PlayerData;
@@ -134,6 +135,39 @@ export default class PlayerData {
         this._curHero = v;
     }
 
+
+    private _curGift: Array<GiftData> = [];
+    // 当前拥有的礼包
+    public get curGift(): Array<GiftData> {
+        // 临时添加
+        if (this._curGift.length == 0) {
+            for (let i = 0; i < 5; i++) {
+                let item = new GiftData();
+                item.id = i + 1;
+                item.count = i;
+                item.icon = "";
+                item.price = (i + 1) * 100;
+                item.priceType = i < 3 ? 0 : 1;
+                item.type = i;
+                this._curGift.push(item);
+            }
+        }
+        return this._curGift;
+    }
+    public set curGift(v: Array<GiftData>) {
+        this._curGift = v;
+    }
+
+
+    /**************** 礼包相关 *************************/
+
+    private _openGift: number = 0;
+    public get openGift(): number {
+        return this._openGift;
+    }
+    public set openGift(v: number) {
+        this._openGift = v;
+    }
 
 
 }
