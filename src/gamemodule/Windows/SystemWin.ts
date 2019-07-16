@@ -8,6 +8,8 @@ import UI_PopupMenu from "../../fgui/Extend/System/UI_PopupMenu";
 import UI_ScrollTxt from "../../fgui/Extend/System/UI_ScrollTxt";
 import UI_TipWin from "../../fgui/Extend/System/UI_TipWin";
 import UI_TotalMessage from "../../fgui/Extend/System/UI_TotalMessage";
+import UI_HeadIcon from "../../fgui/Extend/System/UI_HeadIcon";
+import UI_HeroIcon from "../../fgui/Extend/System/UI_HeroIcon";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class SystemWin extends FWindow {
 	content: UI_Circle;
@@ -31,6 +33,8 @@ export default class SystemWin extends FWindow {
 		this.addAssetForFguiComponent(UI_ScrollTxt);
 		this.addAssetForFguiComponent(UI_TipWin);
 		this.addAssetForFguiComponent(UI_TotalMessage);
+		this.addAssetForFguiComponent(UI_HeadIcon);
+		this.addAssetForFguiComponent(UI_HeroIcon);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_Circle.createInstance();

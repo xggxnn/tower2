@@ -92,6 +92,13 @@ export default class SpriteKey {
         dict.add("star1.png", "gc5l2d");
         dict.add("star2.png", "gc5l2e");
         dict.add("star3.png", "gc5l2f");
+        dict.add("qualitydi.png", "ngrsy");
+        dict.add("Gift.png", "bxj0b");
+        dict.add("diamond.png", "j5ct16");
+        dict.add("jadeite.png", "j5ct1d");
+        dict.add("battle_icon_0.png", "udz4r");
+        dict.add("stone3.png", "udz4s");
+        dict.add("gold.png", "j5ct17");
 
         let exts = SpriteKey._extDict = new Dictionary<string, string>();
         exts.add("icon_1001.png", ".png");
@@ -147,6 +154,13 @@ export default class SpriteKey {
         exts.add("star1.png", ".png");
         exts.add("star2.png", ".png");
         exts.add("star3.png", ".png");
+        exts.add("qualitydi.png", ".png");
+        exts.add("Gift.png", ".png");
+        exts.add("diamond.png", ".png");
+        exts.add("jadeite.png", ".png");
+        exts.add("battle_icon_0.png", ".png");
+        exts.add("stone3.png", ".png");
+        exts.add("gold.png", ".png");
 
     }
 
@@ -206,6 +220,13 @@ export default class SpriteKey {
 	public static star1 = "star1.png";
 	public static star2 = "star2.png";
 	public static star3 = "star3.png";
+	public static qualitydi = "qualitydi.png";
+	public static Gift = "Gift.png";
+	public static diamond = "diamond.png";
+	public static jadeite = "jadeite.png";
+	public static battle_icon_0 = "battle_icon_0.png";
+	public static stone3 = "stone3.png";
+	public static gold = "gold.png";
 
     
 }

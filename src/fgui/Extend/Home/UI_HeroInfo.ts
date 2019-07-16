@@ -32,24 +32,20 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		// ToDo
 		this.m_closeBtn.onClick(this, this.closeUI);
 		this.m_gainmethod.onClick(this, this.clickGain);
-		this.m_gainmethod.title = "临时合成";
+		this.m_gainmethod.title = "获得方式";
 	}
+	private showTip: boolean = false;
 	private clickGain(): void {
-		if (Game.playData.curHero.indexOf(this.heroInf.id) == -1) {
-			if (Game.playData.curClips.getValue(this.heroInf.id) >= 10) {
-				// 英雄合成
-				EventManager.event(EventKey.SHOW_UI_WAIT);
-				let data = {
-					heroId: this.heroInf.id,
-				}
-				Game.proto.synthetise(data);
-			}
-			else {
-				Game.tipWin.showTip("碎片数量不足，无法合成");
-			}
+		if (this.showTip) {
+			Game.popup.showPopup(this.m_gainmethod, false, ["1、闯关<br />2、挂机"]);
 		}
 		else {
-			Game.tipWin.showTip("你已拥有此英雄，无需再次合成", Laya.Handler.create(this, this.closeUI));
+			// 英雄合成
+			EventManager.event(EventKey.SHOW_UI_WAIT);
+			let data = {
+				heroId: this.heroInf.id,
+			}
+			Game.proto.synthetise(data);
 		}
 	}
 	private synthetiseOver(): void {
@@ -71,15 +67,29 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 			this.m_burst.setVar("count", (skill.burst * 100).toFixed(0)).flushVars();
 			let skill2 = SkillInfo.getInfo(this.heroInf.skill_id_2);
 			this.m_skillname.setVar("count", skill2.explain).flushVars();
+			this.m_gainmethod.enabled = true;
+			this.showTip = false;
+			if (Game.playData.curHero.indexOf(this.heroInf.id) == -1) {
+				if (Game.playData.curClips.getValue(this.heroInf.id) >= 10) {
+					this.m_gainmethod.title = "合成";
+				}
+				else {
+					this.m_gainmethod.title = "碎片数量不足";
+					this.m_gainmethod.enabled = false;
+				}
+			}
+			else {
+				this.m_gainmethod.title = "获得方式";
+				this.showTip = true;
+			}
 		}
 		else {
 			console.log("未发现英雄信息");
 			this.closeUI();
 		}
 	}
-	public setWin(fwindow: FWindow, isbag: boolean = false) {
+	public setWin(fwindow: FWindow) {
 		this.fwindow = fwindow;
-		this.m_gainmethod.visible = isbag;
 	}
 	// 关闭ui
 	closeUI(): void {
@@ -94,11 +104,13 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetiseOver);
+		EventManager.on(EventKey.GAMELOSE, this, this.closeUI);
+		EventManager.on(EventKey.GAMEWIN, this, this.closeUI);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-		EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetiseOver);
+		EventManager.offAllCaller(this);
 		Game.battleData.clickHeroInf = null;
 		this.heroInf = null;
 		this.fwindow = null;

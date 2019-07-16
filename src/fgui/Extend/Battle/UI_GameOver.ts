@@ -6,8 +6,8 @@ import { GameStatus } from "../../../gamemodule/DataEnums/GameStatus";
 import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import EventKey from "../../../Tool/EventKey";
-import UI_HeroIcon from "../Menus/UI_HeroIcon";
 import { Tick } from "../../../Tool/TickManager";
+import UI_HeroIcon from "../System/UI_HeroIcon";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_GameOver extends fui_GameOver {

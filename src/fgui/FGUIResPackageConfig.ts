@@ -33,6 +33,7 @@ export default class FGUIResPackageConfig {
         config.packageName = "Bag";
         config.resDir = "fgui";
         config.resBin = "Bag.bin";
+        config.resAtlas.push("Bag_atlas0.png");
         this.addconfig(config);
 
 

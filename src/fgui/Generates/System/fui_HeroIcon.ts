@@ -8,10 +8,10 @@ export default class fui_HeroIcon extends fairygui.GComponent {
 	public m_headIcon:fui_HeadIcon;
 	public m_number:fairygui.GTextField;
 
-	public static URL:string = "ui://pdzut3twngrsz";
+	public static URL:string = "ui://130tmfxdbxj018";
 
 	public static createInstance():fui_HeroIcon {
-		return <fui_HeroIcon><any>(fairygui.UIPackage.createObject("Menus","HeroIcon"));
+		return <fui_HeroIcon><any>(fairygui.UIPackage.createObject("System","HeroIcon"));
 	}
 
 	public constructor() {

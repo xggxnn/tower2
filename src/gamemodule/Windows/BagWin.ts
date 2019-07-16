@@ -1,8 +1,7 @@
 import FWindow from "../FWindow";
 import UI_BagMain from "../../fgui/Extend/Bag/UI_BagMain";
 import UI_HeroInfo from "../../fgui/Extend/Home/UI_HeroInfo";
-import UI_HeroIcon from "../../fgui/Extend/Menus/UI_HeroIcon";
-import UI_HeadIcon from "../../fgui/Extend/Menus/UI_HeadIcon";
+import UI_BagItem from "../../fgui/Extend/Bag/UI_BagItem";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class BagWin extends FWindow {
 	content: UI_BagMain;
@@ -12,8 +11,7 @@ export default class BagWin extends FWindow {
 		super();
 		this.addAssetForFguiComponent(UI_BagMain);
 		this.addAssetForFguiComponent(UI_HeroInfo);
-		this.addAssetForFguiComponent(UI_HeroIcon);
-		this.addAssetForFguiComponent(UI_HeadIcon);
+		this.addAssetForFguiComponent(UI_BagItem);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_BagMain.createInstance();
@@ -25,6 +23,6 @@ export default class BagWin extends FWindow {
 			this.HeroInfoUI = UI_HeroInfo.createInstance();
 		}
 		this.windowAddChild(this.HeroInfoUI);
-		this.HeroInfoUI.setWin(this, true);
+		this.HeroInfoUI.setWin(this);
 	}
 }

@@ -6,7 +6,7 @@ import HeroInfo from "../../../dataInfo/HeroInfo";
 import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import UI_PropBtn from "../Arrangement/UI_PropBtn";
-import UI_HeroIcon from "../Menus/UI_HeroIcon";
+import UI_BagItem from "./UI_BagItem";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BagMain extends fui_BagMain {
@@ -33,7 +33,25 @@ export default class UI_BagMain extends fui_BagMain {
 		// 列表内容单个item被点击
 		this.m_list.on(fairygui.Events.CLICK_ITEM, this, this.onClickItem);
 
-		this.m_backBtn.onClick(this, this.backUI);
+		this.m_closeBtn.onClick(this, this.backUI);
+		this.m_kabaoBtn.onClick(this, this.changeType, [0]);
+		this.m_heroBtn.onClick(this, this.changeType, [1]);
+	}
+
+	private curSelect: number = 0;
+	private changeType(index: number) {
+		if (this.curSelect != index) {
+			this.curSelect = index;
+			this.m_tab.setSelectedIndex(this.curSelect);
+			if (this.curSelect == 1) {
+				this.datas = Game.playData.curClips;
+				this.idList = Game.playData.curClips.getKeys();
+				this.m_list.numItems = this.datas.count;
+			}
+			else if (this.curSelect == 0) {
+				this.m_list.numItems = 0;
+			}
+		}
 	}
 
 	// 关闭ui
@@ -55,26 +73,35 @@ export default class UI_BagMain extends fui_BagMain {
 	}
 
 	private setData(): void {
-		this.datas = Game.playData.curClips;
-		this.idList = Game.playData.curClips.getKeys();
-		this.m_list.numItems = this.datas.count;
+		this.changeType(1);
+
 	}
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
 		// let item = obj as UI_PropBtn;
 		// item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
-		let item = obj as UI_HeroIcon;
-		item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
+		let item = obj as UI_BagItem;
+		if (this.curSelect == 0) {
+
+		}
+		else if (this.curSelect == 1) {
+			item.clipsSetData(this.idList[index], this.datas.getValue(this.idList[index]));
+		}
 	}
 	// 点击item
 	private onClickItem(obj: fairygui.GObject): void {
 		let index = this.m_list.getChildIndex(obj);
 		// 转换为点击item在整个列表中的真实索引
 		var realIndex: number = this.m_list.childIndexToItemIndex(index);
-		let heroInf = HeroInfo.getInfo(this.idList[realIndex]);;
-		if (heroInf != null) {
-			Game.battleData.clickHeroInf = heroInf;
-			this.moduleWindow.createHeroInfoUI();
+		if (this.curSelect == 0) {
+
+		}
+		else if (this.curSelect == 1) {
+			let heroInf = HeroInfo.getInfo(this.idList[realIndex]);;
+			if (heroInf != null) {
+				Game.battleData.clickHeroInf = heroInf;
+				this.moduleWindow.createHeroInfoUI();
+			}
 		}
 	}
 	private datas: Dictionary<number, number> = new Dictionary<number, number>();

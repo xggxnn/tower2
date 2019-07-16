@@ -6,10 +6,10 @@ export default class fui_HeadIcon extends fairygui.GLabel {
 
 	public m_icons:fairygui.GLoader;
 
-	public static URL:string = "ui://pdzut3twngrs10";
+	public static URL:string = "ui://130tmfxdngrs10";
 
 	public static createInstance():fui_HeadIcon {
-		return <fui_HeadIcon><any>(fairygui.UIPackage.createObject("Menus","HeadIcon"));
+		return <fui_HeadIcon><any>(fairygui.UIPackage.createObject("System","HeadIcon"));
 	}
 
 	public constructor() {
