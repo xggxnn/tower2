@@ -79,11 +79,13 @@ export default class UI_BagMain extends fui_BagMain {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.setData);
+		Game.playData.sShowFetters.add(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
 		EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.setData);
+		Game.playData.sShowFetters.remove(this.moduleWindow.createHeroFetters, this.moduleWindow);
 	}
 
 	private setData(): void {

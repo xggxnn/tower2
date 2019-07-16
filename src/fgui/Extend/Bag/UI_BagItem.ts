@@ -54,6 +54,8 @@ export default class UI_BagItem extends fui_BagItem {
 		this.m_price.setVar("count", giftdata.price.toString()).setVar("price", giftdata.priceTypes).flushVars();
 		this.m_buyNum.setVar("count", giftdata.count.toString()).flushVars();
 		this.m_pic.icon = SpriteKey.getUrl(SpriteKey.Gift);
+		this.m_pic.enabled = true;
+		this.m_quality.enabled = true;
 		this.m_type.setSelectedIndex(0);
 		this.m_checkBtn.title = "打开";
 	}
@@ -66,6 +68,8 @@ export default class UI_BagItem extends fui_BagItem {
 		this.m_clipsNum.setVar("count", Clips.toString()).flushVars();
 		this.m_heroName.setVar("name", this.heroInf.name).flushVars();
 		this.m_pic.icon = SpriteKey.getUrl("icon" + this.heroInf.id + ".png");
+		this.m_pic.enabled = Game.playData.curHero.indexOf(this.heroInf.id) != -1;
+		this.m_quality.enabled = this.m_pic.enabled;
 		this.m_type.setSelectedIndex(1);
 		this.m_checkBtn.title = "查看";
 	}

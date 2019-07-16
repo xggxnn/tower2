@@ -33,7 +33,15 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		this.m_closeBtn.onClick(this, this.closeUI);
 		this.m_gainmethod.onClick(this, this.clickGain);
 		this.m_gainmethod.title = "获得方式";
+		this.m_lookrace.onClick(this, this.clickLookFetters, [0]);
+		this.m_lookcareer.onClick(this, this.clickLookFetters, [1]);
+		this.m_lookspecial.onClick(this, this.clickLookFetters, [2]);
 	}
+	private clickLookFetters(type: number): void {
+		// Game.playData.sShowFetters.dispatch();
+	}
+
+
 	private showTip: boolean = false;
 	private clickGain(): void {
 		if (this.showTip) {

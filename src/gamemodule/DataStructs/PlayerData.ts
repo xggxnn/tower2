@@ -2,6 +2,7 @@ import EventManager from "../../Tool/EventManager";
 import EventKey from "../../Tool/EventKey";
 import Dictionary from "../../Tool/Dictionary";
 import GiftData from "./GiftData";
+import Signal from "../../Tool/Signal";
 
 export default class PlayerData {
     private static _Instance: PlayerData;
@@ -60,6 +61,16 @@ export default class PlayerData {
     public set curMagic(v: number) {
         this._curMagic = Math.floor(v);
     }
+
+    private _conqueTime: number = 0;
+    // 征服开启时间
+    public get conqueTime(): number {
+        return this._conqueTime;
+    }
+    public set conqueTime(v: number) {
+        this._conqueTime = v;
+    }
+
 
     private _curStar: number = 0;
     // 当前星级
@@ -169,5 +180,12 @@ export default class PlayerData {
         this._openGift = v;
     }
 
-
+    /******************  update       ************************/
+    // 显示英雄羁绊
+    public sShowFetters: Signal = new Signal();
+    // 具体信息
+    public fettersInf: Object = {
+        id: 0,
+        type: 0,
+    }
 }

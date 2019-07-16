@@ -1,6 +1,9 @@
 import fui_conquestBtn from "../../Generates/Home/fui_conquestBtn";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
+import { Tick } from "../../../Tool/TickManager";
+import EventManager from "../../../Tool/EventManager";
+import EventKey from "../../../Tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_conquestBtn extends fui_conquestBtn {
@@ -32,8 +35,13 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 			}
 		}
 		this.m_tip1.setVar("count", levelcount.toString()).flushVars();
+		let t = Game.playData.conqueTime;
 		this.m_tip2.setVar("time", "半小时").setVar("count", "112").flushVars();
 	}
+	updateTime(): void {
+		console.log("111");
+	}
+	private tick: Tick = null;
 
 	// 关闭ui
 	closeUI(): void {
@@ -45,11 +53,12 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
+		EventManager.on(EventKey.ENTER_MINUTE, this, this.updateTime);
 
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-
+		EventManager.off(EventKey.ENTER_MINUTE, this, this.updateTime);
 	}
 
 

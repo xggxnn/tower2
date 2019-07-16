@@ -23,6 +23,10 @@ export default class Proto1001 extends Proto {
         Game.playData.curDiamond = Number(json.diamond);
         Game.playData.curJadeite = Number(json.jadeite);
         Game.playData.curMagic = Number(json.magic);
+        // 征服时间
+        if (json.hasOwnProperty("conquestTime")) {
+            Game.playData.conqueTime = json.conquestTime
+        }
         // 英雄等级和星级
         Game.playData.curLevel = Number(json.level);
         Game.playData.curStar = Number(json.star);

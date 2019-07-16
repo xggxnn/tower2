@@ -54,7 +54,7 @@ export default class UI_HomeMain extends fui_HomeMain {
 		Game.menu.open(MenuId.Bag);
 	}
 	conquestClick(): void {
-		console.log("conquestClick");
+		Game.tipWin.showTip("");
 	}
 
 	setData(): void {

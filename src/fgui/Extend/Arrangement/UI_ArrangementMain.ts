@@ -296,12 +296,14 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.refreshHeroStar);
 		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinGold);
 		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinJadeite);
+		Game.playData.sShowFetters.add(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
 		Laya.stage.off(Laya.Event.MOUSE_UP, this, this.mouseUp);
 		Laya.stage.off(Laya.Event.MOUSE_OUT, this, this.mouseUp);
+		Game.playData.sShowFetters.remove(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		EventManager.offAllCaller(this);
 	}
 	// 界面赋值
