@@ -54,7 +54,26 @@ export default class UI_MenusMain extends fui_MenusMain {
 
 	slelectClick(index: number): void {
 		Game.battleData.level_id = index + 1;
-		this.moduleWindow.createTrialUI();
+		let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
+		let showTip: boolean = false;
+		if (Game.battleMap.waveStatusDict.hasKey(Game.battleData.level_id)) {
+			let item = Game.battleMap.waveStatusDict.getValue(Game.battleData.level_id);
+			if (item.level >= 10) {
+				showTip = true;
+			}
+		}
+		if (showTip) {
+			Game.tipWin.showTip("当悬赏完成100%，关卡的探索奖励", Laya.Handler.create(this, this.collectDebris));
+		}
+		else {
+			this.moduleWindow.createTrialUI();
+		}
+	}
+	/**
+	 * 收集碎片
+	 */
+	private collectDebris(): void {
+
 	}
 
 	backClick(): void {

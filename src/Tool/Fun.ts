@@ -354,12 +354,11 @@ export default class Fun {
 	 */
 	public static idToMapLevel(id: number): any {
 		if (id < 1) id = 1;
-		id = id + 10;
-		let map = Math.floor(id / 10);
-		let level = Math.floor(id % 10);
-		if (level == 0 && map > 1) {
+		let map = Math.floor(id / 4) + 1;
+		let level = Math.floor(id % 4);
+		if (level == 0) {
 			map--;
-			level = 10;
+			level = 4;
 		}
 		let result: Object = {
 			map: map,

@@ -110,4 +110,10 @@ export default class ProtoManager {
 	public conquestReward(): void {
 		this.sendPro({}, 1012);
 	}
+	/**
+	 * 获取背包卡包数据
+	 */
+	public bagGift(): void {
+		this.sendPro({}, 1013);
+	}
 }

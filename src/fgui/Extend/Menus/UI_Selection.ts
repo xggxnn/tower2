@@ -48,8 +48,13 @@ export default class UI_Selection extends fui_Selection {
 		(this.m_selBtn as UI_selectionBtn).setData(mapLevel.map, mapLevel.level);
 		if (Game.battleMap.waveStatusDict.hasKey(levelId)) {
 			let item = Game.battleMap.waveStatusDict.getValue(levelId);
-			this.m_status.setSelectedIndex(2);
-			this.m_progress.text = Fun.format("{0} %", Math.floor(item.level / 10 * 100));
+			if (item.level < 10) {
+				this.m_status.setSelectedIndex(2);
+				this.m_progress.text = Fun.format("{0} %", Math.floor(item.level / 10 * 100));
+			}
+			else {
+				this.m_status.setSelectedIndex(3);
+			}
 			this.m_selBtn.enabled = true;
 		}
 		else if (Game.battleMap.maxMapId < 5 && Game.battleMap.maxMapId == levelId) {

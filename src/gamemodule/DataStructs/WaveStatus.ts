@@ -12,8 +12,10 @@ export default class WaveStatus {
     public set id(v: number) {
         this._id = v;
     }
-    // 试炼第几小关
     private _level: number = 0;
+    /**
+     * 试炼第几小关
+     */
     public get level(): number {
         return this._level;
     }

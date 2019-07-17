@@ -71,8 +71,10 @@ export default class BattleMap {
         this._curMap = v;
     }
 
-    // 最大地图  id 
     private _maxMapId: number = 1;
+    /**
+     * 最大地图  id
+     */
     public get maxMapId(): number {
         return this._maxMapId;
     }
