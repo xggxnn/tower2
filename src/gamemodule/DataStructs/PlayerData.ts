@@ -151,18 +151,18 @@ export default class PlayerData {
     // 当前拥有的礼包
     public get curGift(): Array<GiftData> {
         // 临时添加
-        if (this._curGift.length == 0) {
-            for (let i = 0; i < 5; i++) {
-                let item = new GiftData();
-                item.id = i + 1;
-                item.count = i;
-                item.icon = "";
-                item.price = (i + 1) * 100;
-                item.priceType = i < 3 ? 0 : 1;
-                item.type = i;
-                this._curGift.push(item);
-            }
-        }
+        // if (this._curGift.length == 0) {
+        //     for (let i = 0; i < 5; i++) {
+        //         let item = new GiftData();
+        //         item.id = i + 1;
+        //         item.count = i;
+        //         item.icon = "";
+        //         item.price = (i + 1) * 100;
+        //         item.priceType = i < 3 ? 0 : 1;
+        //         item.type = i;
+        //         this._curGift.push(item);
+        //     }
+        // }
         return this._curGift;
     }
     public set curGift(v: Array<GiftData>) {

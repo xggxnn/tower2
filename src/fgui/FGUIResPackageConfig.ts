@@ -80,6 +80,13 @@ export default class FGUIResPackageConfig {
 
 
         config = new ResPackageConfig();
+        config.packageName = "Shop";
+        config.resDir = "fgui";
+        config.resBin = "Shop.bin";
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
         config.packageName = "Sound";
         config.resDir = "fgui";
         config.resBin = "Sound.bin";

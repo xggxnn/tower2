@@ -9,6 +9,7 @@ import HomeWin from "./Windows/HomeWin";
 import ArrangementWin from "./Windows/ArrangementWin";
 import BagWin from "./Windows/BagWin";
 import GMWin from "./Windows/GMWin";
+import ShopWin from "./Windows/ShopWin";
 
 export default class MenuWindows {
 	static dict: Dictionary<MenuId, ModuleConfig> = new Dictionary<MenuId, ModuleConfig>();
@@ -28,5 +29,6 @@ export default class MenuWindows {
 		MenuWindows.add(MenuId.MenuSelect, MenusWin);
 		MenuWindows.add(MenuId.Bag, BagWin);
 		MenuWindows.add(MenuId.GM, GMWin);
+		MenuWindows.add(MenuId.Shop, ShopWin);
 	}
 }

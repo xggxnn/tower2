@@ -32,6 +32,7 @@ export default class UI_HomeMain extends fui_HomeMain {
 		this.m_seatBtn.onClick(this, this.seatClick);
 		this.m_conquestBtn.onClick(this, this.conquestClick);
 		this.m_bagBtn.onClick(this, this.bagClick);
+		this.m_shopBtn.onClick(this, this.shopClick);
 	}
 
 	private menuselect(): void {
@@ -52,6 +53,9 @@ export default class UI_HomeMain extends fui_HomeMain {
 	}
 	bagClick(): void {
 		Game.menu.open(MenuId.Bag);
+	}
+	shopClick(): void {
+		Game.menu.open(MenuId.Shop);
 	}
 	conquestClick(): void {
 		let datas = this.m_conquestBtn as UI_conquestBtn;

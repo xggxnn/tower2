@@ -19,5 +19,8 @@ export default class ProtoEvent {
 	public static get SYNTHETISE_CALL_BACK(): string {
 		return this.getProtoEvent(1010);
 	}
+	public static get BAGGIFT_CALL_BACK(): string {
+		return this.getProtoEvent(1013);
+	}
 
 }

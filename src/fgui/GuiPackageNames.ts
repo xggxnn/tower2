@@ -9,6 +9,7 @@ export default class GuiPackageNames {
 	public static GM: string = "GM"; 
 	public static Home: string = "Home"; 
 	public static Menus: string = "Menus"; 
+	public static Shop: string = "Shop"; 
 	public static Sound: string = "Sound"; 
 	public static System: string = "System"; 
 }

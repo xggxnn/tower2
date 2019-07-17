@@ -78,18 +78,21 @@ export default class UI_BagMain extends fui_BagMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.setData);
+		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.changeType, [1]);
+		EventManager.on(ProtoEvent.BAGGIFT_CALL_BACK, this, this.changeType, [0]);
 		Game.playData.sShowFetters.add(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-		EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.setData);
+		EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.changeType);
+		EventManager.off(ProtoEvent.BAGGIFT_CALL_BACK, this, this.changeType);
 		Game.playData.sShowFetters.remove(this.moduleWindow.createHeroFetters, this.moduleWindow);
 	}
 
 	private setData(): void {
 		this.changeType(0);
+		Game.proto.bagGift();
 	}
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
