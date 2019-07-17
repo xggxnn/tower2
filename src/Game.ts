@@ -122,8 +122,6 @@ export default class Game {
 		Game.sound.install();
 		Game.sound.autoStopMusic = false;
 		CSVConfig.InitAll();
-		Game.battleData.init();
-		Game.battleScene.init();
 		this.menu.open(MenuId.Load);
 		// 资源加载完毕，登录
 		SystemManager.login();

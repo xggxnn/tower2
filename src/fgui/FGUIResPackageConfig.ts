@@ -83,6 +83,7 @@ export default class FGUIResPackageConfig {
         config.packageName = "Shop";
         config.resDir = "fgui";
         config.resBin = "Shop.bin";
+        config.resAtlas.push("Shop_atlas0.png");
         this.addconfig(config);
 
 

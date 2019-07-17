@@ -19,6 +19,9 @@ export default class SystemManager {
 
 	public static initAllData(): void {
 		Game.waveData.init();
+		Game.playData.init();
+		Game.battleData.init();
+		Game.battleScene.init();
 	}
 
 	public static init(): void {

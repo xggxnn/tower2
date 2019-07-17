@@ -13,6 +13,9 @@ export default class ProtoEvent {
 	public static get SELECTWAVE_CALL_BACK(): string {
 		return this.getProtoEvent(1004);
 	}
+	public static get SETSEAT_CALL_BACK(): string {
+		return this.getProtoEvent(1006);
+	}
 	public static get PASSWAVE_CALL_BACK(): string {
 		return this.getProtoEvent(1007);
 	}

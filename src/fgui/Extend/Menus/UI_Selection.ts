@@ -53,6 +53,7 @@ export default class UI_Selection extends fui_Selection {
 				this.m_progress.text = Fun.format("{0} %", Math.floor(item.level / 10 * 100));
 			}
 			else {
+				this.m_time.text = "";
 				this.m_status.setSelectedIndex(3);
 			}
 			this.m_selBtn.enabled = true;

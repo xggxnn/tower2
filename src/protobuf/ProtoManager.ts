@@ -116,4 +116,7 @@ export default class ProtoManager {
 	public bagGift(): void {
 		this.sendPro({}, 1013);
 	}
+	public shopBuy(data: Object): void {
+		this.sendPro(data, 1017);
+	}
 }

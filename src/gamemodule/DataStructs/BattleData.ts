@@ -33,6 +33,7 @@ export default class BattleData {
         EventManager.on(EventKey.GAMEWIN, this, this.mapStopRefrush, [1]);
         EventManager.on(EventKey.GAMELOSE, this, this.mapStopRefrush, [2]);
         EventManager.on(EventKey.GAMEEXIT, this, this.mapStopRefrush, [0]);
+        this.refrushSeatFightInf();
     }
 
     /*******************关卡相关**************************/

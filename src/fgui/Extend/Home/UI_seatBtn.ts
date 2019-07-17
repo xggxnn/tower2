@@ -1,5 +1,8 @@
 import fui_seatBtn from "../../Generates/Home/fui_seatBtn";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
+import Game from "../../../Game";
+import EventManager from "../../../Tool/EventManager";
+import ProtoEvent from "../../../protobuf/ProtoEvent";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_seatBtn extends fui_seatBtn {
@@ -23,8 +26,8 @@ export default class UI_seatBtn extends fui_seatBtn {
 	}
 
 	public setData(): void {
-		this.m_hitTip.setVar("count", "123").flushVars();
-		this.m_speedTip.setVar("count", "15").flushVars();
+		this.m_hitTip.setVar("count", Game.playData.curFightVal.toFixed(1)).flushVars();
+		this.m_speedTip.setVar("count", Game.playData.curSpeedVal.toFixed(1)).flushVars();
 	}
 
 	// 关闭ui
@@ -37,11 +40,12 @@ export default class UI_seatBtn extends fui_seatBtn {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
+		EventManager.on(ProtoEvent.SETSEAT_CALL_BACK, this, this.setData);
 
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-
+		EventManager.offAllCaller(this);
 	}
 
 

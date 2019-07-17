@@ -13,6 +13,10 @@ export default class PlayerData {
         return PlayerData._Instance;
     }
 
+    public init(): void {
+
+    }
+
     private _newbied: boolean = true;
     public get newbie(): boolean {
         return this._newbied;
