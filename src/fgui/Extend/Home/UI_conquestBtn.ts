@@ -4,6 +4,9 @@ import Game from "../../../Game";
 import { Tick } from "../../../Tool/TickManager";
 import EventManager from "../../../Tool/EventManager";
 import EventKey from "../../../Tool/EventKey";
+import TimerManager from "../../../Tool/TimerManager";
+import Fun from "../../../Tool/Fun";
+import WaveRewardsInfo from "../../../dataInfo/WaveRewardsInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_conquestBtn extends fui_conquestBtn {
@@ -26,20 +29,20 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 
 	}
 
+	public levelcount: number = 0;
+	public duration: number = 0;
+	public getGold: string = "";
+	public canGet: boolean = false;
 	public setData(): void {
-		let levelcount = 0;
-		let list = Game.battleMap.waveStatusDict.getValues();
-		for (let i = list.length - 1; i >= 0; i--) {
-			if (list[i].level >= 10) {
-				levelcount++;
-			}
-		}
-		this.m_tip1.setVar("count", levelcount.toString()).flushVars();
-		let t = Game.playData.conqueTime;
-		this.m_tip2.setVar("time", "半小时").setVar("count", "112").flushVars();
+		this.levelcount = Game.battleMap.waveStatusDict.count;
+		this.m_tip1.setVar("count", this.levelcount.toString()).flushVars();
+		this.updateTime();
 	}
 	updateTime(): void {
-		console.log("111");
+		this.duration = TimerManager.timestamp - Game.playData.conqueTime;
+		this.canGet = Math.floor(this.duration / 60) > 0;
+		this.getGold = Fun.formatNumberUnit(Math.floor(WaveRewardsInfo.getInfo(this.levelcount).coin_daily * Math.floor(this.duration / 60))).toString();
+		this.m_tip2.setVar("time", Fun.formatTime(this.duration)).setVar("count", this.getGold).flushVars();
 	}
 	private tick: Tick = null;
 
@@ -53,12 +56,12 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		EventManager.on(EventKey.ENTER_MINUTE, this, this.updateTime);
+		EventManager.on(EventKey.ENTER_SECOND, this, this.updateTime);
 
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-		EventManager.off(EventKey.ENTER_MINUTE, this, this.updateTime);
+		EventManager.off(EventKey.ENTER_SECOND, this, this.updateTime);
 	}
 
 

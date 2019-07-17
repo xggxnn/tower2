@@ -184,7 +184,7 @@ export default class PlayerData {
     // 显示英雄羁绊
     public sShowFetters: Signal = new Signal();
     // 具体信息
-    public fettersInf: Object = {
+    public fettersInf: any = {
         id: 0,
         type: 0,
     }

@@ -37,8 +37,10 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		this.m_lookcareer.onClick(this, this.clickLookFetters, [1]);
 		this.m_lookspecial.onClick(this, this.clickLookFetters, [2]);
 	}
-	private clickLookFetters(type: number): void {
-		// Game.playData.sShowFetters.dispatch();
+	private clickLookFetters(types: number): void {
+		Game.playData.fettersInf.id = this.heroInf.id;
+		Game.playData.fettersInf.type = types;
+		Game.playData.sShowFetters.dispatch();
 	}
 
 

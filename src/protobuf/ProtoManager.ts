@@ -104,4 +104,10 @@ export default class ProtoManager {
 	public offerReward(data: Object): void {
 		this.sendPro(data, 1011);
 	}
+	/**
+	 * 领取征服奖励
+	 */
+	public conquestReward(): void {
+		this.sendPro({}, 1012);
+	}
 }

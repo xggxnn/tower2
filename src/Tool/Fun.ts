@@ -107,9 +107,8 @@ export default class Fun {
      *          2表示返回分钟和秒数  3:04
      *          3表示 返回小时分钟和秒数 2:03:04
      *          4表示返回 天数 小时 分钟和秒数 1:02:03:04
-	 * @param tab 时间分隔符
      **/
-	public static formatTime(second: number, length: number = 3, tab: string = ":"): string {
+	public static formatTime(second: number, length: number = 3): string {
 		second = Math.floor(second);
 		length = Math.floor(length);
 		if (!(second >= 0)) second = 0;
@@ -118,6 +117,7 @@ export default class Fun {
 		let _str = "";
 		let div_arr: Array<number> = [1, 60, 3600, 86400];
 		let rem_arr: Array<number> = [60, 60, 24, 99];
+		let tabs: Array<string> = ["秒", "分", "小时", "天"];
 		for (let i = length - 1; i >= 0; i--) {
 			let _a = Math.floor(second / div_arr[i]);
 			let _b = _a
@@ -125,17 +125,15 @@ export default class Fun {
 				_b = _a % rem_arr[i];
 			}
 			let _s = String(_b);
-			if (i != length - 1 && _b < 10) {
-				_s = "0" + _s;
-			}
+			// if (i != length - 1 && _b < 10) {
+			// 	_s = "0" + _s;
+			// }
 			if (_str.length == 0 && _b == 0) {
 
 			}
 			else {
 				_str += _s;
-				if (i != 0) {
-					_str += tab;
-				}
+				_str += tabs[i];
 			}
 		}
 		return _str;

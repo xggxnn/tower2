@@ -54,7 +54,16 @@ export default class UI_HomeMain extends fui_HomeMain {
 		Game.menu.open(MenuId.Bag);
 	}
 	conquestClick(): void {
-		Game.tipWin.showTip("");
+		let datas = this.m_conquestBtn as UI_conquestBtn;
+		if (datas.canGet) {
+			Game.tipWin.showTip(Fun.format("已征服{0}个关卡<br />最近{1}产出{2}金币", datas.levelcount, Fun.formatTime(datas.duration), datas.getGold), Laya.Handler.create(this, this.conquestReward));
+		}
+		else {
+			Game.tipWin.showTip("暂无收益!");
+		}
+	}
+	conquestReward(): void {
+		Game.proto.conquestReward();
 	}
 
 	setData(): void {

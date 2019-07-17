@@ -41,4 +41,7 @@ export default class TimerManager {
 	public static set timestamp(v: number) {
 		this._timestamp = v;
 	}
+	public static get timestamp(): number {
+		return this._timestamp;
+	}
 }

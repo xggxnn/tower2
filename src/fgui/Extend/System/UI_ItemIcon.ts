@@ -1,5 +1,7 @@
 import fui_ItemIcon from "../../Generates/System/fui_ItemIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
+import HeroInfo from "../../../dataInfo/HeroInfo";
+import SpriteKey from "../../SpriteKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemIcon extends fui_ItemIcon {
@@ -44,6 +46,11 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 		this.index = index;
 		this.m_number.setVar("count", index.toString()).flushVars();
 		this.m_c1.setSelectedIndex(2);
+	}
+	public hero: HeroInfo = null;
+	public setHero(hero: HeroInfo): void {
+		this.hero = hero;
+		this.m_headIcon.icon = SpriteKey.getUrl("icon" + this.hero.id + ".png");
 	}
 
 }
