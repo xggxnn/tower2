@@ -97,6 +97,13 @@ export default class FGUIResPackageConfig {
 
 
         config = new ResPackageConfig();
+        config.packageName = "Surround";
+        config.resDir = "fgui";
+        config.resBin = "Surround.bin";
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
         config.packageName = "System";
         config.resDir = "fgui";
         config.resBin = "System.bin";

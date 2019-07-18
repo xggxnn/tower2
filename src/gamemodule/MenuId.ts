@@ -6,5 +6,6 @@ export enum MenuId {
 	MenuSelect = 5, // 关卡选择
 	Bag = 6, // 背包
 	Shop = 7, // 商城
+	Sign = 9, // 签到
 	GM = 100, // GM命令界面
 }

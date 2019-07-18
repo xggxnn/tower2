@@ -42,6 +42,13 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 
 	}
 
+	public singIndex: number = 0;
+	// 签到赋值
+	public signSetData(index: number, status: number): void {
+		this.singIndex = index;
+		this.m_status.setSelectedIndex(status);
+	}
+
 	public itemInfo: RewardItem;
 	public setData(inf: RewardItem): void {
 		this.itemInfo = inf;

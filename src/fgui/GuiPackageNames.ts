@@ -11,5 +11,6 @@ export default class GuiPackageNames {
 	public static Menus: string = "Menus"; 
 	public static Shop: string = "Shop"; 
 	public static Sound: string = "Sound"; 
+	public static Surround: string = "Surround"; 
 	public static System: string = "System"; 
 }

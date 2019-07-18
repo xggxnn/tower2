@@ -142,7 +142,7 @@ export default class MenuManager {
 				this.stack.splice(i, 1);
 		}
 
-		// console.log(`关闭面板 :`, "MenuId." + MenuId[ctl.menuId]);
+		console.log(`关闭面板 :`, "MenuId." + MenuId[ctl.menuId]);
 		// 关闭前打开主界面
 		// let home = this.getMenuCtl(MenuId.Home);
 		// if (!home || home.state != MenuCtlStateType.Opened) {

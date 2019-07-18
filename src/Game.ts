@@ -131,6 +131,7 @@ export default class Game {
 	}
 
 	private openHome(): void {
+		console.log("登录完毕");
 		SystemManager.initAllData();
 		// 登录完毕，打开主界面
 		Game.menu.open(MenuId.Home);

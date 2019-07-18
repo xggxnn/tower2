@@ -85,6 +85,7 @@ export default class UI_HomeMain extends fui_HomeMain {
 		(this.m_conquestBtn as UI_conquestBtn).setData();
 		(this.m_seatBtn as UI_seatBtn).setData();
 		(this.m_fightBtn as UI_fightBtn).setData();
+		Game.menu.open(MenuId.Sign);
 	}
 	private refreshCoinGold(): void {
 		this.m_gold.text = Fun.format("{0}", Fun.formatNumberUnit(Game.playData.curGold));
