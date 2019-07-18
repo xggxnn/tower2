@@ -43,6 +43,9 @@ export default class ShopInfo {
     public get type(): number {
         return Number(this.curInf.getValue("type"));
     }
+    public get max_num(): number {
+        return Number(this.curInf.getValue("max_num"));
+    }
     constructor(id: string) {
         this.curInf = ShopInfo.infDic.getValue(id);
     }
@@ -83,6 +86,7 @@ export default class ShopInfo {
         dic1.add("gold", "100");
         dic1.add("diamond", "0");
         dic1.add("type", "2");
+        dic1.add("max_num", "10");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
         dic2.add("id", "2");
@@ -96,6 +100,7 @@ export default class ShopInfo {
         dic2.add("gold", "500");
         dic2.add("diamond", "0");
         dic2.add("type", "2");
+        dic2.add("max_num", "10");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
@@ -109,6 +114,7 @@ export default class ShopInfo {
         dic3.add("gold", "1000");
         dic3.add("diamond", "0");
         dic3.add("type", "2");
+        dic3.add("max_num", "10");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
         dic4.add("id", "4");
@@ -122,59 +128,64 @@ export default class ShopInfo {
         dic4.add("gold", "0");
         dic4.add("diamond", "10");
         dic4.add("type", "3");
-        this.infDic.add("4", dic4);
-        let dic4 = new Dictionary<string, any>();
-        dic4.add("id", "4");
-        dic4.add("name", "一点宝石");
-        dic4.add("des", "一点宝石");
-        dic4.add("icon", "diamond");
-        dic4.add("price", "6");
-        dic4.add("discount", "0.8");
-        dic4.add("price_type", "2");
-        dic4.add("cost", "60");
-        dic4.add("gold", "0");
-        dic4.add("diamond", "10");
-        dic4.add("type", "3");
+        dic4.add("max_num", "0");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
         dic5.add("id", "5");
-        dic5.add("name", "一堆宝石");
-        dic5.add("des", "一堆宝石");
+        dic5.add("name", "一点宝石");
+        dic5.add("des", "一点宝石");
         dic5.add("icon", "diamond");
-        dic5.add("price", "30");
+        dic5.add("price", "6");
         dic5.add("discount", "0.8");
         dic5.add("price_type", "2");
-        dic5.add("cost", "300");
+        dic5.add("cost", "60");
         dic5.add("gold", "0");
-        dic5.add("diamond", "100");
+        dic5.add("diamond", "10");
         dic5.add("type", "3");
+        dic5.add("max_num", "0");
         this.infDic.add("5", dic5);
         let dic6 = new Dictionary<string, any>();
         dic6.add("id", "6");
-        dic6.add("name", "一箱宝石");
-        dic6.add("des", "一箱宝石");
+        dic6.add("name", "一堆宝石");
+        dic6.add("des", "一堆宝石");
         dic6.add("icon", "diamond");
-        dic6.add("price", "128");
+        dic6.add("price", "30");
         dic6.add("discount", "0.8");
         dic6.add("price_type", "2");
-        dic6.add("cost", "1280");
+        dic6.add("cost", "300");
         dic6.add("gold", "0");
-        dic6.add("diamond", "500");
+        dic6.add("diamond", "100");
         dic6.add("type", "3");
+        dic6.add("max_num", "0");
         this.infDic.add("6", dic6);
         let dic7 = new Dictionary<string, any>();
         dic7.add("id", "7");
-        dic7.add("name", "一大箱宝石");
-        dic7.add("des", "一大箱宝石");
+        dic7.add("name", "一箱宝石");
+        dic7.add("des", "一箱宝石");
         dic7.add("icon", "diamond");
-        dic7.add("price", "648");
+        dic7.add("price", "128");
         dic7.add("discount", "0.8");
         dic7.add("price_type", "2");
-        dic7.add("cost", "6480");
+        dic7.add("cost", "1280");
         dic7.add("gold", "0");
-        dic7.add("diamond", "1000");
+        dic7.add("diamond", "500");
         dic7.add("type", "3");
+        dic7.add("max_num", "0");
         this.infDic.add("7", dic7);
+        let dic8 = new Dictionary<string, any>();
+        dic8.add("id", "8");
+        dic8.add("name", "一大箱宝石");
+        dic8.add("des", "一大箱宝石");
+        dic8.add("icon", "diamond");
+        dic8.add("price", "648");
+        dic8.add("discount", "0.8");
+        dic8.add("price_type", "2");
+        dic8.add("cost", "6480");
+        dic8.add("gold", "0");
+        dic8.add("diamond", "1000");
+        dic8.add("type", "3");
+        dic8.add("max_num", "0");
+        this.infDic.add("8", dic8);
     }
     
 }

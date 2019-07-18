@@ -7,6 +7,7 @@ import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import UI_PropBtn from "../Arrangement/UI_PropBtn";
 import UI_BagItem from "./UI_BagItem";
+import EventKey from "../../../Tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BagMain extends fui_BagMain {
@@ -66,6 +67,7 @@ export default class UI_BagMain extends fui_BagMain {
 					break;
 			}
 		}
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
 	}
 
 	// 关闭ui
@@ -91,7 +93,9 @@ export default class UI_BagMain extends fui_BagMain {
 	}
 
 	private setData(): void {
-		this.changeType(0);
+		this.m_list.numItems = 0;
+		this.curSelect = -1;
+		EventManager.event(EventKey.SHOW_UI_WAIT);
 		Game.proto.bagGift();
 	}
 	// 渲染item

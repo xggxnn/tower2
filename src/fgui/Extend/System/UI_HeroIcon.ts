@@ -1,6 +1,6 @@
 import fui_HeroIcon from "../../Generates/System/fui_HeroIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
-import ItemInfo from "../../../gamemodule/DataStructs/ItemInfo";
+import RewardItem from "../../../gamemodule/DataStructs/ItemInfo";
 import Fun from "../../../Tool/Fun";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import SpriteKey from "../../SpriteKey";
@@ -26,7 +26,7 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 
 	}
 
-	public setData(item: ItemInfo): void {
+	public setData(item: RewardItem): void {
 		this.m_number.setVar("count", item.itemNum.toString()).flushVars();
 		if (item.itemId < 10000) {
 			this.m_headIcon.m_icons.icon = SpriteKey.getUrl("icon" + item.itemId + ".png");

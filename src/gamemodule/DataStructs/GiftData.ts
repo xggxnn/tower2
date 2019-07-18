@@ -1,38 +1,15 @@
-import ItemInfo from "./ItemInfo";
+import CardInfo from "../../dataInfo/CardInfo";
 
 export default class GiftData {
     public id: number;
-    public type: number;
-    public icon: string;
     public count: number;
-    public price: number;
-    public priceType: number;
-    public get types(): string {
-        switch (this.type) {
-            case 0:
-                return "小包";
-            case 1:
-                return "中包";
-            case 2:
-                return "大包";
-            case 3:
-                return "豪华包";
-            case 4:
-                return "土豪包";
 
-        }
-        return "空包";
+    private _dataInf: CardInfo = null;
+    public get dataInf(): CardInfo {
+        return this._dataInf;
     }
-    public get priceTypes(): string {
-        switch (this.priceType) {
-            case 0:
-                return "金币";
-            case 1:
-                return "宝石";
-            case 2:
-                return "翡翠";
-        }
-        return "RMB";
+    public setDataInf() {
+        this._dataInf = CardInfo.getInfo(this.id);
     }
-    public reward: Array<ItemInfo> = [];
+
 }

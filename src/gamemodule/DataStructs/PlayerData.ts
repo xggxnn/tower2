@@ -3,6 +3,8 @@ import EventKey from "../../Tool/EventKey";
 import Dictionary from "../../Tool/Dictionary";
 import GiftData from "./GiftData";
 import Signal from "../../Tool/Signal";
+import RewardItem from "./ItemInfo";
+import Game from "../../Game";
 
 export default class PlayerData {
     private static _Instance: PlayerData;
@@ -151,27 +153,6 @@ export default class PlayerData {
     }
 
 
-    private _curGift: Array<GiftData> = [];
-    // 当前拥有的礼包
-    public get curGift(): Array<GiftData> {
-        // 临时添加
-        // if (this._curGift.length == 0) {
-        //     for (let i = 0; i < 5; i++) {
-        //         let item = new GiftData();
-        //         item.id = i + 1;
-        //         item.count = i;
-        //         item.icon = "";
-        //         item.price = (i + 1) * 100;
-        //         item.priceType = i < 3 ? 0 : 1;
-        //         item.type = i;
-        //         this._curGift.push(item);
-        //     }
-        // }
-        return this._curGift;
-    }
-    public set curGift(v: Array<GiftData>) {
-        this._curGift = v;
-    }
 
 
     /**************** 礼包相关 *************************/
@@ -184,6 +165,23 @@ export default class PlayerData {
         this._openGift = v;
     }
 
+    private _curGift: Array<GiftData> = [];
+    /**
+     * 当前拥有的礼包
+     */
+    public get curGift(): Array<GiftData> {
+        return this._curGift;
+    }
+    public initGift(json: Array<any>): void {
+        this._curGift = [];
+        for (let i = 0, len = json.length; i < len; i++) {
+            let item = new GiftData();
+            item.id = json[i].id;
+            item.count = json[i].num;
+            item.setDataInf();
+            this._curGift.push(item);
+        }
+    }
     /******************  update       ************************/
     // 显示英雄羁绊
     public sShowFetters: Signal = new Signal();
@@ -192,4 +190,22 @@ export default class PlayerData {
         id: 0,
         type: 0,
     }
+
+
+    /******************  奖励相关       ************************/
+
+    private _rewardList: Array<RewardItem> = [];
+    /**
+     * 准备显示的奖励
+     */
+    public get rewardList(): Array<RewardItem> {
+        return this._rewardList;
+    }
+    public set rewardList(v: Array<RewardItem>) {
+        this._rewardList = v;
+        if (this._rewardList.length > 0) {
+            Game.rewardWin.showReward();
+        }
+    }
+
 }

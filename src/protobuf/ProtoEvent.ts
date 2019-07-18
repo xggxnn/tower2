@@ -25,5 +25,11 @@ export default class ProtoEvent {
 	public static get BAGGIFT_CALL_BACK(): string {
 		return this.getProtoEvent(1013);
 	}
+	public static get SHOPBUY_CALL_BACK(): string {
+		return this.getProtoEvent(1017);
+	}
+	public static get OPENCARD_CALL_BACK(): string {
+		return this.getProtoEvent(1018);
+	}
 
 }

@@ -5,6 +5,7 @@
 export default class fui_ItemShop extends fairygui.GComponent {
 
 	public m_type:fairygui.Controller;
+	public m_limNum:fairygui.Controller;
 	public m_quality:fairygui.GLoader;
 	public m_pic:fairygui.GLabel;
 	public m_tip:fairygui.GTextField;
@@ -28,6 +29,7 @@ export default class fui_ItemShop extends fairygui.GComponent {
 		super.constructFromXML(xml);
 
 		this.m_type = this.getControllerAt(0);
+		this.m_limNum = this.getControllerAt(1);
 		this.m_quality = <fairygui.GLoader><any>(this.getChildAt(1));
 		this.m_pic = <fairygui.GLabel><any>(this.getChildAt(2));
 		this.m_tip = <fairygui.GTextField><any>(this.getChildAt(4));

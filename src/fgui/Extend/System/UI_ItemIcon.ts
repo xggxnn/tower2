@@ -2,6 +2,7 @@ import fui_ItemIcon from "../../Generates/System/fui_ItemIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import SpriteKey from "../../SpriteKey";
+import RewardItem from "../../../gamemodule/DataStructs/ItemInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemIcon extends fui_ItemIcon {
@@ -41,11 +42,33 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 
 	}
 
-	public index: number;
-	public setData(index: number): void {
-		this.index = index;
-		this.m_number.setVar("count", index.toString()).flushVars();
-		this.m_c1.setSelectedIndex(2);
+	public itemInfo: RewardItem;
+	public setData(inf: RewardItem): void {
+		this.itemInfo = inf;
+		this.m_number.setVar("count", this.itemInfo.itemNum.toString()).flushVars();
+		if (this.itemInfo.isClips) {
+			this.m_c1.setSelectedIndex(3);
+		}
+		else {
+			this.m_c1.setSelectedIndex(2);
+		}
+		switch (this.itemInfo.itemId) {
+			case 10001:
+				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.diamond);
+				break;
+			case 10002:
+				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.gold);
+				break;
+			case 10003:
+				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.jadeite);
+				break;
+			case 10004:
+				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.jadeite);
+				break;
+			default:
+				this.m_headIcon.icon = SpriteKey.getUrl("icon" + this.itemInfo.itemId + ".png");
+				break;
+		}
 	}
 	public hero: HeroInfo = null;
 	public setHero(hero: HeroInfo): void {

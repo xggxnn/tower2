@@ -26,6 +26,7 @@ import ProtoEvent from "./protobuf/ProtoEvent";
 import WaveData from "./gamemodule/DataStructs/WaveData";
 import TickManager from "./Tool/TickManager";
 import GMData from "./gamemodule/DataStructs/GMData";
+import SystemRewardWin from "./gamemodule/System/SystemRewardWin";
 
 export default class Game {
 
@@ -70,6 +71,8 @@ export default class Game {
 	static total: SystemToastMessag;
 	// 弹出提示窗口
 	static tipWin: SystemTipWin;
+	// 弹出获得物品窗口
+	static rewardWin: SystemRewardWin;
 	// 引导
 	static guide: SystemGuide;
 	// 弹出popup
@@ -137,6 +140,7 @@ export default class Game {
 		Game.configs = ServerCSVConfig.Instance;
 		Game.total = SystemToastMessag.Instance;
 		Game.tipWin = SystemTipWin.Instance;
+		Game.rewardWin = SystemRewardWin.Instance;
 		Game.guide = SystemGuide.Instance;
 		Game.popup = SystemPopup.Instance;
 		Game.battleMap = BattleMap.Instance;

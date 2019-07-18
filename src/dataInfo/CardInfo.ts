@@ -43,6 +43,9 @@ export default class CardInfo {
     public get type(): number {
         return Number(this.curInf.getValue("type"));
     }
+    public get max_num(): number {
+        return Number(this.curInf.getValue("max_num"));
+    }
     constructor(id: string) {
         this.curInf = CardInfo.infDic.getValue(id);
     }
@@ -83,6 +86,7 @@ export default class CardInfo {
         dic1.add("gold", "1");
         dic1.add("jadeite", "1");
         dic1.add("type", "1");
+        dic1.add("max_num", "10");
         this.infDic.add("1", dic1);
         let dic2 = new Dictionary<string, any>();
         dic2.add("id", "2");
@@ -96,6 +100,7 @@ export default class CardInfo {
         dic2.add("gold", "2");
         dic2.add("jadeite", "2");
         dic2.add("type", "1");
+        dic2.add("max_num", "10");
         this.infDic.add("2", dic2);
         let dic3 = new Dictionary<string, any>();
         dic3.add("id", "3");
@@ -109,6 +114,7 @@ export default class CardInfo {
         dic3.add("gold", "3");
         dic3.add("jadeite", "3");
         dic3.add("type", "1");
+        dic3.add("max_num", "10");
         this.infDic.add("3", dic3);
         let dic4 = new Dictionary<string, any>();
         dic4.add("id", "4");
@@ -122,6 +128,7 @@ export default class CardInfo {
         dic4.add("gold", "4");
         dic4.add("jadeite", "4");
         dic4.add("type", "1");
+        dic4.add("max_num", "10");
         this.infDic.add("4", dic4);
         let dic5 = new Dictionary<string, any>();
         dic5.add("id", "5");
@@ -135,6 +142,7 @@ export default class CardInfo {
         dic5.add("gold", "5");
         dic5.add("jadeite", "5");
         dic5.add("type", "1");
+        dic5.add("max_num", "10");
         this.infDic.add("5", dic5);
     }
     

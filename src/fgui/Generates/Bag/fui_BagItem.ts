@@ -5,6 +5,7 @@
 export default class fui_BagItem extends fairygui.GComponent {
 
 	public m_type:fairygui.Controller;
+	public m_have:fairygui.Controller;
 	public m_tip:fairygui.GTextField;
 	public m_quality:fairygui.GLoader;
 	public m_buyNum:fairygui.GTextField;
@@ -28,6 +29,7 @@ export default class fui_BagItem extends fairygui.GComponent {
 		super.constructFromXML(xml);
 
 		this.m_type = this.getControllerAt(0);
+		this.m_have = this.getControllerAt(1);
 		this.m_tip = <fairygui.GTextField><any>(this.getChildAt(2));
 		this.m_quality = <fairygui.GLoader><any>(this.getChildAt(3));
 		this.m_buyNum = <fairygui.GTextField><any>(this.getChildAt(4));

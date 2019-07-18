@@ -11,7 +11,7 @@ import AssociationRaceInfo from "../../dataInfo/AssociationRaceInfo";
 import FiveElementsInfo from "../../dataInfo/FiveElementsInfo";
 import AssociationCareerInfo from "../../dataInfo/AssociationCareerInfo";
 import EnemyData from "./EnemyData";
-import ItemInfo from "./ItemInfo";
+import RewardItem from "./ItemInfo";
 import Signal from "../../Tool/Signal";
 import AssociationSpecialInfo from "../../dataInfo/AssociationSpecialInfo";
 import SkillInfo from "../../dataInfo/SkillInfo";
@@ -309,6 +309,6 @@ export default class BattleData {
     public trial_level: number = 0;
 
     /*******************战斗结果相关**************************/
-    public fight_result: Array<ItemInfo> = [];
+    public fight_result: Array<RewardItem> = [];
 
 }

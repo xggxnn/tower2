@@ -116,7 +116,18 @@ export default class ProtoManager {
 	public bagGift(): void {
 		this.sendPro({}, 1013);
 	}
+	/**
+	 * 商城购买
+	 * @param data 
+	 */
 	public shopBuy(data: Object): void {
 		this.sendPro(data, 1017);
+	}
+	/**
+	 * 打开卡包
+	 * @param data 
+	 */
+	public openCard(data: Object): void {
+		this.sendPro(data, 1018);
 	}
 }
