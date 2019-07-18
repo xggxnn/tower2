@@ -1,6 +1,6 @@
 import Proto from "./Proto";
 import Game from "../Game";
-import RewardItem from "../gamemodule/DataStructs/ItemInfo";
+import RewardItem from "../gamemodule/DataStructs/RewardItem";
 
 export default class Proto1018 extends Proto {
     protected protoid: number = 1018;

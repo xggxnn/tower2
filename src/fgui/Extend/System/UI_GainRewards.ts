@@ -12,7 +12,6 @@ import MenuLayer from "../../../gamemodule/MenuLayer";
 export default class UI_GainRewards extends fui_GainRewards {
 
 	moduleWindow: SystemWin;
-	// fwindow: FWindow;
 
 	public static DependPackages: string[] = ["System"];
 
@@ -34,9 +33,7 @@ export default class UI_GainRewards extends fui_GainRewards {
 	}
 	// 关闭ui
 	closeUI(): void {
-		// if (this.fwindow) {
-		// 	this.fwindow.windowRemoveChild(this);
-		// }
+		this.off(Laya.Event.CLICK, this, this.addNumOver);
 		Game.playData.rewardList = [];
 		this.removeFromParent();
 		if (this._onCompleteHandler) {
@@ -51,18 +48,18 @@ export default class UI_GainRewards extends fui_GainRewards {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		// this.on(Laya.Event.CLICK, this, this.addNumOver);
-		// this.setData();
+
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-		// this.off(Laya.Event.CLICK, this, this.addNumOver);
+
 	}
 
 	private tick: Tick = null;
 	private giftCount: number = 0;
 	private _onCompleteHandler: Handler;
 	public setData(onComplete?: Handler): void {
+		this.on(Laya.Event.CLICK, this, this.addNumOver);
 		if (this._onCompleteHandler) {
 			this._onCompleteHandler.recover();
 		}
@@ -71,7 +68,6 @@ export default class UI_GainRewards extends fui_GainRewards {
 		this.m_okBtn.visible = false;
 		MenuLayer.floatMsg.addChild(this);
 		this.giftCount = Game.playData.rewardList.length;
-		console.log(this.giftCount);
 		if (this.tick) {
 			this.tick.Stop();
 			Game.tick.clearTick(this.tick);

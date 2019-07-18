@@ -11,10 +11,10 @@ import AssociationRaceInfo from "../../dataInfo/AssociationRaceInfo";
 import FiveElementsInfo from "../../dataInfo/FiveElementsInfo";
 import AssociationCareerInfo from "../../dataInfo/AssociationCareerInfo";
 import EnemyData from "./EnemyData";
-import RewardItem from "./ItemInfo";
 import Signal from "../../Tool/Signal";
 import AssociationSpecialInfo from "../../dataInfo/AssociationSpecialInfo";
 import SkillInfo from "../../dataInfo/SkillInfo";
+import RewardItem from "./RewardItem";
 
 export default class BattleData {
 

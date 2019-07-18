@@ -1,9 +1,9 @@
 import fui_HeroIcon from "../../Generates/System/fui_HeroIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
-import RewardItem from "../../../gamemodule/DataStructs/ItemInfo";
 import Fun from "../../../Tool/Fun";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import SpriteKey from "../../SpriteKey";
+import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroIcon extends fui_HeroIcon {

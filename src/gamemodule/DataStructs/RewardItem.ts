@@ -1,3 +1,6 @@
+/**
+ * 获取物品
+ */
 export default class RewardItem {
     /**
      * 10001 宝石

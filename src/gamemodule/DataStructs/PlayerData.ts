@@ -3,8 +3,8 @@ import EventKey from "../../Tool/EventKey";
 import Dictionary from "../../Tool/Dictionary";
 import GiftData from "./GiftData";
 import Signal from "../../Tool/Signal";
-import RewardItem from "./ItemInfo";
 import Game from "../../Game";
+import RewardItem from "./RewardItem";
 
 export default class PlayerData {
     private static _Instance: PlayerData;

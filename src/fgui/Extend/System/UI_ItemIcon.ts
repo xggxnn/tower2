@@ -2,7 +2,7 @@ import fui_ItemIcon from "../../Generates/System/fui_ItemIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import HeroInfo from "../../../dataInfo/HeroInfo";
 import SpriteKey from "../../SpriteKey";
-import RewardItem from "../../../gamemodule/DataStructs/ItemInfo";
+import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemIcon extends fui_ItemIcon {

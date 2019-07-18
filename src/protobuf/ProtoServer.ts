@@ -80,9 +80,9 @@ export default class ProtoServer {
 						// 	this.parseUserData(json.userData);
 						// }
 						let pro = ProtoManager.getProto(json.protoId);
-						console.log("-------------back-----------", json.protoId);
+						console.log("<<<<<<<<<<<-------------back-----------", json.protoId);
 						console.log(json);
-						console.log("-------------back-----------");
+						console.log("<<<<<<<<<<<-------------back-----------");
 						pro.callBack(json);
 					}
 					ProtoServer.dataList.shift();

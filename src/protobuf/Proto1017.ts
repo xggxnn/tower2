@@ -1,6 +1,6 @@
 import Proto from "./Proto";
 import Game from "../Game";
-import RewardItem from "../gamemodule/DataStructs/ItemInfo";
+import RewardItem from "../gamemodule/DataStructs/RewardItem";
 
 export default class Proto1017 extends Proto {
     protected protoid: number = 1017;
@@ -43,6 +43,12 @@ export default class Proto1017 extends Proto {
                 Game.playData.curJadeite = json.jadeite;
                 rewardList.push(item);
             }
+        }
+        if (json.hasOwnProperty("cardId")) {
+            let item: RewardItem = new RewardItem();
+            item.itemId = 10005;
+            item.itemNum = json.cardNum;
+            rewardList.push(item);
         }
         Game.playData.rewardList = rewardList;
     }
