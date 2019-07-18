@@ -10,6 +10,7 @@ import HeroTypeInfo from "./HeroTypeInfo";
 import MonsterInfo from "./MonsterInfo";
 import NormalSkillInfo from "./NormalSkillInfo";
 import PlaySkillInfo from "./PlaySkillInfo";
+import ResourceInfo from "./ResourceInfo";
 import ShopInfo from "./ShopInfo";
 import SkillInfo from "./SkillInfo";
 import SkillHitTypeInfo from "./SkillHitTypeInfo";
@@ -35,6 +36,7 @@ export default class CSVConfig {
 		MonsterInfo.init();
 		NormalSkillInfo.init();
 		PlaySkillInfo.init();
+		ResourceInfo.init();
 		ShopInfo.init();
 		SkillInfo.init();
 		SkillHitTypeInfo.init();
