@@ -31,31 +31,24 @@ export default class UI_HomeMain extends fui_HomeMain {
 		this.m_fightBtn.onClick(this, this.menuselect);
 		this.m_seatBtn.onClick(this, this.seatClick);
 		this.m_conquestBtn.onClick(this, this.conquestClick);
-		this.m_bagBtn.onClick(this, this.bagClick);
+		this.m_setBtn.onClick(this, this.setClick);
+		this.m_actBtn.onClick(this, this.actClick);
 		this.m_shopBtn.onClick(this, this.shopClick);
+		this.m_sortBtn.onClick(this, this.sortClick);
+		this.m_bagBtn.onClick(this, this.bagClick);
 	}
 
 	private menuselect(): void {
 		Game.menu.open(MenuId.MenuSelect);
 		this.closeUI();
 	}
-	trialClick(): void {
-		console.log("trialClick");
-	}
 	seatClick(): void {
-		Game.menu.open(MenuId.Arrange);
-		// if (Game.playData.curHero.length > 0) {
-		// 	Game.menu.open(MenuId.Arrange);
-		// }
-		// else {
-		// 	Game.tipWin.showTip("你还没有一个英雄，无法设置阵容");
-		// }
-	}
-	bagClick(): void {
-		Game.menu.open(MenuId.Bag);
-	}
-	shopClick(): void {
-		Game.menu.open(MenuId.Shop);
+		if (Game.playData.curHero.length > 0) {
+			Game.menu.open(MenuId.Arrange);
+		}
+		else {
+			Game.tipWin.showTip("你还没有一个英雄，无法设置阵容");
+		}
 	}
 	conquestClick(): void {
 		let datas = this.m_conquestBtn as UI_conquestBtn;
@@ -65,6 +58,21 @@ export default class UI_HomeMain extends fui_HomeMain {
 		else {
 			Game.tipWin.showTip("暂无收益!");
 		}
+	}
+	setClick(): void {
+		Game.popup.showPopup(this.m_setBtn, true, ["功能开发中"]);
+	}
+	actClick(): void {
+		Game.popup.showPopup(this.m_actBtn, true, ["功能开发中"]);
+	}
+	shopClick(): void {
+		Game.menu.open(MenuId.Shop);
+	}
+	sortClick(): void {
+		Game.popup.showPopup(this.m_sortBtn, true, ["功能开发中"]);
+	}
+	bagClick(): void {
+		Game.menu.open(MenuId.Bag);
 	}
 	conquestReward(): void {
 		Game.proto.conquestReward();
