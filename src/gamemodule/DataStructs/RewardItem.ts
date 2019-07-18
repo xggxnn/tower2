@@ -1,7 +1,11 @@
+import ResourceInfo from "../../dataInfo/ResourceInfo";
+
 /**
  * 获取物品
  */
 export default class RewardItem {
+
+
     /**
      * 10001 宝石
      * 10002 金币
@@ -19,4 +23,5 @@ export default class RewardItem {
      * 是否英雄碎片
      */
     public isClips: boolean = false;
+
 }
