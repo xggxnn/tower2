@@ -21,7 +21,7 @@ export default class UI_GMMain extends fui_GMMain {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-		this.m_closeBtn.visible = false;
+		this.m_closeBtn.onClick(this, this.closeUI);
 		this.m_list.setVirtual();
 		// 设置列表渲染函数
 		this.m_list.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);

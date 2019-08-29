@@ -1,9 +1,13 @@
 import fui_ItemShop from "../../Generates/Shop/fui_ItemShop";
 import ShopWin from "../../../gamemodule/Windows/ShopWin";
-import ShopInfo from "../../../dataInfo/ShopInfo";
 import SpriteKey from "../../SpriteKey";
 import Game from "../../../Game";
-import CardInfo from "../../../dataInfo/CardInfo";
+import ShopInfo from "../../../csvInfo/ShopInfo";
+import Fun from "../../../Tool/Fun";
+import ResourceInfo from "../../../csvInfo/ResourceInfo";
+import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
+import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
+import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemShop extends fui_ItemShop {
@@ -43,12 +47,32 @@ export default class UI_ItemShop extends fui_ItemShop {
 	onWindowHide(): void {
 
 	}
+	public setLimitData(inf: RewardItem): void {
+		this.limitShopInf = inf;
+		this.types = 0;
+		let hero = HeroInfoData.getInfo(this.limitShopInf.itemId);
+		this.m_quality.icon = SpriteKey.getUrl("quality" + hero.quality + ".png");
+		this.m_heroName.setVar("name", hero.name).flushVars();
+		let heroclip = HeroqualityInfo.getInfoQuality(hero.quality);
+		this.m_price.setVar("count", heroclip.magic_clip.toString()).setVar("price", "钻石").flushVars();
+		this.m_buyPrice.setVar("count", this.limitShopInf.itemNum.toString()).flushVars();
+		this.m_pic.icon = SpriteKey.getUrl("hero_" + hero.skin + ".png");
+		this.m_type.setSelectedIndex(1);
+		this.m_limNum.setSelectedIndex(0);
+	}
 
 	public setShopData(inf: ShopInfo): void {
+		this.m_quality.icon = SpriteKey.getUrl("quality" + 3 + ".png");
 		this.itemShopInf = inf;
 		this.types = 2;
 		this.m_heroName.setVar("name", this.itemShopInf.name).flushVars();
-		let types = "";
+		let types = "元";
+		if (this.itemShopInf.price_type > 0) {
+			let resource = ResourceInfo.getInfo(this.itemShopInf.price_type);
+			if (resource) {
+				types = resource.desc;
+			}
+		}
 		switch (this.itemShopInf.price_type) {
 			case 1:
 				types = "宝石";
@@ -57,7 +81,15 @@ export default class UI_ItemShop extends fui_ItemShop {
 				types = "元";
 				break;
 		}
-		this.m_price.setVar("count", this.itemShopInf.price.toString()).setVar("price", types).flushVars();
+		let discount = this.itemShopInf.discount;
+		if (discount == 1) {
+			this.m_checkBtn.title = "购买";
+		}
+		else {
+			this.m_checkBtn.title = Fun.format("购买（{0}折）", discount * 10);
+		}
+		let priceCount = Math.max(this.itemShopInf.price * discount, 1);
+		this.m_price.setVar("count", priceCount.toString()).setVar("price", types).flushVars();
 		if (this.itemShopInf.max_num > 0) {
 			this.m_buyPrice.setVar("count", this.itemShopInf.max_num.toString()).flushVars();
 			this.m_limNum.setSelectedIndex(0);
@@ -68,7 +100,8 @@ export default class UI_ItemShop extends fui_ItemShop {
 		this.m_pic.icon = SpriteKey.getUrl(this.itemShopInf.icon + ".png");
 		this.m_type.setSelectedIndex(1);
 	}
-	public setCardData(inf: CardInfo): void {
+	public setCardData(inf: ShopInfo): void {
+		this.m_quality.icon = SpriteKey.getUrl("quality" + 3 + ".png");
 		this.itemCardInf = inf;
 		this.types = 1;
 		this.m_heroName.setVar("name", this.itemCardInf.name).flushVars();
@@ -85,42 +118,52 @@ export default class UI_ItemShop extends fui_ItemShop {
 		this.m_type.setSelectedIndex(0);
 	}
 	private itemShopInf: ShopInfo = null;
-	private itemCardInf: CardInfo = null;
+	private itemCardInf: ShopInfo = null;
+	private limitShopInf: RewardItem = null;
 	private types: number = 0;
 	private showTip(): void {
 		switch (this.types) {
 			case 0:
 				break;
 			case 1:
-				Game.popup.showPopup(this.m_pic, true, [this.itemCardInf.des]);
+				Game.popup.showPopup(this.m_pic, true, this.itemCardInf.des);
 				break;
 			case 2:
-				Game.popup.showPopup(this.m_pic, true, [this.itemShopInf.des]);
+				Game.popup.showPopup(this.m_pic, true, this.itemShopInf.des);
 				break;
 		}
 	}
 	private buyClick(): void {
-		let types = 0;
 		let id = 0;
 		let num = 1;
 		switch (this.types) {
 			case 0:
+				{
+					if (this.limitShopInf.itemNum > 0) {
+						let heroId = 1;
+						let data = {
+							heroId: this.limitShopInf.itemId,
+							num: num,
+						}
+						Game.proto.shopBuy(data);
+					}
+					else {
+						Game.tipWin.showTip(Game.tipTxt.BuyHaveMax);
+					}
+				}
 				break;
 			case 1:
-				id = this.itemCardInf.id;
-				types = this.itemCardInf.type;
-				break;
 			case 2:
-				id = this.itemShopInf.id;
-				types = this.itemShopInf.type;
+				{
+					id = this.itemShopInf.id;
+					let data = {
+						shopId: id,
+						num: num,
+					}
+					Game.proto.shopBuy(data);
+				}
 				break;
 		}
-		let data = {
-			type: types,
-			id: id,
-			num: num,
-		}
-		Game.proto.shopBuy(data);
 	}
 
 }

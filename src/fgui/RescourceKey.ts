@@ -1,5 +1,5 @@
-import ResourceInfo from "../dataInfo/ResourceInfo";
 import Dictionary from "../Tool/Dictionary";
+import ResourceInfo from "../csvInfo/ResourceInfo";
 
 export default class RescourceKey {
     private static _dic: Dictionary<string, number> = new Dictionary<string, number>();
@@ -22,11 +22,11 @@ export default class RescourceKey {
         if (this._dic.hasKey(key)) {
             return this._dic.getValue(key);
         }
-        let list = ResourceInfo.getList();
-        for (let i = list.length - 1; i >= 0; i--) {
-            if (list[i].key == key) {
-                this._dic.add(key, list[i].id);
-                return list[i].id;
+        for (let i = 1, len = ResourceInfo.getCount(); i <= len; i++) {
+            let item = ResourceInfo.getInfo(i);
+            if (item.key == key) {
+                this._dic.add(key, item.id);
+                return item.id;
             }
         }
         return 0;

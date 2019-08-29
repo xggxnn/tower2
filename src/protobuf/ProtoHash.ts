@@ -28,11 +28,14 @@ import Proto1026 from "./Proto1026";
 import Proto1027 from "./Proto1027";
 import Proto1028 from "./Proto1028";
 import Proto1029 from "./Proto1029";
+import Proto1030 from "./Proto1030";
 import Proto101 from "./Proto101";
+import Proto102 from "./Proto102";
 
 export default class ProtoHash {
     static protoHash: Object = {
         "101": new Proto101(),
+        "102": new Proto102(),
         "1000": new Proto1000(),
         "1001": new Proto1001(),
         "1002": new Proto1002(),
@@ -63,5 +66,6 @@ export default class ProtoHash {
         "1027": new Proto1027(),
         "1028": new Proto1028(),
         "1029": new Proto1029(),
+        "1030": new Proto1030(),
     }
 }

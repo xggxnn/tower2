@@ -1,5 +1,6 @@
 import Proto from "./Proto";
 import Game from "../Game";
+import RewardItem from "../gamemodule/DataStructs/RewardItem";
 
 export default class Proto1019 extends Proto {
     protected protoid: number = 1019;
@@ -15,6 +16,11 @@ export default class Proto1019 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-
+        if (json.hasOwnProperty("map")) {
+            Game.battleMap.init([json.map]);
+        }
+        if (json.hasOwnProperty("resData")) {
+            Game.playData.getRewards(json.resData);
+        }
     }
 }

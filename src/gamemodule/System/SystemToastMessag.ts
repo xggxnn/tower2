@@ -10,6 +10,7 @@ export default class SystemToastMessag {
         }
         return SystemToastMessag._Instance;
     }
+    public closeTotal: boolean = true
 
     // 所有的
     private list: UI_TotalMessage[] = [];
@@ -28,7 +29,8 @@ export default class SystemToastMessag {
      * @param txt 消息内容
      * @param move 是否跑马灯
      */
-    toastMsg(txt: string, move: boolean = false) {
+    toastMsg(txt: string, move: boolean = false, alwaysHave: boolean = false) {
+        if (this.closeTotal && !alwaysHave) return;
         this.moveDic.add(txt, move);
         if (txt != this.lastTxt) {
             this.show(txt);

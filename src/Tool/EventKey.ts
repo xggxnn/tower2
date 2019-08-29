@@ -1,6 +1,8 @@
 export default class EventKey {
 
-
+    public static get CSV_LOAD_OVER(): string {
+        return "CSV_LOAD_OVER";
+    }
 
     // 秒触发
     public static get ENTER_SECOND(): string {
@@ -36,6 +38,19 @@ export default class EventKey {
         return "HERO_STAR_UPDATE";
     }
 
+    public static get CHANGESPEED(): string {
+        return "CHANGESPEED";
+    }
+
+    // 跳过战斗
+    public static get SKIPGAME(): string {
+        return "SKIPGAME";
+    }
+
+    // 开始当前游戏
+    public static get GAMESTART(): string {
+        return "GAMESTART";
+    }
     // 重新开始当前游戏
     public static get RE_TRYPLAY(): string {
         return "RE_TRYPLAY";
@@ -116,5 +131,17 @@ export default class EventKey {
     // 继续游戏
     public static get GAME_CONTINUE(): string {
         return "GAME_CONTINUE";
+    }
+    // 战斗场景是否触发羁绊
+    public static get FETTERS_SHOW_HIDE(): string {
+        return "FETTERS_SHOW_HIDE";
+    }
+    // 释放技能
+    public static get PLAY_SKILL(): string {
+        return "PLAY_SKILL";
+    }
+    // 引导释放技能
+    public static get GUIDE_PLAY_SKILL(): string {
+        return "GUIDE_PLAY_SKILL";
     }
 }

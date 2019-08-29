@@ -15,8 +15,8 @@ export default class Proto1013 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-        if (json.hasOwnProperty("cards")) {
-            Game.playData.initGift(json.cards);
+        if (json.hasOwnProperty("resData")) {
+            Game.playData.initGift(json.resData);
         }
     }
 }

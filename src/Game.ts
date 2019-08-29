@@ -12,12 +12,10 @@ import GameLocalStorage from "./gamemodule/LocalStorage/GameLocalStorage";
 import ProtoManager from "./protobuf/ProtoManager";
 import SystemToastMessag from "./gamemodule/System/SystemToastMessag";
 import SystemTipWin from "./gamemodule/System/SystemTipWin";
-import SystemGuide from "./gamemodule/System/SystemGuide";
 import SystemPopup from "./gamemodule/System/SystemPopup";
 import BattleMap from "./gamemodule/DataStructs/BattleMap";
 import BattleData from "./gamemodule/DataStructs/BattleData";
 import BattleScene from "./gamemodule/Models/BattleScene";
-import CSVConfig from "./dataInfo/CSVConfig";
 import ServerCSVConfig from "./dataInfo/ServerCSVConfig";
 import PlayerData from "./gamemodule/DataStructs/PlayerData";
 import UserData from "./Tool/UserData";
@@ -27,6 +25,15 @@ import WaveData from "./gamemodule/DataStructs/WaveData";
 import TickManager from "./Tool/TickManager";
 import GMData from "./gamemodule/DataStructs/GMData";
 import SystemRewardWin from "./gamemodule/System/SystemRewardWin";
+import BattleHalo from "./gamemodule/DataStructs/BattleHalo";
+import SystemRedTip from "./gamemodule/System/SystemRedTip";
+import EventKey from "./Tool/EventKey";
+import LoadFilesList from "./Tool/LoadFilesList";
+import RedTipData from "./gamemodule/DataStructs/RedTipData";
+import TypeWriteData from "./gamemodule/DataStructs/TypeWriteData";
+import ShareManager from "./Tool/ShareManager";
+import TipTextInfo from "./gamemodule/DataStructs/TipTextInfo";
+import { GuideType } from "./gamemodule/DataEnums/GuideType";
 
 export default class Game {
 
@@ -36,10 +43,14 @@ export default class Game {
 	// 屏幕宽高
 	static scenes: Laya.Point;
 	static scenesWH: Laya.Point;
+	// 光环生成的父节点
+	static haloParent: laya.display.Sprite;
 	// 怪物生成的父节点
 	static parentObject: laya.display.Sprite;
 	// 血条父节点
 	static bloodParent: fairygui.GRoot;
+	// 血条父节点
+	static shadowParent: laya.display.Sprite;
 
 	// 生成sk的数量
 	private static _creatNum: number = 0;
@@ -73,11 +84,18 @@ export default class Game {
 	static tipWin: SystemTipWin;
 	// 弹出获得物品窗口
 	static rewardWin: SystemRewardWin;
-	// 引导
-	static guide: SystemGuide;
 	// 弹出popup
 	static popup: SystemPopup;
+	// 计时器
 	static tick: TickManager;
+	// 红点提示
+	static redTip: SystemRedTip;
+	// 红点逻辑
+	static redData: RedTipData;
+	// 打字机效果
+	static writeEff: TypeWriteData;
+	// 提示文本
+	static tipTxt: TipTextInfo;
 
 
 	// 地图信息
@@ -92,6 +110,8 @@ export default class Game {
 	static playData: PlayerData;
 	// 用户信息
 	static userData: UserData;
+	// 战斗中的光环
+	static halo: BattleHalo;
 
 
 	static gm: GMData;
@@ -111,8 +131,10 @@ export default class Game {
 			Game.isAndroid = (agent.indexOf("Android") > -1);
 			Game.isMobile = Game.isIOS || Game.isAndroid;
 		}
+		EventManager.once(ProtoEvent.CONFIG_CALL_BACK, this, this.configGet);
 		EventManager.once(ProtoEvent.LOGIN_CALL_BACK, this, this.openHome);
 		Game.install();
+		LoaderManager.loadCSV();
 		LoaderManager.init();
 		GameInstaller.install();
 		SystemManager.init();
@@ -120,21 +142,98 @@ export default class Game {
 	}
 
 	static onInstallComplete() {
-		Game.proto.reqConfig();
+		this.menu.open(MenuId.Load);
+		EventManager.event(EventKey.SHOW_UI_WAIT);
+		EventManager.once(EventKey.LOADER_OVER, this, this.loadSKOver);
+		LoaderManager.resetShowLoad();
+		// let _list: Array<string> = [];
+		// _list = _list.concat(LoadFilesList.res_npc_ResList);
+		// _list.push("res_sk/enemy_1.sk");
+		// _list.push("res_sk/enemy_2.sk");
+		// _list.push("res_sk/enemy_3.sk");
+		// _list.push("res_sk/enemy_4.sk");
+		// _list.push("res_sk/enemy_5.sk");
+		// _list.push("res_sk/enemy_6.sk");
+		// _list.push("res_sk/enemy_7.sk");
+		// _list.push("res_sk/enemy_8.sk");
+		// _list.push("res_sk/enemy_9.sk");
+		// _list.push("res_sk/enemy_10.sk");
+		// _list.push("res_sk/enemy_11.sk");
+		// _list.push("res_sk/enemy_12.sk");
+		// _list.push("res_sk/enemy_13.sk");
+		// _list.push("res_sk/enemy_14.sk");
+		// _list.push("res_sk/enemy_15.sk");
+		// _list.push("res_sk/enemy_16.sk");
+		// _list = _list.concat(LoadFilesList.res_sk_hero_ResList);
+		// LoaderManager.addList(_list);
+		LoaderManager.addList(LoadFilesList.allResList);
+	}
+	static loadSKOver(): void {
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		Game.gameStatus = GameStatus.Gaming;
 		Game.sound.install();
 		Game.sound.autoStopMusic = false;
-		CSVConfig.InitAll();
-		this.menu.open(MenuId.Load);
-		// 资源加载完毕，登录
+		Game.proto.reqConfig();
+	}
+	private configGet(): void {
+		// 配置表加载完毕，登录
 		SystemManager.login();
 	}
-
 	private openHome(): void {
-		console.log("登录完毕");
+		ShareManager.init();
 		SystemManager.initAllData();
-		// 登录完毕，打开主界面
-		Game.menu.open(MenuId.Home);
+		if (Game.playData.guideIndex == GuideType.None && Game.battleMap.maxMapId > 1) {
+			// 登录成功，打开主界面
+			Game.menu.open(MenuId.Home);
+		}
+		else {
+			if (Game.playData.guideIndex < GuideType.Win) {
+				EventManager.event(EventKey.SHOW_UI_WAIT);
+				EventManager.once(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
+				Game.battleData.fight_type = 0;
+				Game.battleData.level_id = 1;
+				let data = {
+					waveId: Game.battleData.level_id,
+					fightType: Game.battleData.fight_type,
+				}
+				Game.proto.selectWave(data);
+			}
+			else if (Game.playData.guideIndex < GuideType.SnythHeroOver) {
+				Game.playData.guideIndex = GuideType.Win;
+				Game.menu.open(MenuId.Hero);
+			}
+			else if (Game.playData.guideIndex == GuideType.SnythHeroOver) {
+				Game.playData.guideIndex == GuideType.SnythHeroOver;
+				Game.menu.open(MenuId.Arrange);
+			}
+			else if (Game.playData.guideIndex >= GuideType.fiveWin && Game.playData.guideIndex < GuideType.fiveUpLevelOver) {
+				Game.playData.guideIndex = GuideType.fiveWin;
+				Game.menu.open(MenuId.Arrange);
+			}
+			else {
+				if (Game.playData.guideIndex < GuideType.fiveWin) {
+					Game.playData.guideIndex = GuideType.fettersOver;
+				}
+				else if (Game.playData.guideIndex < GuideType.sixWin) {
+					Game.playData.guideIndex = GuideType.fiveUpLevelOver;
+				}
+				else if (Game.playData.guideIndex < GuideType.sevenStartFive) {
+					Game.playData.guideIndex = GuideType.sixWin;
+				}
+				// 登录成功，打开主界面
+				Game.menu.open(MenuId.Home);
+			}
+		}
+	}
+	private startFight(): void {
+		if (Game.playData.guideIndex < GuideType.StartFight) {
+			Game.playData.guideIndex = GuideType.FightReady;
+		}
+		else if (Game.playData.guideIndex < GuideType.Win) {
+			Game.playData.guideIndex = GuideType.StartFight;
+		}
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		Game.menu.open(MenuId.Battle);
 	}
 
 	static install(): void {
@@ -142,7 +241,6 @@ export default class Game {
 		Game.total = SystemToastMessag.Instance;
 		Game.tipWin = SystemTipWin.Instance;
 		Game.rewardWin = SystemRewardWin.Instance;
-		Game.guide = SystemGuide.Instance;
 		Game.popup = SystemPopup.Instance;
 		Game.battleMap = BattleMap.Instance;
 		Game.battleData = BattleData.Instance;
@@ -153,7 +251,15 @@ export default class Game {
 		Game.waveData = WaveData.Instance;
 		Game.tick = TickManager.Instance;
 		Game.gm = GMData.Instance;
+		Game.halo = BattleHalo.Instance;
+		Game.redTip = SystemRedTip.Instance;
+		Game.redData = RedTipData.Instance;
+		Game.writeEff = TypeWriteData.Instance;
+		Game.tipTxt = TipTextInfo.Instance;
 	}
+
+	static haveHeroTem = [2];
+	static haveEnemyTem = [3];
 
 	static ScreenSetting: ScreenSettingConfig = new ScreenSettingConfig();
 	// 屏幕自适应

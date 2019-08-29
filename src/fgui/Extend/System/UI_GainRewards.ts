@@ -74,14 +74,20 @@ export default class UI_GainRewards extends fui_GainRewards {
 			this.tick = null;
 		}
 		let count = this.giftCount - 1;
-		if (count < 1) count = 1;
-		this.tick = Game.tick.addTick(count, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 20);
-		this.tick.Start();
+		if (count < 1) {
+			this.updateNum();
+			this.addNumOver();
+		}
+		else {
+			this.tick = Game.tick.addTick(count, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 20);
+			this.tick.Start();
+		}
 	}
 
 	private updateNum(): void {
 		if (this.giftCount > this.m_list.numItems) {
 			this.m_list.numItems++;
+			this.m_list.scrollToView(this.m_list.numItems - 1);
 		}
 	}
 	private addNumOver(): void {
@@ -106,7 +112,7 @@ export default class UI_GainRewards extends fui_GainRewards {
 	// 点击item
 	private onClickItem(obj: fairygui.GObject): void {
 		let item = obj as UI_ItemIcon;
-		Game.popup.showPopup(obj, true, ["物品id：" + (item.itemInfo.itemId)]);
+		Game.popup.showPopup(obj, true, "奖励物品：{0}", item.itemInfo.itemId);
 	}
 }
 UI_GainRewards.bind();

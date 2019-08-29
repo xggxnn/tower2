@@ -46,18 +46,18 @@ export default class MenuLayer {
         MenuLayer.module = MenuLayer.createLayer("MenuLayer-module");
         MenuLayer.mainUI = MenuLayer.createLayer("MenuLayer-mainUI");
         MenuLayer.dialog = MenuLayer.createLayer("MenuLayer-dialog");
-        MenuLayer.floatMsg = MenuLayer.createLayer("MenuLayer-floatMsg");
-        MenuLayer.loader = MenuLayer.createLayer("MenuLayer-loader");
         MenuLayer.guide = MenuLayer.createLayer("MenuLayer-guide");
-
+        MenuLayer.loader = MenuLayer.createLayer("MenuLayer-loader");
+        MenuLayer.floatMsg = MenuLayer.createLayer("MenuLayer-floatMsg");
+        MenuLayer.floatMsg.sortingOrder = 1000;
         MenuLayer.dict.add(MenuLayerType.Home, MenuLayer.home);
         MenuLayer.dict.add(MenuLayerType.HomeTop, MenuLayer.homeTop);
         MenuLayer.dict.add(MenuLayerType.Module, MenuLayer.module);
         MenuLayer.dict.add(MenuLayerType.MainUI, MenuLayer.mainUI);
         MenuLayer.dict.add(MenuLayerType.Dialog, MenuLayer.dialog);
-        MenuLayer.dict.add(MenuLayerType.FloatMsg, MenuLayer.floatMsg);
-        MenuLayer.dict.add(MenuLayerType.Loader, MenuLayer.loader);
         MenuLayer.dict.add(MenuLayerType.Guide, MenuLayer.guide);
+        MenuLayer.dict.add(MenuLayerType.Loader, MenuLayer.loader);
+        MenuLayer.dict.add(MenuLayerType.FloatMsg, MenuLayer.floatMsg);
     }
 
     static getLayer(layerType: MenuLayerType): fairygui.GRoot {

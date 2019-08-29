@@ -42,6 +42,8 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "Battle.bin";
         config.resAtlas.push("Battle_atlas0.png");
+        config.resAtlas.push("Battle_atlas0_1.png");
+        config.resAtlas.push("Battle_atlas0_2.png");
         config.resAtlas.push("Battle_atlas_j5ct1j.png");
         this.addconfig(config);
 
@@ -71,6 +73,14 @@ export default class FGUIResPackageConfig {
 
 
         config = new ResPackageConfig();
+        config.packageName = "Illustration";
+        config.resDir = "fgui";
+        config.resBin = "Illustration.bin";
+        config.resAtlas.push("Illustration_atlas0.png");
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
         config.packageName = "Menus";
         config.resDir = "fgui";
         config.resBin = "Menus.bin";
@@ -91,6 +101,31 @@ export default class FGUIResPackageConfig {
         config.packageName = "Sound";
         config.resDir = "fgui";
         config.resBin = "Sound.bin";
+        config.resSounds.push("Sound_11av510.mp3");
+        config.resSounds.push("Sound_11av511.mp3");
+        config.resSounds.push("Sound_11av512.mp3");
+        config.resSounds.push("Sound_11av513.mp3");
+        config.resSounds.push("Sound_11av514.mp3");
+        config.resSounds.push("Sound_11av515.mp3");
+        config.resSounds.push("Sound_11av516.mp3");
+        config.resSounds.push("Sound_11av517.mp3");
+        config.resSounds.push("Sound_11av518.mp3");
+        config.resSounds.push("Sound_11av519.mp3");
+        config.resSounds.push("Sound_11av51a.mp3");
+        config.resSounds.push("Sound_11av51b.mp3");
+        config.resSounds.push("Sound_11av51c.mp3");
+        config.resSounds.push("Sound_11av51d.mp3");
+        config.resSounds.push("Sound_11av51e.mp3");
+        config.resSounds.push("Sound_11av5q.mp3");
+        config.resSounds.push("Sound_11av5r.mp3");
+        config.resSounds.push("Sound_11av5s.mp3");
+        config.resSounds.push("Sound_11av5t.mp3");
+        config.resSounds.push("Sound_11av5u.mp3");
+        config.resSounds.push("Sound_11av5v.mp3");
+        config.resSounds.push("Sound_11av5w.mp3");
+        config.resSounds.push("Sound_11av5x.mp3");
+        config.resSounds.push("Sound_11av5y.mp3");
+        config.resSounds.push("Sound_11av5z.mp3");
         config.resSounds.push("Sound_jx3y1.mp3");
         config.resSounds.push("Sound_q0800.mp3");
         this.addconfig(config);
@@ -100,6 +135,7 @@ export default class FGUIResPackageConfig {
         config.packageName = "Surround";
         config.resDir = "fgui";
         config.resBin = "Surround.bin";
+        config.resAtlas.push("Surround_atlas0.png");
         this.addconfig(config);
 
 

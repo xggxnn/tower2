@@ -19,8 +19,8 @@ export default class Proto1012 extends Proto {
         if (json.hasOwnProperty("conquestTime")) {
             Game.playData.conqueTime = json.conquestTime
         }
-        if (json.hasOwnProperty("gold")) {
-            Game.playData.curGold = Number(json.gold);
+        for (var key in json.resData) {
+            Game.playData.addResource(key, json.resData[key]);
         }
     }
 }

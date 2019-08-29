@@ -56,6 +56,12 @@ export default class MenuManager {
 					}
 					this._open(backMenuId, openParametar);
 				}
+				else {
+					this.open(MenuId.Home);
+				}
+			}
+			else {
+				this.open(MenuId.Home);
 			}
 
 			setTimeout(() => {

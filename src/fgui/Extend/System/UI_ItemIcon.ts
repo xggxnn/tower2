@@ -1,8 +1,10 @@
 import fui_ItemIcon from "../../Generates/System/fui_ItemIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
-import HeroInfo from "../../../dataInfo/HeroInfo";
-import SpriteKey from "../../SpriteKey";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
+import Game from "../../../Game";
+import SignInfo from "../../../csvInfo/SignInfo";
+import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
+import SpriteKey from "../../SpriteKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemIcon extends fui_ItemIcon {
@@ -41,15 +43,43 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 	onWindowHide(): void {
 
 	}
+	// 免费抽奖赋值
+	public rewardSetData(index: number): void {
+		this.m_status.setSelectedIndex(0);
+	}
 
 	public singIndex: number = 0;
+	public signInf: SignInfo = null;
 	// 签到赋值
-	public signSetData(index: number, status: number): void {
+	public signSetData(index: number): void {
 		this.singIndex = index;
-		this.m_status.setSelectedIndex(status);
+		this.signInf = SignInfo.getInfo(this.singIndex);
+		this.m_number.setVar("count", this.signInf.num.toString()).flushVars();
+		if (this.signInf.rid > 11) {
+			this.m_c1.setSelectedIndex(3);
+		}
+		else {
+			this.m_c1.setSelectedIndex(2);
+		}
+		this.m_headIcon.icon = Game.playData.getIcon(this.signInf.rid);
+		if (Game.playData.signInIndex >= this.singIndex) {
+			this.m_status.setSelectedIndex(1);
+		}
+		else if (Game.playData.signInIndex + 1 == this.singIndex) {
+			if (Game.playData.isSign) {
+				this.m_status.setSelectedIndex(0);
+			}
+			else {
+				this.m_status.setSelectedIndex(2);
+			}
+		}
+		else {
+			this.m_status.setSelectedIndex(0);
+		}
 	}
 
 	public itemInfo: RewardItem;
+	// 获取物品赋值
 	public setData(inf: RewardItem): void {
 		this.itemInfo = inf;
 		this.m_number.setVar("count", this.itemInfo.itemNum.toString()).flushVars();
@@ -59,28 +89,15 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 		else {
 			this.m_c1.setSelectedIndex(2);
 		}
-		switch (this.itemInfo.itemId) {
-			case 10001:
-				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.diamond);
-				break;
-			case 10002:
-				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.gold);
-				break;
-			case 10003:
-				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.jadeite);
-				break;
-			case 10004:
-				this.m_headIcon.icon = SpriteKey.getUrl(SpriteKey.jadeite);
-				break;
-			default:
-				this.m_headIcon.icon = SpriteKey.getUrl("icon" + this.itemInfo.itemId + ".png");
-				break;
-		}
+		this.m_headIcon.icon = Game.playData.getIcon(this.itemInfo.itemId);
 	}
-	public hero: HeroInfo = null;
-	public setHero(hero: HeroInfo): void {
+	public hero: HeroInfoData = null;
+	// 羁绊关系赋值
+	public setHero(hero: HeroInfoData): void {
 		this.hero = hero;
-		this.m_headIcon.icon = SpriteKey.getUrl("icon" + this.hero.id + ".png");
+		this.m_headIcon.icon = Game.playData.getIcon(this.hero.id + 11);
+		this.m_headIcon.grayed = !Game.playData.curHeroInfoList.hasKey(this.hero.id);
+		this.m_quality.icon = SpriteKey.getUrl("quality" + hero.quality + ".png");
 	}
 
 }

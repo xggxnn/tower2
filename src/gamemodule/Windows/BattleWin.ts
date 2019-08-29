@@ -14,8 +14,19 @@ import UI_SkillBtn from "../../fgui/Extend/Battle/UI_SkillBtn";
 import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
 import Fun from "../../Tool/Fun";
 import UI_HeroInfo from "../../fgui/Extend/Home/UI_HeroInfo";
+import TypedSignal from "../../Tool/TypedSignal";
+import UI_HeadIcon2 from "../../fgui/Extend/Battle/UI_HeadIcon2";
+import UI_bagua from "../../fgui/Extend/Battle/UI_bagua";
+import UI_AddSpeedBtn from "../../fgui/Extend/Battle/UI_AddSpeedBtn";
+import UI_HeroIcon6060 from "../../fgui/Extend/Battle/UI_HeroIcon6060";
+import HeroInfoData from "../DataStructs/HeroInfoData";
+import UI_CloudCom from "../../fgui/Extend/Battle/UI_CloudCom";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class BattleWin extends FWindow {
+
+	public sUpdateHeroInf: TypedSignal<HeroInfoData> = new TypedSignal<HeroInfoData>();
+
+
 	content: UI_BattleMain;
 
 	AssociationBtn: UI_AssociationBtn;
@@ -33,6 +44,7 @@ export default class BattleWin extends FWindow {
 	HeroInfoUI: UI_HeroInfo;
 	constructor() {
 		super();
+		this.addAssetForFguiComponent(UI_HeadIcon2);
 		this.addAssetForFguiComponent(UI_AssociationBtn);
 		this.addAssetForFguiComponent(UI_BattleLeftBottom);
 		this.addAssetForFguiComponent(UI_BattleLeftTop);
@@ -46,6 +58,10 @@ export default class BattleWin extends FWindow {
 		this.addAssetForFguiComponent(UI_Shadow);
 		this.addAssetForFguiComponent(UI_SkillBtn);
 		this.addAssetForFguiComponent(UI_Stone);
+		this.addAssetForFguiComponent(UI_bagua);
+		this.addAssetForFguiComponent(UI_AddSpeedBtn);
+		this.addAssetForFguiComponent(UI_HeroIcon6060);
+		this.addAssetForFguiComponent(UI_CloudCom);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_BattleMain.createInstance();

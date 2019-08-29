@@ -1,9 +1,10 @@
 import fui_HeroIcon from "../../Generates/System/fui_HeroIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import Fun from "../../../Tool/Fun";
-import HeroInfo from "../../../dataInfo/HeroInfo";
-import SpriteKey from "../../SpriteKey";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
+import Game from "../../../Game";
+import SpriteKey from "../../SpriteKey";
+import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroIcon extends fui_HeroIcon {
@@ -27,32 +28,19 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 	}
 
 	public setData(item: RewardItem): void {
-		this.m_number.setVar("count", item.itemNum.toString()).flushVars();
-		if (item.itemId < 10000) {
-			this.m_headIcon.m_icons.icon = SpriteKey.getUrl("icon" + item.itemId + ".png");
+		this.m_number.setVar("count", Fun.formatNumberUnit(item.itemNum)).flushVars();
+		this.m_headIcon.m_icons.icon = Game.playData.getIcon(item.itemId);
+		this.m_quality.icon = SpriteKey.getUrl("quality" + 3 + ".png");
+		if (item.isHero) {
+			let inf2 = HeroInfoData.getInfo(item.itemId - 11);
+			this.m_quality.icon = SpriteKey.getUrl("quality" + inf2.quality + ".png");
+		}
+		if (item.isClips) {
 			this.m_c1.setSelectedIndex(3);
 		}
 		else {
-			switch (item.itemId) {
-				case 10001:
-					this.m_headIcon.m_icons.icon = SpriteKey.getUrl(SpriteKey.diamond);
-					break;
-				case 10002:
-					this.m_headIcon.m_icons.icon = SpriteKey.getUrl(SpriteKey.gold);
-					break;
-				case 10003:
-					this.m_headIcon.m_icons.icon = SpriteKey.getUrl(SpriteKey.jadeite);
-					break;
-			}
 			this.m_c1.setSelectedIndex(2);
 		}
-	}
-	// 显示碎片
-	public clipsSetData(id: string, Clips: number): void {
-		let heroInf = HeroInfo.getInfo(id);
-		this.m_number.text = Fun.format("{0}X{1}", heroInf.name, Clips);
-		this.m_headIcon.m_icons.icon = SpriteKey.getUrl("icon" + heroInf.id + ".png");
-		this.m_c1.setSelectedIndex(3);
 	}
 
 	// 关闭ui

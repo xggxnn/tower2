@@ -6,7 +6,7 @@ import EventManager from "../../../Tool/EventManager";
 import EventKey from "../../../Tool/EventKey";
 import TimerManager from "../../../Tool/TimerManager";
 import Fun from "../../../Tool/Fun";
-import WaveRewardsInfo from "../../../dataInfo/WaveRewardsInfo";
+import WaveRewardInfo from "../../../csvInfo/WaveRewardInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_conquestBtn extends fui_conquestBtn {
@@ -34,17 +34,32 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 	public getGold: string = "";
 	public canGet: boolean = false;
 	public setData(): void {
-		this.levelcount = Game.battleMap.waveStatusDict.count;
-		this.m_tip1.setVar("count", this.levelcount.toString()).flushVars();
-		this.updateTime();
+		this.levelcount = 0;
+		if (Game.battleMap.waveStatusDict.count > 0) {
+			this.levelcount = Game.battleMap.waveStatusDict.count;
+			this.m_tip1.setVar("count", this.levelcount.toString()).flushVars();
+			this.m_tip2.visible = true;
+			this.updateTime();
+		}
+		else {
+			this.m_tip1.setVar("count", "0").flushVars();
+			this.m_tip2.visible = false;
+		}
+		this.enabled = this.levelcount != 0;
 	}
 	updateTime(): void {
-		this.duration = TimerManager.timestamp - Game.playData.conqueTime;
-		this.canGet = Math.floor(this.duration / 60) > 0;
-		this.getGold = Fun.formatNumberUnit(Math.floor(WaveRewardsInfo.getInfo(this.levelcount).coin_daily * Math.floor(this.duration / 60))).toString();
-		this.m_tip2.setVar("time", Fun.formatTime(this.duration)).setVar("count", this.getGold).flushVars();
+		if (this.levelcount > 0) {
+			this.duration = TimerManager.timestamp - Game.playData.conqueTime;
+			if (this.duration > this.maxHoures) {
+				this.duration = this.maxHoures;
+			}
+			this.canGet = Math.floor(this.duration / 60) > 0;
+			this.getGold = Fun.formatNumberUnit(Math.floor(WaveRewardInfo.getInfo(this.levelcount).coin_daily * Math.floor(this.duration / 60))).toString();
+			this.m_tip2.setVar("time", Fun.formatTime(this.duration)).setVar("count", this.getGold).flushVars();
+		}
 	}
 	private tick: Tick = null;
+	private maxHoures = 7200;
 
 	// 关闭ui
 	closeUI(): void {

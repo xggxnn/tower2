@@ -1,5 +1,7 @@
 import fui_PopupMenu from "../../Generates/System/fui_PopupMenu";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
+import ResourceInfo from "../../../csvInfo/ResourceInfo";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_PopupMenu extends fui_PopupMenu {
@@ -23,7 +25,15 @@ export default class UI_PopupMenu extends fui_PopupMenu {
 	}
 	showPopup(button: fairygui.GObject, showInBtnPos: boolean, ...arg: any[]): void {
 		this.updateData();
-		this.m_tip.text = arg.toString();
+		let aarr = arg[0];
+		if (aarr.length == 1) {
+			this.m_tip.text = aarr.toString();
+		}
+		else if (aarr.length == 2) {
+			let resource = ResourceInfo.getInfo(aarr[1]);
+			this.m_tip.text = Fun.format(aarr[0], resource.desc);
+		}
+		this.m_tip.scrollPane.scrollTop();
 		if (showInBtnPos) {
 			fairygui.GRoot.inst.showPopup(this, button);
 		}

@@ -3,6 +3,8 @@ import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
 import EventManager from "../../../Tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
+import { FightType } from "../../../gamemodule/DataEnums/FightType";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_seatBtn extends fui_seatBtn {
@@ -26,8 +28,17 @@ export default class UI_seatBtn extends fui_seatBtn {
 	}
 
 	public setData(): void {
-		this.m_hitTip.setVar("count", Game.playData.curFightVal.toFixed(1)).flushVars();
-		this.m_speedTip.setVar("count", Game.playData.curSpeedVal.toFixed(1)).flushVars();
+		let curDic = Game.playData.curFightInf;
+		if (curDic.count > 0) {
+			this.m_hitTip.setVar("count", Fun.formatNumberUnit(curDic.getValue(FightType.Atk))).flushVars();
+			this.m_speedTip.setVar("count", (curDic.getValue(FightType.Speed)).toFixed(1)).flushVars();
+		}
+		else {
+			this.m_hitTip.setVar("count", "0").flushVars();
+			this.m_speedTip.setVar("count", "0").flushVars();
+		}
+		let _dic = Game.battleData.getWaveFightInf(Game.battleMap.maxMapId);
+
 	}
 
 	// 关闭ui

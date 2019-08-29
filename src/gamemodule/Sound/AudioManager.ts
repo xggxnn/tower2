@@ -8,7 +8,7 @@ import Game from "../../Game";
 // 声音管理器
 export default class AudioManager {
     // 正在播放中的音效列表
-    private soundPlayingDic: Dictionary<string, SoundChannel> = new Dictionary<string, SoundChannel>();
+    // private soundPlayingDic: Dictionary<string, SoundChannel> = new Dictionary<string, SoundChannel>();
     // 初始化
     install(): void {
 
@@ -32,8 +32,6 @@ export default class AudioManager {
      * @return SoundChannel对象，通过此对象可以对声音进行控制，以及获取声音信息。
      */
     playMusic(soundKey: string, loops?: number, complete?: Handler, startTime?: number): SoundChannel {
-        // if (BrowserDetect.isMobile)
-        // 	return;
         this.lastMusic = soundKey;
         if (this.musicMuted) {
             return;
@@ -67,66 +65,66 @@ export default class AudioManager {
      * @param startTime		声音播放起始时间。
      * @return SoundChannel对象，通过此对象可以对声音进行控制，以及获取声音信息。
      */
-    playSound(soundKey: string, isStopPreSound?: boolean, loops?: number, complete?: Handler, startTime?: number): SoundChannel {
-        if (!this.soundPlayingDic || this.soundPlayingDic === null) {
-            this.soundPlayingDic = new Dictionary<string, SoundChannel>();
-        }
-        if (isStopPreSound) {
-            this.stopAllSound();
-            this.soundPlayingDic.clear();
-        }
+    playSound(soundKey: string, isStopPreSound?: boolean, loops?: number): void {
+        // if (!this.soundPlayingDic || this.soundPlayingDic === null) {
+        //     this.soundPlayingDic = new Dictionary<string, SoundChannel>();
+        // }
+        // if (isStopPreSound) {
+        //     // this.stopAllSound();
+        //     // this.soundPlayingDic.clear();
+        // }
         let path = SoundKey.getPath(soundKey);
-        let isPlay = true;
-        if (!complete || complete === null) {
-            complete = Handler.create(this, this.playSoundComplete, [path]);
-            if (this.soundPlayingDic.hasKey(path)) {
-                isPlay = false;
-            }
-        }
-        if (isPlay) {
-            let soundChannel = SoundManager.playSound(path, loops, complete, startTime);
-            this.soundPlayingDic.add(path, soundChannel);
-        }
-        return this.soundPlayingDic.getValue(path);
+        // let isPlay = true;
+        // if (!complete || complete === null) {
+        //     complete = Handler.create(this, this.playSoundComplete, [path]);
+        //     if (this.soundPlayingDic.hasKey(path)) {
+        //         isPlay = false;
+        //     }
+        // }
+        // if (isPlay) {
+        let soundChannel = SoundManager.playSound(path, loops);
+        // this.soundPlayingDic.add(path, soundChannel);
+        // }
+        // return this.soundPlayingDic.getValue(path);
     }
     // 声音播放完成
-    playSoundComplete(path: string) {
-        if (this.soundPlayingDic.hasKey(path)) {
-            this.soundPlayingDic.remove(path);
-        }
-    }
+    // playSoundComplete(path: string) {
+    //     if (this.soundPlayingDic.hasKey(path)) {
+    //         this.soundPlayingDic.remove(path);
+    //     }
+    // }
 
     /**
      * 停止声音播放。此方法能够停止任意声音的播放（包括背景音乐和音效），只需传入对应的声音播放地址。
      * @param url  声音文件地址。
      */
-    stopSound(soundKey: string): void {
-        let path = SoundKey.getPath(soundKey);
-        if (this.soundPlayingDic.hasKey(path)) {
-            this.soundPlayingDic.remove(path);
-        }
-        SoundManager.stopSound(path);
-    }
+    // stopSound(soundKey: string): void {
+    //     let path = SoundKey.getPath(soundKey);
+    //     if (this.soundPlayingDic.hasKey(path)) {
+    //         this.soundPlayingDic.remove(path);
+    //     }
+    //     SoundManager.stopSound(path);
+    // }
 
     /**
      * 停止播放所有声音（包括背景音乐和音效）。
      */
-    stopAll(): void {
-        if (this.soundPlayingDic) {
-            this.soundPlayingDic.clear();
-        }
-        SoundManager.stopAll();
-    }
+    // stopAll(): void {
+    //     if (this.soundPlayingDic) {
+    //         this.soundPlayingDic.clear();
+    //     }
+    //     SoundManager.stopAll();
+    // }
 
     /**
      * 停止播放所有音效（不包括背景音乐）。
      */
-    stopAllSound(): void {
-        if (this.soundPlayingDic) {
-            this.soundPlayingDic.clear();
-        }
-        SoundManager.stopAllSound();
-    }
+    // stopAllSound(): void {
+    //     if (this.soundPlayingDic) {
+    //         this.soundPlayingDic.clear();
+    //     }
+    //     SoundManager.stopAllSound();
+    // }
     /**
      * 停止播放背景音乐（不包括音效）。
      * @param url  声音文件地址。

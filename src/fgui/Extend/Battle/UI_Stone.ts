@@ -1,5 +1,6 @@
 import fui_Stone from "../../Generates/Battle/fui_Stone";
 import BattleWin from "../../../gamemodule/Windows/BattleWin";
+import Game from "../../../Game";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Stone extends fui_Stone {
@@ -39,7 +40,9 @@ export default class UI_Stone extends fui_Stone {
 	onWindowHide(): void {
 
 	}
-
+	private baseHp: number = 100;
+	private maxHp: number = 100;
+	private curHp: number = 100;
 	private _breaked: boolean = false;
 	public get breaked(): boolean {
 		return this._breaked;
@@ -49,21 +52,37 @@ export default class UI_Stone extends fui_Stone {
 	}
 	private selectIndex = 0;
 	public hit(ap: number): void {
-		this.selectIndex++;
-		if (this.selectIndex < 4) {
-			this.m_c1.setSelectedIndex(this.selectIndex);
-		}
-		if (this.selectIndex >= 3) {
+		this.curHp -= ap;
+		this.selectIndex = 0;
+		if (this.curHp <= 0) {
+			this.selectIndex = 3;
 			this.breaked = true;
 		}
+		else if (this.curHp < this.maxHp / 3) {
+			this.selectIndex = 2;
+		}
+		else if (this.curHp < this.maxHp / 3 * 2) {
+			this.selectIndex = 1;
+		}
+		this.m_c1.setSelectedIndex(this.selectIndex);
 	}
 
+	private _init: boolean = false;
 	public reInit(): void {
+		this.maxHp = this.baseHp;
+		this.curHp = this.maxHp;
+		if (!this._init) {
+			this._init = true;
+			Game.halo.sUpdateStoneHp.add(this.initHp, this);
+		}
 		this.selectIndex = 0;
 		this.breaked = false;
 		this.m_c1.setSelectedIndex(this.selectIndex);
 	}
-
+	private initHp(hp: number): void {
+		this.maxHp += this.baseHp * (100 + hp) * 0.01;
+		this.curHp = this.maxHp;
+	}
 
 }
 UI_Stone.bind();

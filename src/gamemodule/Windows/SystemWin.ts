@@ -14,18 +14,18 @@ import UI_GainRewards from "../../fgui/Extend/System/UI_GainRewards";
 import UI_HeadIcon120107 from "../../fgui/Extend/System/UI_HeadIcon120107";
 import UI_ItemIcon from "../../fgui/Extend/System/UI_ItemIcon";
 import UI_winBtn from "../../fgui/Extend/System/UI_winBtn";
+import UI_RedTips from "../../fgui/Extend/System/UI_RedTips";
+import UI_RewardItem from "../../fgui/Extend/System/UI_RewardItem";
+import UI_ScrollTxtNormal from "../../fgui/Extend/System/UI_ScrollTxtNormal";
+import UI_LeftBtn from "../../fgui/Extend/System/UI_LeftBtn";
+import UI_RightBtn from "../../fgui/Extend/System/UI_RightBtn";
+import UI_DialogBox from "../../fgui/Extend/System/UI_DialogBox";
+import UI_Hand from "../../fgui/Extend/System/UI_Hand";
+import UI_Help from "../../fgui/Extend/System/UI_Help";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class SystemWin extends FWindow {
 	content: UI_Circle;
 
-	CloseBtn: UI_CloseBtn;
-	GeneralBtn: UI_GeneralBtn;
-	GuideLayer: UI_GuideLayer;
-	OkBtn: UI_OkBtn;
-	PopupMenu: UI_PopupMenu;
-	ScrollTxt: UI_ScrollTxt;
-	TipWin: UI_TipWin;
-	TotalMessage: UI_TotalMessage;
 	constructor() {
 		super();
 		this.addAssetForFguiComponent(UI_Circle);
@@ -43,6 +43,14 @@ export default class SystemWin extends FWindow {
 		this.addAssetForFguiComponent(UI_HeroIcon);
 		this.addAssetForFguiComponent(UI_ItemIcon);
 		this.addAssetForFguiComponent(UI_winBtn);
+		this.addAssetForFguiComponent(UI_RedTips);
+		this.addAssetForFguiComponent(UI_RewardItem);
+		this.addAssetForFguiComponent(UI_ScrollTxtNormal);
+		this.addAssetForFguiComponent(UI_LeftBtn);
+		this.addAssetForFguiComponent(UI_RightBtn);
+		this.addAssetForFguiComponent(UI_DialogBox);
+		this.addAssetForFguiComponent(UI_Hand);
+		this.addAssetForFguiComponent(UI_Help);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_Circle.createInstance();

@@ -6,6 +6,9 @@ import { MenuId } from "./MenuId";
 import { MenuOpenParameter } from "./MenuOpenParameter";
 import Game from "../Game";
 import Signal from "../Tool/Signal";
+import UI_GuideLayer from "../fgui/Extend/System/UI_GuideLayer";
+import { LocationType } from "./DataEnums/LocationType";
+import MenuCtl from "./MenuCtl";
 
 export default class FWindow extends fairygui.Window {
 
@@ -104,6 +107,17 @@ export default class FWindow extends fairygui.Window {
 				child.remove(com.id);
 			}
 			com.removeFromParent();
+		}
+	}
+
+	closeOtherWindow(): void {
+		let list: MenuCtl[] = Game.menu.dict.getValues();
+		for (let i = list.length - 1; i >= 0; i--) {
+			let ctl = list[i];
+			if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load || ctl.menuId == MenuId.Battle || ctl.menuId == this.menuId) {
+				continue;
+			}
+			ctl.close();
 		}
 	}
 
@@ -290,6 +304,30 @@ export default class FWindow extends fairygui.Window {
 		}
 
 		return list;
+	}
+
+	private GuideLayer: UI_GuideLayer;
+	/**
+	 * 添加引导接口
+	 * @param target 引导中需要点击的按钮
+	 * @param pos 按钮的x，y坐标，列表需要item本身的parent的坐标+按钮坐标
+	 * @param comple 按钮本身的点击事件
+	 * @param tip 提示内容
+	 * @param locat 提示内容位置，默认按钮右侧。枚举LocationType。 Upper, Lower, Left, Right,
+	 */
+	public createGuideUI(target: fairygui.GComponent, pos: Laya.Point, comple: Laya.Handler, tip: string = "", locat: LocationType = LocationType.Right): void {
+		Game.playData.guideTarget = target;
+		Game.playData.guidePos = pos;
+		Game.playData.guideHandler = comple;
+		Game.playData.guideTip = tip;
+		Game.playData.guideTipPos = locat;
+		if (!this.GuideLayer || this.GuideLayer == null) {
+			this.GuideLayer = UI_GuideLayer.createInstance();
+		}
+		if (Game.playData.guideHandler == null) {
+			console.log("null");
+		}
+		this.windowAddChild(this.GuideLayer);
 	}
 
 }

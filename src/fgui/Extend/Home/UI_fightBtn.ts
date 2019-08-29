@@ -2,6 +2,7 @@ import fui_fightBtn from "../../Generates/Home/fui_fightBtn";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
 import Fun from "../../../Tool/Fun";
+import { FightType } from "../../../gamemodule/DataEnums/FightType";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_fightBtn extends fui_fightBtn {
@@ -25,9 +26,9 @@ export default class UI_fightBtn extends fui_fightBtn {
 	}
 
 	public setData(): void {
-		this.m_fight.text = "2233";
-		this.m_speed.setVar("count", "3").flushVars();
-		this.m_reward.setVar("count", "1234").flushVars();
+		let _dic = Game.battleData.getWaveFightInf(Game.battleMap.maxMapId);
+		this.m_fight.text = Fun.formatNumberUnit(_dic.getValue(FightType.Atk));
+		this.m_speed.setVar("count", (_dic.getValue(FightType.Speed)).toFixed(1)).flushVars();
 		let id = 1;
 		if (Game.battleMap.maxMapId > 1) {
 			id = Game.battleMap.maxMapId;

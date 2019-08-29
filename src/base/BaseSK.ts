@@ -2,12 +2,13 @@ import BaseFilter from "../base/BaseFilter";
 import EventManager from "../tool/EventManager";
 import TempletManager from "../Tool/TempletManager";
 import EventKey from "../Tool/EventKey";
+import Game from "../Game";
 
 export default class BaseSK extends BaseFilter {
 	public static create(key: string): BaseSK {
 		return new BaseSK(key);
 	}
-	private constructor(key: string) {
+	constructor(key: string) {
 		super();
 		this._key = key;
 		let _templet: Laya.Templet = TempletManager.getTemplet(this._key);
@@ -22,6 +23,7 @@ export default class BaseSK extends BaseFilter {
 		EventManager.offAllCaller(this);
 		if (this._skeleton) this._skeleton.offAll();
 	}
+
 	private _key: string = "";
 	public get key(): string {
 		return this._key;
@@ -37,7 +39,6 @@ export default class BaseSK extends BaseFilter {
 		this._skeleton.y = 0;
 		this.addChild(this._skeleton);
 		if (this._currAnimation) this._skeleton.play(this._currAnimation, this._isLoop);
-
 		let num = this._skeleton.getAnimNum();
 		if (this._isPause) this._skeleton.paused();
 		this.speed = this._speed;
@@ -56,7 +57,7 @@ export default class BaseSK extends BaseFilter {
 	private _currAnimation: string = "";
 	private _isLoop: boolean = true;
 	private _isPause: boolean = false;
-	private _speed: number = 1;
+	protected _speed: number = 1;
 	public get skeleton(): Laya.Skeleton {
 		return this._skeleton;
 	}
@@ -126,7 +127,7 @@ export default class BaseSK extends BaseFilter {
      */
 	public set speed(v: number) {
 		if (this._skeleton) {
-			this._skeleton.playbackRate(v);
+			this._skeleton.playbackRate(v * Game.playData.gameSpeed);
 		} else {
 			this._speed = v;
 		}

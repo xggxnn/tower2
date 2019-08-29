@@ -1,5 +1,4 @@
 import FGUIResPackageConfig from "./FGUIResPackageConfig";
-import SoundKey from "./SoundKey";
 export default class LoadFgui {
     static install() {
 

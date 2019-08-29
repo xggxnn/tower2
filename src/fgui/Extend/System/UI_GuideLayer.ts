@@ -3,11 +3,17 @@ import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import UI_winBtn from "./UI_winBtn";
 import MenuLayer from "../../../gamemodule/MenuLayer";
 import Handler = Laya.Handler;
+import Game from "../../../Game";
+import FWindow from "../../../gamemodule/FWindow";
+import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
+import UI_Hand from "./UI_Hand";
+import Pools from "../../../Tool/Pools";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_GuideLayer extends fui_GuideLayer {
 
 	moduleWindow: SystemWin;
+	private fwindow: FWindow;
 
 	public static DependPackages: string[] = ["System"];
 
@@ -31,60 +37,90 @@ export default class UI_GuideLayer extends fui_GuideLayer {
 	}
 	private m_wbtn: UI_winBtn;
 
-	private _onCompleteHandler: Handler;
-	showGuide(target: fairygui.GObject, onComplete?: Handler): void {
-		if (this.timeOutNum != -1) {
-			clearTimeout(this.timeOutNum);
-			this.timeOutNum = -1;
-		}
-		this.m_wbtn.enabled = false;
-		if (this._onCompleteHandler) {
-			this._onCompleteHandler.recover();
-		}
-		this._onCompleteHandler = onComplete;
-		MenuLayer.guide.addChild(this);
-		let rect = target.localToGlobalRect(-5, -5, target.width + 10, target.height + 10);
-		let win = this.m_window as fairygui.GObject;
-		win.setSize(rect.width, rect.height);
-		fairygui.tween.GTween.to2(win.x, win.y, rect.x, rect.y, 0.3).setTarget(win, win.setXY).onComplete(this._complete, this);
-
-	}
-	_complete(): void {
-		this.m_wbtn.setSize(this.m_window.width, this.m_window.height);
-		this.m_wbtn.setXY(this.m_window.x, this.m_window.y);
-		this.m_wbtn.enabled = true;
-	}
-
-	clickBtn(): void {
-		this.m_wbtn.enabled = false;
-		if (this._onCompleteHandler) {
-			this.timeOutNum = setTimeout(() => {
-				this._onCompleteHandler.run();
-			}, 100);
-		}
-		this.hideGuide();
-	}
-	timeOutNum: number = -1;
-
-	hideGuide(): void {
-		this.removeFromParent();
-	}
-
 	// 关闭ui
 	closeUI(): void {
-		this.moduleWindow.menuClose();
+		if (this.fwindow) {
+			this.fwindow.windowRemoveChild(this);
+		}
 	}
 	// 返回上一级ui
 	backUI(): void {
-		this.moduleWindow.menuBack();
+		// this.moduleWindow.menuBack();
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-
+		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
+		Game.playData.guideTarget = null;
+		Game.playData.guideHandler = null;
+		this.fwindow = null;
+	}
 
+	private setData(): void {
+		if (this._dialog) {
+			this._dialog.visible = false;
+		}
+		this.m_pos.setSelectedIndex(0);
+		this.m_wbtn.enabled = false;
+		let rect = Game.playData.guidePos;
+		let win = this.m_window as fairygui.GObject;
+		win.setSize(Game.playData.guideTarget.width, Game.playData.guideTarget.height);
+		fairygui.tween.GTween.to2(win.x, win.y, rect.x, rect.y, 0.3).setTarget(win, win.setXY).onComplete(this._tweenComplete, this);
+	}
+	_tweenComplete(): void {
+		this.m_wbtn.setSize(this.m_window.width, this.m_window.height);
+		this.m_wbtn.setXY(this.m_window.x, this.m_window.y);
+		if (this._dialog == null) {
+			this._dialog = Pools.fetch(UI_Hand);
+			this.m_wbtn.addChild(this._dialog);
+			this._dialog.m_t0.play(null, -1);
+		}
+		this._dialog.setXY(this.m_wbtn.width / 2, this.m_wbtn.height / 2);
+		this._dialog.visible = true;
+		setTimeout(() => {
+			this.m_wbtn.enabled = true;
+			switch (Game.playData.guideTipPos) {
+				case LocationType.Upper:
+					{
+						this.m_top.text = "";
+						this.m_pos.setSelectedIndex(1);
+						Game.writeEff.startTypeWrite(50, Game.playData.guideTip, this.m_top, null);
+					}
+					break;
+				case LocationType.Left:
+					{
+						this.m_left.text = "";
+						this.m_pos.setSelectedIndex(4);
+						Game.writeEff.startTypeWrite(50, Game.playData.guideTip, this.m_left, null);
+					}
+					break;
+				case LocationType.Lower:
+					{
+						this.m_bottom.text = "";
+						this.m_pos.setSelectedIndex(3);
+						Game.writeEff.startTypeWrite(50, Game.playData.guideTip, this.m_bottom, null);
+					}
+					break;
+				default:
+					{
+						this.m_right.text = "";
+						this.m_pos.setSelectedIndex(2);
+						Game.writeEff.startTypeWrite(50, Game.playData.guideTip, this.m_right, null);
+					}
+					break;
+			}
+		}, 20);
+	}
+	private _dialog: UI_Hand = null;
+	clickBtn(): void {
+		this.m_wbtn.enabled = false;
+		Game.writeEff.completeTypeWrite();
+		if (Game.playData.guideHandler) {
+			Game.playData.guideHandler.run();
+		}
+		this.closeUI();
 	}
 
 

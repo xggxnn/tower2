@@ -294,10 +294,10 @@ export default class SystemManager {
 
 
 	public static loadError(): void {
-		Game.tipWin.showTip("网络情况不佳！点击确认按钮尝试重新加载。", Laya.Handler.create(LoaderManager, LoaderManager.reload));
+		Game.tipWin.showTip(Game.tipTxt.LoadError, false, Laya.Handler.create(LoaderManager, LoaderManager.reload));
 	}
 	public static loadFail(): void {
-		Game.tipWin.showTip("网络情况不佳！请点击确认按钮，调整手机网络通畅以后重开打开游戏。", Laya.Handler.create(SystemManager, SystemManager.retryGame));
+		Game.tipWin.showTip(Game.tipTxt.LoadFailed, false, Laya.Handler.create(SystemManager, SystemManager.retryGame));
 	}
 
 	private static _linkUnlock: boolean = false;

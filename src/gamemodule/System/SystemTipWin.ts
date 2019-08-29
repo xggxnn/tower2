@@ -19,8 +19,13 @@ export default class SystemTipWin {
 
     private _onCompleteHandler: Handler;
 
-
-    showTip(txt: string, onComplete?: Handler) {
+    /**
+     * 提示窗口
+     * @param txt 提示内容
+     * @param showCancel 是否显示取消按钮，默认false不显示
+     * @param onComplete 确定按钮的回调函数
+     */
+    showTip(txt: string, showCancel: boolean = false, onComplete?: Handler, cancelHandler?: Handler, okTitle?: string, cancelTitle?: string) {
         if (this._onCompleteHandler) {
             this._onCompleteHandler.recover();
         }
@@ -33,7 +38,7 @@ export default class SystemTipWin {
             this.list.push(item);
         }
         this._onCompleteHandler = onComplete;
-        item.showTxt(txt, Handler.create(this, this.onItemComplete))
+        item.showTxt(txt, showCancel, Handler.create(this, this.onItemComplete), cancelHandler, okTitle, cancelTitle);
     }
 
     private onItemComplete(item: UI_TipWin) {

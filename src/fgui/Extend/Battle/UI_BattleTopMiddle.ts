@@ -5,7 +5,11 @@ import SpriteKey from "../../SpriteKey";
 import Association from "../../../gamemodule/DataStructs/Association";
 import Game from "../../../Game";
 import Fun from "../../../Tool/Fun";
-import AssociationAttributeInfo from "../../../dataInfo/AssociationAttributeInfo";
+import AssociationAttributeInfo from "../../../csvInfo/AssociationAttributeInfo";
+import EventManager from "../../../Tool/EventManager";
+import EventKey from "../../../Tool/EventKey";
+import UI_HeroIcon6060 from "./UI_HeroIcon6060";
+import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
@@ -30,27 +34,57 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 		this.m_associationList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
 		// 列表内容单个item被点击
 		this.m_associationList.on(fairygui.Events.CLICK_ITEM, this, this.onClickItem);
+
+		this.m_heroList.itemRenderer = Laya.Handler.create(this, this.initHeroItem, null, false);
 	}
+	private heroList: Array<HeroInfoData> = [];
 	// 渲染item
+	private initHeroItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_HeroIcon6060;
+		item.icon = SpriteKey.getUrl("hero_" + this.heroList[index].skin + ".png");
+	}
 	private initItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_AssociationBtn;
-		let t = index + 1;
-		item.icon = SpriteKey.getUrl("icon_100" + t + ".png");
-		item.m_titles.text = (index + 1).toString();
+		let ass = this.association[index];
+		item.m_titles.setVar("count", ass.num.toString()).flushVars();
+		if (ass.race > 0) {
+			item.icon = SpriteKey.getUrl("race" + ass.race + ".png");
+		}
+		else if (ass.career > 0) {
+			item.icon = SpriteKey.getUrl("career" + ass.career + ".png");
+		}
 	}
 	private inRichText: fairygui.GRichTextField = null;
 	// 点击item
 	private onClickItem(obj: fairygui.GObject): void {
 		let index = this.m_associationList.getChildIndex(obj);
 		this.m_t0.stop();
-		let att = AssociationAttributeInfo.getInfo(this.association[index].attribute_id);
-		this.m_title.text = Fun.format("[color=#61aa66]{0}[/color] X [color=#51FC55]{1}[/color] <br /> ", this.association[index].names, this.association[index].num) + Fun.format(att.des, this.association[index].values);//"神谕：同时上阵N位天神时<br />[color=#51FC55]（2），攻击力提高15%[/color]<br />[color=#51FC55]（4），攻击力提高25%[/color]";
-		this.m_title.height = 39 + 34 * 2;
+		let ass = this.association[index];
+		let att = AssociationAttributeInfo.getInfo(ass.attribute_id);
+		this.m_title.text = Fun.format("[color=#61aa66]{0}[/color] X [color=#51FC55]{1}[/color]  ", ass.names, ass.num)
+			+ Fun.format(att.des, ass.values);
+		let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
+		this.heroList = [];
+		for (let i = 0; i < 9; i++) {
+			if (seatList[i] > 0) {
+				let hero = HeroInfoData.getInfo(seatList[i]);
+				if (ass.race > 0 && hero.race == ass.race) {
+					this.heroList.push(hero);
+				}
+				else if (ass.career > 0 && hero.career == ass.career) {
+					this.heroList.push(hero);
+				}
+			}
+		}
+		this.m_heroList.numItems = this.heroList.length;
+
 		this.m_c1.setSelectedIndex(1);
+		// EventManager.event(EventKey.FETTERS_SHOW_HIDE, [true, ass]);
 		this.m_t0.play(Laya.Handler.create(this, this.hideMethod));
 	}
 	hideMethod(): void {
 		this.m_c1.setSelectedIndex(0);
+		// EventManager.event(EventKey.FETTERS_SHOW_HIDE, [false]);
 	}
 
 	// 关闭ui
@@ -64,14 +98,19 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 	private association: Association[] = [];
 	// 显示，相当于enable
 	onWindowShow(): void {
-		this.association = Game.battleData.refrushAssociation();
-		this.m_associationList.numItems = this.association.length;
+		EventManager.on(EventKey.RE_TRYPLAY, this, this.setData);
+		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-
+		EventManager.offAllCaller(this);
 	}
 
+	private setData(): void {
+		this.m_c1.setSelectedIndex(0);
+		this.association = Game.battleData.refrushAssociation(true);
+		this.m_associationList.numItems = this.association.length;
+	}
 
 }
 UI_BattleTopMiddle.bind();

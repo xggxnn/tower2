@@ -1,11 +1,29 @@
 import Dictionary from "../Tool/Dictionary";
-import DifficultyEfficiencyInfo from "./DifficultyEfficiencyInfo";
-import HeroInfo from "./HeroInfo";
-import HeroTypeInfo from "./HeroTypeInfo";
-import MonsterInfo from "./MonsterInfo";
-import SkillInfo from "./SkillInfo";
-import WaveformInfo from "./WaveformInfo";
-import WaveInfo from "./WaveInfo";
+import HeroInfo from "../csvInfo/HeroInfo";
+import AssociationAttributeInfo from "../csvInfo/AssociationAttributeInfo";
+import AssociationCareerInfo from "../csvInfo/AssociationCareerInfo";
+import AssociationRaceInfo from "../csvInfo/AssociationRaceInfo";
+import AssociationSpecialInfo from "../csvInfo/AssociationSpecialInfo";
+import DifficultyEfficiencyInfo from "../csvInfo/DifficultyEfficiencyInfo";
+import HeroTypeInfo from "../csvInfo/HeroTypeInfo";
+import WaveformInfo from "../csvInfo/WaveformInfo";
+import WaveInfo from "../csvInfo/WaveInfo";
+import TimeHouseInfo from "../csvInfo/TimeHouseInfo";
+import SkillHitTypeInfo from "../csvInfo/SkillHitTypeInfo";
+import SkillInfo from "../csvInfo/SkillInfo";
+import ShopInfo from "../csvInfo/ShopInfo";
+import ResourceInfo from "../csvInfo/ResourceInfo";
+import PlayerSkillInfo from "../csvInfo/PlayerSkillInfo";
+import MonsterInfo from "../csvInfo/MonsterInfo";
+import TrialInfo from "../csvInfo/TrialInfo";
+import FiveElementsInfo from "../csvInfo/FiveElementsInfo";
+import CardsInfo from "../csvInfo/CardsInfo";
+import HeroqualityInfo from "../csvInfo/HeroqualityInfo";
+import WaveRewardInfo from "../csvInfo/WaveRewardInfo";
+import KingInfo from "../csvInfo/KingInfo";
+import SignInfo from "../csvInfo/SignInfo";
+import BossSkillInfo from "../csvInfo/BossSkillInfo";
+import LevelchallengesuggestInfo from "../csvInfo/LevelchallengesuggestInfo";
 
 export default class ServerCSVConfig {
     private static _Instance: ServerCSVConfig;
@@ -19,6 +37,7 @@ export default class ServerCSVConfig {
     private infDic: Dictionary<string, Dictionary<string, Dictionary<string, string>>> = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
     public setCSVInit(json: any): void {
+        // let numCount = 0;
         for (var key in json) {
             let inf = json[key];
             if (!this.infDic.hasKey(key)) {
@@ -38,28 +57,84 @@ export default class ServerCSVConfig {
                     }
                 }
             }
-
+            // numCount++;
+            // console.log(":", key);
+            let dic = this.infDic.getValue(key).getValues();
             switch (key) {
-                case "DifficultyEfficiencyInfo":
-                    DifficultyEfficiencyInfo.serverInit(this.infDic.getValue(key));
+                case "associationattribute":
+                    AssociationAttributeInfo.server(dic);
                     break;
-                case "HeroInfo":
-                    HeroInfo.serverInit(this.infDic.getValue(key));
+                case "associationcareer":
+                    AssociationCareerInfo.server(dic);
                     break;
-                case "HeroTypeInfo":
-                    HeroTypeInfo.serverInit(this.infDic.getValue(key));
+                case "associationrace":
+                    AssociationRaceInfo.server(dic);
                     break;
-                case "MonsterInfo":
-                    MonsterInfo.serverInit(this.infDic.getValue(key));
+                case "associationspecial":
+                    AssociationSpecialInfo.server(dic);
                     break;
-                case "SkillInfo":
-                    SkillInfo.serverInit(this.infDic.getValue(key));
+                case "bossskill":
+                    BossSkillInfo.server(dic);
                     break;
-                case "WaveformInfo":
-                    WaveformInfo.serverInit(this.infDic.getValue(key));
+                case "card":
+                    CardsInfo.server(dic);
                     break;
-                case "WaveInfo":
-                    WaveInfo.serverInit(this.infDic.getValue(key));
+                case "difficultyefficiency":
+                    DifficultyEfficiencyInfo.server(dic);
+                    break;
+                case "fiveelements":
+                    FiveElementsInfo.server(dic);
+                    break;
+                case "hero":
+                    HeroInfo.server(dic);
+                    break;
+                case "heroquality":
+                    HeroqualityInfo.server(dic);
+                    break;
+                case "herotype":
+                    HeroTypeInfo.server(dic);
+                    break;
+                case "king":
+                    KingInfo.server(dic);
+                    break;
+                case "monster":
+                    MonsterInfo.server(dic);
+                    break;
+                case "playskill":
+                    PlayerSkillInfo.server(dic);
+                    break;
+                case "resource":
+                    ResourceInfo.server(dic);
+                    break;
+                case "shop":
+                    ShopInfo.server(dic);
+                    break;
+                case "signin":
+                    SignInfo.server(dic);
+                    break;
+                case "skill":
+                    SkillInfo.server(dic);
+                    break;
+                case "skillhittype":
+                    SkillHitTypeInfo.server(dic);
+                    break;
+                case "timehouse":
+                    TimeHouseInfo.server(dic);
+                    break;
+                case "trial":
+                    TrialInfo.server(dic);
+                    break;
+                case "wave":
+                    WaveInfo.server(dic);
+                    break;
+                case "waveform":
+                    WaveformInfo.server(dic);
+                    break;
+                case "waverewards":
+                    WaveRewardInfo.server(dic);
+                    break;
+                case "levelchallengesuggest":
+                    LevelchallengesuggestInfo.server(dic);
                     break;
             }
         }

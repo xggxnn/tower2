@@ -41,6 +41,9 @@ export default class MenuCtl {
 			this.moduleWindow = new this.menuWindowConfig.windowClass();
 			this.moduleWindow.menuId = this.menuId;
 			switch (this.menuId) {
+				case MenuId.GM:
+					this.moduleWindow.windowContainer = MenuLayer.getLayer(MenuLayerType.Guide);
+					break;
 				case MenuId.Load:
 					this.moduleWindow.windowContainer = MenuLayer.getLayer(MenuLayerType.Loader);
 					break;
@@ -100,21 +103,21 @@ export default class MenuCtl {
 		// 设置返回MenuID
 		let backMenuId = this.__menuManager.getLastOpenMenuId([this.menuId]);
 
-		if (!this.openParametar.dontCloseOther) {
-			let homeIsOpen = this.__menuManager.isOpened(MenuId.Home);
-			let list: MenuCtl[] = Game.menu.dict.getValues();
-			for (let i = 0; i < list.length; i++) {
-				let ctl = list[i];
-				if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load)
-					continue;
+		// if (!this.openParametar.dontCloseOther) {
+		// 	let homeIsOpen = this.__menuManager.isOpened(MenuId.Home);
+		// 	let list: MenuCtl[] = Game.menu.dict.getValues();
+		// 	for (let i = 0; i < list.length; i++) {
+		// 		let ctl = list[i];
+		// 		if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load)
+		// 			continue;
 
-				if (ctl != this) {
-					ctl.closeIsDestory = homeIsOpen;
-					ctl.close();
-					hasCloseOtherMenu = true;
-				}
-			}
-		}
+		// 		if (ctl != this) {
+		// 			ctl.closeIsDestory = homeIsOpen;
+		// 			ctl.close();
+		// 			hasCloseOtherMenu = true;
+		// 		}
+		// 	}
+		// }
 		this.backMenuId = hasCloseOtherMenu ? backMenuId : -1;
 	}
 	// 关闭

@@ -7,13 +7,14 @@ import Game from "../Game";
 export default class ProtoServer {
 	private static get SERVER_URL(): string {
 		return "https://td2.yz063.com/td2/v1/facade.php";
+		// return "http://192.168.10.178/td2/v1/facade.php";
 	}
 	public static init(): void {
 		EventManager.on(EventKey.ENTER_SECOND, ProtoServer, ProtoServer.update);
 	}
 	private static update(): void {
 		ProtoServer.time++;
-		if (ProtoServer.time >= 8) {
+		if (ProtoServer.time >= 800) {
 			ProtoServer.forceCall();
 		}
 	}
@@ -24,6 +25,7 @@ export default class ProtoServer {
 	public static request(data: Object): void {
 		console.log("============request=========");
 		console.log(data);
+		console.log("request:", JSON.stringify(data));
 		console.log("============request=========");
 		this.dataList.push(data);
 		this.callServer();
@@ -42,6 +44,7 @@ export default class ProtoServer {
 
 		let data = this.dataList[0];
 		data["order"] = this.nextOrder;
+		data["ts"] = new Date().getTime();
 		wx.request(
 			{
 				url: ProtoServer.SERVER_URL,
@@ -49,7 +52,7 @@ export default class ProtoServer {
 				header: {
 					"content-type": "application/text"
 				},
-				method: "GET",
+				method: "POST",
 				dataType: "text",
 				responseType: "text",
 				success: function (res) {
@@ -71,7 +74,7 @@ export default class ProtoServer {
 						TimerManager.timestamp = json.sysTime;
 					}
 					if (json.hasOwnProperty("errCode")) {
-						Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), Laya.Handler.create(this, this.closeWait));
+						Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), false, Laya.Handler.create(this, this.closeWait));
 					}
 					else {
 						// console.log("   >>> back:", json.protoId, json);
@@ -82,14 +85,14 @@ export default class ProtoServer {
 						let pro = ProtoManager.getProto(json.protoId);
 						console.log("<<<<<<<<<<<-------------back-----------", json.protoId);
 						console.log(json);
-						console.log("<<<<<<<<<<<-------------back-----------");
+						// console.log("<<<<<<<<<<<-------------back-----------");
 						pro.callBack(json);
 					}
 					ProtoServer.dataList.shift();
 				}
 				else {
 					console.error("出错啦，订单序号有错误~~~order：", json.order);
-					Game.tipWin.showTip("出错啦，订单序号有错误~~~\norder：" + json.order, Laya.Handler.create(this, this.closeWait));
+					Game.tipWin.showTip("出错啦，订单序号有错误~~~\norder：" + json.order, false, Laya.Handler.create(this, this.closeWait));
 					return;
 				}
 			}
@@ -110,45 +113,105 @@ export default class ProtoServer {
 	private static errorStr(code: number): string {
 		let str = "错误码：" + code;
 		switch (code) {
-			case 4006:
-				str = "金币不足";
+			case this.ERR_LOGIN:
+				str = "登录请求微信服务器错误";
 				break;
-			case 4007:
-				str = "宝石不足";
+			case this.ERR_NO_REQ_PARAMS:
+				str = "入参不完整";
 				break;
-			case 4008:
-				str = "钻石不足";
+			case this.ERR_PSW:
+				str = "PSW错误";
 				break;
-			case 4009:
-				str = "密码错误";
+			case this.ERR_NO_GOLD:
+				str = "金币不够";
 				break;
-			case 4010:
-				str = "布阵错误";
+			case this.ERR_NO_JADEITE:
+				str = "翡翠不够";
 				break;
-			case 4011:
-				str = "已领取";
+			case this.ERR_NO_:
+				str = "11";
 				break;
-			case 4012:
-				str = "无法领取";
+			case this.ERR_BEYOND_MAX_USER_LEVEL:
+				str = "超过了用户最大的等级";
 				break;
-			case 4013:
-				str = "充值的金额不足，无法领取";
+			case this.ERR_LESS_THAN__USER_LEVEL_10:
+				str = "用户等级<10";
 				break;
-			case 4020:
-				str = "数据出错，请联系QQ群812835839管理员";
+			case this.ERR_NO_HERO_CLIP:
+				str = "没有该英雄碎片";
 				break;
-			case 5009:
-				str = "10级后可以升星";
+			case this.ERR_UPGRADE_STAR:
+				str = "升星错误";
 				break;
-			case 5011:
-				str = "20级后可以升星";
+			case this.ERR_HERO_CALLED:
+				str = "碎片不够，重复召唤";
 				break;
-			case 5012:
-				str = "已经拥有此英雄，无法再次合成";
+			case this.ERR_PASS:
+				str = "通关错误";
+				break;
+			case this.ERR_LESS_THAN_MINIMUM_TIME:
+				str = "小于最小时间";
+				break;
+			case this.ERR_SEAT:
+				str = "seat";
+				break;
+			case this.ERR_SHOP_CLIPS_NUM:
+				str = "商城购买英雄碎片》10";
+				break;
+			case this.ERR_NO_DIAMOND:
+				str = "钻石不够";
+				break;
+			case this.ERR_NO_ID:
+				str = "ID不存在";
+				break;
+			case this.ERR_MORE_THAN_LOTTERY_MAX:
+				str = "抽卡超过最大次数";
+				break;
+			case this.ERR_MORE_THAN_BUY_CARD_MAX:
+				str = "卡包超过最大次数";
+				break;
+			case this.ERR_NO_BUY_HERO_CLIPS:
+				str = "卡包超过最大次数";
+				break;
+			case this.ERR_EXPLORE:
+				str = "领取探索物品失败";
+				break;
+			case this.ERR_DUPLICATION_ID:
+				str = "该id已存在";
+				break;
+			case this.ERR_DUPLICATION_SIGN_IN:
+				str = "该id已存在";
+				break;
+			case this.ERR_NO_MAGIC:
+				str = "魔尘没有";
 				break;
 		}
 		return str;
 	}
+	private static ERR_LOGIN = 4000; //登录请求微信服务器错误
+	private static ERR_NO_REQ_PARAMS = 5000; //入参不完整
+	private static ERR_PSW = 5001; //PSW错误
+	private static ERR_NO_GOLD = 5002; //金币不够
+	private static ERR_NO_JADEITE = 5003; //翡翠不够
+	private static ERR_NO_ = 5004; //11
+	private static ERR_BEYOND_MAX_USER_LEVEL = 5008;//超过了用户最大的等级
+	private static ERR_LESS_THAN__USER_LEVEL_10 = 5009;//用户等级<10
+	private static ERR_NO_HERO_CLIP = 5010;//没有该英雄碎片
+	private static ERR_UPGRADE_STAR = 5011;//升星错误
+	private static ERR_HERO_CALLED = 5012;  //碎片不够，重复召唤
+	private static ERR_PASS = 5013;  //通关错误
+	private static ERR_LESS_THAN_MINIMUM_TIME = 5014;  //小于最小时间
+	private static ERR_SEAT = 5015;  // seat
+	private static ERR_SHOP_CLIPS_NUM = 5016;  // 商城购买英雄碎片》10；
+	private static ERR_NO_DIAMOND = 5017;  // 钻石不够；
+	private static ERR_NO_ID = 5018;  // ID不存在；
+	private static ERR_MORE_THAN_LOTTERY_MAX = 5019;  // 抽卡超过最大次数；
+	private static ERR_MORE_THAN_BUY_CARD_MAX = 5020;  // 卡包超过最大次数；
+	private static ERR_NO_BUY_HERO_CLIPS = 5021;  // 卡包超过最大次数；
+	private static ERR_EXPLORE = 5022;  // 领取探索物品失败；
+	private static ERR_DUPLICATION_ID = 5023;  //该id已存在
+	private static ERR_DUPLICATION_SIGN_IN = 5024;  //该id已存在
+	private static ERR_NO_MAGIC = 5024;  //魔尘没有
 	/**
      * 下一个订单序号
      */

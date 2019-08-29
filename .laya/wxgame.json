@@ -10,7 +10,7 @@
     "compressJsonNoteList": [
         ""
     ],
-    "compressImage": false,
+    "compressImage": true,
     "compressImageFilter": [
         "$basePath/**/*.{png,jpg}"
     ],
@@ -56,5 +56,5 @@
     "compile": true,
     "onlyIndexJS": false,
     "projectType": "ts",
-    "pubTime": 1563265555970
+    "pubTime": 1567072552599
 }

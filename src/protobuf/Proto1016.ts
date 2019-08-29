@@ -15,6 +15,6 @@ export default class Proto1016 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-
+        Game.playData.checkShopInf(json.resData);
     }
 }

@@ -1,27 +1,28 @@
-import BaseSK from "../../base/BaseSK";
 import Pools from "../../Tool/Pools";
+import BattleBaseSK from "../../base/BattleBaseSK";
+import Game from "../../Game";
 
 export default class BattleEffectEnemy extends Laya.Sprite {
 
-    public static create(id: number, loop: boolean, parent: BaseSK): BattleEffectEnemy {
-        return new BattleEffectEnemy(id, loop, parent);
+    public static create(id: number, loop: boolean): BattleEffectEnemy {
+        return new BattleEffectEnemy(id, loop);
     }
 
-    private constructor(id: number, loop: boolean, parent: BaseSK) {
+    private constructor(id: number, loop: boolean) {
         super();
         this.id = id;
-        this._sk = Pools.skFetch("effect_" + id);
-        parent.addChild(this._sk);
+        this._sk = BattleBaseSK.create("effect_" + id);
         this.replay(loop);
     }
     public get sk() {
         return this._sk;
     }
-    private _sk: BaseSK = null;
+    private _sk: BattleBaseSK = null;
     private id: number = null;
     private loop: boolean = true;
     private _handler: Laya.Handler = Laya.Handler.create(this, this.over, null, false);
     private _num: number = 1;
+    private _status: boolean = true;
 
     public replay(loop: boolean): void {
         this.loop = loop;
@@ -34,6 +35,7 @@ export default class BattleEffectEnemy extends Laya.Sprite {
         } else {
             this._sk.addStopEvent(this._handler);
         }
+        this._status = true;
     }
 
     public removeNum(): void {
@@ -48,5 +50,14 @@ export default class BattleEffectEnemy extends Laya.Sprite {
     private over(): void {
         this.visible = false;
         this._sk.visible = false;
+        this._status = false;
+    }
+
+    public stopeAndHide(): void {
+        if (this._status) {
+            this._num = 1;
+            this._sk.stop();
+            this.over();
+        }
     }
 }

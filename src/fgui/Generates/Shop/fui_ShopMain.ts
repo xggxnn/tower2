@@ -10,6 +10,9 @@ export default class fui_ShopMain extends fairygui.GComponent {
 	public m_cardBtn:fairygui.GButton;
 	public m_buyBtn:fairygui.GButton;
 	public m_closeBtn:fairygui.GButton;
+	public m_gold:fairygui.GLabel;
+	public m_diamond:fairygui.GLabel;
+	public m_jadeite:fairygui.GLabel;
 
 	public static URL:string = "ui://9u2mjfyibxj00";
 
@@ -30,5 +33,8 @@ export default class fui_ShopMain extends fairygui.GComponent {
 		this.m_cardBtn = <fairygui.GButton><any>(this.getChildAt(7));
 		this.m_buyBtn = <fairygui.GButton><any>(this.getChildAt(8));
 		this.m_closeBtn = <fairygui.GButton><any>(this.getChildAt(9));
+		this.m_gold = <fairygui.GLabel><any>(this.getChildAt(10));
+		this.m_diamond = <fairygui.GLabel><any>(this.getChildAt(11));
+		this.m_jadeite = <fairygui.GLabel><any>(this.getChildAt(12));
 	}
 }

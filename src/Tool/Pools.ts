@@ -1,5 +1,5 @@
-import BaseSK from "../base/BaseSK";
 import Dictionary from "./Dictionary";
+import BattleBaseSK from "../base/BattleBaseSK";
 
 export default class Pools {
     /**
@@ -27,42 +27,76 @@ export default class Pools {
     }
 
     /************************ sk对象池 ************************** */
-    private static skDict: Dictionary<string, Array<BaseSK>> = new Dictionary<string, Array<BaseSK>>();
-    /**
-     * 获取sk实例
-     */
-    static skFetch(names: string): BaseSK {
-        let result: BaseSK = null;
-        if (this.skDict.hasKey(names)) {
-            let list = this.skDict.getValue(names);
-            if (list.length > 0) {
-                result = list[0];
-                list.splice(0, 1);
-                this.skDict.set(names, list);
-            }
-        }
-        if (result == null) {
-            result = BaseSK.create(names);
-        }
-        result.scale(1, 1, true);
-        return result;
-    }
-    /**
-     * 回收sk实例
-     */
-    static skRecycle(sk: BaseSK): void {
-        let names = sk.key;
-        let list: Array<BaseSK> = new Array<BaseSK>();
-        if (this.skDict.hasKey(names)) {
-            list = this.skDict.getValue(names);
-            list.push(sk)
-        }
-        else {
-            list.push(sk);
-        }
-        if (sk.parent != null) {
-            sk.parent.removeChild(sk);
-        }
-        this.skDict.set(names, list);
-    }
+    // public static pops(names: string) {
+    //     let fun: Function = BattleBaseSK.create;
+    //     fun.prototype = names;
+    //     return Laya.Pool.getItemByCreateFun(names, fun);
+    //     // if (!this.skDict.hasKey(names)) {
+    //     //     this.skDict.add(names, []);
+    //     // }
+    //     // let list = this.skDict.getValue(names);
+    //     // if (list.length > 0) {
+    //     //     let item = list.shift();
+    //     //     item.poolInit();
+    //     //     return item;
+    //     // }
+    //     // else {
+    //     //     let item = BattleBaseSK.create(names);
+    //     //     item.objectPoolKey = names;
+    //     //     return item;
+    //     // }
+    // }
+    // public static pushs(sk: BattleBaseSK) {
+    //     let url = sk.key;
+    //     sk.removeSelf();
+    //     Laya.Pool.recover(url, sk);
+    //     // if (obj == null) {
+    //     //     return;
+    //     // }
+    //     // let refKey = obj.objectPoolKey;
+    //     // if (this.skDict.hasKey(refKey)) {
+    //     //     obj.removeSelf();
+    //     //     this.skDict.getValue(refKey).push(obj);
+    //     // }
+    //     // else {
+    //     //     obj.destroy();
+    //     // }
+    // }
+    // private static skDict: Dictionary<string, Array<BattleBaseSK>> = new Dictionary<string, Array<BattleBaseSK>>();
+    // /**
+    //  * 获取sk实例
+    //  */
+    // static skFetch(names: string): BattleBaseSK {
+    //     let result: BattleBaseSK = null;
+    //     if (this.skDict.hasKey(names)) {
+    //         let list = this.skDict.getValue(names);
+    //         if (list.length > 0) {
+    //             result = list.shift()
+    //             this.skDict.set(names, list);
+    //         }
+    //     }
+    //     if (result == null) {
+    //         result = BattleBaseSK.create(names);
+    //     }
+    //     return result;
+    // }
+    // /**
+    //  * 回收sk实例
+    //  */
+    // static skRecycle(sk: BattleBaseSK): void {
+    //     let names = sk.key;
+    //     console.log(names);
+    //     let list: Array<BattleBaseSK> = [];
+    //     if (this.skDict.hasKey(names)) {
+    //         list = this.skDict.getValue(names);
+    //         list.push(sk)
+    //     }
+    //     else {
+    //         list.push(sk);
+    //     }
+    //     if (sk.parent != null) {
+    //         sk.parent.removeChild(sk);
+    //     }
+    //     this.skDict.set(names, list);
+    // }
 }

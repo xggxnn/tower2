@@ -1,6 +1,11 @@
-import MonsterInfo from "../../dataInfo/MonsterInfo";
 import Point = Laya.Point;
 import Game from "../../Game";
+import MonsterInfo from "../../csvInfo/MonsterInfo";
+import BattleSoldier from "../Models/BattleSoldier";
+import { HaloType } from "../DataEnums/HaloType";
+import EnemyBuff from "./EnemyBuff";
+import BossSkillInfo from "../../csvInfo/BossSkillInfo";
+import HurtBuff from "./HurtBuff";
 
 export default class EnemyData {
     public constructor() { }
@@ -12,19 +17,168 @@ export default class EnemyData {
     }
     public set monsterInf(v: MonsterInfo) {
         this._monsterInf = v;
-        this.splits = this._monsterInf.split;
-        this.resurrection = this._monsterInf.resurrection;
-        this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal;
-        this.maxHp = this.curHp;
-        this.skId = this._monsterInf.sk;
+        if (this._monsterInf) {
+            this.splits = this._monsterInf.split;
+            this.resurrection = this._monsterInf.resurrection;
+            let dif = Game.battleMap.waveDifEfficiency
+            if (Game.battleMap.waveInfo.type == 1 || Game.battleMap.waveInfo.type == 2) {
+                dif = 1;
+            }
+            this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal * Game.battleMap._heroTypeInf.benchmark_atk * 0.01 * Game.battleMap.waveInfo.heronum * dif;
+            this.maxHp = this.curHp;
+            if (this.monsterInf.boss == 1) {
+                console.log(this.monsterInf.id, this.monsterInf.skill_id);
+            }
+            if (this.monsterInf.skill_id > 0) {
+                this.skillcd = 0;
+                this.skill = BossSkillInfo.getInfo(this.monsterInf.skill_id);
+            }
+        }
     }
-    // 敌人模型id
-    private _skId: number = 1;
-    public get skId(): number {
-        return this._skId;
+
+
+    private _initPos: number = 0;
+    public get initPos(): number {
+        return this._initPos;
     }
-    public set skId(v: number) {
-        this._skId = v;
+    public set initPos(v: number) {
+        this._initPos = v;
+    }
+
+    public skill: BossSkillInfo = null;
+    private skillcd: number = 0;
+    public skillInfoGetReady(dt: number): boolean {
+        this.skillcd -= dt;
+        return this.skillcd <= 0;
+    }
+    public cast(): void {
+        this.skillcd = this.skill.cooldown;
+    }
+
+    public actionBuff(buff: EnemyBuff): void {
+        switch (buff.types) {
+            case 1:
+                {
+                    //* 1, 加血 - 配合高爆
+                    if (this.curHp > 0) {
+                        let addHp = this.maxHp * buff.effectvalue * 0.01;
+                        this.curHp += addHp;
+                    }
+                }
+                break;
+            case 2:
+                {
+                    // * 2, 加速 - 配合高频
+                    this.buffAddSpeed = buff.effectvalue;
+                }
+                break;
+            case 3:
+                {
+                    // * 3, 加防 - 配合均衡、高爆
+                    this.buffAddDefine = buff.effectvalue;
+                }
+                break;
+        }
+    }
+    public unActionBuff(buff: EnemyBuff): void {
+        switch (buff.types) {
+            case 2:
+                {
+                    // * 2, 加速 - 配合高频
+                    this.buffAddSpeed -= buff.effectvalue;
+                    if (this.buffAddSpeed < 0) this.buffAddSpeed = 0;
+                }
+                break;
+            case 3:
+                {
+                    // * 3, 加防 - 配合均衡、高爆
+                    this.buffAddDefine -= buff.effectvalue;
+                    if (this.buffAddDefine < 0) this.buffAddDefine = 0;
+                }
+                break;
+        }
+    }
+    /**
+     * buff增加的速度
+     */
+    public buffAddSpeed: number = 0;
+    /**
+     * buff增加的防御
+     */
+    private buffAddDefine: number = 0;
+
+    public hurtAction(buff: HurtBuff, curEnemy: BattleSoldier): void {
+        switch (buff.types) {
+            case HaloType.ReduceSpeed:
+                {
+                    this._speedScale = buff.effectvalue * 0.01;
+                }
+                break;
+            case HaloType.Poisoning:
+                {
+                    curEnemy.buffHit(buff.effectvalue, buff.reduceDefene, buff.types, buff.duration);
+                }
+                break;
+            case HaloType.BurningGround:
+                {
+                    curEnemy.buffHit(buff.effectvalue, buff.reduceDefene, HaloType.BurningGround, buff.duration);
+                }
+                break;
+            case HaloType.Dizzines:
+                {
+                    this.isDizzines = true;
+                }
+                break;
+        }
+    }
+    public unHurtAction(buff: HurtBuff): void {
+        switch (buff.types) {
+            case HaloType.ReduceSpeed:
+                {
+                    this._speedScale = 1;
+                }
+                break;
+            case HaloType.Dizzines:
+                {
+                    this.isDizzines = false;
+                }
+                break;
+        }
+    }
+
+
+    /*** 晕眩 ********************************  */
+    public isDizzines: boolean = false;
+
+
+    /*** 减速 ********************************  */
+
+    private _speedScale: number = 1;
+    // 移动比例
+    public get moveSpeedScale(): number {
+        return this._speedScale;
+    }
+    public set moveSpeedScale(v: number) {
+        this._speedScale = v;
+    }
+
+    /****   以下技能buff相关    ********************************* */
+
+    private _byCrit: number = 0;
+    // 被暴击率增加
+    public get byCrit(): number {
+        return this._byCrit;
+    }
+    public set byCrit(v: number) {
+        this._byCrit = v;
+    }
+
+    private _byBurst: number = 0;
+    public get byBurst(): number {
+        return this._byBurst;
+    }
+    public set byBurst(v: number) {
+        this._byBurst = v;
     }
 
 
@@ -71,8 +225,10 @@ export default class EnemyData {
         this._curMoveIndex = v;
     }
 
-    // 当前处于那一列
     private _curMoveX: number = -1;
+    /**
+     * 当前处于那一列
+     */
     public get curMoveX(): number {
         return this._curMoveX;
     }
@@ -105,13 +261,13 @@ export default class EnemyData {
         this._maxHp = v;
         if (this._maxHp < 1) this._maxHp = 1;
     }
-    // 模型大小
-    private _sc: Point;
-    public get scales(): Point {
-        return this._sc;
-    }
-    public set scales(v: Point) {
-        this._sc = v;
+    /**
+     * 防御系数，攻击值需要×这个值
+     */
+    public get defence() {
+        let defen = (100 - this.monsterInf.defence) * 0.01;
+        defen *= ((100 + this.buffAddDefine) * 0.01);
+        return defen;
     }
     // 阴影大小
     private _shadowScales: Point;
@@ -126,38 +282,25 @@ export default class EnemyData {
     // 复活敌人
     public resurrectionEnemy(): void {
         this.resurrection--;
+        this.curHp = this.maxHp;
     }
 
-    // 分裂发生变化的属性
-    public splitEnemy(): void {
-        this.splits--;
-        this.maxHp *= 0.9;
-        this.curHp = this.maxHp;
-        this.scales = new Laya.Point(this.scales.x * 0.9, this.scales.y * 0.9);
-        this.shadowScales = new Laya.Point(this.shadowScales.x * 0.9, this.shadowScales.y * 0.9);
-    }
     // 分裂敌人
     public static createSplitNew(old: EnemyData): EnemyData {
         let dat = new EnemyData;
-        old.splitEnemy();
-        dat.monsterInf = old.monsterInf;
-        dat.maxHp = old.maxHp;
-        dat.curHp = old.curHp;
-        dat.scales = old.scales;
-        dat.shadowScales = old.shadowScales;
-        dat.splits = old.splits;
-        dat.resurrection = old.resurrection;
+        dat.monsterInf = MonsterInfo.getInfo(old.monsterInf.split_id);
         dat.curStarIndex = old.curStarIndex;
         dat.preStarIndex = old.preStarIndex;
         dat.curMoveIndex = old.curMoveIndex;
         dat.curMoveX = old.curMoveX;
         dat.movePath = old.movePath;
-        dat.skId = old.skId;
+        dat.initPos = old.initPos;
         return dat;
     }
 
 
     public get interval(): number {
-        return 3000;
+        return this.monsterInf.atk_speed;
     }
+
 }

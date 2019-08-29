@@ -8,6 +8,7 @@ export default class GuiPackageNames {
 	public static FSprite: string = "FSprite"; 
 	public static GM: string = "GM"; 
 	public static Home: string = "Home"; 
+	public static Illustration: string = "Illustration"; 
 	public static Menus: string = "Menus"; 
 	public static Shop: string = "Shop"; 
 	public static Sound: string = "Sound"; 

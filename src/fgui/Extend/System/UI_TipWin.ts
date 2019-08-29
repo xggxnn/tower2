@@ -2,6 +2,11 @@ import fui_TipWin from "../../Generates/System/fui_TipWin";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import MenuLayer from "../../../gamemodule/MenuLayer";
 import Handler = Laya.Handler;
+import EventManager from "../../../Tool/EventManager";
+import EventKey from "../../../Tool/EventKey";
+import { Tick } from "../../../Tool/TickManager";
+import Game from "../../../Game";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_TipWin extends fui_TipWin {
@@ -23,19 +28,80 @@ export default class UI_TipWin extends fui_TipWin {
 		// ToDo
 
 		this.m_ok.onClick(this, this.okBtnClick);
+		this.m_cancel.onClick(this, this.cancelClikc);
 	}
 	okBtnClick(): void {
 		this.onComplete();
+		this.cleatTick();
+	}
+	cancelClikc(): void {
+		this.removeFromParent();
+		if (this._onCancelHandler) {
+			this._onCancelHandler.runWith(this);
+			this._onCancelHandler = null;
+		}
+		if (this._onCompleteHandler) {
+			this._onCompleteHandler = null;
+		}
+		this.cleatTick();
+	}
+	cleatTick(): void {
+		if (this.closeTick) {
+			this.closeTick.Stop();
+			Game.tick.clearTick(this.closeTick);
+			this.closeTick = null;
+		}
+		EventManager.offAllCaller(this);
+	}
+	private updateNum(): void {
+		this.closeTimes--;
+		this.m_ok.title = Fun.format("{1}({0})", this.closeTimes, this.okTitle);
 	}
 	private _onCompleteHandler: Handler;
+	private _onCancelHandler: Handler;
+	private closeTick: Tick = null;
+	private closeTimes: number = 0;
+	private okTitle: string = "确定";
+	private cancelTitle: string = "取消";
 
-	showTxt(txt: string, onComplete?: Handler) {
+	showTxt(txt: string, showCancel: boolean = false, onComplete?: Handler, cancelHandler?: Handler, okTitle?: string, cancelTitle?: string) {
 		if (this._onCompleteHandler) {
 			this._onCompleteHandler.recover();
 		}
 		this._onCompleteHandler = onComplete;
+		if (this._onCancelHandler) {
+			this._onCancelHandler.recover();
+		}
+		this._onCancelHandler = cancelHandler;
+		if (okTitle) {
+			this.okTitle = okTitle;
+		}
+		else {
+			this.okTitle = "确定";
+		}
+		if (cancelTitle) {
+			this.cancelTitle = cancelTitle;
+		}
+		else {
+			this.cancelTitle = "取消";
+		}
 		this.m_c1.setSelectedIndex(1);
 		this.m_scrollTxt.text = txt;
+		this.m_types.setSelectedIndex(showCancel ? 1 : 0);
+		if (!showCancel) {
+			this.closeTimes = 6;
+			this.m_ok.title = Fun.format("{1}({0})", this.closeTimes, this.okTitle);
+			this.closeTick = Game.tick.addTick(4, Laya.Handler.create(this, this.updateNum, null, false),
+				Laya.Handler.create(this, this.cancelClikc, null, false), 50);
+			this.closeTick.Start();
+		}
+		else {
+			this.m_ok.title = this.okTitle;
+			this.m_cancel.title = this.cancelTitle;
+		}
+		EventManager.on(EventKey.GAMEWIN, this, this.cancelClikc);
+		EventManager.on(EventKey.GAMEEXIT, this, this.cancelClikc);
+		EventManager.on(EventKey.GAMELOSE, this, this.cancelClikc);
 		MenuLayer.floatMsg.addChild(this);
 	}
 	showList(list: Array<any>, onComplete?: Handler) {
@@ -52,9 +118,12 @@ export default class UI_TipWin extends fui_TipWin {
 
 		if (this._onCompleteHandler) {
 			this._onCompleteHandler.runWith(this);
-			this._onCompleteHandler.recover();
 			this._onCompleteHandler = null;
 		}
+		if (this._onCancelHandler) {
+			this._onCancelHandler = null;
+		}
+		this.cleatTick();
 	}
 
 	// 关闭ui

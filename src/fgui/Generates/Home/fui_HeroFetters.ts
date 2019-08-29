@@ -4,6 +4,7 @@
 
 export default class fui_HeroFetters extends fairygui.GComponent {
 
+	public m_bg:fairygui.GLoader;
 	public m_tip:fairygui.GLabel;
 	public m_tuijianbackBtn:fairygui.GButton;
 	public m_heroList:fairygui.GList;
@@ -22,6 +23,7 @@ export default class fui_HeroFetters extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
+		this.m_bg = <fairygui.GLoader><any>(this.getChildAt(0));
 		this.m_tip = <fairygui.GLabel><any>(this.getChildAt(6));
 		this.m_tuijianbackBtn = <fairygui.GButton><any>(this.getChildAt(7));
 		this.m_heroList = <fairygui.GList><any>(this.getChildAt(10));

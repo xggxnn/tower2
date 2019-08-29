@@ -5,6 +5,7 @@
 export default class fui_SkillBtn extends fairygui.GButton {
 
 	public m_mask:fairygui.GImage;
+	public m_titles:fairygui.GTextField;
 
 	public static URL:string = "ui://3jvhuirzngrs13";
 
@@ -20,5 +21,6 @@ export default class fui_SkillBtn extends fairygui.GButton {
 		super.constructFromXML(xml);
 
 		this.m_mask = <fairygui.GImage><any>(this.getChildAt(1));
+		this.m_titles = <fairygui.GTextField><any>(this.getChildAt(2));
 	}
 }

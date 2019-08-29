@@ -7,6 +7,7 @@ export default class fui_BattleTopMiddle extends fairygui.GComponent {
 	public m_c1:fairygui.Controller;
 	public m_associationList:fairygui.GList;
 	public m_title:fairygui.GRichTextField;
+	public m_heroList:fairygui.GList;
 	public m_t0:fairygui.Transition;
 
 	public static URL:string = "ui://3jvhuirzngrs15";
@@ -25,6 +26,7 @@ export default class fui_BattleTopMiddle extends fairygui.GComponent {
 		this.m_c1 = this.getControllerAt(0);
 		this.m_associationList = <fairygui.GList><any>(this.getChildAt(0));
 		this.m_title = <fairygui.GRichTextField><any>(this.getChildAt(2));
+		this.m_heroList = <fairygui.GList><any>(this.getChildAt(3));
 		this.m_t0 = this.getTransitionAt(0);
 	}
 }

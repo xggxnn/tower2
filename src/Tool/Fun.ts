@@ -66,6 +66,14 @@ export default class Fun {
 			return min + Math.round(rand * range) - 1;
 		}
 	}
+	public static randomSortArray<T>(arr: Array<T>): Array<T> {
+		let i = arr.length;
+		while (i) {
+			let j = Math.floor(Math.random() * i--);
+			[arr[j], arr[i]] = [arr[i], arr[j]];
+		}
+		return arr;
+	}
 
 	/**
      * 计算两点之间的距离
@@ -221,10 +229,10 @@ export default class Fun {
 
 	public static getResPath(filename: string, dir: string) {
 		if (this.isNullOrEmpty(dir)) {
-			return "res/" + filename;
+			return "res_native/" + filename;
 		}
 		else {
-			return "res/" + dir + "/" + filename;
+			return "res_native/" + dir + "/" + filename;
 		}
 	}
 
@@ -289,24 +297,16 @@ export default class Fun {
 		}
 		return this._ScenePoint.getValue("topMiddlePoint");
 	}
-
-	public static numToUrl(num: number): string {
-		let result = SpriteKey.num1;
-		switch (num) {
-			case 1:
-				result = SpriteKey.num1;
-				break;
-			case 2:
-				result = SpriteKey.num2;
-				break;
-			case 3:
-				result = SpriteKey.num3;
-				break;
-			case 4:
-				result = SpriteKey.num4;
-				break;
+	/**
+	 * 屏幕底部中心点的坐标
+	 */
+	public static get bottomMiddlePoint(): Laya.Point {
+		if (!this._ScenePoint.hasKey("bottomMiddlePoint")) {
+			let xx = (Game.scenes.x >= 0 ? 0 : Game.scenes.x * -1) + Game.scenesWH.x * 0.5;
+			let yy = (Game.scenes.y >= 0 ? 0 : Game.scenes.y * -1) + Game.scenesWH.y;
+			this._ScenePoint.add("bottomMiddlePoint", new Laya.Point(xx, yy));
 		}
-		return result;
+		return this._ScenePoint.getValue("bottomMiddlePoint");
 	}
 
 	/**
@@ -329,7 +329,14 @@ export default class Fun {
 			str = value.toFixed(fixed + 1).slice(0, -1) + __NumberUnitText.K;
 		}
 		else {
-			str = Math.floor(value) + "";
+			var tem = value.toFixed(fixed);
+			var tema = tem.split(".");
+			if (tema.length == 2 && parseInt(tema[1]) == 0) {
+				str = tema[0];
+			}
+			else {
+				str = tem;
+			}
 		}
 
 		var a = str.split(".")
@@ -354,11 +361,10 @@ export default class Fun {
 	 */
 	public static idToMapLevel(id: number): any {
 		if (id < 1) id = 1;
-		let map = Math.floor(id / 4) + 1;
-		let level = Math.floor(id % 4);
+		let map = Math.floor((id - 1) / 10) + 1;
+		let level = Math.floor(id % 10);
 		if (level == 0) {
-			map--;
-			level = 4;
+			level = 10;
 		}
 		let result: Object = {
 			map: map,
@@ -370,11 +376,11 @@ export default class Fun {
 
 class __NumberUnitValue {
 	static K: number = 10000;
-	static M: number = 10000 * 100;
-	static B: number = 10000 * 10000;
+	static M: number = 10000 * 1000;
+	static B: number = 10000 * 1000 * 1000;
 }
 class __NumberUnitText {
 	static K: string = "万";
-	static M: string = "百万";
-	static B: string = "亿";
+	static M: string = "千万";
+	static B: string = "百亿";
 }

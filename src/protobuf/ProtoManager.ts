@@ -1,5 +1,6 @@
 import Proto from "./Proto";
 import ProtoHash from "./ProtoHash";
+import Game from "../Game";
 
 export default class ProtoManager {
 
@@ -17,8 +18,8 @@ export default class ProtoManager {
 	 * 获取配置表信息
 	 */
 	public reqConfig(): void {
-		// let pro: Proto = ProtoManager.getProto(1000);
-		// pro.send();
+		let pro: Proto = ProtoManager.getProto(1000);
+		pro.send();
 	}
 
 	public addHeroClip(id: number, clips: number): void {
@@ -27,6 +28,12 @@ export default class ProtoManager {
 			clips: clips,
 		}
 		this.sendPro(data, 101);
+	}
+	public clearData(): void {
+		let data = {
+			uid: Game.userData.playerid,
+		}
+		this.sendPro(data, 102);
 	}
 
 	/**
@@ -117,6 +124,13 @@ export default class ProtoManager {
 		this.sendPro({}, 1013);
 	}
 	/**
+	 * 商城获取
+	 * @param data 
+	 */
+	public shopGain(): void {
+		this.sendPro({}, 1016);
+	}
+	/**
 	 * 商城购买
 	 * @param data 
 	 */
@@ -129,5 +143,49 @@ export default class ProtoManager {
 	 */
 	public openCard(data: Object): void {
 		this.sendPro(data, 1018);
+	}
+	/**
+	 * 收集碎片
+	 * @param data 
+	 */
+	public collectDebris(data: Object): void {
+		this.sendPro(data, 1019);
+	}
+	/**
+	 * 领取国王之路奖励
+	 * @param data 
+	 */
+	public king(data: Object): void {
+		this.sendPro(data, 1020);
+	}
+	/**
+	 * 签到
+	 */
+	public sign(): void {
+		this.sendPro({}, 1021);
+	}
+	/**
+	 * 引导序号
+	 */
+	public guide(data: Object): void {
+		this.sendPro(data, 1027);
+	}
+	/**
+	 * 提升品质
+	 */
+	public upQuality(data: Object): void {
+		this.sendPro(data, 1028);
+	}
+	/**
+	 * 洗属性
+	 */
+	public resetAttribute(data: Object): void {
+		this.sendPro(data, 1029);
+	}
+	/**
+	 * 保存洗好的属性
+	 */
+	public saveAttribute(data: Object): void {
+		this.sendPro(data, 1030);
 	}
 }

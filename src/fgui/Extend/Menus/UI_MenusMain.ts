@@ -1,11 +1,10 @@
 import fui_MenusMain from "../../Generates/Menus/fui_MenusMain";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
-import UI_Selection from "./UI_Selection";
 import Game from "../../../Game";
-import UI_selectionBtn from "./UI_selectionBtn";
 import Fun from "../../../Tool/Fun";
 import { MenuId } from "../../../gamemodule/MenuId";
-import ShareManager from "../../../Tool/ShareManager";
+import UI_MapItem from "./UI_MapItem";
+import WaveInfo from "../../../csvInfo/WaveInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_MenusMain extends fui_MenusMain {
@@ -30,50 +29,15 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.m_backBtn.setXY(Fun.leftTopPoint.x + 5, Fun.leftTopPoint.y + 5);
 		this.m_middle.setXY(Fun.topMiddlePoint.x, Fun.topMiddlePoint.y + 5);
 
-		this.selectList.push(this.m_select1 as UI_Selection);
-		this.selectList.push(this.m_select2 as UI_Selection);
-		this.selectList.push(this.m_select3 as UI_Selection);
-		this.selectList.push(this.m_select4 as UI_Selection);
-		this.selectList.push(this.m_select5 as UI_Selection);
-		this.selectList.push(this.m_select6 as UI_Selection);
-		this.selectList.push(this.m_select7 as UI_Selection);
-		this.selectList.push(this.m_select8 as UI_Selection);
-		this.selectList.push(this.m_select9 as UI_Selection);
-		this.selectList.push(this.m_select10 as UI_Selection);
-		this.selectList.push(this.m_select11 as UI_Selection);
-		this.selectList.push(this.m_select12 as UI_Selection);
-		this.selectList.push(this.m_select13 as UI_Selection);
-		for (let i = 0, len = this.selectList.length; i < len; i++) {
-			(this.selectList[i].m_selBtn as UI_selectionBtn).onClick(this, this.slelectClick, [i]);
-		}
-
 		this.m_backBtn.onClick(this, this.backClick);
-		ShareManager.init();
-	}
-	private selectList: Array<UI_Selection> = [];
 
-	slelectClick(index: number): void {
-		Game.battleData.level_id = index + 1;
-		let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
-		let showTip: boolean = false;
-		if (Game.battleMap.waveStatusDict.hasKey(Game.battleData.level_id)) {
-			let item = Game.battleMap.waveStatusDict.getValue(Game.battleData.level_id);
-			if (item.level >= 10) {
-				showTip = true;
-			}
-		}
-		if (showTip) {
-			Game.tipWin.showTip("当悬赏完成100%，关卡的探索奖励", Laya.Handler.create(this, this.collectDebris));
-		}
-		else {
-			this.moduleWindow.createTrialUI();
-		}
-	}
-	/**
-	 * 收集碎片
-	 */
-	private collectDebris(): void {
-
+		this.m_list.setVirtual();
+		// 设置列表渲染函数
+		this.m_list.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
+		this.m_list.on(Laya.Event.MOUSE_DOWN, this, this.onScrollDown);
+		this.m_list.on(Laya.Event.MOUSE_OUT, this, this.onScrollout);
+		this.m_leftBtn.onClick(this, this.clickLeft);
+		this.m_rightBtn.onClick(this, this.clickRight);
 	}
 
 	backClick(): void {
@@ -89,19 +53,41 @@ export default class UI_MenusMain extends fui_MenusMain {
 	backUI(): void {
 		this.moduleWindow.menuBack();
 	}
+	private curShow: number = -1;
 	// 显示，相当于enable
 	onWindowShow(): void {
-
+		this.moduleWindow.closeOtherWindow();
 		Game.battleData.refrushSeatFightInf();
-
-		for (let i = 0, len = this.selectList.length; i < len; i++) {
-			this.selectList[i].setDate(i);
+		let waveCount = WaveInfo.getCount();
+		let maxNumss = Math.floor(waveCount / 10) + (waveCount % 10 > 0 ? 1 : 0);
+		this.maxNum = Math.floor(Game.battleMap.maxMapId / 10) + (Game.battleMap.maxMapId % 10 > 0 ? 1 : 0);
+		if (this.maxNum > maxNumss) {
+			this.maxNum = maxNumss;
 		}
-		if (this.moduleWindow.menuParameter.initFunction.count > 0) {
-			let fun: Function[] = this.moduleWindow.menuParameter.initFunction.getValues();
-			for (let i = 0, len = fun.length; i < len; i++) {
-				if (fun[i]) {
-					fun[i].apply(this.moduleWindow);
+		this.m_list.numItems = this.maxNum;
+		if (this.moduleWindow.menuParameter.args.length > 0) {
+			let showId = this.moduleWindow.menuParameter.args[0];
+			this.curShow = Math.floor(showId / 10) + (showId % 10 > 0 ? 1 : 0) - 1;
+			if (this.curShow >= this.maxNum) {
+				this.curShow = this.maxNum - 1;
+			}
+			this.m_list.scrollToView(this.curShow, false);
+			this.checkLeftRight(this.curShow);
+			Game.battleData.level_id = showId;
+			this.moduleWindow.createTrialUI();
+		}
+		else {
+			if (this.curShow < 0) {
+				this.curShow = this.maxNum - 1;
+				this.m_list.scrollToView(this.curShow, false);
+			}
+			this.checkLeftRight(this.curShow);
+			if (this.moduleWindow.menuParameter.initFunction.count > 0) {
+				let fun: Function[] = this.moduleWindow.menuParameter.initFunction.getValues();
+				for (let i = 0, len = fun.length; i < len; i++) {
+					if (fun[i]) {
+						fun[i].apply(this.moduleWindow);
+					}
 				}
 			}
 		}
@@ -111,6 +97,55 @@ export default class UI_MenusMain extends fui_MenusMain {
 
 	}
 
+	// 渲染item
+	private initItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_MapItem;
+		item.setData(index, this.moduleWindow);
+	}
+
+	private startMouseX: number = 0;
+	private maxNum: number = 0;
+	private onScrollDown(a: any): void {
+		this.startMouseX = a.stageX;
+	}
+	private onScrollout(a: any): void {
+		let firstView: number = this.m_list.getFirstChildInView();
+		if (Math.abs(a.stageX - this.startMouseX) < 100) {
+			this.m_list.scrollToView(firstView, true);
+			this.checkLeftRight(firstView);
+		}
+		else {
+			if (a.stageX < this.startMouseX) {
+				if (this.maxNum > firstView + 1) {
+					this.m_list.scrollToView(firstView + 1, true);
+					this.checkLeftRight(firstView + 1);
+				}
+			}
+			else {
+				this.m_list.scrollToView(firstView, true);
+				this.checkLeftRight(firstView);
+			}
+		}
+	}
+	private clickLeft(): void {
+		let firstView: number = this.m_list.getFirstChildInView();
+		if (firstView > 0) {
+			this.m_list.scrollToView(firstView - 1, true);
+		}
+		this.checkLeftRight(firstView - 1);
+	}
+	private clickRight(): void {
+		let firstView: number = this.m_list.getFirstChildInView();
+		if (firstView + 1 < this.maxNum) {
+			this.m_list.scrollToView(firstView + 1, true);
+		}
+		this.checkLeftRight(firstView + 1);
+	}
+	private checkLeftRight(cur: number): void {
+		this.curShow = cur;
+		this.m_leftBtn.visible = cur > 0;
+		this.m_rightBtn.visible = cur < this.maxNum - 1;
+	}
 
 }
 UI_MenusMain.bind();

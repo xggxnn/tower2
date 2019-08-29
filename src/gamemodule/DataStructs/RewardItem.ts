@@ -1,4 +1,3 @@
-import ResourceInfo from "../../dataInfo/ResourceInfo";
 
 /**
  * 获取物品
@@ -7,10 +6,7 @@ export default class RewardItem {
 
 
     /**
-     * 10001 宝石
-     * 10002 金币
-     * 10003 翡翠
-     * 10004 魔尘
+     * ResourceId
      * 
      * heroid
      */
@@ -23,5 +19,13 @@ export default class RewardItem {
      * 是否英雄碎片
      */
     public isClips: boolean = false;
+    /**
+     * 是否英雄
+     */
+    public isHero: boolean = false;
+    /**
+     * 类型
+     */
+    public types: number = 0;
 
 }

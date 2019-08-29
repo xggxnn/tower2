@@ -1,5 +1,8 @@
 import Proto from "./Proto";
 import Game from "../Game";
+import WaveInfo from "../csvInfo/WaveInfo";
+import WaveformInfo from "../csvInfo/WaveformInfo";
+import WaveRewardInfo from "../csvInfo/WaveRewardInfo";
 
 export default class Proto1004 extends Proto {
     protected protoid: number = 1004;
@@ -17,5 +20,14 @@ export default class Proto1004 extends Proto {
     protected read(json: any): void {
         Game.battleData.level_id = Number(json.waveId);
         Game.battleData.fight_type = Number(json.fightType);
+        if (json.hasOwnProperty("wave")) {
+            WaveInfo.serverSimple(json.wave);
+        }
+        if (json.hasOwnProperty("waveform")) {
+            WaveformInfo.serverSimple(json.waveform);
+        }
+        if (json.hasOwnProperty("wavereward")) {
+            WaveRewardInfo.serverSimple(json.wavereward);
+        }
     }
 }

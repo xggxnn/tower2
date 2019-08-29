@@ -15,6 +15,10 @@ export default class Proto1021 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-
+        if (json.hasOwnProperty("resData")) {
+            Game.playData.getRewards(json.resData);
+        }
+        Game.playData.signInIndex = Number(json.signInIndex);
+        Game.playData.isSign = Boolean(json.isSignedIn);
     }
 }

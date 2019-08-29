@@ -2,16 +2,18 @@ import EventManager from "./EventManager";
 import SystemManager from "./SystemManager";
 import TempletManager from "./TempletManager";
 import EventKey from "./EventKey";
+import CSV from "../csvInfo/CSV";
+import Dictionary from "./Dictionary";
 
 export default class LoaderManager {
 
 	private static loadHash: Object = {};
 	public static init(): void {
-		Laya.MiniAdpter.autoCacheFile = false;
+		// Laya.MiniAdpter.autoCacheFile = false;
 		Laya.MiniAdpter.nativefiles = [
-			"res"
+			"res_native"
 		];
-		// Laya.URL.basePath = "http://192.168.10.127/";
+		Laya.URL.basePath = "https://ms.yz063.com/td2/v015/";
 		// Laya.loader.retryDelay = 100;
 		Laya.loader.retryNum = 3;
 		Laya.loader.on(Laya.Event.ERROR, LoaderManager, LoaderManager.loadError);
@@ -69,7 +71,9 @@ export default class LoaderManager {
 		this.network = true;
 		this.loadHash = {};
 	}
+	// public static haveLoadList: Dictionary<string, boolean> = new Dictionary<string, boolean>();
 	public static addList(list: Array<string>): void {
+		EventManager.event(EventKey.LOADER_PROGRESS, [0, list.length]);
 		for (let i = 0; i < list.length; i++) {
 			let url = list[i];
 			this.loadHash[url] = 0;
@@ -84,6 +88,7 @@ export default class LoaderManager {
 		this.loadShow(url, cache);
 	}
 	private static loadShow(url: string, cache: boolean): void {
+		EventManager.event(EventKey.LOADER_PROGRESS, [0, 100]);
 		let fix_arr = url.split(".");
 		let fix = fix_arr.pop();
 		let temp = fix_arr.pop().split("/");
@@ -106,7 +111,7 @@ export default class LoaderManager {
 		} else if (fix == "mp3" || fix == "wav") {
 			Laya.loader.load(url, Laya.Handler.create(this, this.loadComplete, [url]), null, Laya.Loader.SOUND, 1, true);
 		} else {
-
+			EventManager.event(EventKey.LOADER_OVER);
 		}
 	}
 	private static loadTempletComplete(url: string, key: string, templet: Laya.Templet): void {
@@ -121,6 +126,7 @@ export default class LoaderManager {
 	}
 	private static loadComplete(url: string): void {
 		this.loadHash[url] = 1;
+		// this.haveLoadList.add(url, true);
 		if (!this.network) return;
 		let currNum = 0;
 		let maxNum = 0;
@@ -142,23 +148,23 @@ export default class LoaderManager {
 	private static csvMap: object = {};
 	private static csvNum: number = 0;
 	public static loadCSV(): void {
-		// let csvList: Array<string> = [];
-		// let csvKV = CSV.getKV();
-		// for (let key in csvKV) {
-		// 	let url = "res_code/csv/" + key;
-		// 	csvList.push(url);
-		// }
-		// Laya.loader.load(csvList, Laya.Handler.create(this, this.csvComplete), null, Laya.Loader.TEXT, 1, true);
+		let csvList: Array<string> = [];
+		let csvKV = CSV.getKV();
+		for (let key in csvKV) {
+			let url = "res_csv/" + key;
+			csvList.push(url);
+		}
+		Laya.loader.load(csvList, Laya.Handler.create(this, this.csvComplete), null, Laya.Loader.TEXT, 1, true);
 	}
 	private static csvComplete(b: boolean): void {
-		// let csvKV = CSV.getKV();
-		// for (let key in csvKV) {
-		// 	let url = "res_code/csv/" + key;
-		// 	let csv: string = Laya.Loader.getRes(url);
-		// 	CSV.install(url, csv);
-		// 	Laya.Loader.clearRes(url);
-		// }
-		// EventManager.event(LoaderManager.CSV_LOAD_OVER);
+		let csvKV = CSV.getKV();
+		for (let key in csvKV) {
+			let url = "res_csv/" + key;
+			let csv: string = Laya.Loader.getRes(url);
+			CSV.install(url, csv);
+			Laya.Loader.clearRes(url);
+		}
+		EventManager.event(EventKey.CSV_LOAD_OVER);
 	}
 
 }

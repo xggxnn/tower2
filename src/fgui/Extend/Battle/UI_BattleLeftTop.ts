@@ -4,6 +4,7 @@ import Game from "../../../Game";
 import { MenuId } from "../../../gamemodule/MenuId";
 import EventManager from "../../../Tool/EventManager";
 import EventKey from "../../../Tool/EventKey";
+import Fun from "../../../Tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleLeftTop extends fui_BattleLeftTop {
@@ -26,11 +27,13 @@ export default class UI_BattleLeftTop extends fui_BattleLeftTop {
 		this.m_waveBtn.onClick(this, this.clickWaveBtn);
 	}
 	clickWaveBtn(): void {
+		Game.tipWin.showTip(Game.tipTxt.ExitWaveTip, true, Laya.Handler.create(this, this.exitGame));
+	}
+	private exitGame(): void {
 		EventManager.event(EventKey.GAMEEXIT);
 		Game.battleScene.stoneReset();
 		Game.battleScene.clearEnemy();
 		Game.battleScene.clearHero();
-		this.closeUI();
 		Game.menu.open(MenuId.MenuSelect);
 	}
 	// 关闭ui
@@ -43,7 +46,7 @@ export default class UI_BattleLeftTop extends fui_BattleLeftTop {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-
+		this.m_waveBtn.title = Fun.format("第{0}关,退出", Game.battleData.level_id);
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {

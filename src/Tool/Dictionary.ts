@@ -33,7 +33,10 @@ export default class Dictionary<K, T>{
 	}
 
 	getValue(key: string | number) {
-		return this.dict[key];
+		if (this.hasKey(key) == true) {
+			return this.dict[key];
+		}
+		return null;
 	}
 
 	getValueOrDefault(key: string | number, _default?: T) {

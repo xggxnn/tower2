@@ -1,6 +1,7 @@
 import Proto from "./Proto";
 import Game from "../Game";
 import Dictionary from "../Tool/Dictionary";
+import HeroInfoData from "../gamemodule/DataStructs/HeroInfoData";
 
 export default class Proto1001 extends Proto {
     protected protoid: number = 1001;
@@ -18,11 +19,10 @@ export default class Proto1001 extends Proto {
         Game.userData.playerid = json.playerId;
         Game.userData.password = json.password;
         Game.playData.newbie = Boolean(json.newbie);
-        // 货币情况
-        Game.playData.curGold = Number(json.gold);
-        Game.playData.curDiamond = Number(json.diamond);
-        Game.playData.curJadeite = Number(json.jadeite);
-        Game.playData.curMagic = Number(json.magic);
+        // 资源情况
+        for (var key in json.resData) {
+            Game.playData.addResource(key, json.resData[key]);
+        }
         // 征服时间
         if (json.hasOwnProperty("conquestTime")) {
             Game.playData.conqueTime = json.conquestTime
@@ -31,28 +31,55 @@ export default class Proto1001 extends Proto {
         Game.playData.curLevel = Number(json.level);
         Game.playData.curStar = Number(json.star);
         // 布阵情况
-        Game.battleScene.seatHeroDic.clear();
-        let seat = [json.seat.seat0, json.seat.seat1, json.seat.seat2];
-        for (let j = 0; j < 3; j++) {
-            Game.battleScene.seatHeroDic.add(j, new Dictionary<number, number>());
-            let dic = Game.battleScene.seatHeroDic.getValue(j);
-            for (let i = 0; i < 9; i++) {
-                dic.add(i, seat[j][i]);
-            }
+        if (json.hasOwnProperty("seat") && json.seat.seat0 && json.seat.seat1 && json.seat.seat2) {
+            Game.battleScene.seatHeroList = [json.seat.seat0, json.seat.seat1, json.seat.seat2];
+        }
+        else {
+            Game.battleScene.seatHeroList = [[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]];
         }
         // 当前那个阵
         Game.battleScene.seatHeroSelect = Number(json.seatNum);
+        Game.playData.curPlaySkillIndex = Number(json.skillIndex);
         // 拥有的英雄
-        Game.playData.curHero = json.heros;
-        // 拥有的碎片
-        let clips = json.clips;
-        let clipsDic = Game.playData.curClips;
-        for (let i = clips.length - 1; i >= 0; i--) {
-            clipsDic.add(clips[i].id, clips[i].clips);
+        // Game.playData.curHero = [];
+        Game.playData.curHeroInfoList = new Dictionary<string, HeroInfoData>();
+        let hero = json.heros;
+        if (hero && hero.length > 0) {
+            for (let i = 0, len = hero.length; i < len; i++) {
+                let heroInf = HeroInfoData.getInfo(hero[i].id);
+                heroInf.quality = Number(hero[i].quality);
+                if (heroInf.quality == 5) {
+                    let atk = Number(hero[i].attack);
+                    let speed = Number(hero[i].cd);
+                    let crit = Number(hero[i].crit);
+                    let burst = Number(hero[i].burst);
+                    if (atk > 0) {
+                        heroInf.basicattckpointCur = atk;
+                    }
+                    if (speed > 0) {
+                        heroInf.cd = 1 / speed;
+                    }
+                    if (crit > 0) {
+                        heroInf.crit = crit;
+                    }
+                    if (burst > 0) {
+                        heroInf.burst = burst;
+                    }
+                }
+                Game.playData.curHeroInfoList.add(heroInf.id, heroInf);
+            }
         }
         // 关卡情况
         if (json.hasOwnProperty("map")) {
             Game.battleMap.init(json.map);
         }
+        // 关卡情况
+        if (json.hasOwnProperty("king")) {
+            Game.playData.kingSet(json.king);
+        }
+        // 签到情况
+        Game.playData.signInIndex = Number(json.signInIndex);
+        Game.playData.isSign = Boolean(json.isSignedIn);
+        Game.playData.guideIndex = Number(json.guideIndex);
     }
 }

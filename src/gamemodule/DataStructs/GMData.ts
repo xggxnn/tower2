@@ -1,5 +1,6 @@
 import Handler = Laya.Handler;
 import Dictionary from "../../Tool/Dictionary";
+import TypedSignal from "../../Tool/TypedSignal";
 
 export default class GMData {
 
@@ -28,5 +29,8 @@ export default class GMData {
             this.handlerList.splice(index, 1);
         }
     }
+
+    public closeHeroTip: boolean = false;
+    public sUpdateCloseHeroTip: TypedSignal<boolean> = new TypedSignal<boolean>();
 
 }

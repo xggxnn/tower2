@@ -4,6 +4,9 @@ export default class ProtoEvent {
 		return "PROTO_CALL_BACK_" + protoid;
 	}
 
+	public static get CONFIG_CALL_BACK(): string {
+		return this.getProtoEvent(1000);
+	}
 	public static get LOGIN_CALL_BACK(): string {
 		return this.getProtoEvent(1001);
 	}
@@ -25,11 +28,29 @@ export default class ProtoEvent {
 	public static get BAGGIFT_CALL_BACK(): string {
 		return this.getProtoEvent(1013);
 	}
+	public static get SHOPGAIN_CALL_BACK(): string {
+		return this.getProtoEvent(1016);
+	}
 	public static get SHOPBUY_CALL_BACK(): string {
 		return this.getProtoEvent(1017);
 	}
 	public static get OPENCARD_CALL_BACK(): string {
 		return this.getProtoEvent(1018);
+	}
+	public static get KING_CALL_BACK(): string {
+		return this.getProtoEvent(1020);
+	}
+	public static get SIGN_CALL_BACK(): string {
+		return this.getProtoEvent(1021);
+	}
+	public static get UPQUALITY_CALL_BACK(): string {
+		return this.getProtoEvent(1028);
+	}
+	public static get RESETATT_CALL_BACK(): string {
+		return this.getProtoEvent(1029);
+	}
+	public static get SAVEATT_CALL_BACK(): string {
+		return this.getProtoEvent(1030);
 	}
 
 }
