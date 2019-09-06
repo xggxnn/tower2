@@ -2,10 +2,10 @@ import fui_HomeMain from "../../Generates/Home/fui_HomeMain";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
 import { MenuId } from "../../../gamemodule/MenuId";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
-import Fun from "../../../Tool/Fun";
-import EventKey from "../../../Tool/EventKey";
+import Fun from "../../../tool/Fun";
+import EventKey from "../../../tool/EventKey";
 import UI_conquestBtn from "./UI_conquestBtn";
 import UI_seatBtn from "./UI_seatBtn";
 import UI_fightBtn from "./UI_fightBtn";
@@ -40,6 +40,7 @@ export default class UI_HomeMain extends fui_HomeMain {
 		this.m_sortBtn.onClick(this, this.sortClick);
 		this.m_bagBtn.onClick(this, this.bagClick);
 		this.m_heroBtn.onClick(this, this.heroClick);
+		this.m_testBtn.onClick(this, this.clickTest);
 	}
 
 	private menuselect(): void {
@@ -54,28 +55,29 @@ export default class UI_HomeMain extends fui_HomeMain {
 	conquestClick(): void {
 		let datas = this.m_conquestBtn as UI_conquestBtn;
 		if (datas.canGet) {
-			Game.tipWin.showTip(Fun.format(Game.tipTxt.Conquest, datas.levelcount, Fun.formatTime(datas.duration), datas.getGold), false, Laya.Handler.create(this, this.conquestReward));
+			Game.tipWin.showTip(Fun.format(Game.tipTxt.Conquest, datas.levelcount, Fun.formatTime(datas.duration), datas.getGold, datas.getDiamond), false, Laya.Handler.create(this, this.conquestReward));
 		}
 		else {
 			Game.tipWin.showTip(Game.tipTxt.NoGainTip);
 		}
 	}
 	setClick(): void {
-		Game.tipWin.showTip("是否确认删除数据，删除后无法恢复，请谨慎操作，确定后请重启客户端进行体验。", true, Laya.Handler.create(this, () => {
-			Game.proto.clearData();
-		}), null, "删除数据", "考虑考虑");
-
+		Game.popup.showPopup(this.m_setBtn, true, false, "试玩版本无此功能！");
+	}
+	clickTest(): void {
+		Game.tipWin.showTip("试玩说明\n当前版本为试玩版，计划于2019年9月1日开始，2019年9月30日结束试玩结束后，玩家的数据将会被清除\n试玩结束后，所有参与试玩的玩家将会获得一个试玩参与奖励：开荒兑换码（在正式版中可兑换开荒礼包）			\n试玩玩家请加入玩家Q群：855988151，欢迎提出反馈与建议，一经采纳，将可以获得正式版礼包奖励", false, null, null, "朕知道了", "", 0);
 	}
 	actClick(): void {
-		Game.menu.open(MenuId.Active);
+		Game.menu.open(MenuId.Active, 0);
 	}
 	shopClick(): void {
 		Game.menu.open(MenuId.Shop);
 	}
 	sortClick(): void {
-		Game.popup.showPopup(this.m_sortBtn, true, "功能开发中");
+		Game.menu.open(MenuId.Active, 1);
 	}
 	bagClick(): void {
+		Game.redData.bagRed = false;
 		Game.menu.open(MenuId.Bag);
 	}
 	heroClick(): void {
@@ -94,10 +96,10 @@ export default class UI_HomeMain extends fui_HomeMain {
 		(this.m_conquestBtn as UI_conquestBtn).setData();
 		(this.m_seatBtn as UI_seatBtn).setData();
 		(this.m_fightBtn as UI_fightBtn).setData();
-		this.synthetise();
+		this.refrushRed();
 		if (Game.playData.guideIndex >= GuideType.sevenStartFive) {
 			if (Game.redData.signRed) {
-				Game.menu.open(MenuId.Active);
+				Game.menu.open(MenuId.Active, 0);
 			}
 		}
 		else if (Game.playData.guideIndex == GuideType.fettersOver || Game.playData.guideIndex == GuideType.fiveUpLevelOver || Game.playData.guideIndex == GuideType.sixWin) {
@@ -108,17 +110,41 @@ export default class UI_HomeMain extends fui_HomeMain {
 		}
 	}
 	private synthetise(): void {
+		this.refrushRed();
+		setTimeout(() => {
+			this.refrushRed();
+		}, 100);
+	}
+	private refrushRed(): void {
 		if (Game.redData.heroRed) {
 			Game.redTip.showRedTip(this.m_heroBtn);
 		}
 		else {
 			Game.redTip.hideRedTip(this.m_heroBtn);
 		}
-		if (Game.redData.activeRed) {
+		if (Game.redData.signRed) {
 			Game.redTip.showRedTip(this.m_actBtn);
 		}
 		else {
 			Game.redTip.hideRedTip(this.m_actBtn);
+		}
+		if (Game.redData.kingRed) {
+			Game.redTip.showRedTip(this.m_sortBtn);
+		}
+		else {
+			Game.redTip.hideRedTip(this.m_sortBtn);
+		}
+		if (Game.redData.seatRed) {
+			Game.redTip.showRedTip(this.m_seatBtn);
+		}
+		else {
+			Game.redTip.hideRedTip(this.m_seatBtn);
+		}
+		if (Game.redData.bagRed) {
+			Game.redTip.showRedTip(this.m_bagBtn);
+		}
+		else {
+			Game.redTip.hideRedTip(this.m_bagBtn);
 		}
 	}
 	private refreshCoinGold(): void {
@@ -145,12 +171,14 @@ export default class UI_HomeMain extends fui_HomeMain {
 		EventManager.on(EventKey.COIN_DIAMOND_UPDATE, this, this.refreshCoinDiamond);
 		EventManager.on(EventKey.COIN_JADEITE_UPDATE, this, this.refreshCoinJadeite);
 		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetise);
+		EventManager.on(ProtoEvent.UPQUALITY_CALL_BACK, this, this.synthetise);
 		EventManager.on(ProtoEvent.PASSWAVE_CALL_BACK, this, this.synthetise);
 		EventManager.on(ProtoEvent.SIGN_CALL_BACK, this, this.synthetise);
 		EventManager.on(ProtoEvent.KING_CALL_BACK, this, this.synthetise);
-		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.synthetise);
 		EventManager.on(ProtoEvent.BAGGIFT_CALL_BACK, this, this.synthetise);
 		EventManager.on(ProtoEvent.SHOPBUY_CALL_BACK, this, this.synthetise);
+		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.synthetise);
+		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.synthetise);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable

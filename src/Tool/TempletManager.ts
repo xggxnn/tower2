@@ -1,4 +1,5 @@
 import EventManager from "./EventManager";
+import EventKey from "./EventKey";
 
 export default class TempletManager {
 
@@ -14,7 +15,7 @@ export default class TempletManager {
 		} else {
 			this._hash[key] = templet;
 		}
-		EventManager.event(this.TEMPLET_INIT_COMPLETE, [key, templet]);
+		EventManager.event(TempletManager.TEMPLET_INIT_COMPLETE, [key, templet]);
 	}
 
 	public static getTemplet(name: string): Laya.Templet {

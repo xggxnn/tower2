@@ -2,10 +2,10 @@ import GameInstaller from "./GameInstaller";
 import { MenuId } from "./gamemodule/MenuId";
 import MenuManager from "./gamemodule/MenuManager";
 import GameTimeData from "./gamemodule/DataStructs/GameTimeData";
-import ScreenSettingConfig from "./Tool/ScreenSettingConfig";
-import TimerManager from "./Tool/TimerManager";
-import SystemManager from "./Tool/SystemManager";
-import LoaderManager from "./Tool/LoaderManager";
+import ScreenSettingConfig from "./tool/ScreenSettingConfig";
+import TimerManager from "./tool/TimerManager";
+import SystemManager from "./tool/SystemManager";
+import LoaderManager from "./tool/LoaderManager";
 import { GameStatus } from "./gamemodule/DataEnums/GameStatus";
 import AudioManager from "./gamemodule/Sound/AudioManager";
 import GameLocalStorage from "./gamemodule/LocalStorage/GameLocalStorage";
@@ -18,20 +18,20 @@ import BattleData from "./gamemodule/DataStructs/BattleData";
 import BattleScene from "./gamemodule/Models/BattleScene";
 import ServerCSVConfig from "./dataInfo/ServerCSVConfig";
 import PlayerData from "./gamemodule/DataStructs/PlayerData";
-import UserData from "./Tool/UserData";
-import EventManager from "./Tool/EventManager";
+import UserData from "./tool/UserData";
+import EventManager from "./tool/EventManager";
 import ProtoEvent from "./protobuf/ProtoEvent";
 import WaveData from "./gamemodule/DataStructs/WaveData";
-import TickManager from "./Tool/TickManager";
+import TickManager from "./tool/TickManager";
 import GMData from "./gamemodule/DataStructs/GMData";
 import SystemRewardWin from "./gamemodule/System/SystemRewardWin";
 import BattleHalo from "./gamemodule/DataStructs/BattleHalo";
 import SystemRedTip from "./gamemodule/System/SystemRedTip";
-import EventKey from "./Tool/EventKey";
-import LoadFilesList from "./Tool/LoadFilesList";
+import EventKey from "./tool/EventKey";
+import LoadFilesList from "./tool/LoadFilesList";
 import RedTipData from "./gamemodule/DataStructs/RedTipData";
 import TypeWriteData from "./gamemodule/DataStructs/TypeWriteData";
-import ShareManager from "./Tool/ShareManager";
+import ShareManager from "./tool/ShareManager";
 import TipTextInfo from "./gamemodule/DataStructs/TipTextInfo";
 import { GuideType } from "./gamemodule/DataEnums/GuideType";
 
@@ -61,6 +61,9 @@ export default class Game {
 	public static set creatNum(v: number) {
 		this._creatNum = v;
 	}
+
+	static initOverForLoad: boolean = false;
+	static isShowLoadUI: boolean = true;
 
 	// 游戏状态
 	static gameStatus: GameStatus = GameStatus.Load;
@@ -117,7 +120,10 @@ export default class Game {
 	static gm: GMData;
 
 	constructor() {
+		// Laya.Stat.show();
 		Game.gameStatus = GameStatus.Load;
+		Game.initOverForLoad = false;
+		Game.isShowLoadUI = true;
 		Laya.init(1280, 720);
 		// 是否开启多点触控
 		Laya.MouseManager.multiTouchEnabled = false;
@@ -126,7 +132,6 @@ export default class Game {
 
 		if (window && window.navigator && window.navigator.userAgent) {
 			var agent = window.navigator.userAgent;
-			console.log(agent);
 			Game.isIOS = agent.indexOf("iPod") > -1 || agent.indexOf("iPhone") > -1 || agent.indexOf("iPad") > -1;
 			Game.isAndroid = (agent.indexOf("Android") > -1);
 			Game.isMobile = Game.isIOS || Game.isAndroid;
@@ -142,34 +147,59 @@ export default class Game {
 	}
 
 	static onInstallComplete() {
+		LoadFilesList.allResList;
 		this.menu.open(MenuId.Load);
+		this.loadSKOver();
+	}
+	private onInstallLoadRes(): void {
 		EventManager.event(EventKey.SHOW_UI_WAIT);
-		EventManager.once(EventKey.LOADER_OVER, this, this.loadSKOver);
+		EventManager.once(EventKey.LOADER_OVER, this, this.startFight);
 		LoaderManager.resetShowLoad();
-		// let _list: Array<string> = [];
-		// _list = _list.concat(LoadFilesList.res_npc_ResList);
-		// _list.push("res_sk/enemy_1.sk");
-		// _list.push("res_sk/enemy_2.sk");
-		// _list.push("res_sk/enemy_3.sk");
-		// _list.push("res_sk/enemy_4.sk");
-		// _list.push("res_sk/enemy_5.sk");
-		// _list.push("res_sk/enemy_6.sk");
-		// _list.push("res_sk/enemy_7.sk");
-		// _list.push("res_sk/enemy_8.sk");
-		// _list.push("res_sk/enemy_9.sk");
-		// _list.push("res_sk/enemy_10.sk");
-		// _list.push("res_sk/enemy_11.sk");
-		// _list.push("res_sk/enemy_12.sk");
-		// _list.push("res_sk/enemy_13.sk");
-		// _list.push("res_sk/enemy_14.sk");
-		// _list.push("res_sk/enemy_15.sk");
-		// _list.push("res_sk/enemy_16.sk");
-		// _list = _list.concat(LoadFilesList.res_sk_hero_ResList);
-		// LoaderManager.addList(_list);
-		LoaderManager.addList(LoadFilesList.allResList);
+		let _list: Array<string> = [];
+		if (Game.playData.guideIndex < GuideType.Win)
+			_list.push("res_sk/hero_25.sk");
+		_list.push("res_sk/hero_30.sk");
+		_list.push("res_sk/hero_5.sk");
+		_list.push("res_sk/hero_9.sk");
+		_list.push("res_sk/enemy_1.sk");
+		_list.push("res_sk/enemy_2.sk");
+		_list.push("res_sk/enemy_3.sk");
+		_list.push("res_sk/enemy_4.sk");
+		_list.push("res_sk/enemy_5.sk");
+		_list.push("res_sk/enemy_6.sk");
+		_list.push("res_sk/enemy_7.sk");
+		_list.push("res_sk/enemy_8.sk");
+		_list.push("res_sk/enemy_9.sk");
+		_list.push("res_sk/enemy_10.sk");
+		_list.push("res_sk/enemy_11.sk");
+		_list.push("res_sk/enemy_12.sk");
+		_list.push("res_sk/enemy_13.sk");
+		_list.push("res_sk/enemy_14.sk");
+		_list.push("res_sk/enemy_15.sk");
+		_list.push("res_sk/enemy_16.sk");
+		_list.push("res_font/num_battle_1.fnt");
+		_list.push("res_font/num_battle_2.fnt");
+		_list.push("res_font/num_battle_3.fnt");
+		_list = _list.concat(LoadFilesList.res_npc_ResList);
+		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		LoaderManager.addList(_list);
+	}
+	private onInstallLoadRes2(menuid: MenuId): void {
+		EventManager.once(EventKey.LOADER_OVER, this, this.openMenu, [menuid]);
+		LoaderManager.resetShowLoad();
+		let _list: Array<string> = [];
+		_list.push("res_font/num_battle_1.fnt");
+		_list.push("res_font/num_battle_2.fnt");
+		_list.push("res_font/num_battle_3.fnt");
+		_list = _list.concat(LoadFilesList.res_npc_ResList);
+		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		LoaderManager.addList(_list);
+	}
+	private openMenu(menuid: MenuId): void {
+		Game.initOverForLoad = true;
+		Game.menu.open(menuid);
 	}
 	static loadSKOver(): void {
-		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		Game.gameStatus = GameStatus.Gaming;
 		Game.sound.install();
 		Game.sound.autoStopMusic = false;
@@ -183,13 +213,17 @@ export default class Game {
 		ShareManager.init();
 		SystemManager.initAllData();
 		if (Game.playData.guideIndex == GuideType.None && Game.battleMap.maxMapId > 1) {
+			if (Game.battleMap.maxMapId >= 3 && Game.playData.guideIndex < GuideType.sevenStartFive) {
+				Game.playData.guideIndex = GuideType.sevenStartFive;
+			}
 			// 登录成功，打开主界面
-			Game.menu.open(MenuId.Home);
+			this.onInstallLoadRes2(MenuId.Home);
+			// Game.menu.open(MenuId.Home);
 		}
 		else {
 			if (Game.playData.guideIndex < GuideType.Win) {
 				EventManager.event(EventKey.SHOW_UI_WAIT);
-				EventManager.once(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
+				EventManager.once(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.onInstallLoadRes);
 				Game.battleData.fight_type = 0;
 				Game.battleData.level_id = 1;
 				let data = {
@@ -200,15 +234,18 @@ export default class Game {
 			}
 			else if (Game.playData.guideIndex < GuideType.SnythHeroOver) {
 				Game.playData.guideIndex = GuideType.Win;
-				Game.menu.open(MenuId.Hero);
+				this.onInstallLoadRes2(MenuId.Hero);
+				// Game.menu.open(MenuId.Hero);
 			}
 			else if (Game.playData.guideIndex == GuideType.SnythHeroOver) {
 				Game.playData.guideIndex == GuideType.SnythHeroOver;
-				Game.menu.open(MenuId.Arrange);
+				this.onInstallLoadRes2(MenuId.Arrange);
+				// Game.menu.open(MenuId.Arrange);
 			}
 			else if (Game.playData.guideIndex >= GuideType.fiveWin && Game.playData.guideIndex < GuideType.fiveUpLevelOver) {
 				Game.playData.guideIndex = GuideType.fiveWin;
-				Game.menu.open(MenuId.Arrange);
+				this.onInstallLoadRes2(MenuId.Arrange);
+				// Game.menu.open(MenuId.Arrange);
 			}
 			else {
 				if (Game.playData.guideIndex < GuideType.fiveWin) {
@@ -221,11 +258,13 @@ export default class Game {
 					Game.playData.guideIndex = GuideType.sixWin;
 				}
 				// 登录成功，打开主界面
-				Game.menu.open(MenuId.Home);
+				this.onInstallLoadRes2(MenuId.Home);
+				// Game.menu.open(MenuId.Home);
 			}
 		}
 	}
 	private startFight(): void {
+		Game.initOverForLoad = true;
 		if (Game.playData.guideIndex < GuideType.StartFight) {
 			Game.playData.guideIndex = GuideType.FightReady;
 		}

@@ -112,15 +112,17 @@ export default class Fun {
      * @param second 秒
      * @param length 返回几组信息
      * @example         1表示只返回秒（没什么用）
-     *          2表示返回分钟和秒数  3:04
-     *          3表示 返回小时分钟和秒数 2:03:04
-     *          4表示返回 天数 小时 分钟和秒数 1:02:03:04
+     *          2表示返回分钟和秒数  3分4秒
+     *          3表示 返回小时分钟和秒数 2小时3分4秒
+     *          4表示返回 天数 小时 分钟和秒数 1天2小时3分4秒
      **/
 	public static formatTime(second: number, length: number = 3): string {
 		second = Math.floor(second);
 		length = Math.floor(length);
 		if (!(second >= 0)) second = 0;
-		if (length < 1) length = 1;
+		if (length <= 1) {
+			return "" + second + "秒";
+		}
 		else if (length > 4) length = 4;
 		let _str = "";
 		let div_arr: Array<number> = [1, 60, 3600, 86400];
@@ -133,9 +135,44 @@ export default class Fun {
 				_b = _a % rem_arr[i];
 			}
 			let _s = String(_b);
-			// if (i != length - 1 && _b < 10) {
-			// 	_s = "0" + _s;
-			// }
+			if (_str.length == 0 && _b == 0) {
+
+			}
+			else {
+				_str += _s;
+				_str += tabs[i];
+			}
+		}
+		return _str;
+	}
+    /**
+     * 格式化时间
+     * @param second 秒
+     * @param length 返回几组信息
+     * @example         1表示只返回秒（没什么用）  0m
+     *          2表示返回分钟  3m
+     *          3表示 返回小时分钟 2h3m4s
+     *          4表示返回 天数 小时 分钟和秒数 1d2h3m4s
+     **/
+	public static formatTimeEN(second: number, length: number = 3): string {
+		second = Math.floor(second);
+		length = Math.floor(length);
+		if (!(second >= 0)) second = 0;
+		if (length <= 1) {
+			return "0m";
+		}
+		else if (length > 4) length = 4;
+		let _str = "";
+		let div_arr: Array<number> = [1, 60, 3600, 86400];
+		let rem_arr: Array<number> = [60, 60, 24, 99];
+		let tabs: Array<string> = ["s", "m", "h", "d"];
+		for (let i = length - 1; i > 0; i--) {
+			let _a = Math.floor(second / div_arr[i]);
+			let _b = _a
+			if (i != length - 1) {
+				_b = _a % rem_arr[i];
+			}
+			let _s = String(_b);
 			if (_str.length == 0 && _b == 0) {
 
 			}
@@ -314,7 +351,7 @@ export default class Fun {
 	 * @param value 数字
 	 * @param fixed 保留几位小数，默认1位小数
 	 */
-	public static formatNumberUnit(value: number, fixed: number = 1): string {
+	public static formatNumberUnit(value: number, fixed: number = 0): string {
 		var str = ""
 		if (value >= __NumberUnitValue.B * 10) {
 			value = value / __NumberUnitValue.B;
@@ -341,7 +378,53 @@ export default class Fun {
 
 		var a = str.split(".")
 		var num = parseInt(a[0]);
-		var result = num.toLocaleString('en-US');
+		// var result = num.toLocaleString('en-US');
+		var result = num.toString();
+
+		if (a.length >= 2) {
+			if (fixed > 0) {
+				result = result + "." + a[1];
+			}
+			else {
+				result = result + a[1];
+			}
+		}
+
+		return result;
+	}
+	/**
+	 * 格式化数字
+	 * @param value 数字
+	 * @param fixed 保留几位小数，默认1位小数
+	 */
+	public static formatNumberUnitBattle(value: number, fixed: number = 1): string {
+		var str = ""
+		if (value >= __NumberUnitValue.B * 10) {
+			value = value / __NumberUnitValue.B;
+			str = value.toFixed(fixed + 1).slice(0, -1) + __NumberUnitTextBattle.B;
+		}
+		else if (value >= __NumberUnitValue.M * 10) {
+			value = value / __NumberUnitValue.M;
+			str = value.toFixed(fixed + 1).slice(0, -1) + __NumberUnitTextBattle.M;
+		}
+		else if (value >= __NumberUnitValue.K * 10) {
+			value = value / __NumberUnitValue.K;
+			str = value.toFixed(fixed + 1).slice(0, -1) + __NumberUnitTextBattle.K;
+		}
+		else {
+			var tem = value.toFixed(fixed);
+			var tema = tem.split(".");
+			if (tema.length == 2 && parseInt(tema[1]) == 0) {
+				str = tema[0];
+			}
+			else {
+				str = tem;
+			}
+		}
+
+		var a = str.split(".")
+		var num = parseInt(a[0]);
+		var result = num.toString();
 
 		if (a.length >= 2) {
 			if (fixed > 0) {
@@ -376,11 +459,16 @@ export default class Fun {
 
 class __NumberUnitValue {
 	static K: number = 10000;
-	static M: number = 10000 * 1000;
-	static B: number = 10000 * 1000 * 1000;
+	static M: number = 10000 * 10000;
+	static B: number = 10000 * 10000 * 10000;
 }
 class __NumberUnitText {
 	static K: string = "万";
-	static M: string = "千万";
-	static B: string = "百亿";
+	static M: string = "亿";
+	static B: string = "万亿";
+}
+class __NumberUnitTextBattle {
+	static K: string = "W";
+	static M: string = "Y";
+	static B: string = "WY";
 }

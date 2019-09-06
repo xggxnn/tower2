@@ -1,8 +1,9 @@
 import BaseFilter from "../base/BaseFilter";
 import EventManager from "../tool/EventManager";
-import TempletManager from "../Tool/TempletManager";
-import EventKey from "../Tool/EventKey";
+import TempletManager from "../tool/TempletManager";
+import EventKey from "../tool/EventKey";
 import Game from "../Game";
+import LoaderManager from "../tool/LoaderManager";
 
 export default class BaseSK extends BaseFilter {
 	public static create(key: string): BaseSK {
@@ -16,7 +17,11 @@ export default class BaseSK extends BaseFilter {
 			this.init(_templet);
 		} else {
 			EventManager.on(TempletManager.TEMPLET_INIT_COMPLETE, this, this.templetInitOver);
+			Game.isShowLoadUI = false;
 			//添加高权资源
+			let _list: Array<string> = [];
+			_list.push("res_sk/" + key + ".sk");
+			LoaderManager.addList(_list);
 		}
 	}
 	public onDisable(): void {

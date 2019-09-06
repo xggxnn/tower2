@@ -1,6 +1,6 @@
 import fui_HeroIcon from "../../Generates/System/fui_HeroIcon";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import Game from "../../../Game";
 import SpriteKey from "../../SpriteKey";

@@ -1,0 +1,15 @@
+{
+	"buttonClickSound":"",
+	"colorScheme":["自定义颜色 #FF0000","3d #3dff5d","ae #ae9168","d0 #d02d2ec","ee #eece60","f0 #f0f5ff","f3 #f3e9d5","f4 #f4c2ff","f9 #f9f3d2","fc #fcae3e","fe #feda49","ff #ffa751","ff #fff7ea","ff #fffcb3","红色 #ef1717","黄色 #ffd940","绿色 #47f66c"],
+	"font":"_sans",
+	"fontScheme":["默认字体"],
+	"fontSize":12,
+	"fontSizeScheme":["自定义字体大小 30","20号 20","24号 24"],
+	"scrollBars":{
+		"defaultDisplay":"visible",
+		"horizontal":"",
+		"vertical":""
+	},
+	"textColor":"#000000",
+	"tipsRes":""
+}

@@ -2,9 +2,9 @@ import fui_GainRewards from "../../Generates/System/fui_GainRewards";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import FWindow from "../../../gamemodule/FWindow";
 import UI_ItemIcon from "./UI_ItemIcon";
-import { Tick } from "../../../Tool/TickManager";
+import { Tick } from "../../../tool/TickManager";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import Handler = Laya.Handler;
 import MenuLayer from "../../../gamemodule/MenuLayer";
 
@@ -112,7 +112,7 @@ export default class UI_GainRewards extends fui_GainRewards {
 	// 点击item
 	private onClickItem(obj: fairygui.GObject): void {
 		let item = obj as UI_ItemIcon;
-		Game.popup.showPopup(obj, true, "奖励物品：{0}", item.itemInfo.itemId);
+		Game.popup.showPopup(obj, true, false, "奖励物品：{0}", item.itemInfo.itemId);
 	}
 }
 UI_GainRewards.bind();

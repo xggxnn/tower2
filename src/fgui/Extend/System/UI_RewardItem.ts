@@ -1,7 +1,7 @@
 import fui_RewardItem from "../../Generates/System/fui_RewardItem";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import Game from "../../../Game";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/

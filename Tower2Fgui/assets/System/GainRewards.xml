@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImageLayer="1">
+  <displayList>
+    <image id="n0_bxj0" name="n0" src="opk1o" fileName="pic/black.png" xy="0,0" size="1280,960"/>
+    <image id="n1_bxj0" name="n1" src="udz4m" fileName="pic/zu2.png" xy="410,171" size="460,644"/>
+    <image id="n2_bxj0" name="n2" src="gc5l1t" fileName="pic/xiangyunzhuangshi02.png" xy="375,158"/>
+    <image id="n4_bxj0" name="n4" src="bxj04" fileName="pic/huodeTitle.png" xy="560,172"/>
+    <image id="n5_bxj0" name="n5" src="j5ct16" fileName="pic/contentBg.png" xy="424,269" size="427,373"/>
+    <image id="n7_bxj0" name="n7" src="gc5ls" fileName="pic/yunwen.png" xy="410,755"/>
+    <list id="n11_bxj0" name="list" xy="439,279" size="393,348" layout="flow_hz" overflow="scroll" lineGap="15" colGap="15" defaultItem="ui://130tmfxdbxj019" align="center"/>
+    <component id="n6_bxj0" name="okBtn" src="q080m" fileName="GeneralBtn.xml" xy="536,658" size="207,108" controller="bgColor,1">
+      <Button title="确定"/>
+    </component>
+  </displayList>
+</component>

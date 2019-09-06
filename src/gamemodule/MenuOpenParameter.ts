@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 
 // ===========================
 // 打开menu参数接口

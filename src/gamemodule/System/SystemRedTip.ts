@@ -1,7 +1,7 @@
 import { LocationType } from "../DataEnums/LocationType";
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 import UI_RedTips from "../../fgui/Extend/System/UI_RedTips";
-import Pools from "../../Tool/Pools";
+import Pools from "../../tool/Pools";
 
 export default class SystemRedTip {
 
@@ -35,7 +35,9 @@ export default class SystemRedTip {
         }
         else {
             item = this.redDic.getValue(key);
+            return;
         }
+        if (!item) return;
         (target as fairygui.GRoot).addChild(item);
         let rect = target.localToGlobalRect(-50, -50, target.width / target.scaleX, target.height / target.scaleY);
         item.setScale(1 / target.scaleX, 1 / target.scaleY);
@@ -47,7 +49,7 @@ export default class SystemRedTip {
                 item.setXY(0, 0);
                 break;
             case LocationType.RightUpper:
-                item.setXY(rect.width, 0);
+                item.setXY(rect.width - 10, 10);
                 break;
             case LocationType.LeftLower:
                 item.setXY(0, rect.height);

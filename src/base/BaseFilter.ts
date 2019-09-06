@@ -1,5 +1,5 @@
 import EventManager from "../tool/EventManager";
-import EventKey from "../Tool/EventKey";
+import EventKey from "../tool/EventKey";
 import ColormatrixInfo from "../csvInfo/ColormatrixInfo";
 
 export default class BaseFilter extends Laya.Sprite {
@@ -7,7 +7,6 @@ export default class BaseFilter extends Laya.Sprite {
 		super();
 	}
 	public onEnable(): void {
-		// this.filters = [new Laya.ColorFilter(ColormatrixInfo.getMatrix(4))];
 		EventManager.on(EventKey.ENTER_FRAME, this, this.updateFilter);
 	}
 	public onDisable(): void {
@@ -39,7 +38,7 @@ export default class BaseFilter extends Laya.Sprite {
 
 	public clearFilters(): void {
 		this.clearFilter();
-		this.filters = [new Laya.ColorFilter([1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0])];
+		// this.filters = [new Laya.ColorFilter([1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0])];
 	}
 
 	private filterList = [];

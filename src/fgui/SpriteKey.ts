@@ -51,8 +51,6 @@ export default class SpriteKey {
         dict.add("icon_1021.png", "ngrs1f");
         dict.add("race1.png", "ngrs1a");
         dict.add("star1.png", "gc5l2d");
-        dict.add("star2.png", "gc5l2e");
-        dict.add("star3.png", "gc5l2f");
         dict.add("Gift.png", "bxj0b");
         dict.add("diamond.png", "j5ct16");
         dict.add("jadeite.png", "j5ct1d");
@@ -112,6 +110,9 @@ export default class SpriteKey {
         dict.add("icon_skill06.png", "czuw53v");
         dict.add("icon_skill07.png", "czuw53w");
         dict.add("icon_skill08.png", "czuw53x");
+        dict.add("bigGold.png", "qvb653y");
+        dict.add("middleGold.png", "qvb653z");
+        dict.add("smalGold.png", "qvb6540");
 
         let exts = SpriteKey._extDict = new Dictionary<string, string>();
         exts.add("icon_1001.png", ".png");
@@ -126,8 +127,6 @@ export default class SpriteKey {
         exts.add("icon_1021.png", ".png");
         exts.add("race1.png", ".png");
         exts.add("star1.png", ".png");
-        exts.add("star2.png", ".png");
-        exts.add("star3.png", ".png");
         exts.add("Gift.png", ".png");
         exts.add("diamond.png", ".png");
         exts.add("jadeite.png", ".png");
@@ -187,6 +186,9 @@ export default class SpriteKey {
         exts.add("icon_skill06.png", ".png");
         exts.add("icon_skill07.png", ".png");
         exts.add("icon_skill08.png", ".png");
+        exts.add("bigGold.png", ".png");
+        exts.add("middleGold.png", ".png");
+        exts.add("smalGold.png", ".png");
 
     }
 
@@ -205,8 +207,6 @@ export default class SpriteKey {
 	public static icon_1021 = "icon_1021.png";
 	public static race1 = "race1.png";
 	public static star1 = "star1.png";
-	public static star2 = "star2.png";
-	public static star3 = "star3.png";
 	public static Gift = "Gift.png";
 	public static diamond = "diamond.png";
 	public static jadeite = "jadeite.png";
@@ -266,6 +266,9 @@ export default class SpriteKey {
 	public static icon_skill06 = "icon_skill06.png";
 	public static icon_skill07 = "icon_skill07.png";
 	public static icon_skill08 = "icon_skill08.png";
+	public static bigGold = "bigGold.png";
+	public static middleGold = "middleGold.png";
+	public static smalGold = "smalGold.png";
 
     
 }

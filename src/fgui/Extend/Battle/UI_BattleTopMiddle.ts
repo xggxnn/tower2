@@ -4,10 +4,10 @@ import UI_AssociationBtn from "./UI_AssociationBtn";
 import SpriteKey from "../../SpriteKey";
 import Association from "../../../gamemodule/DataStructs/Association";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import AssociationAttributeInfo from "../../../csvInfo/AssociationAttributeInfo";
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 import UI_HeroIcon6060 from "./UI_HeroIcon6060";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 

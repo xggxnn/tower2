@@ -11,9 +11,11 @@ export default class LoaderManager {
 	public static init(): void {
 		// Laya.MiniAdpter.autoCacheFile = false;
 		Laya.MiniAdpter.nativefiles = [
-			"res_native"
+			"res_native",
+			"res_font",
+			"res_csv",
 		];
-		Laya.URL.basePath = "https://ms.yz063.com/td2/v015/";
+		Laya.URL.basePath = "https://ms.yz063.com/td2/v017/";
 		// Laya.loader.retryDelay = 100;
 		Laya.loader.retryNum = 3;
 		Laya.loader.on(Laya.Event.ERROR, LoaderManager, LoaderManager.loadError);
@@ -73,7 +75,6 @@ export default class LoaderManager {
 	}
 	// public static haveLoadList: Dictionary<string, boolean> = new Dictionary<string, boolean>();
 	public static addList(list: Array<string>): void {
-		EventManager.event(EventKey.LOADER_PROGRESS, [0, list.length]);
 		for (let i = 0; i < list.length; i++) {
 			let url = list[i];
 			this.loadHash[url] = 0;
@@ -88,7 +89,6 @@ export default class LoaderManager {
 		this.loadShow(url, cache);
 	}
 	private static loadShow(url: string, cache: boolean): void {
-		EventManager.event(EventKey.LOADER_PROGRESS, [0, 100]);
 		let fix_arr = url.split(".");
 		let fix = fix_arr.pop();
 		let temp = fix_arr.pop().split("/");

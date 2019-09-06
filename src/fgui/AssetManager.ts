@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import ResPackageConfig from "./ResPackageConfig";
 import FGUIResPackageConfig from "./FGUIResPackageConfig";
 import Handler = Laya.Handler;

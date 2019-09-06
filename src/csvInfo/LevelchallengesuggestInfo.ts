@@ -1,5 +1,5 @@
 import CSV from "./CSV";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 
 export default class LevelchallengesuggestInfo {
 

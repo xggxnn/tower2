@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="120,64" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n3_j8q2" name="n3" src="j8q223" fileName="pic/left_right.png" xy="40,0" scale="-1,1" alpha="0.3"/>
+    <image id="n4_j8q2" name="n4" src="j8q223" fileName="pic/left_right.png" xy="80,0" scale="-1,1" alpha="0.7"/>
+    <image id="n5_j8q2" name="n5" src="j8q223" fileName="pic/left_right.png" xy="120,0" scale="-1,1"/>
+  </displayList>
+  <Button/>
+  <transition name="t0" autoPlay="true" autoPlayRepeat="-1">
+    <item time="0" type="Alpha" target="n3_j8q2" value="0.3"/>
+    <item time="0" type="Alpha" target="n4_j8q2" value="0.7"/>
+    <item time="0" type="Alpha" target="n5_j8q2" value="1"/>
+    <item time="9" type="Alpha" target="n3_j8q2" value="0.7"/>
+    <item time="9" type="Alpha" target="n4_j8q2" value="1"/>
+    <item time="9" type="Alpha" target="n5_j8q2" value="0.7"/>
+    <item time="18" type="Alpha" target="n3_j8q2" value="1"/>
+    <item time="18" type="Alpha" target="n4_j8q2" value="0.3"/>
+    <item time="18" type="Alpha" target="n5_j8q2" value="0.3"/>
+    <item time="27" type="Alpha" target="n3_j8q2" value="0.3"/>
+    <item time="27" type="Alpha" target="n4_j8q2" value="0.7"/>
+    <item time="27" type="Alpha" target="n5_j8q2" value="1"/>
+  </transition>
+</component>

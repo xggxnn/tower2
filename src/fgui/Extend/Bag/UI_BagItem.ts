@@ -2,8 +2,8 @@ import fui_BagItem from "../../Generates/Bag/fui_BagItem";
 import BagWin from "../../../gamemodule/Windows/BagWin";
 import SpriteKey from "../../SpriteKey";
 import Game from "../../../Game";
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import ResourceInfo from "../../../csvInfo/ResourceInfo";
 

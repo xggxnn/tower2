@@ -1,4 +1,4 @@
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 
 export default class WaveData {
     private static _Instance: WaveData;

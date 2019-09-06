@@ -25,7 +25,7 @@ export default class SystemTipWin {
      * @param showCancel 是否显示取消按钮，默认false不显示
      * @param onComplete 确定按钮的回调函数
      */
-    showTip(txt: string, showCancel: boolean = false, onComplete?: Handler, cancelHandler?: Handler, okTitle?: string, cancelTitle?: string) {
+    showTip(txt: string, showCancel: boolean = false, onComplete?: Handler, cancelHandler?: Handler, okTitle?: string, cancelTitle?: string, delcloseTime?: number) {
         if (this._onCompleteHandler) {
             this._onCompleteHandler.recover();
         }
@@ -38,7 +38,7 @@ export default class SystemTipWin {
             this.list.push(item);
         }
         this._onCompleteHandler = onComplete;
-        item.showTxt(txt, showCancel, Handler.create(this, this.onItemComplete), cancelHandler, okTitle, cancelTitle);
+        item.showTxt(txt, showCancel, Handler.create(this, this.onItemComplete), cancelHandler, okTitle, cancelTitle, delcloseTime);
     }
 
     private onItemComplete(item: UI_TipWin) {

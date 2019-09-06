@@ -1,6 +1,5 @@
 import FWindow from "../FWindow";
 import UI_Circle from "../../fgui/Extend/System/UI_Circle";
-import UI_CloseBtn from "../../fgui/Extend/System/UI_CloseBtn";
 import UI_GeneralBtn from "../../fgui/Extend/System/UI_GeneralBtn";
 import UI_GuideLayer from "../../fgui/Extend/System/UI_GuideLayer";
 import UI_OkBtn from "../../fgui/Extend/System/UI_OkBtn";
@@ -22,6 +21,7 @@ import UI_RightBtn from "../../fgui/Extend/System/UI_RightBtn";
 import UI_DialogBox from "../../fgui/Extend/System/UI_DialogBox";
 import UI_Hand from "../../fgui/Extend/System/UI_Hand";
 import UI_Help from "../../fgui/Extend/System/UI_Help";
+import UI_PopupItem from "../../fgui/Extend/System/UI_PopupItem";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class SystemWin extends FWindow {
 	content: UI_Circle;
@@ -29,7 +29,6 @@ export default class SystemWin extends FWindow {
 	constructor() {
 		super();
 		this.addAssetForFguiComponent(UI_Circle);
-		this.addAssetForFguiComponent(UI_CloseBtn);
 		this.addAssetForFguiComponent(UI_GeneralBtn);
 		this.addAssetForFguiComponent(UI_GainRewards);
 		this.addAssetForFguiComponent(UI_GuideLayer);
@@ -51,6 +50,7 @@ export default class SystemWin extends FWindow {
 		this.addAssetForFguiComponent(UI_DialogBox);
 		this.addAssetForFguiComponent(UI_Hand);
 		this.addAssetForFguiComponent(UI_Help);
+		this.addAssetForFguiComponent(UI_PopupItem);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_Circle.createInstance();

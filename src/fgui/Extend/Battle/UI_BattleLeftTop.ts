@@ -2,9 +2,9 @@ import fui_BattleLeftTop from "../../Generates/Battle/fui_BattleLeftTop";
 import BattleWin from "../../../gamemodule/Windows/BattleWin";
 import Game from "../../../Game";
 import { MenuId } from "../../../gamemodule/MenuId";
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
-import Fun from "../../../Tool/Fun";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleLeftTop extends fui_BattleLeftTop {
@@ -46,7 +46,7 @@ export default class UI_BattleLeftTop extends fui_BattleLeftTop {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		this.m_waveBtn.title = Fun.format("第{0}关,退出", Game.battleData.level_id);
+		this.m_waveBtn.title = Fun.format("退出第{0}关", Game.battleData.level_id);
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {

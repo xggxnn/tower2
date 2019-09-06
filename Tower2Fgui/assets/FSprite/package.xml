@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="88du1wab" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="9v6l0" name="icon_1001.png" path="/" exported="true"/>
+    <image id="9v6l1" name="icon_1002.png" path="/" exported="true"/>
+    <image id="9v6l2" name="icon_1003.png" path="/" exported="true"/>
+    <image id="9v6l3" name="icon_1005.png" path="/" exported="true"/>
+    <image id="9v6l4" name="icon_1006.png" path="/" exported="true"/>
+    <image id="9v6l5" name="icon_1007.png" path="/" exported="true"/>
+    <image id="9v6l6" name="icon_1012.png" path="/" exported="true"/>
+    <image id="ngrs1d" name="icon_1019.png" path="/" exported="true"/>
+    <image id="ngrs1e" name="icon_1020.png" path="/" exported="true"/>
+    <image id="ngrs1f" name="icon_1021.png" path="/" exported="true"/>
+    <image id="ngrs1a" name="race1.png" path="/" exported="true"/>
+    <image id="gc5l2d" name="star1.png" path="/" exported="true"/>
+    <image id="bxj0b" name="Gift.png" path="/" exported="true"/>
+    <image id="j5ct16" name="diamond.png" path="/" exported="true"/>
+    <image id="j5ct1d" name="jadeite.png" path="/" exported="true"/>
+    <image id="j5ct17" name="gold.png" path="/" exported="true"/>
+    <image id="jg2u2g" name="hero_12.png" path="/" exported="true"/>
+    <image id="jg2u2h" name="hero_14.png" path="/" exported="true"/>
+    <image id="jg2u2i" name="hero_15.png" path="/" exported="true"/>
+    <image id="jg2u2j" name="hero_18.png" path="/" exported="true"/>
+    <image id="jg2u2k" name="hero_2.png" path="/" exported="true"/>
+    <image id="jg2u2l" name="hero_30.png" path="/" exported="true"/>
+    <image id="jg2u2m" name="hero_5.png" path="/" exported="true"/>
+    <image id="jg2u2n" name="hero_6.png" path="/" exported="true"/>
+    <image id="jg2u2o" name="hero_9.png" path="/" exported="true"/>
+    <image id="jg2u2p" name="hero_21.png" path="/" exported="true"/>
+    <image id="jg2u2q" name="hero_22.png" path="/" exported="true"/>
+    <image id="jg2u2r" name="hero_24.png" path="/" exported="true"/>
+    <image id="jg2u2s" name="hero_25.png" path="/" exported="true"/>
+    <image id="jg2u2t" name="hero_26.png" path="/" exported="true"/>
+    <image id="jg2u2u" name="hero_27.png" path="/" exported="true"/>
+    <image id="jg2u2v" name="hero_34.png" path="/" exported="true"/>
+    <image id="jg2u2w" name="hero_35.png" path="/" exported="true"/>
+    <image id="jg2u2x" name="hero_4.png" path="/" exported="true"/>
+    <image id="ngrs19" name="career1.png" path="/" exported="true"/>
+    <image id="h5p92y" name="career2.png" path="/" exported="true"/>
+    <image id="h5p92z" name="career3.png" path="/" exported="true"/>
+    <image id="h5p930" name="career4.png" path="/" exported="true"/>
+    <image id="h5p931" name="career5.png" path="/" exported="true"/>
+    <image id="h5p932" name="career6.png" path="/" exported="true"/>
+    <image id="h5p933" name="career7.png" path="/" exported="true"/>
+    <image id="h5p934" name="race2.png" path="/" exported="true"/>
+    <image id="h5p935" name="race3.png" path="/" exported="true"/>
+    <image id="h5p936" name="race4.png" path="/" exported="true"/>
+    <image id="h5p937" name="race5.png" path="/" exported="true"/>
+    <image id="11av538" name="icon_1004.png" path="/" exported="true"/>
+    <image id="11av539" name="icon_1008.png" path="/" exported="true"/>
+    <image id="11av53a" name="icon_1009.png" path="/" exported="true"/>
+    <image id="11av53b" name="icon_1010.png" path="/" exported="true"/>
+    <image id="11av53c" name="icon_1011.png" path="/" exported="true"/>
+    <image id="11av53d" name="icon_1013.png" path="/" exported="true"/>
+    <image id="11av53e" name="icon_1014.png" path="/" exported="true"/>
+    <image id="11av53f" name="icon_1015.png" path="/" exported="true"/>
+    <image id="11av53g" name="icon_1016.png" path="/" exported="true"/>
+    <image id="11av53h" name="icon_1017.png" path="/" exported="true"/>
+    <image id="11av53i" name="icon_1018.png" path="/" exported="true"/>
+    <image id="qyum53j" name="hero_1.png" path="/" exported="true"/>
+    <image id="qyum53k" name="hero_3.png" path="/" exported="true"/>
+    <image id="czuw53l" name="quality1.png" path="/" exported="true"/>
+    <image id="czuw53m" name="quality2.png" path="/" exported="true"/>
+    <image id="czuw53n" name="quality3.png" path="/" exported="true"/>
+    <image id="czuw53o" name="quality4.png" path="/" exported="true"/>
+    <image id="czuw53p" name="quality5.png" path="/" exported="true"/>
+    <image id="czuw53q" name="icon_skill01.png" path="/" exported="true"/>
+    <image id="czuw53r" name="icon_skill02.png" path="/" exported="true"/>
+    <image id="czuw53s" name="icon_skill03.png" path="/" exported="true"/>
+    <image id="czuw53t" name="icon_skill04.png" path="/" exported="true"/>
+    <image id="czuw53u" name="icon_skill05.png" path="/" exported="true"/>
+    <image id="czuw53v" name="icon_skill06.png" path="/" exported="true"/>
+    <image id="czuw53w" name="icon_skill07.png" path="/" exported="true"/>
+    <image id="czuw53x" name="icon_skill08.png" path="/" exported="true"/>
+    <image id="qvb653y" name="bigGold.png" path="/" exported="true"/>
+    <image id="qvb653z" name="middleGold.png" path="/" exported="true"/>
+    <image id="qvb6540" name="smalGold.png" path="/" exported="true"/>
+  </resources>
+  <publish name="FSprite" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

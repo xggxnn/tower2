@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="83,50" extention="Label">
+  <displayList>
+    <loader id="n9_udz4" name="icon" xy="0,0" size="50,50" aspect="true" url="ui://88du1wabj5ct17" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <relation target="" sidePair="left-left,middle-middle"/>
+    </loader>
+    <text id="n11_udz4" name="count" xy="52,17" size="31,33" fontSize="24" color="#ffffff" vars="true" bold="true" text="x{count=0}">
+      <relation target="n9_udz4" sidePair="left-right,bottom-bottom"/>
+    </text>
+  </displayList>
+  <relation target="n11_udz4" sidePair="rightext-right"/>
+</component>

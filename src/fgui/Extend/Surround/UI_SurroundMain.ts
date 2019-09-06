@@ -3,13 +3,13 @@ import SurroundWin from "../../../gamemodule/Windows/SurroundWin";
 import UI_ItemIcon from "../System/UI_ItemIcon";
 import UI_KingItem from "./UI_KingItem";
 import KingInfo from "../../../csvInfo/KingInfo";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import SignInfo from "../../../csvInfo/SignInfo";
 import Game from "../../../Game";
-import { Tick } from "../../../Tool/TickManager";
-import Fun from "../../../Tool/Fun";
-import EventKey from "../../../Tool/EventKey";
+import { Tick } from "../../../tool/TickManager";
+import Fun from "../../../tool/Fun";
+import EventKey from "../../../tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_SurroundMain extends fui_SurroundMain {
@@ -41,9 +41,9 @@ export default class UI_SurroundMain extends fui_SurroundMain {
 		this.m_taskBtn.onClick(this, this.changeType, [2]);
 		this.m_achieveBtn.onClick(this, this.changeType, [3]);
 		this.m_rewardBtn.onClick(this, this.changeType, [4]);
-		this.m_taskBtn.visible = false;
-		this.m_achieveBtn.visible = false;
-		this.m_rewardBtn.visible = false;
+		// this.m_taskBtn.visible = false;
+		// this.m_achieveBtn.visible = false;
+		// this.m_rewardBtn.visible = false;
 		this.m_rewardStart.onClick(this, this.startRewardClick);
 	}
 
@@ -69,7 +69,8 @@ export default class UI_SurroundMain extends fui_SurroundMain {
 	}
 
 	private setData(): void {
-		this.changeType(0);
+		// console.log(this.moduleWindow.menuParameter.args[0]);
+		this.changeType(this.moduleWindow.menuParameter.args[0]);
 	}
 
 	private initItem(index: number, obj: fairygui.GObject): void {
@@ -88,14 +89,14 @@ export default class UI_SurroundMain extends fui_SurroundMain {
 		}
 		else if (Game.playData.signInIndex + 1 == item.singIndex) {
 			if (Game.playData.isSign) {
-				Game.popup.showPopup(obj, true, "可获得：{0}", item.signInf.rid);
+				Game.popup.showPopup(obj, true, false, "可获得：{0}", item.signInf.rid);
 			}
 			else {
 				Game.proto.sign();
 			}
 		}
 		else {
-			Game.popup.showPopup(obj, true, "可获得：{0}", item.signInf.rid);
+			Game.popup.showPopup(obj, true, false, "可获得：{0}", item.signInf.rid);
 		}
 	}
 
@@ -105,18 +106,18 @@ export default class UI_SurroundMain extends fui_SurroundMain {
 	}
 
 	private changeType(index: number): void {
-		if (index != 0 && Game.redData.signRed) {
-			Game.redTip.showRedTip(this.m_signBtn);
-		}
-		else {
-			Game.redTip.hideRedTip(this.m_signBtn);
-		}
-		if (index != 1 && Game.redData.kingRed) {
-			Game.redTip.showRedTip(this.m_kingBtn);
-		}
-		else {
-			Game.redTip.hideRedTip(this.m_kingBtn);
-		}
+		// if (index != 0 && Game.redData.signRed) {
+		// 	Game.redTip.showRedTip(this.m_signBtn);
+		// }
+		// else {
+		// 	Game.redTip.hideRedTip(this.m_signBtn);
+		// }
+		// if (index != 1 && Game.redData.kingRed) {
+		// 	Game.redTip.showRedTip(this.m_kingBtn);
+		// }
+		// else {
+		// 	Game.redTip.hideRedTip(this.m_kingBtn);
+		// }
 		switch (index) {
 			case 0:
 				{
@@ -127,10 +128,7 @@ export default class UI_SurroundMain extends fui_SurroundMain {
 			case 1:
 				{
 					this.m_kinglist.numItems = KingInfo.getCount();
-					if (Game.redData.kingRedIndex > 0) {
-						this.m_kinglist.scrollToView(Game.redData.kingRedIndex);
-						Game.redData.kingRedIndex = -1;
-					}
+					this.m_kinglist.scrollToView(Game.redData.kingRedIndex);
 				}
 				break;
 			case 2:

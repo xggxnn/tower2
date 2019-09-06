@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImageLayer="1">
+  <displayList>
+    <loader id="n0_bxj0" name="bg" xy="0,0" size="1280,960" alpha="0.8" url="ui://130tmfxdopk1o" fill="scaleFree">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <loader id="n1_bxj0" name="n1" xy="409,171" size="464,644" url="ui://130tmfxdudz4m" fill="scaleFree"/>
+    <image id="n2_bxj0" name="n2" src="gc5l1t" fileName="pic/xiangyunzhuangshi02.png" pkg="130tmfxd" xy="375,158"/>
+    <image id="n3_bxj0" name="n3" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="423,332" size="436,134"/>
+    <text id="n4_bxj0" name="n4" xy="447,276" size="80,33" fontSize="24" color="#f3e9d5" leading="10" bold="true" text="英雄："/>
+    <image id="n5_bxj0" name="n5" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="426,476" size="429,269"/>
+    <component id="n6_bxj0" name="tip" src="q080f" fileName="ScrollTxt.xml" pkg="130tmfxd" xy="494,541" size="316,182">
+      <Label titleColor="#ffa751" titleFontSize="24"/>
+    </component>
+    <component id="n7_bxj0" name="tuijianbackBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="410,167"/>
+    <image id="n8_bxj0" name="n8" src="gc5ls" fileName="pic/yunwen.png" pkg="130tmfxd" xy="412,754"/>
+    <text id="n9_bxj0" name="n9" xy="447,498" size="130,33" fontSize="24" color="#fcae3e" leading="10" bold="true" text="激活羁绊："/>
+    <list id="n11_bxj0" name="heroList" xy="433,337" size="412,122" layout="row" overflow="scroll" scroll="horizontal" colGap="20" defaultItem="ui://130tmfxdbxj019" autoItemSize="false" vAlign="middle" autoClearItems="true"/>
+    <text id="n13_bxj0" name="typename" xy="640,198" pivot="0.5,0.5" anchor="true" size="340,50" fontSize="40" color="#f3e9d5" align="center" vAlign="middle" ubb="true" autoSize="none" bold="true" strokeColor="#fcae3e" strokeSize="2" singleLine="true" text="英雄名称"/>
+  </displayList>
+</component>

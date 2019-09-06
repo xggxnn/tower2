@@ -1,7 +1,7 @@
-import EventManager from "../Tool/EventManager";
-import TimerManager from "../Tool/TimerManager";
+import EventManager from "../tool/EventManager";
+import TimerManager from "../tool/TimerManager";
 import ProtoManager from "./ProtoManager";
-import EventKey from "../Tool/EventKey";
+import EventKey from "../tool/EventKey";
 import Game from "../Game";
 
 export default class ProtoServer {
@@ -23,10 +23,10 @@ export default class ProtoServer {
 	private static calling: boolean = false;
 	private static dataList: Array<Object> = [];
 	public static request(data: Object): void {
-		console.log("============request=========");
-		console.log(data);
-		console.log("request:", JSON.stringify(data));
-		console.log("============request=========");
+		// console.log("============request=========");
+		// console.log(data);
+		// console.log("request:", JSON.stringify(data));
+		// console.log("============request=========");
 		this.dataList.push(data);
 		this.callServer();
 	}
@@ -83,8 +83,8 @@ export default class ProtoServer {
 						// 	this.parseUserData(json.userData);
 						// }
 						let pro = ProtoManager.getProto(json.protoId);
-						console.log("<<<<<<<<<<<-------------back-----------", json.protoId);
-						console.log(json);
+						// console.log("<<<<<<<<<<<-------------back-----------", json.protoId);
+						// console.log(json);
 						// console.log("<<<<<<<<<<<-------------back-----------");
 						pro.callBack(json);
 					}

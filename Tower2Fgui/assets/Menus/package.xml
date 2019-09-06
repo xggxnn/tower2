@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="pdzut3tw" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="udz40" name="route.png" path="/pic/"/>
+    <image id="udz41" name="selection01.png" path="/pic/"/>
+    <image id="udz42" name="selection02.png" path="/pic/"/>
+    <component id="udz45" name="MenusMain.xml" path="/" exported="true"/>
+    <image id="udz4e" name="zhuangshi2.png" path="/pic/" exported="true"/>
+    <component id="udz4h" name="selectionBtn.xml" path="/" exported="true"/>
+    <image id="udz4i" name="chuangguan0.png" path="/pic/"/>
+    <component id="udz4p" name="Trial.xml" path="/" exported="true"/>
+    <image id="ngrsx" name="hero_30.png" path="/pic/"/>
+    <component id="ngrs13" name="Selection.xml" path="/" exported="true"/>
+    <image id="ngrs16" name="faliranshao.png" path="/pic/"/>
+    <image id="ngrs1b" name="heroIcon.png" path="/pic/" exported="true"/>
+    <image id="ngrs1c" name="icondi.png" path="/pic/" exported="true"/>
+    <image id="ngrs1g" name="pause.png" path="/pic/" exported="true"/>
+    <image id="ngrs1h" name="sett.png" path="/pic/" exported="true"/>
+    <image id="ngrs1j" name="wushuangfeijiang.png" path="/pic/" exported="true"/>
+    <component id="ngrs1m" name="IcodiBtn.xml" path="/" exported="true"/>
+    <image id="j5ct1u" name="worldMap.png" path="/pic/" atlas="alone"/>
+    <component id="11av51w" name="MapItem.xml" path="/" exported="true"/>
+    <image id="c8j351y" name="road1.png" path="/pic/"/>
+    <image id="c8j351z" name="road2.png" path="/pic/"/>
+    <image id="c8j3520" name="select.png" path="/pic/"/>
+    <image id="c8j3521" name="boss.png" path="/pic/"/>
+    <image id="qvb6523" name="goldDi.png" path="/pic/"/>
+    <image id="qvb6524" name="shilianwancheng.png" path="/pic/"/>
+    <image id="qvb6525" name="staran.png" path="/pic/"/>
+    <image id="qvb6526" name="suipian.png" path="/pic/"/>
+    <image id="qvb6527" name="tansuo.png" path="/pic/"/>
+  </resources>
+  <publish name="Menus" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

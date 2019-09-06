@@ -1,4 +1,4 @@
-import Fun from "../Tool/Fun";
+import Fun from "../tool/Fun";
 import CSVKV from "./CSVKV";
 
 export default class CSV {

@@ -1,10 +1,10 @@
 import fui_seatBtn from "../../Generates/Home/fui_seatBtn";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import { FightType } from "../../../gamemodule/DataEnums/FightType";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_seatBtn extends fui_seatBtn {

@@ -1,9 +1,9 @@
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 import BattleSeat from "./BattleSeat";
 import BattleSoldier from "./BattleSoldier";
 import Game from "../../Game";
-import EventManager from "../../Tool/EventManager";
-import EventKey from "../../Tool/EventKey";
+import EventManager from "../../tool/EventManager";
+import EventKey from "../../tool/EventKey";
 import { GameStatus } from "../DataEnums/GameStatus";
 import BattleHero from "./BattleHero";
 import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
@@ -128,7 +128,7 @@ export default class BattleScene {
     initHeroSeat(): void {
         Game.halo.init();
         let list: number[] = this.seatHeroList[this.seatHeroSelect];
-        for (let i = 0, len = list.length; i < len; i++) {
+        for (let i = 0; i < 9; i++) {
             if (list[i] > 0) {
                 let hero = BattleHero.create(list[i], i);
                 this.heroList.push(hero);

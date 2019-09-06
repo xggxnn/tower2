@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImageLayer="1">
+  <displayList>
+    <image id="n2_j5ct" name="n2" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="0,0" size="1280,960"/>
+    <image id="n6_bxj0" name="n6" src="udz4m" fileName="pic/zu2.png" pkg="130tmfxd" xy="55,128" size="1170,704"/>
+    <image id="n5_bxj0" name="n5" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="48,124"/>
+    <image id="n7_bxj0" name="n7" src="bxj01" fileName="pic/bagTitle.png" xy="126,136"/>
+    <image id="n8_bxj0" name="n8" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="196,224" size="886,592"/>
+    <list id="n1_j5ct" name="list" xy="240,242" size="818,555" layout="flow_hz" overflow="scroll" lineGap="24" colGap="40" defaultItem="ui://kpm8go2dbxj0d" autoClearItems="true"/>
+    <component id="n3_j5ct" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="62,134">
+      <Button title="返回"/>
+    </component>
+  </displayList>
+</component>

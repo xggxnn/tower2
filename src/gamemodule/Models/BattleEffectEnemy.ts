@@ -1,16 +1,15 @@
-import Pools from "../../Tool/Pools";
+import Pools from "../../tool/Pools";
 import BattleBaseSK from "../../base/BattleBaseSK";
 import Game from "../../Game";
 
 export default class BattleEffectEnemy extends Laya.Sprite {
 
-    public static create(id: number, loop: boolean): BattleEffectEnemy {
-        return new BattleEffectEnemy(id, loop);
+    public static create(id: any, loop: boolean): BattleEffectEnemy {
+        return new BattleEffectEnemy(String(id), loop);
     }
 
-    private constructor(id: number, loop: boolean) {
+    private constructor(id: string, loop: boolean) {
         super();
-        this.id = id;
         this._sk = BattleBaseSK.create("effect_" + id);
         this.replay(loop);
     }
@@ -18,7 +17,6 @@ export default class BattleEffectEnemy extends Laya.Sprite {
         return this._sk;
     }
     private _sk: BattleBaseSK = null;
-    private id: number = null;
     private loop: boolean = true;
     private _handler: Laya.Handler = Laya.Handler.create(this, this.over, null, false);
     private _num: number = 1;

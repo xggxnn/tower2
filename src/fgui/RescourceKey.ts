@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import ResourceInfo from "../csvInfo/ResourceInfo";
 
 export default class RescourceKey {

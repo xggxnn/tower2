@@ -68,7 +68,7 @@ export default class UI_KingItem extends fui_KingItem {
 	private kingInf: KingInfo = null;
 	public setData(index: number): void {
 		this.kingInf = KingInfo.getInfo(index + 1);
-		this.m_level.text = this.kingInf.level.toString();
+		this.m_level.text = (this.kingInf.level - 1).toString();
 		let showNum = 0;
 		if (this.kingInf.rid1 > 0 && this.kingInf.count1 > 0 && this.kingInf.rid2 > 0 && this.kingInf.count2 > 0) {
 			showNum = 2;
@@ -85,7 +85,12 @@ export default class UI_KingItem extends fui_KingItem {
 				this.m_item1Control.setSelectedIndex(2);
 			}
 			else {
-				this.m_item1Control.setSelectedIndex(0);
+				if (Game.playData.curLevel >= this.kingInf.level) {
+					this.m_item1Control.setSelectedIndex(1);
+				}
+				else {
+					this.m_item1Control.setSelectedIndex(0);
+				}
 			}
 			this.itemSet(this.kingInf.rid1, this.kingInf.count1, item1);
 		}
@@ -95,11 +100,18 @@ export default class UI_KingItem extends fui_KingItem {
 				this.m_item2Control.setSelectedIndex(2);
 			}
 			else {
+				// if (Game.playData.curLevel >= this.kingInf.level) {
+				// 	this.m_item2Control.setSelectedIndex(1);
+				// }
+				// else {
 				this.m_item2Control.setSelectedIndex(0);
+				// }
 			}
 			this.itemSet(this.kingInf.rid2, this.kingInf.count2, item2);
 		}
 		this.m_show.setSelectedIndex(showNum);
+
+
 		if (showNum == 1 || showNum == 2) {
 			this.m_lock.setSelectedIndex(1);
 			this.lock = true;

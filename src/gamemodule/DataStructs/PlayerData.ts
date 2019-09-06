@@ -1,19 +1,20 @@
-import EventManager from "../../Tool/EventManager";
-import EventKey from "../../Tool/EventKey";
-import Dictionary from "../../Tool/Dictionary";
-import Signal from "../../Tool/Signal";
+import EventManager from "../../tool/EventManager";
+import EventKey from "../../tool/EventKey";
+import Dictionary from "../../tool/Dictionary";
+import Signal from "../../tool/Signal";
 import Game from "../../Game";
 import RewardItem from "./RewardItem";
 import { FightType } from "../DataEnums/FightType";
 import TimeHouseInfo from "../../csvInfo/TimeHouseInfo";
 import { LocationType } from "../DataEnums/LocationType";
-import TypedSignal from "../../Tool/TypedSignal";
-import Fun from "../../Tool/Fun";
+import TypedSignal from "../../tool/TypedSignal";
+import Fun from "../../tool/Fun";
 import SpriteKey from "../../fgui/SpriteKey";
 import { GuideType } from "../DataEnums/GuideType";
 import HeroInfoData from "./HeroInfoData";
 import WaveInfo from "../../csvInfo/WaveInfo";
 import LevelchallengesuggestInfo from "../../csvInfo/LevelchallengesuggestInfo";
+import ResourceInfo from "../../csvInfo/ResourceInfo";
 
 export default class PlayerData {
     private static _Instance: PlayerData;
@@ -49,6 +50,15 @@ export default class PlayerData {
     public addResource(id: any, val: any): void {
         let ids = Number(id);
         let vals = Number(val);
+        let resource = ResourceInfo.getInfo(ids);
+        if (resource && resource.type == 6) {
+            let item = new RewardItem();
+            item.itemId = ids;
+            item.itemNum = vals;
+            this._curGift.push(item);
+            Game.redData.bagRed = true;
+            return;
+        }
         if (ids > 1000) {
             this._curClips.add(ids - 1000, vals);
         }
@@ -92,6 +102,7 @@ export default class PlayerData {
     public set synthetise(v: number) {
         this._synthetise = v;
     }
+    public synUpReset: number = 0;
 
     private _resetAttribute: Dictionary<string, number> = new Dictionary<string, number>();
     /**
@@ -111,6 +122,14 @@ export default class PlayerData {
         for (var key in obj) {
             let ids = Number(key);
             let vals = Number(obj[key]);
+            let resource = ResourceInfo.getInfo(ids);
+            if (resource && resource.type == 6) {
+                let item = new RewardItem();
+                item.itemId = ids;
+                item.itemNum = vals;
+                this._curGift.push(item);
+                Game.redData.bagRed = true;
+            }
             if (ids > 1000) {
                 let heroId = ids - 1000;
                 let clipsDic = Game.playData.curClips;
@@ -181,6 +200,14 @@ export default class PlayerData {
         for (var key in obj) {
             let ids = Number(key);
             let vals = Number(obj[key]);
+            let resource = ResourceInfo.getInfo(ids);
+            if (resource && resource.type == 6) {
+                let item = new RewardItem();
+                item.itemId = ids;
+                item.itemNum = vals;
+                this._curGift.push(item);
+                Game.redData.bagRed = true;
+            }
             let curVal = vals;
             if (ids > 1000) {
                 let heroId = ids - 1000;
@@ -336,15 +363,11 @@ export default class PlayerData {
         this._curLevel = v;
         EventManager.event(EventKey.HERO_LEVEL_UPDATE);
     }
-    private levelCostDic: Dictionary<string, number> = new Dictionary<string, number>();
+
     public upLevelCost(): number {
-        if (this.levelCostDic.hasKey(this.curLevel)) {
-            return this.levelCostDic.getValue(this.curLevel);
-        }
-        let timeHouse: TimeHouseInfo = TimeHouseInfo.getInfoLv(this.curLevel);
+        let timeHouse: TimeHouseInfo = TimeHouseInfo.getInfoLv(Game.playData.curLevel);
         if (timeHouse) {
-            this.levelCostDic.add(this.curLevel, timeHouse.cost_gold);
-            return this.levelCostDic.getValue(this.curLevel);
+            return timeHouse.cost_gold;
         }
         return 0;
     }
@@ -357,6 +380,16 @@ export default class PlayerData {
     public set curPlaySkillIndex(v: number) {
         this._curPlaySkillIndex = v;
     }
+
+    private _preSkillUnLock: number = 0;
+    // 上一次技能解锁等级
+    public get preSkillUnLock(): number {
+        return this._preSkillUnLock;
+    }
+    public set preSkillUnLock(v: number) {
+        this._preSkillUnLock = v;
+    }
+
 
 
     /**
@@ -626,6 +659,7 @@ export default class PlayerData {
     public guideHandler: Laya.Handler = null;
     public guideTip: string = "";
     public guideTipPos: LocationType = LocationType.Right;
+    public guideShowTipLong: boolean = false;
 
     private _guideIndex: GuideType = GuideType.None;
     public get guideIndex(): GuideType {

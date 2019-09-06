@@ -1,7 +1,7 @@
 import SoundManager = Laya.SoundManager;
 import SoundChannel = Laya.SoundChannel;
 import Handler = Laya.Handler;
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 import SoundKey from "../../fgui/SoundKey";
 import Game from "../../Game";
 

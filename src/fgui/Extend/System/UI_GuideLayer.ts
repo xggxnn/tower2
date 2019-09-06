@@ -7,7 +7,7 @@ import Game from "../../../Game";
 import FWindow from "../../../gamemodule/FWindow";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import UI_Hand from "./UI_Hand";
-import Pools from "../../../Tool/Pools";
+import Pools from "../../../tool/Pools";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_GuideLayer extends fui_GuideLayer {
@@ -39,6 +39,7 @@ export default class UI_GuideLayer extends fui_GuideLayer {
 
 	// 关闭ui
 	closeUI(): void {
+		Game.playData.guideShowTipLong = false;
 		if (this.fwindow) {
 			this.fwindow.windowRemoveChild(this);
 		}
@@ -110,6 +111,9 @@ export default class UI_GuideLayer extends fui_GuideLayer {
 						Game.writeEff.startTypeWrite(50, Game.playData.guideTip, this.m_right, null);
 					}
 					break;
+			}
+			if (Game.playData.guideShowTipLong) {
+				Game.writeEff.completeTypeWrite();
 			}
 		}, 20);
 	}

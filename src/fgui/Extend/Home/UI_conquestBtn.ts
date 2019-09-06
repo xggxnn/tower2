@@ -1,11 +1,11 @@
 import fui_conquestBtn from "../../Generates/Home/fui_conquestBtn";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
-import { Tick } from "../../../Tool/TickManager";
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
-import TimerManager from "../../../Tool/TimerManager";
-import Fun from "../../../Tool/Fun";
+import { Tick } from "../../../tool/TickManager";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
+import TimerManager from "../../../tool/TimerManager";
+import Fun from "../../../tool/Fun";
 import WaveRewardInfo from "../../../csvInfo/WaveRewardInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
@@ -32,8 +32,11 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 	public levelcount: number = 0;
 	public duration: number = 0;
 	public getGold: string = "";
+	public getDiamond: string = "";
 	public canGet: boolean = false;
+	private haveRed: boolean = false;
 	public setData(): void {
+		this.haveRed = false;
 		this.levelcount = 0;
 		if (Game.battleMap.waveStatusDict.count > 0) {
 			this.levelcount = Game.battleMap.waveStatusDict.count;
@@ -52,14 +55,24 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 			this.duration = TimerManager.timestamp - Game.playData.conqueTime;
 			if (this.duration > this.maxHoures) {
 				this.duration = this.maxHoures;
+				if (!this.haveRed) {
+					this.haveRed = true;
+					Game.redTip.showRedTip(this);
+				}
+			} else {
+				if (this.haveRed) {
+					this.haveRed = false;
+					Game.redTip.hideRedTip(this);
+				}
 			}
 			this.canGet = Math.floor(this.duration / 60) > 0;
 			this.getGold = Fun.formatNumberUnit(Math.floor(WaveRewardInfo.getInfo(this.levelcount).coin_daily * Math.floor(this.duration / 60))).toString();
-			this.m_tip2.setVar("time", Fun.formatTime(this.duration)).setVar("count", this.getGold).flushVars();
+			this.getDiamond = Fun.formatNumberUnit(Math.floor(WaveRewardInfo.getInfo(this.levelcount).diamond_daily * Math.floor(this.duration / 60) / 10)).toString();
+			this.m_tip2.setVar("time", Fun.formatTime(this.duration)).setVar("count", this.getGold).setVar("count2", this.getDiamond).flushVars();
 		}
 	}
 	private tick: Tick = null;
-	private maxHoures = 7200;
+	private maxHoures = 14400;
 
 	// 关闭ui
 	closeUI(): void {

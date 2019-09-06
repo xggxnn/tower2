@@ -16,7 +16,6 @@ export default class HeroData {
         return this._heroInf;
     }
     public setHeroInf(id: any) {
-        this._init = false;
         this._heroInf = HeroInfoData.getInfo(id);
         if (this._heroInf) {
             if (this.heroInf.skill_id_1 > 0) {
@@ -419,56 +418,52 @@ export default class HeroData {
 
 
     // 计算羁绊加成
-    private _init: boolean = false;
     public checkAssociation(): void {
-        if (!this._init) {
-            this._init = true;
-            this.buffSpeed = [0, 0, 0, 0];
-            this.buffSpeedDuration = [0, 0, 0, 0];
-            this.buffExtra = 0;
-            this.buffExtraDuration = 0;
-            this._normalAtk = 0;
-            this._normalCrit = 0;
-            this._normalSpeed = 0;
-            this._normalReduceDefense = 0;
-            this._normalReduceEnemySpeed = 0;
-            this._skillCDReduce = 0;
-            this._normalBurnHurt = 0;
-            this._normalBurst = 0;
-            this._normalPoisoning = 0;
-            this._normlBurningGround = 0;
-            this._skillDizziness = 0;
-            this._skillAtk = 0;
-            this._stoneHpAdd = 0;
-            this._normalDizziness = 0;
-            this._skillBurst = 0;
-            this._normalReduceSpeedHalo = 0;
-            this._enemyNoSkillHalo = false;
-            this._normalAtkRange = 0;
-            this._skillCrit = 0;
-            let ass: Array<Association> = Game.battleData.refrushAssociation();
-            for (let i = 0, len = ass.length; i < len; i++) {
-                let item = ass[i];
-                if (item.race > 0 && this.heroInf.race == item.race) {
-                    // 触发羁绊
-                    let att = AssociationAttributeInfo.getInfo(item.attribute_id);
-                    this.assAdd(att.types, item.values);
-                }
-                if (item.career > 0 && this.heroInf.career == item.career) {
-                    // 触发羁绊
-                    let att = AssociationAttributeInfo.getInfo(item.attribute_id);
-                    this.assAdd(att.types, item.values);
-                }
-                if (item.hero.length > 0 && this.heroInf.point_fetters == item.pointF) {
-                    // 触发羁绊
-                    let att = AssociationAttributeInfo.getInfo(item.attribute_id);
-                    this.assAdd(att.types, item.values);
-                }
+        this.buffSpeed = [0, 0, 0, 0];
+        this.buffSpeedDuration = [0, 0, 0, 0];
+        this.buffExtra = 0;
+        this.buffExtraDuration = 0;
+        this._normalAtk = 0;
+        this._normalCrit = 0;
+        this._normalSpeed = 0;
+        this._normalReduceDefense = 0;
+        this._normalReduceEnemySpeed = 0;
+        this._skillCDReduce = 0;
+        this._normalBurnHurt = 0;
+        this._normalBurst = 0;
+        this._normalPoisoning = 0;
+        this._normlBurningGround = 0;
+        this._skillDizziness = 0;
+        this._skillAtk = 0;
+        this._stoneHpAdd = 0;
+        this._normalDizziness = 0;
+        this._skillBurst = 0;
+        this._normalReduceSpeedHalo = 0;
+        this._enemyNoSkillHalo = false;
+        this._normalAtkRange = 0;
+        this._skillCrit = 0;
+        let ass: Array<Association> = Game.battleData.refrushAssociation();
+        for (let i = 0, len = ass.length; i < len; i++) {
+            let item = ass[i];
+            if (item.race > 0 && this.heroInf.race == item.race) {
+                // 触发羁绊
+                let att = AssociationAttributeInfo.getInfo(item.attribute_id);
+                this.assAdd(att.types, item.values);
             }
-            Game.halo.sUpdateSign.dispatch(this);
-            if (this._stoneHpAdd > 0) {
-                Game.halo.sUpdateStoneHp.dispatch(this._stoneHpAdd);
+            if (item.career > 0 && this.heroInf.career == item.career) {
+                // 触发羁绊
+                let att = AssociationAttributeInfo.getInfo(item.attribute_id);
+                this.assAdd(att.types, item.values);
             }
+            if (item.hero.length > 0 && this.heroInf.point_fetters == item.pointF) {
+                // 触发羁绊
+                let att = AssociationAttributeInfo.getInfo(item.attribute_id);
+                this.assAdd(att.types, item.values);
+            }
+        }
+        Game.halo.sUpdateSign.dispatch(this);
+        if (this._stoneHpAdd > 0) {
+            Game.halo.sUpdateStoneHp.dispatch(this._stoneHpAdd);
         }
     }
 

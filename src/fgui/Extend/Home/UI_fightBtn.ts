@@ -1,7 +1,7 @@
 import fui_fightBtn from "../../Generates/Home/fui_fightBtn";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import { FightType } from "../../../gamemodule/DataEnums/FightType";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/

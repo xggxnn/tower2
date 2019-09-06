@@ -23,11 +23,18 @@ export default class LoadFilesList {
         _list.push("res_effect/effect_1016.sk");
         _list.push("res_effect/effect_1017.sk");
         _list.push("res_effect/effect_1018.sk");
+        _list.push("res_effect/effect_1019.sk");
+        _list.push("res_effect/effect_1020.sk");
+        _list.push("res_effect/effect_1021.sk");
+        _list.push("res_effect/effect_1022.sk");
         _list.push("res_effect/effect_2001.sk");
         _list.push("res_effect/effect_2002.sk");
         _list.push("res_effect/effect_3.sk");
         _list.push("res_effect/effect_4.sk");
         _list.push("res_effect/effect_ui01.sk");
+        _list.push("res_effect/effect_ui02.sk");
+        _list.push("res_effect/effect_ui03.sk");
+        _list.push("res_effect/effect_ui04.sk");
         return _list;
     }
 
@@ -60,12 +67,14 @@ export default class LoadFilesList {
         _list.push("res_sk/enemy_3.sk");
         _list.push("res_sk/enemy_30.sk");
         _list.push("res_sk/enemy_31.sk");
+        _list.push("res_sk/enemy_32.sk");
         _list.push("res_sk/enemy_33.sk");
         _list.push("res_sk/enemy_34.sk");
         _list.push("res_sk/enemy_35.sk");
         _list.push("res_sk/enemy_36.sk");
         _list.push("res_sk/enemy_37.sk");
         _list.push("res_sk/enemy_38.sk");
+        _list.push("res_sk/enemy_39.sk");
         _list.push("res_sk/enemy_4.sk");
         _list.push("res_sk/enemy_40.sk");
         _list.push("res_sk/enemy_41.sk");

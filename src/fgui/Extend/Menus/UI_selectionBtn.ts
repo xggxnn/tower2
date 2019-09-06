@@ -1,7 +1,7 @@
 import fui_selectionBtn from "../../Generates/Menus/fui_selectionBtn";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_selectionBtn extends fui_selectionBtn {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1030,140">
+  <displayList>
+    <image id="n22_qrw0" name="n22" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="0,0" size="1030,140"/>
+    <component id="n24_qrw0" name="task" src="q080f" fileName="ScrollTxt.xml" pkg="130tmfxd" xy="40,15" size="383,110">
+      <Label title="击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人" titleColor="#fcae3e"/>
+    </component>
+    <component id="n25_qrw0" name="progress" src="udz4v" fileName="ProgressBar.xml" pkg="130tmfxd" xy="445,56" size="193,27">
+      <ProgressBar value="50" max="100"/>
+    </component>
+    <component id="n27_qrw0" name="reward" src="h5p91y" fileName="RewardItem.xml" pkg="130tmfxd" xy="695,45"/>
+    <component id="n26_qrw0" name="gainBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="810,16" size="192,108" controller="bgColor,0">
+      <Button title="进行中"/>
+    </component>
+  </displayList>
+</component>

@@ -42,6 +42,11 @@ export default class EventKey {
         return "CHANGESPEED";
     }
 
+    // 引导中移动英雄
+    public static get GUIDEMOVEHERO(): string {
+        return "GUIDEMOVEHERO";
+    }
+
     // 跳过战斗
     public static get SKIPGAME(): string {
         return "SKIPGAME";

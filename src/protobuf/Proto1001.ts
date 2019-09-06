@@ -1,6 +1,6 @@
 import Proto from "./Proto";
 import Game from "../Game";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import HeroInfoData from "../gamemodule/DataStructs/HeroInfoData";
 
 export default class Proto1001 extends Proto {
@@ -29,6 +29,7 @@ export default class Proto1001 extends Proto {
         }
         // 英雄等级和星级
         Game.playData.curLevel = Number(json.level);
+        Game.playData.preSkillUnLock = Game.playData.curLevel;
         Game.playData.curStar = Number(json.star);
         // 布阵情况
         if (json.hasOwnProperty("seat") && json.seat.seat0 && json.seat.seat1 && json.seat.seat2) {

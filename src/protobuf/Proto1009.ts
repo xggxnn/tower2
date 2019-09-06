@@ -15,9 +15,9 @@ export default class Proto1009 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-        Game.playData.curStar = Number(json.star);
         for (var key in json.resData) {
             Game.playData.addResource(key, json.resData[key]);
         }
+        Game.playData.curStar = Number(json.star);
     }
 }

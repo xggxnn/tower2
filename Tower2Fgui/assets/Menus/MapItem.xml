@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" overflow="hidden" designImageLayer="1">
+  <displayList>
+    <loader id="n0_11av5" name="bg" xy="0,0" size="1280,960" url="ui://pdzut3twj5ct1u" fill="scaleFree"/>
+    <image id="n16_c8j3" name="n16" src="c8j351y" fileName="pic/road1.png" xy="107,613" group="n17_c8j3"/>
+    <image id="n18_c8j3" name="n18" src="c8j351z" fileName="pic/road2.png" xy="117,533" group="n17_c8j3"/>
+    <image id="n19_c8j3" name="n19" src="c8j351y" fileName="pic/road1.png" xy="331,533" group="n17_c8j3"/>
+    <image id="n20_c8j3" name="n20" src="c8j351z" fileName="pic/road2.png" xy="524,523" group="n17_c8j3"/>
+    <image id="n21_c8j3" name="n21" src="c8j351y" fileName="pic/road1.png" xy="547,438" group="n17_c8j3"/>
+    <image id="n22_c8j3" name="n22" src="c8j351z" fileName="pic/road2.png" xy="548,344" group="n17_c8j3"/>
+    <image id="n23_c8j3" name="n23" src="c8j351y" fileName="pic/road1.png" xy="777,337" group="n17_c8j3"/>
+    <image id="n24_c8j3" name="n24" src="c8j351z" fileName="pic/road2.png" xy="1003,528" group="n17_c8j3"/>
+    <image id="n25_c8j3" name="n25" src="c8j351y" fileName="pic/road1.png" xy="1012,423" group="n17_c8j3"/>
+    <group id="n17_c8j3" name="n17" xy="107,337" size="1071,370" collapsed="true"/>
+    <component id="n3_j8q2" name="s1" src="ngrs13" fileName="Selection.xml" xy="250,647" controller="status,0"/>
+    <component id="n4_j8q2" name="s2" src="ngrs13" fileName="Selection.xml" xy="58,564" controller="status,0"/>
+    <component id="n5_j8q2" name="s3" src="ngrs13" fileName="Selection.xml" xy="272,469" controller="status,0"/>
+    <component id="n6_j8q2" name="s4" src="ngrs13" fileName="Selection.xml" xy="465,552" controller="status,0"/>
+    <component id="n7_j8q2" name="s5" src="ngrs13" fileName="Selection.xml" xy="681,458" controller="status,0"/>
+    <component id="n8_j8q2" name="s6" src="ngrs13" fileName="Selection.xml" xy="489,376" controller="status,0"/>
+    <component id="n9_j8q2" name="s7" src="ngrs13" fileName="Selection.xml" xy="704,279" controller="status,0"/>
+    <component id="n10_j8q2" name="s8" src="ngrs13" fileName="Selection.xml" xy="939,369" controller="status,0"/>
+    <component id="n11_j8q2" name="s9" src="ngrs13" fileName="Selection.xml" xy="1142,464" controller="status,0"/>
+    <component id="n12_j8q2" name="s10" src="ngrs13" fileName="Selection.xml" xy="954,560" controller="status,0"/>
+  </displayList>
+</component>

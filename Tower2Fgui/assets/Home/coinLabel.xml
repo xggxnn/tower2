@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="178,50" extention="Label">
+  <displayList>
+    <image id="n1_j5ct" name="n1" src="j5ct1i" fileName="pic/ziyuandi.png" xy="18,6" size="160,38"/>
+    <loader id="n2_j5ct" name="icon" xy="0,0" size="50,50" url="ui://88du1wabj5ct17" align="center" vAlign="middle" fill="scale"/>
+    <text id="n3_j5ct" name="title" xy="51,7" size="115,38" fontSize="20" color="#f0f5ff" align="center" vAlign="middle" leading="2" autoSize="none" text="0"/>
+  </displayList>
+</component>

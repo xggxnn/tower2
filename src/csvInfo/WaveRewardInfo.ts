@@ -1,5 +1,5 @@
 import CSV from "./CSV";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 
 export default class WaveRewardInfo {
 
@@ -77,6 +77,7 @@ export default class WaveRewardInfo {
         this._types.push(this._type10);
         this._coin_first = parseInt(obj.getValue("coin_first"));
         this._coin_daily = parseInt(obj.getValue("coin_daily"));
+        this._diamond_daily = parseInt(obj.getValue("diamond_daily"));
         this._coin_challenge = parseInt(obj.getValue("coin_challenge"));
         this._jade = parseInt(obj.getValue("jade"));
         this._dust_challengedone = parseInt(obj.getValue("dust_challengedone"));
@@ -177,6 +178,11 @@ export default class WaveRewardInfo {
     private _coin_daily: number;
     public get coin_daily(): number {
         return this._coin_daily;
+    }
+
+    private _diamond_daily: number;
+    public get diamond_daily(): number {
+        return this._diamond_daily;
     }
 
     private _coin_challenge: number;

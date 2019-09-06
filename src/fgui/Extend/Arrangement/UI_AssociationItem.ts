@@ -2,7 +2,7 @@ import fui_AssociationItem from "../../Generates/Arrangement/fui_AssociationItem
 import ArrangementWin from "../../../gamemodule/Windows/ArrangementWin";
 import Association from "../../../gamemodule/DataStructs/Association";
 import AssociationAttributeInfo from "../../../csvInfo/AssociationAttributeInfo";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import SpriteKey from "../../SpriteKey";
 import Game from "../../../Game";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";

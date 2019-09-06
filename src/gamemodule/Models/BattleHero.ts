@@ -1,12 +1,12 @@
 import { HeroAniEnums } from "../DataEnums/HeroAniEnums";
 import Game from "../../Game";
-import EventManager from "../../Tool/EventManager";
-import EventKey from "../../Tool/EventKey";
+import EventManager from "../../tool/EventManager";
+import EventKey from "../../tool/EventKey";
 import BattleSoldier from "./BattleSoldier";
-import Dictionary from "../../Tool/Dictionary";
-import Pools from "../../Tool/Pools";
+import Dictionary from "../../tool/Dictionary";
+import Pools from "../../tool/Pools";
 import { HeroEnemyDis } from "../DataEnums/HeroEnemyDis";
-import Fun from "../../Tool/Fun";
+import Fun from "../../tool/Fun";
 import HeroData from "../DataStructs/HeroData";
 import TimeHouseInfo from "../../csvInfo/TimeHouseInfo";
 import BattleBaseSK from "../../base/BattleBaseSK";
@@ -14,7 +14,7 @@ import BattleEffectFly from "./BattleEffectFly";
 import BattleEffectEnemy from "./BattleEffectEnemy";
 import Association from "../DataStructs/Association";
 import EnemyBuff from "../DataStructs/EnemyBuff";
-import UI_winBtn from "../../fgui/Extend/System/UI_winBtn";
+// import UI_winBtn from "../../fgui/Extend/System/UI_winBtn";
 import SpriteKey from "../../fgui/SpriteKey";
 
 export default class BattleHero extends Laya.Sprite {
@@ -33,20 +33,18 @@ export default class BattleHero extends Laya.Sprite {
             }
             this._index = Number(index);
             this.checkKeyList();
-            this.dataInf.checkAssociation();
             // this._sk = Pools.skFetch("hero_" + this._id);
             this._sk = BattleBaseSK.create("hero_" + this._id);
+            this._sk.scale(0.8, 0.8);
             this.sk.addStopEvent(Laya.Handler.create(this, this.overEvent));
             this.sk.addLableEvent(Laya.Handler.create(this, this.frameEvent));
             Game.parentObject.addChild(this.sk);
 
             let timehouse = TimeHouseInfo.getInfoLv(Game.playData.curLevel);
             let star = timehouse.vals[Game.playData.curStar];
-            this.init();
-            EventManager.event(EventKey.ADD_HERO, [index, this]);
-            // EventManager.on(EventKey.FETTERS_SHOW_HIDE, this, this.fettersShow);
-            EventManager.on(EventKey.PLAY_SKILL, this.dataInf, this.dataInf.PlaySkillCheck);
             this.dataInf.PlaySkillCheck(true);
+            EventManager.on(EventKey.PLAY_SKILL, this.dataInf, this.dataInf.PlaySkillCheck);
+            this.init(this._index);
 
             EventManager.on(EventKey.GAMEWIN, this, this.delEffect);
             EventManager.on(EventKey.GAMEEXIT, this, this.delEffect);
@@ -99,24 +97,39 @@ export default class BattleHero extends Laya.Sprite {
         EventManager.offAllCaller(this);
     }
 
-
-
-    private playSkillTip: UI_winBtn = null;
     private showSkillTip(): void {
         if (this.dataInf.playSkillShowStatus == 1) {
-            if (this.playSkillTip == null) {
-                this.playSkillTip = Pools.fetch(UI_winBtn);
-                Game.bloodParent.addChild(this.playSkillTip);
-                this.playSkillTip.setXY(this.posX - 50, this.posY - 150);
-                this.playSkillTip.setSize(100, 30);
+            if (this.skillEfect == null) {
+                let num = 1019;
+                if (this.dataInf.mapSkillInf.id == 1 || this.dataInf.mapSkillInf.id == 2) {
+                    num = 1019;
+                }
+                else if (this.dataInf.mapSkillInf.id == 3 || this.dataInf.mapSkillInf.id == 4) {
+                    num = 1021;
+                }
+                else if (this.dataInf.mapSkillInf.id == 5 || this.dataInf.mapSkillInf.id == 6) {
+                    num = 1020;
+                }
+                else if (this.dataInf.mapSkillInf.id == 7 || this.dataInf.mapSkillInf.id == 8) {
+                    num = 1022;
+                }
+                this.skillEfect = this.addBattleEffect(num, true);
+                this.skillEfect.sk.pos(0, - 150);
+                if (this.sk.scaleX > 0) {
+                    this.skillEfect.sk.scaleX = 1;
+                }
+                else {
+                    this.skillEfect.sk.scaleX = -1;
+                }
             }
-            this.playSkillTip.visible = true;
-            this.playSkillTip.m_icons.icon = SpriteKey.getUrl("icon_101" + this.dataInf.mapSkillInf.id + ".png");
+            else {
+                this.skillEfect.replay(true);
+            }
             this.dataInf.playSkillShowStatus = -1;
         }
         else if (this.dataInf.playSkillShowStatus == 0) {
-            if (this.playSkillTip) {
-                this.playSkillTip.visible = false;
+            if (this.skillEfect) {
+                this.skillEfect.stopeAndHide();
             }
             this.dataInf.playSkillShowStatus = -1;
         }
@@ -174,11 +187,32 @@ export default class BattleHero extends Laya.Sprite {
     //     }
     // }
 
-    private init() {
+    public putDrag(drag: boolean): void {
+        if (drag) {
+            if (this.sk.visible) {
+                this.sk.visible = false;
+            }
+        }
+        else {
+            if (!this.sk.visible) {
+                this.sk.visible = true;
+            }
+        }
+    }
+
+    public init(index: number) {
+        if (this._index != index) {
+            this.keyList = [];
+            this.curEnemy = null;
+            this.curEnemyList = [];
+        }
+        this._index = index;
         this.playStand();
         this.posX = 458 + Math.floor(this._index % 3) * 224;
         this.posY = 361 + Math.floor(this._index / 3) * 162;
         this.sk.pos(this.posX, this.posY);
+        this.checkKeyList();
+        this.dataInf.checkAssociation();
     }
     public update(dt): void {
         this.effectUpdate(dt);
@@ -213,7 +247,15 @@ export default class BattleHero extends Laya.Sprite {
 
         if (this.curEnemy != null && canUserList.length) {
             this.dataInf.curUser = canUserList.pop(); //优先使用特殊技能
-            this.sk.scaleX = this.curEnemy.x > this.sk.x ? 1 : -1;
+            this.sk.scaleX = this.curEnemy.x > this.sk.x ? 0.8 : -0.8;
+            if (this.skillEfect) {
+                if (this.curEnemy.x > this.sk.x) {
+                    this.skillEfect.sk.scaleX = 1;
+                }
+                else {
+                    this.skillEfect.sk.scaleX = -1;
+                }
+            }
             this.curHitEnemy = this.curEnemy;
             if (this.dataInf.curUser == 0) {
                 if (this.dataInf.buffExtra > 0) {
@@ -601,10 +643,20 @@ export default class BattleHero extends Laya.Sprite {
                 this.fly.splice(i, 1);
             }
         }
-        if (this.playSkillTip) {
-            Pools.recycle(this.playSkillTip);
-            this.playSkillTip = null;
+        // if (this.playSkillTip) {
+        //     Pools.recycle(this.playSkillTip);
+        //     this.playSkillTip = null;
+        // }
+        let effList = this.battleEffectList.getValues();
+        for (let i = effList.length - 1; i >= 0; i--) {
+            if (effList[i]) {
+                effList[i].sk.destroy();
+                effList[i].destroy();
+                effList[i] = null;
+            }
         }
+        this.skillEfect = null;
+        this.battleEffectList.clear();
     }
 
     public removeThis(): void {
@@ -615,6 +667,32 @@ export default class BattleHero extends Laya.Sprite {
         this.delEffect();
         this.sk.destroy();
         this.destroy();
+    }
+
+    private skillEfect: BattleEffectEnemy = null;
+    protected battleEffectList: Dictionary<string, BattleEffectEnemy> = new Dictionary<string, BattleEffectEnemy>();
+    public addBattleEffect(id: number, loop: boolean): BattleEffectEnemy {
+        let key: string = String(id);
+        let _effect: BattleEffectEnemy = null;
+        if (this.battleEffectList.hasKey(key)) {
+            _effect = this.battleEffectList.getValue(key);
+            let _style: Laya.SpriteStyle = _effect.getStyle();
+            if (_style) {
+                _effect.replay(loop);
+            } else {
+                _effect.sk.destroy();
+                _effect.destroy();
+                _effect = null;
+            }
+        }
+        if (_effect == null) {
+            _effect = BattleEffectEnemy.create(id, loop);
+            this.sk.addChild(_effect.sk);
+            this.battleEffectList.add(key, _effect);
+        }
+        let _size = 1;
+        _effect.sk.scale(_size, _size, true);
+        return _effect;
     }
 
 }

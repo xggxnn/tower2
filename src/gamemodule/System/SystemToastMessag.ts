@@ -1,4 +1,4 @@
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 import UI_TotalMessage from "../../fgui/Extend/System/UI_TotalMessage";
 
 export default class SystemToastMessag {

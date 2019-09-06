@@ -1,6 +1,6 @@
 import Handler = Laya.Handler;
-import Dictionary from "../../Tool/Dictionary";
-import TypedSignal from "../../Tool/TypedSignal";
+import Dictionary from "../../tool/Dictionary";
+import TypedSignal from "../../tool/TypedSignal";
 
 export default class GMData {
 

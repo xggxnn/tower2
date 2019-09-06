@@ -1,5 +1,5 @@
 import ResPackageConfig from "./ResPackageConfig";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import FGUIResPackageConfig from "./FGUIResPackageConfig";
 import Loader = laya.net.Loader;
 import AssetManager from "./AssetManager";
@@ -35,7 +35,6 @@ export default class GamePreload {
 		this.onCompleteFun = onCompleteFun;
 
 		this.generate();
-		console.log("预加载资源数量：" + this.list.length);
 		AssetManager.loadList(this.list, this, this.onEnd, this.onProgress);
 	}
 
@@ -64,8 +63,8 @@ export default class GamePreload {
 		this.addAssetForFguiPackagename(GuiPackageNames.Sound);
 		this.addAssetForFguiPackagename(GuiPackageNames.FSprite);
 		this.addAssetForFguiPackagename(GuiPackageNames.Home);
-		this.addAssetForFguiPackagename(GuiPackageNames.Arrangement);
-		this.addAssetForFguiPackagename(GuiPackageNames.Menus);
+		// this.addAssetForFguiPackagename(GuiPackageNames.Arrangement);
+		// this.addAssetForFguiPackagename(GuiPackageNames.Menus);
 
 		let dict: Dictionary<string, AssetItemInfo> = new Dictionary<string, AssetItemInfo>();
 		let packageDict: Dictionary<string, ResPackageConfig> = new Dictionary<string, ResPackageConfig>();

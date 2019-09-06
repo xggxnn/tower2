@@ -1,5 +1,5 @@
 import ProtoServer from "./ProtoServer";
-import EventManager from "../Tool/EventManager";
+import EventManager from "../tool/EventManager";
 import ProtoEvent from "./ProtoEvent";
 
 export default class Proto {

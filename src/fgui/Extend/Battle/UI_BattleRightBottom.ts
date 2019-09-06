@@ -1,8 +1,8 @@
 import fui_BattleRightBottom from "../../Generates/Battle/fui_BattleRightBottom";
 import BattleWin from "../../../gamemodule/Windows/BattleWin";
 import Game from "../../../Game";
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 import UI_SkillBtn from "./UI_SkillBtn";
 import UI_AddSpeedBtn from "./UI_AddSpeedBtn";
 import PlayerSkillInfo from "../../../csvInfo/PlayerSkillInfo";
@@ -37,7 +37,12 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		this.addSpeedBtn.m_changeStatus.setSelectedIndex(0);
 	}
 	private addSpeedBtn: UI_AddSpeedBtn;
+	private _cding: boolean = false;
 	public skillClick(): void {
+		if (this._cding) {
+			Game.popup.showPopup(this.m_skill3Btn, true, false, Game.tipTxt.SkillCD);
+			return;
+		}
 		if (this.mapSkillCDMax > 0) {
 			if (Game.playData.guideIndex == GuideType.CastSkill) {
 				Game.playData.guideIndex = GuideType.CastSkillOver;
@@ -45,12 +50,16 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 			}
 			this.mapSkillCD = this.mapSkillCDMax;
 			this.m_skill3Btn.m_mask.fillAmount = 1;
-			this.m_skill3Btn.enabled = false;
-			Game.total.toastMsg(this.mapSkillInf.des, false, true);
+			this.m_skill3Btn.m_mask.visible = true;
+			this._cding = true;
+			this.m_skill3Btn
+			this.m_skill3Btn.m_tip.text = this.mapSkillInf.des;
+			this.m_skill3Btn.m_t0.play();
 			EventManager.event(EventKey.PLAY_SKILL, [false]);
 		}
 		else {
-			Game.total.toastMsg("被动技能：" + this.mapSkillInf.des, false, true);
+			this.m_skill3Btn.m_tip.text = "被动技能：" + this.mapSkillInf.des;
+			this.m_skill3Btn.m_t0.play();
 		}
 	}
 	private doubleSpeed(): void {
@@ -75,7 +84,13 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 			if (this.mapSkillCD > 0) {
 				this.mapSkillCD -= dt;
 				if (this.mapSkillCD <= 0) {
-					this.m_skill3Btn.enabled = true;
+					this.m_skill3Btn.m_mask.visible = false;
+					this._cding = false;
+				}
+				else {
+					if (!this.m_skill3Btn.m_mask.visible) {
+						this.m_skill3Btn.m_mask.visible = true;
+					}
 				}
 				this.m_skill3Btn.m_mask.fillAmount = this.mapSkillCD / this.mapSkillCDMax;
 			}
@@ -96,8 +111,9 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		this.mapSkillCD = 0;
 		this.mapSkillCDMax = this.mapSkillInf.cd * 1000;
 		this.m_skill3Btn.m_mask.fillAmount = 0;
-		this.m_skill3Btn.icon = SpriteKey.getUrl("icon_skill0" + this.mapSkillInf.id + ".png");
-		this.m_skill3Btn.enabled = true;
+		this.m_skill3Btn.m_mask.visible = false;
+		this.m_skill3Btn.m_icons.icon = SpriteKey.getUrl("icon_skill0" + this.mapSkillInf.id + ".png");
+		this._cding = false;
 		this.m_skill3Btn.m_titles.text = this.mapSkillInf.name;
 	}
 

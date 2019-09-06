@@ -2,12 +2,14 @@ import fui_Selection from "../../Generates/Menus/fui_Selection";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import UI_selectionBtn from "./UI_selectionBtn";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import WaveStatus from "../../../gamemodule/DataStructs/WaveStatus";
 import WaveInfo from "../../../csvInfo/WaveInfo";
 import WaveformInfo from "../../../csvInfo/WaveformInfo";
 import WaveRewardInfo from "../../../csvInfo/WaveRewardInfo";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
+import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
+import TrialInfo from "../../../csvInfo/TrialInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Selection extends fui_Selection {
@@ -47,11 +49,20 @@ export default class UI_Selection extends fui_Selection {
 	onWindowHide(): void {
 
 	}
-	private updateTime(cd: number): void {
-		this.m_time.text = Fun.formatTime(cd);
-		if (cd <= 0) {
-			if (this.item) {
-				this.item.sUpdateExploreTime.remove(this.updateTime, this);
+	private updateTime(waves: WaveStatus): void {
+		if (this.item && this.item.id == waves.id && this.item.level >= 6) {
+			this.m_comtime.text = Fun.formatTimeEN(waves.exploreTime);
+			this.m_comMask.fillAmount = waves.exploreTime / waves.exploreTotalTime;
+			if (waves.exploreTime <= 0) {
+				this.m_comMask.visible = false;
+				Game.redTip.showRedTip(this, this.parent.id);
+				Game.battleMap.sUpdateExploreTime.remove(this.updateTime, this);
+			}
+			else {
+				if (!this.m_comMask.visible) {
+					this.m_comMask.visible = true;
+				}
+				Game.redTip.hideRedTip(this, this.parent.id);
 			}
 		}
 	}
@@ -59,7 +70,13 @@ export default class UI_Selection extends fui_Selection {
 	private item: WaveStatus = null;
 	private wave: WaveInfo = null;
 	public setData(wave: WaveInfo, moduleWindow: MenusWin): void {
+		if (this._sk) {
+			this._sk.sk.destroy();
+			this._sk.destroy();
+			this._sk = null;
+		}
 		this.moduleWindow = moduleWindow;
+		this.m_starNum.setSelectedIndex(0);
 		this.wave = wave;
 		let mapLevel = Fun.idToMapLevel(this.wave.id);
 		let waveForm = WaveformInfo.getInfoWithType(this.wave.waveform);
@@ -74,26 +91,33 @@ export default class UI_Selection extends fui_Selection {
 		this.item = null;
 		if (Game.battleMap.waveStatusDict.hasKey(this.wave.id)) {
 			this.item = Game.battleMap.waveStatusDict.getValue(this.wave.id);
-			if (this.item.level < 11) {
+			if (this.item.level < 6) {
 				this.m_status.setSelectedIndex(2);
-				this.m_progress.text = Fun.format("{0} %", Math.floor((this.item.level - 1) / 10 * 100));
+				this.m_starNum.setSelectedIndex(this.item.level - 1);
 				let rewardInf = WaveRewardInfo.getInfo(this.wave.id);
-				this.m_gain.text = Fun.formatNumberUnit(rewardInf.coin_challenge) + "金币";
+				this.m_progress.text = Fun.formatNumberUnit(rewardInf.coin_challenge);
 				if (this.item.fightCd > 0) {
-					this.item.sUpdateFightCd.add(this.showFightCd, this);
+					this.curMaxCd = TrialInfo.getInfo(this.item.level - 1).cooldown;
+					this.m_mask.visible = true;
+					this.showFightCd(this.item);
+					Game.battleMap.sUpdateFightCd.add(this.showFightCd, this);
 					Game.redTip.hideRedTip(this, this.parent.id);
 				}
 				else {
+					this.m_mask.fillAmount = 0;
+					this.m_mask.visible = false;
+					this.m_protime.text = "";
 					Game.redTip.showRedTip(this, this.parent.id);
 				}
 			}
 			else {
-				this.updateTime(this.item.exploreTime);
-				this.item.sUpdateExploreTime.add(this.updateTime, this);
-				this.m_progress.text = Fun.format("{0} %", "100");
 				Game.redTip.hideRedTip(this, this.parent.id);
+				this.m_comMask.visible = true;
+				this.updateTime(this.item);
+				Game.battleMap.sUpdateExploreTime.add(this.updateTime, this);
 				this.m_status.setSelectedIndex(3);
 			}
+			this._sk = this.addBattleEffect("ui02", true);
 			this.m_selBtn.enabled = true;
 		}
 		else {
@@ -101,6 +125,8 @@ export default class UI_Selection extends fui_Selection {
 			if (Game.battleMap.maxMapId == this.wave.id) {
 				this.m_status.setSelectedIndex(1);
 				this.m_selBtn.enabled = true;
+				this._sk = this.addBattleEffect("ui03", true);
+				this._sk.sk.pos(0, -20);
 			}
 			else {
 				this.m_status.setSelectedIndex(0);
@@ -118,19 +144,35 @@ export default class UI_Selection extends fui_Selection {
 				Laya.Handler.create(this, this.clickBtn), Game.tipTxt.fiveSelectWave);
 		}
 	}
+	private _sk: BattleEffectEnemy = null;
+	private addBattleEffect(id: string, loop: boolean): BattleEffectEnemy {
+		let key: string = String(id);
+		let _effect: BattleEffectEnemy = BattleEffectEnemy.create(id, loop);
+		this.m_selBtn.m_sk.displayObject.addChild(_effect.sk);
+		_effect.scale(1, 1, true);
+		return _effect;
+	}
 
-	private showFightCd(cd: number): void {
-		if (cd <= 0) {
-			Game.redTip.showRedTip(this, this.parent.id);
-			if (this.item) {
-				this.item.sUpdateFightCd.remove(this.showFightCd, this);
+	private curMaxCd: number = 0;
+	private showFightCd(waves: WaveStatus): void {
+		if (this.item && this.item.id == waves.id && this.item.level < 6) {
+			this.m_mask.fillAmount = waves.fightCd / this.curMaxCd;
+			this.m_protime.text = Fun.formatTimeEN(waves.fightCd);
+			if (waves.fightCd <= 0) {
+				this.m_mask.fillAmount = 0;
+				this.m_mask.visible = false;
+				Game.redTip.showRedTip(this, this.parent.id);
+				Game.battleMap.sUpdateFightCd.remove(this.showFightCd, this);
+			}
+			else {
+				Game.redTip.hideRedTip(this, this.parent.id);
 			}
 		}
 	}
 
 	private clickBtn(): void {
 		Game.battleData.level_id = this.wave.id;
-		if (this.item && this.item.level > 10) {
+		if (this.item && this.item.level > 5) {
 			if (this.item.exploreTime <= 0) {
 				Game.tipWin.showTip(Game.tipTxt.CollectingRewards, true, Laya.Handler.create(this, this.collectDebris));
 			}

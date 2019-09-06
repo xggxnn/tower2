@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <controller name="c1" pages="0,list,1,txt" selected="1"/>
+  <controller name="types" pages="0,,1," selected="0"/>
+  <displayList>
+    <image id="n16_qvb6" name="n16" src="udz4m" fileName="pic/zu2.png" xy="407,171" size="465,644"/>
+    <image id="n17_qvb6" name="n17" src="gc5l1t" fileName="pic/xiangyunzhuangshi02.png" xy="375,158"/>
+    <image id="n18_qvb6" name="n18" src="j5ct16" fileName="pic/contentBg.png" xy="424,269" size="427,373"/>
+    <image id="n19_qvb6" name="n19" src="gc5ls" fileName="pic/yunwen.png" xy="410,755"/>
+    <component id="n8_q080" name="scrollTxt" src="q080f" fileName="ScrollTxt.xml" xy="443,292" size="390,329">
+      <gearDisplay controller="c1" pages="1"/>
+      <Label titleColor="#fff7ea"/>
+    </component>
+    <list id="n3_q080" name="list" xy="442,292" size="390,328" layout="flow_hz" overflow="scroll">
+      <gearDisplay controller="c1" pages="0"/>
+    </list>
+    <component id="n14_qrw0" name="ok" src="q080m" fileName="GeneralBtn.xml" xy="532,662" size="220,108" controller="bgColor,1">
+      <gearXY controller="types" pages="0,1" values="532,662|413,662"/>
+      <Button title="确定"/>
+    </component>
+    <component id="n15_qrw0" name="cancel" src="q080m" fileName="GeneralBtn.xml" xy="646,662" size="220,108" controller="bgColor,2">
+      <gearDisplay controller="types" pages="1"/>
+      <Button title="取消"/>
+    </component>
+  </displayList>
+</component>

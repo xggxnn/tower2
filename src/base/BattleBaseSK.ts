@@ -1,6 +1,6 @@
 import BaseSK from "./BaseSK";
-import EventManager from "../Tool/EventManager";
-import EventKey from "../Tool/EventKey";
+import EventManager from "../tool/EventManager";
+import EventKey from "../tool/EventKey";
 
 export default class BattleBaseSK extends BaseSK {
     public static create(key: string): BattleBaseSK {

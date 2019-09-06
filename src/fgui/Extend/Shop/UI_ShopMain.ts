@@ -3,11 +3,11 @@ import ShopWin from "../../../gamemodule/Windows/ShopWin";
 import UI_ItemShop from "./UI_ItemShop";
 import ShopInfo from "../../../csvInfo/ShopInfo";
 import Game from "../../../Game";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
-import EventKey from "../../../Tool/EventKey";
+import EventKey from "../../../tool/EventKey";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ShopMain extends fui_ShopMain {

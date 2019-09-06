@@ -1,14 +1,19 @@
 import fui_IllustrationMain from "../../Generates/Illustration/fui_IllustrationMain";
 import IllustrationWin from "../../../gamemodule/Windows/IllustrationWin";
-import Dictionary from "../../../Tool/Dictionary";
+import Dictionary from "../../../tool/Dictionary";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import Game from "../../../Game";
 import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import UI_HeroItem from "./UI_HeroItem";
 import { MenuId } from "../../../gamemodule/MenuId";
+import EventKey from "../../../tool/EventKey";
+import LoaderManager from "../../../tool/LoaderManager";
+import LoadFilesList from "../../../tool/LoadFilesList";
+import UI_HeroItem2 from "./UI_HeroItem2";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_IllustrationMain extends fui_IllustrationMain {
@@ -29,11 +34,17 @@ export default class UI_IllustrationMain extends fui_IllustrationMain {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 
+		this.m_help.setXY(Fun.topMiddlePoint.x, this.m_closeBtn.y);
+		this.m_help.onClick(this, this.helpClick);
+
 		this.m_closeBtn.onClick(this, this.closeUI);
 
 		this.m_list.setVirtual();
 		// 设置列表渲染函数
 		this.m_list.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
+	}
+	private helpClick(): void {
+		Game.tipWin.showTip(Game.tipTxt.HeroInfTip, false, null, null, "确定", "", 0);
 	}
 
 	// 关闭ui
@@ -56,24 +67,36 @@ export default class UI_IllustrationMain extends fui_IllustrationMain {
 			Game.playData.guideIndex = GuideType.ShowHeroList;
 		}
 		this.scrollToViewNum = -1;
-		this.setData();
+		EventManager.event(EventKey.SHOW_UI_WAIT);
+		EventManager.once(EventKey.LOADER_OVER, this, this.setData);
+		let _list: Array<string> = [];
+		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		// _list = _list.concat(LoadFilesList.res_sk_hero_ResList);
+		LoaderManager.addList(_list);
 	}
 	private scrollToViewNum: number = 0;
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
 		Game.playData.sShowFetters.remove(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		EventManager.offAllCaller(this);
+		EventManager.off(ProtoEvent.UPQUALITY_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
+		EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
 	}
 	// 英雄碎片情况
 	private datas: Dictionary<number, number> = new Dictionary<number, number>();
 	private idList: Array<string> = [];
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
-		let item = obj as UI_HeroItem;
+		let item = obj as UI_HeroItem2;
 		item.setData(this.idList[index], this.datas.getValue(this.idList[index]), this.moduleWindow, index);
 	}
 
 	private setData(): void {
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		let showHeroId: number = 0;
+		if (this.moduleWindow.menuParameter.args.length > 0) {
+			showHeroId = this.moduleWindow.menuParameter.args[0];
+		}
 		this.moduleWindow.closeOtherWindow();
 		if (this.scrollToViewNum == -1) {
 			this.scrollToViewNum = 0;
@@ -98,6 +121,9 @@ export default class UI_IllustrationMain extends fui_IllustrationMain {
 				}
 				else {
 					this.datas.add(hero.id, 0);
+				}
+				if (showHeroId == hero.id) {
+					this.scrollToViewNum = this.datas.count - 1;
 				}
 			}
 		}

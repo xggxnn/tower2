@@ -3,7 +3,7 @@ import ShopWin from "../../../gamemodule/Windows/ShopWin";
 import SpriteKey from "../../SpriteKey";
 import Game from "../../../Game";
 import ShopInfo from "../../../csvInfo/ShopInfo";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import ResourceInfo from "../../../csvInfo/ResourceInfo";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
@@ -126,10 +126,10 @@ export default class UI_ItemShop extends fui_ItemShop {
 			case 0:
 				break;
 			case 1:
-				Game.popup.showPopup(this.m_pic, true, this.itemCardInf.des);
+				Game.popup.showPopup(this.m_pic, true, false, this.itemCardInf.des);
 				break;
 			case 2:
-				Game.popup.showPopup(this.m_pic, true, this.itemShopInf.des);
+				Game.popup.showPopup(this.m_pic, true, false, this.itemShopInf.des);
 				break;
 		}
 	}

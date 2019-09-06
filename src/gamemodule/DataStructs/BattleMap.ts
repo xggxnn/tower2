@@ -1,7 +1,7 @@
-import EventManager from "../../Tool/EventManager";
-import EventKey from "../../Tool/EventKey";
-import Dictionary from "../../Tool/Dictionary";
-import MathRandom from "../../Tool/MathRandom";
+import EventManager from "../../tool/EventManager";
+import EventKey from "../../tool/EventKey";
+import Dictionary from "../../tool/Dictionary";
+import MathRandom from "../../tool/MathRandom";
 import WaveStatus from "./WaveStatus";
 import Game from "../../Game";
 import { GameStatus } from "../DataEnums/GameStatus";
@@ -11,8 +11,9 @@ import MonsterInfo from "../../csvInfo/MonsterInfo";
 import TimeHouseInfo from "../../csvInfo/TimeHouseInfo";
 import WaveformInfo from "../../csvInfo/WaveformInfo";
 import WaveInfo from "../../csvInfo/WaveInfo";
-import Fun from "../../Tool/Fun";
+import Fun from "../../tool/Fun";
 import WaveRewardInfo from "../../csvInfo/WaveRewardInfo";
+import TypedSignal from "../../tool/TypedSignal";
 
 export default class BattleMap {
 
@@ -34,6 +35,9 @@ export default class BattleMap {
                 wavestatus.level = item.level;
                 if (item.hasOwnProperty("exploreTime")) {
                     wavestatus.exploreTime = item.exploreTime;
+                }
+                if (item.hasOwnProperty("exploreTotalTime")) {
+                    wavestatus.exploreTotalTime = item.exploreTotalTime;
                 }
                 if (item.hasOwnProperty("exploreHeroId")) {
                     wavestatus.exploreHeroId = item.exploreHeroId;
@@ -68,6 +72,8 @@ export default class BattleMap {
     }
     // 关卡状态字典
     public waveStatusDict: Dictionary<number, WaveStatus> = new Dictionary<number, WaveStatus>();
+    public sUpdateExploreTime: TypedSignal<WaveStatus> = new TypedSignal<WaveStatus>();
+    public sUpdateFightCd: TypedSignal<WaveStatus> = new TypedSignal<WaveStatus>();
 
     // 当前地图    
     private _curMap: number = 1;
@@ -354,10 +360,18 @@ export default class BattleMap {
                     if (this.waveType == 1 || this.waveType == 2) {
                         let remain = this.nextMonster.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
                         this.nextCD = this.nextCD + remain * 60;
+                        if (this.bossInfo) {
+                            let remain2 = this.bossInfo.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
+                            this.nextCD += remain2 * 60
+                        }
                     }
                     else {
                         let remain = this.nextMonster.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
                         this.nextCD = this.nextCD + remain * 60;
+                        if (this.bossInfo) {
+                            let remain2 = this.bossInfo.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
+                            this.nextCD += remain2 * 60
+                        }
                     }
                     break;
                 }

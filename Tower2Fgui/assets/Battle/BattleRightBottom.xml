@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1,1" opaque="false">
+  <displayList>
+    <component id="n12_ngrs" name="n12" src="ngrs12" fileName="SkillDi.xml" xy="-215,-215">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
+    </component>
+    <component id="n14_ngrs" name="skill2Btn" src="ngrs13" fileName="SkillBtn.xml" xy="-143,-216">
+      <relation target="n12_ngrs" sidePair="left-left,top-top"/>
+      <Button icon="ui://88du1wabngrs1e"/>
+    </component>
+    <component id="n15_ngrs" name="skill3Btn" src="ngrs13" fileName="SkillBtn.xml" xy="-242,-104">
+      <relation target="n12_ngrs" sidePair="left-left,bottom-bottom"/>
+      <Button icon="ui://88du1wabngrs1f"/>
+    </component>
+    <component id="n16_h5p9" name="addSpeed" src="h5p91n" fileName="AddSpeedBtn.xml" xy="-121,-296">
+      <relation target="n12_ngrs" sidePair="right-right,bottom-top"/>
+    </component>
+  </displayList>
+</component>

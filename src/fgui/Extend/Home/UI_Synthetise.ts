@@ -8,6 +8,7 @@ import { MenuId } from "../../../gamemodule/MenuId";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
+import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Synthetise extends fui_Synthetise {
@@ -56,9 +57,29 @@ export default class UI_Synthetise extends fui_Synthetise {
 	}
 	private _sk: BaseSK = null;
 	private setData(): void {
+		if (this.eff) {
+			this.eff.replay(false);
+		}
+		else {
+			this.eff = this.addBattleEffect("ui04", false);
+		}
 		this.m_ok.visible = false;
 		this.m_setSeat.visible = false;
 		if (Game.playData.synthetise > 0) {
+
+			switch (Game.playData.synUpReset) {
+				case 1:
+					break;
+				case 2:
+					{
+						let str: string = Game.tipTxt.txts("getherotip");
+						Game.total.toastMsg(str, true, true);
+					}
+					break;
+				case 3:
+					break;
+			}
+			Game.playData.synUpReset = 0;
 			let hero = HeroInfoData.getInfo(Game.playData.synthetise);
 			this.m_quality.setSelectedIndex(2);
 			if (this._sk) {
@@ -70,17 +91,27 @@ export default class UI_Synthetise extends fui_Synthetise {
 				_id = hero.skin;
 			}
 			this._sk = BaseSK.create("hero_" + _id);
-			this.displayObject.addChild(this._sk);
+			this.m_skbg.displayObject.addChild(this._sk);
 			this._sk.pos(this.width / 2, this.height / 2 + 100);
 			this._sk.play(HeroAniEnums.Stand, true);
-			this._sk.scale(0.1, 0.1);
-			fairygui.tween.GTween.to2(0.1, 0.1, 2, 2, 1).setTarget(this._sk, this._sk.scale).onComplete(this._tweenComplete, this);
+			this._sk.scale(0.001, 0.001);
+			fairygui.tween.GTween.to2(0.1, 0.1, 2, 2, 1).setTarget(this._sk, this._sk.scale).setDelay(2.7).onComplete(this._tweenComplete, this);
 		}
 		else {
 			this.closeUI();
 		}
 	}
+	private eff: BattleEffectEnemy = null;
+	private addBattleEffect(id: string, loop: boolean): BattleEffectEnemy {
+		let key: string = String(id);
+		let _effect: BattleEffectEnemy = BattleEffectEnemy.create(id, loop);
+		this.m_skbg.displayObject.addChild(_effect.sk);
+		_effect.scale(1, 1, true);
+		_effect.sk.pos(this.width / 2, this.height / 2);
+		return _effect;
+	}
 	private _tweenComplete(): void {
+
 		this.m_ok.visible = true;
 		this.m_setSeat.visible = true;
 

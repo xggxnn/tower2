@@ -1,10 +1,11 @@
 import fui_Circle from "../../Generates/System/fui_Circle";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 import MenuLayer from "../../../gamemodule/MenuLayer";
 import { MenuLayerType } from "../../../gamemodule/DataEnums/MenuLayerType";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
+import Game from "../../../Game";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Circle extends fui_Circle {
@@ -34,6 +35,13 @@ export default class UI_Circle extends fui_Circle {
 	}
 
 	setProgress(progress: number, max: number): void {
+		if (!Game.isShowLoadUI) return;
+		if (Game.initOverForLoad) {
+			this.m_showTip.setSelectedIndex(0);
+		}
+		else {
+			this.m_showTip.setSelectedIndex(1);
+		}
 		this.m_c1.setSelectedIndex(0);
 		MenuLayer.showHideLayer(MenuLayerType.Loader, true)
 		let num = Math.floor(progress * 1000 / max);
@@ -50,6 +58,7 @@ export default class UI_Circle extends fui_Circle {
 		MenuLayer.showHideLayer(MenuLayerType.Loader, true)
 	}
 	loadOver(): void {
+		Game.isShowLoadUI = true;
 		MenuLayer.showHideLayer(MenuLayerType.Loader, false)
 	}
 

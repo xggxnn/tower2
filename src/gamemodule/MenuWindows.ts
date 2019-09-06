@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import { MenuId } from "./MenuId";
 import ModuleConfig from "./ModuleConfig";
 import FWindow from "./FWindow";
@@ -24,10 +24,10 @@ export default class MenuWindows {
 	}
 
 	static install() {
+		MenuWindows.add(MenuId.Load, SystemWin);
 		MenuWindows.add(MenuId.Home, HomeWin);
 		MenuWindows.add(MenuId.Battle, BattleWin);
 		MenuWindows.add(MenuId.Arrange, ArrangementWin);
-		MenuWindows.add(MenuId.Load, SystemWin);
 		MenuWindows.add(MenuId.MenuSelect, MenusWin);
 		MenuWindows.add(MenuId.Bag, BagWin);
 		MenuWindows.add(MenuId.GM, GMWin);

@@ -2,11 +2,11 @@ import fui_TipWin from "../../Generates/System/fui_TipWin";
 import SystemWin from "../../../gamemodule/Windows/SystemWin";
 import MenuLayer from "../../../gamemodule/MenuLayer";
 import Handler = Laya.Handler;
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
-import { Tick } from "../../../Tool/TickManager";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
+import { Tick } from "../../../tool/TickManager";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_TipWin extends fui_TipWin {
@@ -64,7 +64,12 @@ export default class UI_TipWin extends fui_TipWin {
 	private okTitle: string = "确定";
 	private cancelTitle: string = "取消";
 
-	showTxt(txt: string, showCancel: boolean = false, onComplete?: Handler, cancelHandler?: Handler, okTitle?: string, cancelTitle?: string) {
+	showTxt(txt: string, showCancel: boolean = false, onComplete?: Handler, cancelHandler?: Handler, okTitle?: string, cancelTitle?: string, delcloseTime?: number) {
+		if (this.closeTick) {
+			this.closeTick.Stop();
+			Game.tick.clearTick(this.closeTick);
+			this.closeTick = null;
+		}
 		if (this._onCompleteHandler) {
 			this._onCompleteHandler.recover();
 		}
@@ -89,11 +94,16 @@ export default class UI_TipWin extends fui_TipWin {
 		this.m_scrollTxt.text = txt;
 		this.m_types.setSelectedIndex(showCancel ? 1 : 0);
 		if (!showCancel) {
-			this.closeTimes = 6;
-			this.m_ok.title = Fun.format("{1}({0})", this.closeTimes, this.okTitle);
-			this.closeTick = Game.tick.addTick(4, Laya.Handler.create(this, this.updateNum, null, false),
-				Laya.Handler.create(this, this.cancelClikc, null, false), 50);
-			this.closeTick.Start();
+			if (delcloseTime == undefined) {
+				this.closeTimes = 6;
+				this.m_ok.title = Fun.format("{1}({0})", this.closeTimes, this.okTitle);
+				this.closeTick = Game.tick.addTick(this.closeTimes - 2, Laya.Handler.create(this, this.updateNum, null, false),
+					Laya.Handler.create(this, this.cancelClikc, null, false), 50);
+				this.closeTick.Start();
+			}
+			else {
+				this.m_ok.title = Fun.format("{0}", this.okTitle);
+			}
 		}
 		else {
 			this.m_ok.title = this.okTitle;

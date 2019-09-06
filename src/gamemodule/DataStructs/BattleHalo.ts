@@ -1,5 +1,5 @@
 import { HaloType } from "../DataEnums/HaloType";
-import TypedSignal from "../../Tool/TypedSignal";
+import TypedSignal from "../../tool/TypedSignal";
 import HeroData from "./HeroData";
 import Game from "../../Game";
 import BattleSoldier from "../Models/BattleSoldier";
@@ -75,7 +75,7 @@ export class Halo {
     constructor() {
         this.curTime = 0;
         this.preTime = 0;
-        this.interval = 1;
+        this.interval = 2;
     }
     // 光环类型
     public types: HaloType = HaloType.None;
@@ -84,7 +84,7 @@ export class Halo {
     // 持续时间 秒
     public duration: number = 0;
     // 间隔时间 秒
-    public interval: number = 1;
+    public interval: number = 2;
     // 计时器
     public curTime: number = 0;
     // 上一秒时间
@@ -96,8 +96,8 @@ export class Halo {
 
     public update(dt: number, curEnemy: BattleSoldier): void {
         this.curTime += dt;
-        if (this.preTime < Math.floor(this.curTime)) {
-            this.preTime = Math.floor(this.curTime)
+        if (this.preTime + this.interval < this.curTime) {
+            this.preTime = this.curTime;
             // 间隔时间到 生效一次
             switch (this.types) {
                 case HaloType.BurningGround://灼烧场

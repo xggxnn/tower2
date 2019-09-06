@@ -1,11 +1,11 @@
 import { AssetItemInfo, AssetItemType } from "../fgui/GamePreload";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import FGUIResPackageConfig from "../fgui/FGUIResPackageConfig";
 import AssetManager from "../fgui/AssetManager";
 import { MenuId } from "./MenuId";
 import { MenuOpenParameter } from "./MenuOpenParameter";
 import Game from "../Game";
-import Signal from "../Tool/Signal";
+import Signal from "../tool/Signal";
 import UI_GuideLayer from "../fgui/Extend/System/UI_GuideLayer";
 import { LocationType } from "./DataEnums/LocationType";
 import MenuCtl from "./MenuCtl";
@@ -183,6 +183,10 @@ export default class FWindow extends fairygui.Window {
 				}
 			}
 		}
+	}
+
+	menuCloseOther() {
+		Game.menu.getMenuCtl(this.menuId).closeOtherUI();
 	}
 
 	// 关闭

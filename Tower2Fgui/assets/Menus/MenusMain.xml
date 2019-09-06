@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" overflow="hidden" designImageLayer="1" adaptationTest="FitWidthAndSetMiddle">
+  <displayList>
+    <list id="n22_ijuw" name="list" xy="0,0" size="1280,960" layout="row" selectionMode="none" overflow="scroll" scroll="horizontal" scrollBarFlags="128" defaultItem="ui://pdzut3tw11av51w" vAlign="middle" autoClearItems="true"/>
+    <image id="n3_udz4" name="middle" src="udz4f" fileName="pic/jianbiandizong.png" pkg="130tmfxd" xy="639,142" pivot="0.5,0" anchor="true" size="940,37"/>
+    <image id="n4_udz4" name="n4" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="141,145">
+      <relation target="n3_udz4" sidePair="left-left,top-top"/>
+    </image>
+    <image id="n5_udz4" name="n5" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="1137,145" scale="-1,1">
+      <relation target="n3_udz4" sidePair="right-right,top-top"/>
+    </image>
+    <image id="n7_udz4" name="n7" src="udz4i" fileName="pic/chuangguan0.png" xy="586,121">
+      <relation target="n3_udz4" sidePair="center-center,top-top"/>
+    </image>
+    <component id="n23_j8q2" name="rightBtn" src="j8q226" fileName="RightBtn.xml" pkg="130tmfxd" xy="1140,348">
+      <relation target="" sidePair="middle-middle,right-right"/>
+    </component>
+    <component id="n24_j8q2" name="leftBtn" src="j8q224" fileName="LeftBtn.xml" pkg="130tmfxd" xy="20,348">
+      <relation target="" sidePair="middle-middle,left-left"/>
+    </component>
+    <component id="n25_qvb6" name="clearBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1173,887" size="100,64"/>
+    <component id="n26_qvb6" name="help" src="qrw053u" fileName="Help.xml" pkg="130tmfxd" xy="617,865"/>
+    <component id="n2_udz4" name="backBtn" src="udz4c" fileName="TxtBtn.xml" pkg="130tmfxd" xy="14,140" size="140,53">
+      <Button title="返回" titleColor="#ffffff" titleFontSize="28"/>
+    </component>
+  </displayList>
+</component>

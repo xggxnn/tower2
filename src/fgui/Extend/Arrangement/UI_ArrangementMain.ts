@@ -2,11 +2,11 @@ import fui_ArrangementMain from "../../Generates/Arrangement/fui_ArrangementMain
 import ArrangementWin from "../../../gamemodule/Windows/ArrangementWin";
 import UI_PropBtn from "./UI_PropBtn";
 import Game from "../../../Game";
-import EventManager from "../../../Tool/EventManager";
-import EventKey from "../../../Tool/EventKey";
-import Dictionary from "../../../Tool/Dictionary";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
+import Dictionary from "../../../tool/Dictionary";
 import Association from "../../../gamemodule/DataStructs/Association";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import SpriteKey from "../../SpriteKey";
 import AssociationAttributeInfo from "../../../csvInfo/AssociationAttributeInfo";
 import AssociationCareerInfo from "../../../csvInfo/AssociationCareerInfo";
@@ -19,13 +19,17 @@ import WaveInfo from "../../../csvInfo/WaveInfo";
 import { MenuId } from "../../../gamemodule/MenuId";
 import PlayerSkillInfo from "../../../csvInfo/PlayerSkillInfo";
 import UI_DialogBox from "../System/UI_DialogBox";
-import Pools from "../../../Tool/Pools";
+import Pools from "../../../tool/Pools";
 import UI_Hand from "../System/UI_Hand";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import UI_AssociationItem from "./UI_AssociationItem";
 import UI_SkillItem from "./UI_SkillItem";
+import UI_FightTip from "./UI_FightTip";
+import UI_HeroIcon55 from "./UI_HeroIcon55";
+import LoadFilesList from "../../../tool/LoadFilesList";
+import LoaderManager from "../../../tool/LoaderManager";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ArrangementMain extends fui_ArrangementMain {
@@ -67,18 +71,20 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.seatList.push(this.m_seat7 as UI_PropBtn);
 		this.seatList.push(this.m_seat8 as UI_PropBtn);
 
-		this.m_associationList.setVirtual();
 		// 设置列表渲染函数
 		this.m_associationList.itemRenderer = Laya.Handler.create(this, this.initAssociationItem, null, false);
+		this.m_associationList.on(fairygui.Events.CLICK_ITEM, this, this.onClickAssociationItem);
+		this.m_closeAss.onClick(this, this.closeAssInf);
+		this.m_assheroList.itemRenderer = Laya.Handler.create(this, this.initAssItem, null, false);
 
-		this.m_levelUpBtn.m_titles.text = "金乌";
-		this.m_levelUpBtn.m_icons.icon = SpriteKey.getUrl(SpriteKey.gold);
-		this.m_starUpBtn.m_titles.text = "玉蟾";
-		this.m_starUpBtn.m_icons.icon = SpriteKey.getUrl(SpriteKey.jadeite);
+		// this.m_levelUpBtn.m_titles.text = "金乌";
+		// this.m_levelUpBtn.m_icons.icon = SpriteKey.getUrl(SpriteKey.gold);
+		// this.m_starUpBtn.m_titles.text = "玉蟾";
+		// this.m_starUpBtn.m_icons.icon = SpriteKey.getUrl(SpriteKey.jadeite);
 		// 升级
-		this.m_levelUpBtn.onClick(this, this.levelUpDown);
-		// 升星
-		this.m_starUpBtn.onClick(this, this.starUpClick);
+		this.m_levelUpBtn.onClick(this, this.openUpLevel);
+		// // 升星
+		// this.m_starUpBtn.onClick(this, this.starUpClick);
 
 		this.m_select1.onClick(this, this.selectClick, [0]);
 		this.m_select2.onClick(this, this.selectClick, [1]);
@@ -86,19 +92,27 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 
 		fairygui.DragDropManager.inst.dragAgent.setScale(0.5, 0.5);
 
-		this.tuijianInit();
-		this.qianghuaInit();
+		// this.tuijianInit();
+		// this.qianghuaInit();
 		this.m_skillBg.onClick(this, this.closeSkillList, [false]);
 		this.m_skillBtn.onClick(this, this.closeSkillList, [true])
 		this.m_skillList.itemRenderer = Laya.Handler.create(this, this.initSkillItem, null, false);
 		this.m_skillList.on(fairygui.Events.CLICK_ITEM, this, this.onClickSkillItem);
 
 		this.m_help.onClick(this, this.helpClick);
+		// this.m_help.visible = false;
+		this.m_DropDown.onClick(this, this.clickDropDown);
 	}
+	private clickDropDown(): void {
+		Game.battleData.sUpdateSortSign.addOnce(this.sorHero, this);
+		Game.popup.showPopup(this.m_DropDown, false, true, "");
+	}
+
+
 	private seatList: Array<UI_PropBtn> = [];
 
 	private helpClick(): void {
-		Game.popup.showPopup(this.m_help, true, Game.tipTxt.ArrangeTip);
+		Game.tipWin.showTip(Game.tipTxt.txts("SuggestPowerTip"), false, null, null, "确定", "", 0);
 	}
 	///////////// 引导内容开始	//////////////////////
 	// 此界面引导顺序
@@ -110,8 +124,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	private _guidHand: UI_Hand = null;
 	private fetterNext(): void {
 		setTimeout(() => {
-			this.moduleWindow.createGuideUI(this.m_backBtn, new Laya.Point(this.m_backBtn.x, this.m_backBtn.y),
-				Laya.Handler.create(this, this.backUI), Game.tipTxt.continueFightTip, LocationType.Lower);
+			this.showStartFightGuide();
 		}, 100);
 	}
 	private showGuid(): void {
@@ -134,6 +147,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			// this._guidCurPos = new Laya.Point(this.m_associationList.x, this.m_associationList.y);
 			// this._guidTip.setXY(this._guidCurPos.x + 50, this._guidCurPos.y + 50);
 			// this._guidTip.m_titles.text = Game.tipTxt...fettersTip;
+			Game.playData.guideShowTipLong = true;
 			this.moduleWindow.createGuideUI(this.m_associationList, new Laya.Point(this.m_associationList.x, this.m_associationList.y),
 				Laya.Handler.create(this, this.fetterNext),
 				Game.tipTxt.fettersTip, LocationType.Left);
@@ -191,12 +205,25 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 				Pools.recycle(this._guidHand);
 				this._guidHand = null;
 			}
-			this.showStartFightGuide();
+			setTimeout(() => {
+				this.showStartFightGuide();
+			}, 100);
 		}
 	}
 	private showStartFightGuide(): void {
-		Game.playData.guideIndex = GuideType.SetSeat;
+		if (Game.playData.guideIndex == GuideType.SnythHeroOver) {
+			Game.playData.guideIndex = GuideType.fiveEnterMenus;
+		}
+		else {
+			Game.playData.guideIndex = GuideType.SetSeat;
+		}
 		this.moduleWindow.createGuideUI(this.m_fight, new Laya.Point(this.m_fight.x, this.m_fight.y), Laya.Handler.create(this, this.clickFightBtn), Game.tipTxt.battleFight, LocationType.Left);
+	}
+	public showToFightGuide(): void {
+		if (Game.playData.guideIndex == GuideType.fiveUpLevelOver) {
+			Game.playData.guideIndex = GuideType.sixEnterMenus;
+			this.moduleWindow.createGuideUI(this.m_fight, new Laya.Point(this.m_fight.x, this.m_fight.y), Laya.Handler.create(this, this.clickFightBtn), Game.tipTxt.battleFight, LocationType.Left);
+		}
 	}
 	///////////// 引导内容结束	//////////////////////
 
@@ -204,6 +231,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	private closeSkillList(v: boolean): void {
 		if (Game.playData.guideIndex == GuideType.FightReady) return;
 		if (Game.playData.guideIndex == GuideType.SnythHeroOver) return;
+		Game.redData.skillRed = false;
 		this.m_showHideSkill.setSelectedIndex(v ? 1 : 0);
 		if (v) {
 			this.m_skillList.numItems = PlayerSkillInfo.getCount();
@@ -231,6 +259,24 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		let inf = PlayerSkillInfo.getInfo(Game.playData.curPlaySkillIndex);
 		this.m_skillName.text = inf.name;
 		this.m_skillBtn.icon = SpriteKey.getUrl("icon_skill0" + inf.id + ".png");
+		if (Game.playData.preSkillUnLock < Game.playData.curLevel) {
+			for (let i = 1, len = PlayerSkillInfo.getCount(); i <= len; i++) {
+				let inf = PlayerSkillInfo.getInfo(i);
+				if (inf.unlock <= Game.playData.curLevel) {
+					if (Game.playData.preSkillUnLock < inf.unlock) {
+						Game.redData.skillRed = true;
+						break;
+					}
+				}
+			}
+			Game.playData.preSkillUnLock = Game.playData.curLevel;
+		}
+		if (Game.redData.skillRed) {
+			Game.redTip.showRedTip(this.m_skillBtn);
+		}
+		else {
+			Game.redTip.hideRedTip(this.m_skillBtn);
+		}
 	}
 
 	/**
@@ -241,54 +287,12 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.refrushTuijianHeroList();
 	}
 
-	// 点击升级按钮
-	private levelUpDown(): void {
+	private openUpLevel(): void {
 		if (Game.playData.guideIndex == GuideType.FightReady) return;
 		if (Game.playData.guideIndex == GuideType.SnythHeroOver) return;
-		if (Game.playData.upLevelCost() == 0) {
-			Game.tipWin.showTip(Game.tipTxt.MaxLevel);
-			return;
-		}
-		if (Game.playData.upLevelCost() <= Game.playData.curGold) {
-			let data = {
-				upLevel: 1,
-			}
-			Game.proto.upLevel(data);
-		}
-		else {
-			Game.tipWin.showTip(Game.tipTxt.GoldNoEnough);
-		}
-
+		this.moduleWindow.createUpLevelUI();
 	}
 
-	// 点击升星按钮
-	private starUpClick(): void {
-		if (Game.playData.guideIndex == GuideType.FightReady) return;
-		if (Game.playData.guideIndex == GuideType.SnythHeroOver) return;
-		if (this.curStarCost() == 0) {
-			Game.tipWin.showTip(Game.tipTxt.MaxStar);
-			return;
-		}
-		if (this.curStarCost() <= Game.playData.curJadeite) {
-			if (Game.playData.curStar < Math.floor((Game.playData.curLevel - 1) / 10)) {
-				Game.proto.upStar({});
-			}
-			else {
-				Game.tipWin.showTip(Game.tipTxt.LevelNoEnough);
-			}
-		}
-		else {
-			Game.tipWin.showTip(Game.tipTxt.JadeiteNoEnough);
-		}
-	}
-	private refreshCoinGold(): void {
-		this.m_gold.text = Fun.formatNumberUnit(Game.playData.curGold);
-		this.refreshHeroLevel();
-	}
-	private refreshCoinJadeite(): void {
-		this.m_jadeite.text = Fun.formatNumberUnit(Game.playData.curJadeite);
-		this.refreshHeroStar();
-	}
 	// 切换布阵
 	private selectClick(index: number): void {
 		Game.battleScene.seatHeroSelect = index;
@@ -330,6 +334,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		fairygui.DragDropManager.inst.startDrag(btn, btn.icon, btn.icon);
 		Game.battleData.startDrag = true;
 		this.m_heroList.scrollPane.scrollToView(this.m_heroList.getFirstChildInView());
+		Game.battleData.sUpdateDragHero.dispatch();
 	}
 	// 在下阵列表范围内抬起鼠标
 	private onScrollupHero(): void {
@@ -339,11 +344,13 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		}
 		Game.battleData.heroInf = null;
 		this.dragItem = null;
+		Game.battleData.sUpdateDragHeroOver.dispatch();
 	}
 	// 在列表范围内抬起鼠标
 	private onScrollup(): void {
 		Game.battleData.heroInf = null;
 		this.dragItem = null;
+		Game.battleData.sUpdateDragHeroOver.dispatch();
 	}
 	// 鼠标抬起
 	private mouseUp(): void {
@@ -364,6 +371,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			this.mouseupTimeout = -1;
 			Game.battleData.startDrag = false;
 		}
+		Game.battleData.sUpdateDragHeroOver.dispatch();
 	}
 	private mouseupTimeout: number = -1;
 
@@ -379,33 +387,47 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		Game.battleData.refrushSeatFightInf();
 		let curDic = Game.playData.curFightInf;
 		let tip = Game.playData.fightTip(curDic);
-		this.m_hit2.setVar("count", tip.getValue(FightType.Atk)).flushVars();
+		this.m_hit2.text = tip.getValue(FightType.Atk);
+		// this.m_hit2.setVar("count", tip.getValue(FightType.Atk)).flushVars();
 		this.m_speed2.setVar("count", tip.getValue(FightType.Speed)).flushVars();
 		this.m_cirt2.setVar("count", tip.getValue(FightType.Crit)).flushVars();
 		this.m_burt2.setVar("count", tip.getValue(FightType.Burst)).flushVars();
 
 		let _dic = Game.battleData.getWaveFightInf(this.showLevelId);
 		let tip2 = Game.playData.fightTip(_dic);
-		this.m_hit1.setVar("count", tip2.getValue(FightType.Atk)).flushVars();
+		this.m_hit1.text = tip2.getValue(FightType.Atk);
+		// this.m_hit1.setVar("count", tip2.getValue(FightType.Atk)).flushVars();
 		this.m_speed1.setVar("count", tip2.getValue(FightType.Speed)).flushVars();
 		this.m_cirt1.setVar("count", tip2.getValue(FightType.Crit)).flushVars();
 		this.m_burt1.setVar("count", tip2.getValue(FightType.Burst)).flushVars();
 
+
 		let statusTip = Game.playData.checkFightVal(curDic, _dic, this.showLevelId);
 		let atk = statusTip.getValue(FightType.Atk);
-		this.m_hitBtn.visible = atk == 2;
+		if (this.showInMenu) {
+			atk = 1;
+		}
 		this.m_atkStatus.setSelectedIndex(atk);
+		(this.m_atkTip as UI_FightTip).setData(curDic.getValue(FightType.Atk) + curDic.getValue(FightType.AtkEx), _dic.getValue(FightType.Atk) + _dic.getValue(FightType.AtkEx), atk);
 		let speed = statusTip.getValue(FightType.Speed);
-		this.m_speedBtn.visible = speed == 2;
+		if (this.showInMenu) {
+			speed = 1;
+		}
 		this.m_speedStatus.setSelectedIndex(speed);
+		(this.m_speedTip as UI_FightTip).setData(curDic.getValue(FightType.Speed) + curDic.getValue(FightType.SpeedEx), _dic.getValue(FightType.Speed) + _dic.getValue(FightType.SpeedEx), speed);
 		let crit = statusTip.getValue(FightType.Crit);
-		this.m_critBtn.visible = crit == 2;
+		if (this.showInMenu) {
+			crit = 1;
+		}
 		this.m_critStatus.setSelectedIndex(crit);
+		(this.m_critTip as UI_FightTip).setData(curDic.getValue(FightType.Crit) + curDic.getValue(FightType.CritEx), _dic.getValue(FightType.Crit) + _dic.getValue(FightType.CritEx), crit);
 		let brust = statusTip.getValue(FightType.Burst);
-		this.m_burstBtn.visible = brust == 2;
+		if (this.showInMenu) {
+			brust = 1;
+		}
 		this.m_burstStatus.setSelectedIndex(brust);
+		(this.m_burstTip as UI_FightTip).setData(curDic.getValue(FightType.Burst) + curDic.getValue(FightType.BurstEx), _dic.getValue(FightType.Burst) + _dic.getValue(FightType.BurstEx), brust);
 		this.sortHero();
-		// this.m_seatList.numItems = 9;
 		this.initSeatShow();
 		this.m_associationList.numItems = this.association.length;
 		if (Game.playData.guideIndex == GuideType.FightReady || Game.playData.guideIndex == GuideType.SnythHeroOver) {
@@ -431,36 +453,21 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		}
 	}
 	private _sortHeroType: number = 0;
+	private sortInf = ["攻击排序", "攻频排序", "暴击排序", "爆伤排序"];
+	private sorHero(index: number) {
+		this._sortHeroType = index;
+		this.m_dropTitle.text = this.sortInf[this._sortHeroType];
+		this.sortHero();
+	}
 	private sortHeroList(init: boolean = false): void {
 		if (!init) {
 			this._sortHeroType++;
 			if (this._sortHeroType > 3) {
 				this._sortHeroType = 0;
 			}
+			this.sorHero(this._sortHeroType);
 			this.sortHero();
 		}
-		// switch (this._sortHeroType) {
-		// 	case 0:
-		// 		{
-		// 			this.m_sortBtn.title = "攻击";
-		// 		}
-		// 		break;
-		// 	case 1:
-		// 		{
-		// 			this.m_sortBtn.title = "攻速";
-		// 		}
-		// 		break;
-		// 	case 2:
-		// 		{
-		// 			this.m_sortBtn.title = "暴击";
-		// 		}
-		// 		break;
-		// 	case 3:
-		// 		{
-		// 			this.m_sortBtn.title = "爆伤";
-		// 		}
-		// 		break;
-		// }
 	}
 	private sortHero(): void {
 		switch (this._sortHeroType) {
@@ -478,7 +485,6 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 				break;
 		}
 		this.m_heroList.numItems = this.heroList.length;
-		// this.m_sortBtn.visible = this.heroList.length > 1;
 	}
 	private sortCompare0(a: HeroInfoData, b: HeroInfoData): number {
 		let curDicA = Game.battleData.getHeroFightVal(a.id);
@@ -545,6 +551,74 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		let item = obj as UI_AssociationItem;
 		item.setData(this.association[index], index % 2);
 	}
+	private onClickAssociationItem(obj: fairygui.GObject): void {
+		let index = this.m_associationList.getChildIndex(obj);
+		// // 转换为点击item在整个列表中的真实索引
+		// var realIndex: number = this.m_associationList.childIndexToItemIndex(index);
+		this.showAssInf(this.association[index]);
+	}
+	private assInfHeroList: Array<HeroInfoData> = [];
+	private showAssInf(datas: Association): void {
+		if (datas.race > 0) {
+			this.m_icons.icon = SpriteKey.getUrl("race" + datas.race + ".png");
+			let str = "";
+			//"职业羁绊：";
+			for (let i = 1, len = AssociationRaceInfo.getCount(); i <= len; i++) {
+				let item = AssociationRaceInfo.getInfo(i);
+				if (item.race == datas.race) {
+					let att1 = AssociationAttributeInfo.getInfo(item.attribute);
+					str += datas.names + "x" + item.num + "  " + Fun.format(att1.des, item.value) + "\n";
+				}
+			}
+			this.m_assAtt.text = str;
+		}
+		else if (datas.career > 0) {
+			this.m_icons.icon = SpriteKey.getUrl("career" + datas.career + ".png");
+			let str = "";
+			//"种族羁绊：";
+			for (let i = 1, len = AssociationCareerInfo.getCount(); i <= len; i++) {
+				let item = AssociationCareerInfo.getInfo(i);
+				if (item.career == datas.career) {
+					let att1 = AssociationAttributeInfo.getInfo(item.attribute);
+					str += datas.names + "x" + item.num + "  " + Fun.format(att1.des, item.value) + "\n";
+				}
+			}
+			this.m_assAtt.text = str;
+		}
+		else {
+			this.m_icons.icon = "";
+			this.m_assAtt.text = "";
+		}
+		this.m_asstitle.text = datas.names + " 羁绊详情";
+		let att = AssociationAttributeInfo.getInfo(datas.attribute_id);
+		this.m_assinf.text = Fun.format(att.des, datas.values);
+
+		let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
+		this.assInfHeroList = [];
+		for (let i = 0; i < 9; i++) {
+			if (seatList[i] > 0) {
+				let hero = HeroInfoData.getInfo(seatList[i]);
+				if (datas.race > 0 && hero.race == datas.race) {
+					this.assInfHeroList.push(hero);
+				}
+				else if (datas.career > 0 && hero.career == datas.career) {
+					this.assInfHeroList.push(hero);
+				}
+			}
+		}
+		this.m_assheroList.numItems = this.assInfHeroList.length;
+
+
+		this.m_assTip.setSelectedIndex(1);
+	}
+	private initAssItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_HeroIcon55;
+		item.m_icons.icon = SpriteKey.getUrl("hero_" + this.assInfHeroList[index].skin + ".png");
+		item.m_quality.icon = SpriteKey.getUrl("quality" + this.assInfHeroList[index].quality + ".png");
+	}
+	private closeAssInf(): void {
+		this.m_assTip.setSelectedIndex(0);
+	}
 
 	private heroList: HeroInfoData[] = [];
 	private association: Association[] = [];
@@ -583,15 +657,27 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		EventManager.on(EventKey.ADD_HERO, this, this.refrushQianghuaList);
 		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.refreshHeroLevel);
 		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.refreshHeroStar);
-		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinGold);
-		EventManager.on(EventKey.COIN_JADEITE_UPDATE, this, this.refreshCoinJadeite);
+		// EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinGold);
+		// EventManager.on(EventKey.COIN_JADEITE_UPDATE, this, this.refreshCoinJadeite);
 		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetiseOver);
 		EventManager.on(ProtoEvent.UPQUALITY_CALL_BACK, this, this.synthetiseOver);
 		EventManager.on(ProtoEvent.SAVEATT_CALL_BACK, this, this.synthetiseOver);
 		Game.playData.sShowFetters.add(this.moduleWindow.createHeroFetters, this.moduleWindow);
-
+		for (let i = 0; i < 9; i++) {
+			this.seatList[i].addSeatEvent();
+		}
 		this.moduleWindow.closeOtherWindow();
-		this.setData();
+		if (Game.playData.guideIndex < GuideType.Win) {
+			this.setData();
+		}
+		else {
+			EventManager.event(EventKey.SHOW_UI_WAIT);
+			EventManager.once(EventKey.LOADER_OVER, this, this.setData);
+			let _list: Array<string> = [];
+			_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+			// _list = _list.concat(LoadFilesList.res_sk_hero_ResList);
+			LoaderManager.addList(_list);
+		}
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
@@ -603,25 +689,34 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			Pools.recycle(this._guidHand);
 			this._guidHand = null;
 		}
+		for (let i = 0; i < 9; i++) {
+			this.seatList[i].removeSeatEvent();
+		}
 		this.m_page.setSelectedIndex(0);
+		this.closeAssInf();
 		Laya.stage.off(Laya.Event.MOUSE_UP, this, this.mouseUp);
 		Laya.stage.off(Laya.Event.MOUSE_OUT, this, this.mouseUp);
 		Game.playData.sShowFetters.remove(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		EventManager.offAllCaller(this);
 	}
 	private showLevelId: number = 1;
+	private showInMenu: boolean = false;
 	// 界面赋值
 	private setData(): void {
-
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		var args: Array<any> = this.moduleWindow.menuParameter.args;
 		if (args.length > 0) {
+			this.showInMenu = false;
 			this.showLevelId = Game.battleData.level_id;
 			let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
 			this.m_titleMap.text = mapLevel.map + "-" + mapLevel.level;
 			this.titleIndex = args[0] + 1;
+			this.m_fight.title = "开始战斗";
 		}
 		else {
+			this.showInMenu = true;
 			this.showLevelId = Game.battleMap.maxMapId;
+			this.m_fight.title = "去闯关";
 		}
 		this.sortHeroList(true);
 		// this.changeStatus(0);
@@ -632,8 +727,8 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		}
 		this.refreshHeroLevel();
 		this.refreshHeroStar();
-		this.refreshCoinGold();
-		this.refreshCoinJadeite();
+		// this.refreshCoinGold();
+		// this.refreshCoinJadeite();
 		this.m_tab.setSelectedIndex(Game.battleScene.seatHeroSelect);
 		this._init = true;
 		this.refrushSkillInf();
@@ -672,13 +767,12 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 				}, 1000);
 			}
 			else if (Game.playData.guideIndex == GuideType.fiveWin) {
-				Game.playData.guideIndex = GuideType.fiveUpLevel;
+				Game.playData.guideIndex = GuideType.fiveUpLvelNext;
 				setTimeout(() => {
-					this.moduleWindow.createGuideUI(this.m_levelUpBtn, new Laya.Point(this.m_levelUpBtn.x, this.m_levelUpBtn.y), Laya.Handler.create(this, this.levelUpDown), Game.tipTxt.fiveUpLevel, LocationType.Left);
+					this.moduleWindow.createGuideUI(this.m_levelUpBtn, new Laya.Point(this.m_levelUpBtn.x, this.m_levelUpBtn.y), Laya.Handler.create(this, this.openUpLevel), Game.tipTxt.fiveUpLevel, LocationType.Left);
 				}, 1000);
 			}
 		}
-		var args: Array<any> = this.moduleWindow.menuParameter.args;
 		if (args.length > 0) {
 			this.m_showTitle.setSelectedIndex(0);
 			this.showUIStep1();
@@ -732,8 +826,15 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		EventManager.event(EventKey.GAMESTART);
 	}
 
+	// 连续点击判断
+	private _clickTime: number = 0;
 	clickFightBtn(): void {
 		if (Game.playData.guideIndex == GuideType.FightReady) return;
+		if (Laya.Browser.now() - this._clickTime <= 3000) {
+			return;
+		}
+		this._clickTime = Laya.Browser.now();
+
 		this._skipFight = false;
 		if (this.moduleWindow.menuParameter.args.length == 0) {
 			this.enterMenu();
@@ -779,52 +880,28 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	private _init: boolean = false;
 	// 刷新英雄等级
 	private refreshHeroLevel(): void {
-		this.m_levelUpBtn.m_counts.text = Fun.formatNumberUnit(Game.playData.upLevelCost());
-		this.m_level.setVar("count", Game.playData.curLevel.toString()).flushVars();
-		if (Game.playData.upLevelCost() > 0 && Game.playData.upLevelCost() <= Game.playData.curGold) {
+		this.m_level.setVar("count", (Game.playData.curLevel - 1).toString()).flushVars();
+		if (Game.redData.levelRed || Game.redData.starRed) {
 			Game.redTip.showRedTip(this.m_levelUpBtn);
 		}
 		else {
 			Game.redTip.hideRedTip(this.m_levelUpBtn);
 		}
+		this.refrushSkillInf();
 		if (this._init) {
 			this.refrushHeroList();
 		}
-		if (Game.playData.guideIndex == GuideType.fiveUpLevel) {
-			Game.playData.guideIndex = GuideType.fiveUpLevelOver;
-			this.moduleWindow.createGuideUI(this.m_backBtn, new Laya.Point(this.m_backBtn.x, this.m_backBtn.y),
-				Laya.Handler.create(this, this.backUI), Game.tipTxt.fiveUpLevelOver, LocationType.Lower);
-		}
 		this.refreshHeroStar();
-	}
-	private starCostDic: Dictionary<string, number> = new Dictionary<string, number>();
-	public curStarCost(): number {
-		if (this.starCostDic.hasKey(Game.playData.curStar)) {
-			return this.starCostDic.getValue(Game.playData.curStar);
-		}
-		for (let i = 1, len = TimeHouseInfo.getCount(); i <= len; i++) {
-			let item = TimeHouseInfo.getInfo(i);
-			if (item && item.cost_jadeite > 0) {
-				if (!this.starCostDic.hasKey(item.star)) {
-					this.starCostDic.add(item.star, item.cost_jadeite);
-				}
-			}
-		}
-		if (this.starCostDic.hasKey(Game.playData.curStar)) {
-			return this.starCostDic.getValue(Game.playData.curStar);
-		}
-		return 0;
 	}
 	// 刷新英雄星级
 	private refreshHeroStar(): void {
-		if (this.curStarCost() <= Game.playData.curJadeite && Game.playData.curStar < Math.floor((Game.playData.curLevel - 1) / 10)) {
-			Game.redTip.showRedTip(this.m_starUpBtn);
+		this.m_star.setVar("count", Game.playData.curStar.toString()).flushVars();
+		if (Game.redData.levelRed || Game.redData.starRed) {
+			Game.redTip.showRedTip(this.m_levelUpBtn);
 		}
 		else {
-			Game.redTip.hideRedTip(this.m_starUpBtn);
+			Game.redTip.hideRedTip(this.m_levelUpBtn);
 		}
-		this.m_starUpBtn.m_counts.text = Fun.formatNumberUnit(this.curStarCost());
-		this.m_star.setVar("count", Game.playData.curStar.toString()).flushVars();
 		if (this._init) {
 			this.refrushHeroList();
 		}
@@ -1030,10 +1107,10 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	/***********************	强化相关	************************ */
 	private qianghuaInit(): void {
 		this.m_qianghuabackBtn.onClick(this, this.changeStatus, [0]);
-		this.m_hitBtn.onClick(this, this.clickHitBtn);
-		this.m_speedBtn.onClick(this, this.changeStatus, [1, 1]);
-		this.m_critBtn.onClick(this, this.changeStatus, [1, 2]);
-		this.m_burstBtn.onClick(this, this.changeStatus, [1, 3]);
+		// this.m_hitBtn.onClick(this, this.clickHitBtn);
+		// this.m_speedBtn.onClick(this, this.changeStatus, [1, 1]);
+		// this.m_critBtn.onClick(this, this.changeStatus, [1, 2]);
+		// this.m_burstBtn.onClick(this, this.changeStatus, [1, 3]);
 
 		this.m_qianghuaheroList.setVirtual();
 		// 设置列表渲染函数

@@ -1,6 +1,6 @@
 import HeroInfo from "../../csvInfo/HeroInfo";
 import SkillInfo from "../../csvInfo/SkillInfo";
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 
 export default class HeroInfoData {
 

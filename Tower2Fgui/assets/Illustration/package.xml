@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="rzze1nh2" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="qyum0" name="IllustrationMain.xml" path="/" exported="true"/>
+    <image id="qyum1" name="tujianTitle.png" path="/pic/"/>
+    <component id="qyum2" name="HeroItem.xml" path="/" exported="true"/>
+    <component id="qvb63" name="HeroItem2.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="Illustration" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

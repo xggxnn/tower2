@@ -1,10 +1,10 @@
 import fui_HeroInfo from "../../Generates/Home/fui_HeroInfo";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import Game from "../../../Game";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
-import Fun from "../../../Tool/Fun";
-import EventKey from "../../../Tool/EventKey";
+import Fun from "../../../tool/Fun";
+import EventKey from "../../../tool/EventKey";
 import FWindow from "../../../gamemodule/FWindow";
 import SkillInfo from "../../../csvInfo/SkillInfo";
 import TimeHouseInfo from "../../../csvInfo/TimeHouseInfo";
@@ -16,7 +16,7 @@ import { HeroAniEnums } from "../../../gamemodule/DataEnums/HeroAniEnums";
 import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import UI_DialogBox from "../System/UI_DialogBox";
-import Pools from "../../../Tool/Pools";
+import Pools from "../../../tool/Pools";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import HeroTypeInfo from "../../../csvInfo/HeroTypeInfo";
@@ -203,14 +203,14 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		Game.playData.sShowFetters.dispatch();
 	}
 	private helpClick(): void {
-		Game.popup.showPopup(this.m_help, true, Game.tipTxt.HeroInfTip);
+		Game.popup.showPopup(this.m_help, true, false, Game.tipTxt.HeroInfTip);
 	}
 
 
 	private showTip: boolean = false;
 	private clickGain(): void {
 		if (this.showTip) {
-			Game.popup.showPopup(this.m_gainmethod, false, "获取途径：\n1、闯关\n2、挂机");
+			Game.popup.showPopup(this.m_gainmethod, false, false, "获取途径：\n1、闯关\n2、挂机");
 		}
 		else {
 			// 英雄合成
@@ -268,17 +268,26 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 			this.m_cirt.setVar("count", tip.getValue(FightType.Crit)).flushVars();
 			this.m_burst.setVar("count", tip.getValue(FightType.Burst)).flushVars();
 			let skill2 = SkillInfo.getInfo(this.heroInf.skill_id_2);
-			this.m_skillname.setVar("count", skill2.explain).flushVars();
+			this.m_skillname.setVar("name", skill2.des).setVar("count", skill2.explain).flushVars();
 			this.m_gainmethod.enabled = true;
 			this.showTip = false;
 			let heroQuality = HeroqualityInfo.getInfoQuality(this.heroInf.quality);
 			this.upClips = heroQuality.clip_hero;
-			let heroClips = Game.playData.curClips.getValue(this.heroInf.id);
+			let heroClips: number = Game.playData.curClips.getValue(this.heroInf.id);
 			if (!heroClips) heroClips = 0;
+			let str = "";
+			if (this.upClips > heroClips) {
+				str = "[color=#ff0000]" + heroClips + "[/color]/[color=#33ff00]" + this.upClips + "[/color]";
+			}
+			else {
+				str = "[color=#33ff00]" + heroClips + "[/color]/[color=#33ff00]" + this.upClips + "[/color]";
+			}
+			this.m_upQuality.title = "提升品质(" + str + ")";
+			this.m_gainmethod.title = "合成(" + str + ")";
+			this.m_up.setSelectedIndex(0);
 			if (Game.haveHeroTem.indexOf(this.heroInf.skin) != -1) {
 				if (!Game.playData.curHeroInfoList.hasKey(this.heroInf.id)) {
 					if (heroClips >= this.upClips) {
-						this.m_gainmethod.title = "合成";
 						if (Game.playData.guideIndex == GuideType.showHeroItem) {
 							Game.playData.guideIndex = GuideType.SnythHero;
 							setTimeout(() => {
@@ -288,13 +297,10 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 						}
 					}
 					else {
-						this.m_gainmethod.title = "数量不足";
 						this.showTip = true;
 					}
-					this.m_up.setSelectedIndex(0);
 				}
 				else {
-					this.m_gainmethod.title = "获得方式";
 					this.showTip = true;
 					this.m_up.setSelectedIndex(1);
 					if (this.heroInf.quality < 5 && this.upClips <= heroClips) {
@@ -306,7 +312,6 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 				}
 			}
 			if (!Game.battleData.isShowGainBtn) {
-				this.m_gainmethod.title = "获得方式";
 				this.m_gainmethod.enabled = true;
 				this.showTip = true;
 			}

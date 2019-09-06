@@ -58,12 +58,7 @@ export default class UI_MapItem extends fui_MapItem {
 			let wave = WaveInfo.getInfo(i + index * 10);
 			this.waveInfList.push(wave);
 		}
-		let j = 0;
 		for (let i = 0; i < 10; i++) {
-			if ((i + 1) % 4 == 0) {
-				j++;
-			}
-			this.selectionList[i].setXY(this.m_selection.x + 200 + (i - j * 3) * 200, this.m_selection.y + j * 200);
 			this.selectionList[i].setData(this.waveInfList[i], moduleWindow);
 		}
 	}

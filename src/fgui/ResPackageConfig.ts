@@ -1,5 +1,5 @@
 import Loader = laya.net.Loader;
-import Fun from "../Tool/Fun";
+import Fun from "../tool/Fun";
 
 export default class ResPackageConfig {
 

@@ -1,4 +1,4 @@
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import HeroInfo from "../csvInfo/HeroInfo";
 import AssociationAttributeInfo from "../csvInfo/AssociationAttributeInfo";
 import AssociationCareerInfo from "../csvInfo/AssociationCareerInfo";
@@ -24,6 +24,8 @@ import KingInfo from "../csvInfo/KingInfo";
 import SignInfo from "../csvInfo/SignInfo";
 import BossSkillInfo from "../csvInfo/BossSkillInfo";
 import LevelchallengesuggestInfo from "../csvInfo/LevelchallengesuggestInfo";
+import PositionunlockInfo from "../csvInfo/PositionunlockInfo";
+import TipsInfo from "../csvInfo/TipsInfo";
 
 export default class ServerCSVConfig {
     private static _Instance: ServerCSVConfig;
@@ -103,6 +105,9 @@ export default class ServerCSVConfig {
                 case "playskill":
                     PlayerSkillInfo.server(dic);
                     break;
+                case "positionunlock":
+                    PositionunlockInfo.server(dic);
+                    break;
                 case "resource":
                     ResourceInfo.server(dic);
                     break;
@@ -120,6 +125,9 @@ export default class ServerCSVConfig {
                     break;
                 case "timehouse":
                     TimeHouseInfo.server(dic);
+                    break;
+                case "tips":
+                    TipsInfo.server(dic);
                     break;
                 case "trial":
                     TrialInfo.server(dic);

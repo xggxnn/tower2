@@ -2,7 +2,7 @@ import fui_HeroFetters from "../../Generates/Home/fui_HeroFetters";
 import HomeWin from "../../../gamemodule/Windows/HomeWin";
 import FWindow from "../../../gamemodule/FWindow";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import Association from "../../../gamemodule/DataStructs/Association";
 import UI_ItemIcon from "../System/UI_ItemIcon";
 import AssociationAttributeInfo from "../../../csvInfo/AssociationAttributeInfo";
@@ -122,7 +122,7 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 	// 点击item
 	private onClickItem(obj: fairygui.GObject): void {
 		let item = obj as UI_ItemIcon;
-		Game.popup.showPopup(obj, true, "英雄：{0}", item.hero.id + 11);
+		Game.popup.showPopup(obj, true, false, "英雄：{0}", item.hero.id + 11);
 	}
 
 

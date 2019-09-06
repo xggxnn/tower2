@@ -1,6 +1,6 @@
 import { MenuId } from "./MenuId";
 import { AssetItemInfo } from "../fgui/GamePreload";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import FWindow from "./FWindow";
 import AssetManager from "../fgui/AssetManager";
 import ModuleConfig from "./ModuleConfig";
@@ -10,9 +10,9 @@ import { MenuCtlStateType } from "./MenuCtlStateType";
 import Game from "../Game";
 import MenuLayer from "./MenuLayer";
 import { MenuLayerType } from "./DataEnums/MenuLayerType";
-import EventManager from "../Tool/EventManager";
-import LoaderManager from "../Tool/LoaderManager";
-import EventKey from "../Tool/EventKey";
+import EventManager from "../tool/EventManager";
+import LoaderManager from "../tool/LoaderManager";
+import EventKey from "../tool/EventKey";
 
 export default class MenuCtl {
 	__menuManager: MenuManager;
@@ -82,7 +82,7 @@ export default class MenuCtl {
 			console.warn(`设置显示 但是模块已销毁 : ${this.menuId}`, "MenuId." + MenuId[this.menuId]);
 			return;
 		}
-		console.log("设置显示面板 : ", "MenuId." + MenuId[this.menuId]);
+		// console.log("设置显示面板 : ", "MenuId." + MenuId[this.menuId]);
 
 		this.moduleWindow.sShowComplete.addOnce(this.closeOther, this);
 
@@ -99,27 +99,46 @@ export default class MenuCtl {
 	// 关闭其他模块
 	protected closeOther() {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
-		let hasCloseOtherMenu: boolean = false;
 		// 设置返回MenuID
 		let backMenuId = this.__menuManager.getLastOpenMenuId([this.menuId]);
 
+		let hasCloseOtherMenu: boolean = this.closeOtherUI();
 		// if (!this.openParametar.dontCloseOther) {
-		// 	let homeIsOpen = this.__menuManager.isOpened(MenuId.Home);
-		// 	let list: MenuCtl[] = Game.menu.dict.getValues();
-		// 	for (let i = 0; i < list.length; i++) {
-		// 		let ctl = list[i];
-		// 		if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load)
-		// 			continue;
+		// let homeIsOpen = this.__menuManager.isOpened(MenuId.Home);
+		// let list: MenuCtl[] = Game.menu.dict.getValues();
+		// for (let i = 0; i < list.length; i++) {
+		// 	let ctl = list[i];
+		// 	if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load || ctl.menuId == MenuId.Battle)
+		// 		continue;
 
-		// 		if (ctl != this) {
-		// 			ctl.closeIsDestory = homeIsOpen;
-		// 			ctl.close();
-		// 			hasCloseOtherMenu = true;
-		// 		}
+		// 	if (ctl != this) {
+		// 		ctl.closeIsDestory = homeIsOpen;
+		// 		ctl.close();
+		// 		hasCloseOtherMenu = true;
 		// 	}
+		// }
 		// }
 		this.backMenuId = hasCloseOtherMenu ? backMenuId : -1;
 	}
+
+	closeOtherUI() {
+		let hasCloseOtherMenu: boolean = false;
+		let homeIsOpen = this.__menuManager.isOpened(MenuId.Home);
+		let list: MenuCtl[] = Game.menu.dict.getValues();
+		for (let i = 0; i < list.length; i++) {
+			let ctl = list[i];
+			if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load || ctl.menuId == MenuId.Battle)
+				continue;
+
+			if (ctl != this) {
+				ctl.closeIsDestory = homeIsOpen;
+				ctl.close();
+				hasCloseOtherMenu = true;
+			}
+		}
+		return hasCloseOtherMenu;
+	}
+
 	// 关闭
 	close() {
 		if (this.state == MenuCtlStateType.Closed || this.state == MenuCtlStateType.Destoryed)

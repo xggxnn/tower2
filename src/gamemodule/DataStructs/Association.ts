@@ -1,7 +1,7 @@
 import FiveElementsInfo from "../../csvInfo/FiveElementsInfo";
 import AssociationRaceInfo from "../../csvInfo/AssociationRaceInfo";
 import AssociationCareerInfo from "../../csvInfo/AssociationCareerInfo";
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 import HeroInfoData from "./HeroInfoData";
 
 export default class Association {

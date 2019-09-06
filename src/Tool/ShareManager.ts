@@ -1,12 +1,12 @@
 import Game from "../Game";
 
 export default class ShareManager {
-	private static _title: string = "一边撸着猫一边就能玩的塔防--守护家园塔防";
+	private static _title: string = "开局抓到一只唐僧，你能守住多少关？";
 	public static set title(v: string) {
 		this._title = v;
 	}
 
-	private static _url: string = "https://ms.yz063.com/iron_throne/share/share.jpg";
+	private static _url: string = "https://ms.yz063.com/iron_throne/share/750600.png";
 	public static set url(v: string) {
 		this._url = v;
 	}

@@ -2,6 +2,8 @@ import Game from "../../Game";
 import HeroqualityInfo from "../../csvInfo/HeroqualityInfo";
 import KingInfo from "../../csvInfo/KingInfo";
 import HeroInfoData from "./HeroInfoData";
+import TimeHouseInfo from "../../csvInfo/TimeHouseInfo";
+import Dictionary from "../../tool/Dictionary";
 
 /**
  * 红点提示计算
@@ -14,10 +16,6 @@ export default class RedTipData {
             RedTipData._Instance = new RedTipData();
         }
         return RedTipData._Instance;
-    }
-    // 背包是否需要红点
-    public get bagRed(): boolean {
-        return this.heroRed;
     }
     // 是否存在可合成或提示品质的英雄
     public get heroRed(): boolean {
@@ -55,20 +53,89 @@ export default class RedTipData {
     public get signRed(): boolean {
         return !Game.playData.isSign && Game.battleMap.maxMapId > 1;
     }
-    public kingRedIndex: number = 0;
+    public get kingRedIndex(): number {
+        let result = 0;
+        for (let i = KingInfo.getCount(); i > 0; i--) {
+            let kInf = KingInfo.getInfo(i);
+            if (kInf.rid1 > 0) {
+                if (!Game.playData.getKingStatus(i, 1)) {
+                    result = i - 1;
+                }
+            }
+        }
+        return result;
+    }
     public get kingRed(): boolean {
         for (let i = 1, len = KingInfo.getCount(); i <= len; i++) {
             let kInf = KingInfo.getInfo(i);
             if (kInf.level <= Game.playData.curLevel) {
                 if ((kInf.rid1 > 0 && !Game.playData.getKingStatus(i, 1))/* || (kInf.rid2 > 0 && !Game.playData.getKingStatus(i, 2))*/) {
-                    if (this.kingRedIndex >= 0) {
-                        this.kingRedIndex = i - 1;
-                    }
+                    // if (this.kingRedIndex >= 0) {
+                    //     this.kingRedIndex = i - 1;
+                    // }
                     return true;
                 }
             }
         }
         return false;
     }
+
+    public get seatRed(): boolean {
+        return this.levelRed || this.starRed;
+    }
+
+    public get levelRed(): boolean {
+        if (Game.playData.upLevelCost() > 0 && Game.playData.upLevelCost() <= Game.playData.curGold) {
+            return true;
+        }
+        return false;
+    }
+
+    public get starRed(): boolean {
+        if (this.curStarCost() <= Game.playData.curJadeite && Game.playData.curStar < Math.floor((Game.playData.curLevel - 1) / 10)) {
+            return true;
+        }
+        return false;
+    }
+    private starCostDic: Dictionary<string, number> = new Dictionary<string, number>();
+    public curStarCost(): number {
+        if (this.starCostDic.hasKey(Game.playData.curStar)) {
+            return this.starCostDic.getValue(Game.playData.curStar);
+        }
+        for (let i = 1, len = TimeHouseInfo.getCount(); i <= len; i++) {
+            let item = TimeHouseInfo.getInfo(i);
+            if (item && item.cost_jadeite > 0) {
+                if (!this.starCostDic.hasKey(item.star)) {
+                    this.starCostDic.add(item.star, item.cost_jadeite);
+                }
+            }
+        }
+        if (this.starCostDic.hasKey(Game.playData.curStar)) {
+            return this.starCostDic.getValue(Game.playData.curStar);
+        }
+        return 0;
+    }
+
+
+    private _bagRed: boolean;
+    /**
+     * 背包是否需要红点
+     */
+    public get bagRed(): boolean {
+        return this._bagRed;
+    }
+    public set bagRed(v: boolean) {
+        this._bagRed = v;
+    }
+
+
+    private _skillRed: boolean = false;
+    public get skillRed(): boolean {
+        return this._skillRed;
+    }
+    public set skillRed(v: boolean) {
+        this._skillRed = v;
+    }
+
 
 }

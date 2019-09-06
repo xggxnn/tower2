@@ -31,7 +31,6 @@ export default class GameInstaller {
 	}
 
 	private static onLoadRes() {
-		console.log("load over");
 		let _scene: laya.display.Sprite = fairygui.GRoot.inst.displayObject;
 		_scene.x = (Laya.stage.width - 1280) * 0.5;
 		_scene.y = (Laya.stage.height - 960) * 0.5;
@@ -40,6 +39,5 @@ export default class GameInstaller {
 		Game.scenesWH = new Laya.Point(_scene.width, _scene.height);
 		MenuLayer.install();
 		Game.onInstallComplete();
-
 	}
 }

@@ -1,5 +1,5 @@
 import { MenuLayerType } from "./DataEnums/MenuLayerType";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 
 // 层级管理器
 export default class MenuLayer {

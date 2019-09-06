@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <displayList>
+    <image id="n1_j5ct" name="n1" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="0,0" size="1280,960" alpha="0.5"/>
+    <list id="n0_j5ct" name="list" xy="290,180" size="700,600" overflow="scroll" defaultItem="ui://130tmfxdq080m" autoClearItems="true"/>
+    <component id="n2_j5ct" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="135,196"/>
+  </displayList>
+</component>

@@ -2,17 +2,18 @@ import fui_Trial from "../../Generates/Menus/fui_Trial";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import Game from "../../../Game";
 import { MenuId } from "../../../gamemodule/MenuId";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
-import EventKey from "../../../Tool/EventKey";
+import EventKey from "../../../tool/EventKey";
 import WaveStatus from "../../../gamemodule/DataStructs/WaveStatus";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import { FightType } from "../../../gamemodule/DataEnums/FightType";
 import UI_RewardItem from "../System/UI_RewardItem";
 import WaveRewardInfo from "../../../csvInfo/WaveRewardInfo";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import ResourceInfo from "../../../csvInfo/ResourceInfo";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
+import { GameStatus } from "../../../gamemodule/DataEnums/GameStatus";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Trial extends fui_Trial {
@@ -33,14 +34,12 @@ export default class UI_Trial extends fui_Trial {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 
+		this.m_startBtn.title = "准备迎战";
 		this.m_closeBtn.onClick(this, this.closeUI);
 		this.m_startBtn.onClick(this, this.startClick);
 		// 设置列表渲染函数
 		this.m_rewardList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
-		this.m_help.onClick(this, this.helpClick);
-	}
-	private helpClick(): void {
-		Game.popup.showPopup(this.m_help, true, Game.tipTxt.TrialTip);
+		// this.m_help.onClick(this, this.helpClick);
 	}
 	private rewardList: Array<RewardItem> = [];
 	// 渲染item 列表的item
@@ -52,6 +51,25 @@ export default class UI_Trial extends fui_Trial {
 	private fight_type: number = 0;
 	// 开始挑战
 	startClick(): void {
+		if (Game.playData.guideIndex >= GuideType.sevenStartFive && this.fight_type == 1 && this.m_fightStatus.selectedIndex == 0 && this.m_speedStatus.selectedIndex == 0 && this.m_critStatus.selectedIndex == 0 && this.m_burstStatus.selectedIndex == 0) {
+			Game.tipWin.showTip(Game.tipTxt.FightSkipTip, true, Laya.Handler.create(this, this.skipFight), Laya.Handler.create(this, this.fightReq), "跳过战斗", "继续战斗");
+		}
+		else {
+			this.fightReq();
+		}
+	}
+	private _skipFight: boolean = false;
+	// 准备观看视频跳过战斗过程
+	private skipFight(): void {
+		this._skipFight = true;
+		this.fightReq();
+	}
+	private _clickTime: number = 0;
+	private fightReq(): void {
+		if (Laya.Browser.now() - this._clickTime <= 3000) {
+			return;
+		}
+		this._clickTime = Laya.Browser.now();
 		EventManager.event(EventKey.SHOW_UI_WAIT);
 		Game.battleData.fight_type = this.fight_type;
 		let data = {
@@ -61,9 +79,16 @@ export default class UI_Trial extends fui_Trial {
 		Game.proto.selectWave(data);
 	}
 	private startFight(): void {
-		this.moduleWindow.menuClose();
-		EventManager.event(EventKey.CLOSE_UI_WAIT);
-		Game.menu.open(MenuId.Battle);
+		if (this._skipFight) {
+			Game.gameStatus = GameStatus.Win;
+			this.moduleWindow.gameResult();
+			this.closeUI();
+		}
+		else {
+			this.moduleWindow.menuClose();
+			EventManager.event(EventKey.CLOSE_UI_WAIT);
+			Game.menu.open(MenuId.Battle);
+		}
 	}
 
 	// 关闭ui
@@ -80,7 +105,7 @@ export default class UI_Trial extends fui_Trial {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
-		// this._skipFight = false;
+		this._skipFight = false;
 		let _dic = Game.battleData.getWaveFightInf(Game.battleData.level_id);
 		let _seatDic = Game.playData.curFightInf;
 		let tip = Game.playData.fightTip(_seatDic);
@@ -113,12 +138,12 @@ export default class UI_Trial extends fui_Trial {
 			Game.battleData.trial_level = this.item.level;
 			this.m_c1.setSelectedIndex(1);
 			(this.m_reward as UI_RewardItem).m_count.setVar("count", Fun.formatNumberUnit(rewardInf.coin_challenge)).flushVars();
-			this.m_progress.value = Math.floor((this.item.level - 1) / 10 * 100);
+			this.m_progress.value = Math.floor((this.item.level - 1) / 5 * 100);
 			if (this.item.fightCd > 0) {
 				this.m_cdStatus.setSelectedIndex(1);
 				this.m_startBtn.enabled = false;
-				this.showFightCd(this.item.fightCd);
-				this.item.sUpdateFightCd.add(this.showFightCd, this);
+				this.showFightCd(this.item);
+				Game.battleMap.sUpdateFightCd.add(this.showFightCd, this);
 			}
 			else {
 				this.m_cdStatus.setSelectedIndex(0);
@@ -164,24 +189,23 @@ export default class UI_Trial extends fui_Trial {
 			}, 10);
 		}
 	}
-	private showFightCd(cd: number): void {
-		if (cd <= 0) {
-			this.m_cdStatus.setSelectedIndex(0);
-			this.m_startBtn.enabled = true;
-		}
-		else {
-			this.m_cd.text = Fun.format("冷却时间：{0}", Fun.formatTime(cd));
+	private showFightCd(waves: WaveStatus): void {
+		if (this.item && this.item.id == waves.id) {
+			if (waves.fightCd <= 0) {
+				this.m_cdStatus.setSelectedIndex(0);
+				this.m_startBtn.enabled = true;
+			}
+			else {
+				this.m_cd.text = Fun.format("冷却时间：{0}", Fun.formatTime(waves.fightCd));
+			}
 		}
 	}
 	private item: WaveStatus = null;
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
 		EventManager.off(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
-		if (this.item) {
-			this.item.sUpdateFightCd.remove(this.showFightCd, this);
-		}
+		Game.battleMap.sUpdateFightCd.remove(this.showFightCd, this);
 	}
-
 
 }
 UI_Trial.bind();

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="80,80">
+  <controller name="status" exported="true" pages="0,none,1,fighting,2,progress,3,complete" selected="1"/>
+  <controller name="starNum" pages="0,,1,,2,,3,,4,,5," selected="0"/>
+  <displayList>
+    <component id="n0_ngrs" name="selBtn" src="udz4h" fileName="selectionBtn.xml" xy="0,0" locked="true" controller="pic,0"/>
+    <image id="n2_ngrs" name="n2" src="qvb6549" fileName="pic/dikuang.png" xy="-14,78" size="239,60" scale="0.5,0.5" pkg="130tmfxd">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <loader id="n10_qvb6" name="comquality" xy="13,75" size="70,70" locked="true" aspect="true" url="ui://88du1wabczuw53l" fill="scale">
+      <gearDisplay controller="status" pages="3"/>
+    </loader>
+    <loader id="n13_qvb6" name="n13" xy="22,84" size="52,52" locked="true" aspect="true" url="ui://pdzut3twqvb6526" fill="scale">
+      <gearDisplay controller="status" pages="3"/>
+    </loader>
+    <image id="n14_qvb6" name="n14" src="qvb6527" fileName="pic/tansuo.png" xy="-27,76" locked="true">
+      <gearDisplay controller="status" pages="3"/>
+    </image>
+    <image id="n15_qvb6" name="comMask" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="18,80" size="60,60" locked="true" alpha="0.8" fillMethod="radial360" fillClockwise="false" fillAmount="79">
+      <gearDisplay controller="status" pages="3"/>
+    </image>
+    <text id="n8_ngrs" name="comtime" xy="48,111" pivot="0.5,0.5" anchor="true" size="57,18" locked="true" font="ui://130tmfxdj8q220" fontSize="4" color="#51fc55" vAlign="middle" text="2h30m">
+      <gearDisplay controller="status" pages="3"/>
+    </text>
+    <image id="n26_qvb6" name="n26" src="qvb6523" fileName="pic/goldDi.png" xy="-51,56">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n16_qvb6" name="n16" src="qvb6525" fileName="pic/staran.png" xy="2,81">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n17_qvb6" name="n17" src="qvb6525" fileName="pic/staran.png" xy="21,81">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n18_qvb6" name="n18" src="qvb6525" fileName="pic/staran.png" xy="41,81">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n19_qvb6" name="n19" src="qvb6525" fileName="pic/staran.png" xy="61,81">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n20_qvb6" name="n20" src="qvb6525" fileName="pic/staran.png" xy="81,81">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n21_qvb6" name="n21" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="12,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="1,2,3,4,5"/>
+    </image>
+    <image id="n22_qvb6" name="n22" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="33,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="2,3,4,5"/>
+    </image>
+    <image id="n23_qvb6" name="n23" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="53,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="3,4,5"/>
+    </image>
+    <image id="n24_qvb6" name="n24" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="73,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="4,5"/>
+    </image>
+    <image id="n25_qvb6" name="n25" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="93,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="5"/>
+    </image>
+    <image id="n27_qvb6" name="n27" src="j5ct17" fileName="gold.png" pkg="88du1wab" xy="-47,58">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n28_qvb6" name="n28" src="qvb6524" fileName="pic/shilianwancheng.png" xy="5,55">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n30_qvb6" name="mask" src="ngrs14" fileName="mask.png" pkg="130tmfxd" xy="-51,56" size="57,57" aspect="true" fillMethod="radial360" fillClockwise="false" fillAmount="90">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <text id="n29_qvb6" name="protime" xy="-23,83" pivot="0.5,0.5" anchor="true" size="57,18" font="ui://130tmfxdj8q220" fontSize="4" color="#51fc55" vAlign="middle" text="2h30m">
+      <gearDisplay controller="status" pages="2"/>
+    </text>
+    <text id="n5_ngrs" name="progress" xy="-21,107" pivot="0.5,0.5" anchor="true" size="44,17" font="ui://130tmfxdj8q220" fontSize="4" color="#ffffff" align="center" vAlign="middle" text="2400">
+      <gearDisplay controller="status" pages="2"/>
+    </text>
+  </displayList>
+</component>

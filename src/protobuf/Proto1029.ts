@@ -16,6 +16,7 @@ export default class Proto1029 extends Proto {
     }
     // any == T
     protected read(json: any): void {
+        Game.playData.synUpReset = 3;
         let heroid: number = Number(json.heroId);
         let hero = HeroInfoData.getInfo(heroid);
         let clipsDic = Game.playData.curClips;

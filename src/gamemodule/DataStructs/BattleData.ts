@@ -1,13 +1,13 @@
-import EventManager from "../../Tool/EventManager";
-import EventKey from "../../Tool/EventKey";
+import EventManager from "../../tool/EventManager";
+import EventKey from "../../tool/EventKey";
 import Game from "../../Game";
 import BattleScene from "../Models/BattleScene";
 import { GameStatus } from "../DataEnums/GameStatus";
 import Association from "./Association";
 import UI_PropBtn from "../../fgui/Extend/Arrangement/UI_PropBtn";
-import Dictionary from "../../Tool/Dictionary";
+import Dictionary from "../../tool/Dictionary";
 import EnemyData from "./EnemyData";
-import Signal from "../../Tool/Signal";
+import Signal from "../../tool/Signal";
 import RewardItem from "./RewardItem";
 import AssociationCareerInfo from "../../csvInfo/AssociationCareerInfo";
 import AssociationRaceInfo from "../../csvInfo/AssociationRaceInfo";
@@ -20,7 +20,7 @@ import DifficultyEfficiencyInfo from "../../csvInfo/DifficultyEfficiencyInfo";
 import WaveStatus from "./WaveStatus";
 import AssociationAttributeInfo from "../../csvInfo/AssociationAttributeInfo";
 import WaveRewardInfo from "../../csvInfo/WaveRewardInfo";
-import TypedSignal from "../../Tool/TypedSignal";
+import TypedSignal from "../../tool/TypedSignal";
 import HeroInfoData from "./HeroInfoData";
 
 export default class BattleData {
@@ -66,7 +66,7 @@ export default class BattleData {
         }
         else {
             if (Game.battleScene.enemyList.length == 0) {
-                if (Game.battleMap.curTime >= Game.battleMap.waveTime + 2) {
+                if (Game.battleMap.curTime >= Game.battleMap.waveTime + 60) {
                     Game.battleMap.curTime = Game.battleMap.waveTime * Game.battleMap.waveTime;
                     EventManager.event(EventKey.GAMEWIN);
                 }
@@ -86,6 +86,8 @@ export default class BattleData {
         this._startDrag = v;
     }
 
+    public sUpdateDragHero: Signal = new Signal();
+    public sUpdateDragHeroOver: Signal = new Signal();
     // 当前拖拽中的英雄信息
     private _heroInf: HeroInfoData = null;
     public get heroInf(): HeroInfoData {
@@ -110,6 +112,26 @@ export default class BattleData {
     public set seatBtn(v: UI_PropBtn) {
         this._seatBtn = v;
     }
+
+    //////////////////    阵上英雄拖拽操作      ///////////////////////////////////////////
+    // 当前拖拽中的英雄在阵上那个点
+    private _battleSeatPos: number = -1;
+    public get battleSeatPos(): number {
+        return this._battleSeatPos;
+    }
+    public set battleSeatPos(v: number) {
+        this._battleSeatPos = v;
+    }
+    // 当前拖拽中的英雄信息
+    private _battleheroInf: HeroInfoData = null;
+    public get battleheroInf(): HeroInfoData {
+        return this._battleheroInf;
+    }
+    public set battleheroInf(v: HeroInfoData) {
+        this._battleheroInf = v;
+    }
+    /////////////////////////////////////////////////////////////
+
     // 当前显示那个英雄详情 -- 打开英雄详情时调用
     public isShowGainBtn: boolean = false;
     private _clickHeroInf: HeroInfoData = null;
@@ -119,6 +141,7 @@ export default class BattleData {
     public set clickHeroInf(v: HeroInfoData) {
         this._clickHeroInf = v;
     }
+    public sUpdateSortSign: TypedSignal<number> = new TypedSignal<number>();
 
     /**
      * 刷新当前阵容战力信息

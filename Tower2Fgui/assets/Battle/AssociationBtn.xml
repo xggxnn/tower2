@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="65,65" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <loader id="n1_ngrs" name="icon" xy="0,0" size="65,65" url="ui://88du1wab9v6l0" align="center" vAlign="middle" fill="scale">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <text id="n2_ngrs" name="titles" xy="0,0" size="65,65" fontSize="20" color="#ffffff" align="right" vAlign="bottom" vars="true" autoSize="none" strokeColor="#000000" strokeSize="2" text="x{count=0}"/>
+  </displayList>
+  <Button downEffect="scale" downEffectValue="1.05"/>
+</component>

@@ -1,12 +1,12 @@
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 import { MenuId } from "./MenuId";
 import MenuCtl from "./MenuCtl";
 import MenuWindows from "./MenuWindows";
 import { MenuOpenParameter } from "./MenuOpenParameter";
 import { MenuCtlStateType } from "./MenuCtlStateType";
 import Game from "../Game";
-import EventManager from "../Tool/EventManager";
-import EventKey from "../Tool/EventKey";
+import EventManager from "../tool/EventManager";
+import EventKey from "../tool/EventKey";
 
 export default class MenuManager {
 
@@ -97,6 +97,7 @@ export default class MenuManager {
 		}
 		return result;
 	}
+
 	/**
 	 * 打开模块
 	 * @param menuId 模块id
@@ -148,7 +149,7 @@ export default class MenuManager {
 				this.stack.splice(i, 1);
 		}
 
-		console.log(`关闭面板 :`, "MenuId." + MenuId[ctl.menuId]);
+		// console.log(`关闭面板 :`, "MenuId." + MenuId[ctl.menuId]);
 		// 关闭前打开主界面
 		// let home = this.getMenuCtl(MenuId.Home);
 		// if (!home || home.state != MenuCtlStateType.Opened) {
@@ -161,7 +162,7 @@ export default class MenuManager {
 
 	/** 检测销毁模块 */
 	onTick() {
-		for (let i = 0; i < this.list.length; i++) {
+		for (let i = this.list.length - 1; i >= 0; i--) {
 			let ctl = this.list[i];
 			if (ctl.state == MenuCtlStateType.Closed) {
 				if (ctl.cacheTime != -1) {
@@ -169,6 +170,7 @@ export default class MenuManager {
 					let subtime = Game.time.localTime - ctl.closeTime;
 					if (subtime >= cacheTime && ctl.closeIsDestory) {
 						ctl.destory();
+						this.list.splice(i, 0);
 					}
 				}
 			}

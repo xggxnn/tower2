@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <displayList>
+    <image id="n0_qyum" name="n0" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="0,0" size="1280,960"/>
+    <image id="n1_qyum" name="n1" src="udz4m" fileName="pic/zu2.png" pkg="130tmfxd" xy="55,128" size="1170,704"/>
+    <image id="n2_qyum" name="n2" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="48,124"/>
+    <image id="n3_qyum" name="n3" src="qyum1" fileName="pic/tujianTitle.png" xy="126,146"/>
+    <image id="n4_qyum" name="n4" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="103,224" size="1077,592"/>
+    <list id="n5_qyum" name="list" xy="152,243" size="975,555" layout="flow_hz" overflow="scroll" lineGap="20" colGap="15" defaultItem="ui://rzze1nh2qvb63" autoClearItems="true"/>
+    <component id="n6_qyum" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="62,134">
+      <Button title="返回"/>
+    </component>
+    <component id="n7_qvb6" name="help" src="qrw053u" fileName="Help.xml" pkg="130tmfxd" xy="619,145"/>
+  </displayList>
+</component>

@@ -24,7 +24,7 @@ export default class EnemyData {
             if (Game.battleMap.waveInfo.type == 1 || Game.battleMap.waveInfo.type == 2) {
                 dif = 1;
             }
-            this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal * Game.battleMap._heroTypeInf.benchmark_atk * 0.01 * Game.battleMap.waveInfo.heronum * dif;
+            this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal * Game.battleMap._heroTypeInf.benchmark_atk * 0.01 * dif;
             this.maxHp = this.curHp;
             if (this.monsterInf.boss == 1) {
                 console.log(this.monsterInf.id, this.monsterInf.skill_id);

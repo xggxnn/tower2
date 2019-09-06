@@ -37,6 +37,9 @@ export default class ProtoEvent {
 	public static get OPENCARD_CALL_BACK(): string {
 		return this.getProtoEvent(1018);
 	}
+	public static get COLLECTDEBRIS_CALL_BACK(): string {
+		return this.getProtoEvent(1019);
+	}
 	public static get KING_CALL_BACK(): string {
 		return this.getProtoEvent(1020);
 	}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <controller name="showRange" pages="0,,1," selected="0"/>
+  <displayList>
+    <loader id="n6_n1s0" name="bg" xy="0,0" size="1280,960" url="ui://3jvhuirzj5ct1j" fill="scaleFree"/>
+    <image id="n80_czuw" name="bg00" src="czuw1q" fileName="pic/bg02.png" xy="1280,0" size="1210,960" aspect="true"/>
+    <loader id="n106_czuw" name="cloud" xy="1500,-143" size="1172,1247"/>
+    <image id="n105_czuw" name="door" src="czuw1s" fileName="pic/Ndoor.png" xy="2073,0"/>
+    <image id="n46_yyzw" name="n46" src="yyzwd" fileName="pic/baguafuwen.png" xy="506,231" group="n47_yyzw"/>
+    <component id="n45_yyzw" name="bagua1" src="yyzwe" fileName="bagua.xml" xy="538,254" group="n47_yyzw" scale="1,0.65" controller="c1,1"/>
+    <group id="n47_yyzw" name="bg3" xy="506,231" size="131,89" advanced="true" collapsed="true"/>
+    <image id="n58_yyzw" name="n58" src="yyzwd" fileName="pic/baguafuwen.png" xy="734,226" group="n60_yyzw"/>
+    <component id="n59_yyzw" name="bagua2" src="yyzwe" fileName="bagua.xml" xy="766,249" group="n60_yyzw" scale="1,0.65" controller="c1,1"/>
+    <group id="n60_yyzw" name="bg1" xy="734,226" size="131,89" advanced="true" collapsed="true"/>
+    <image id="n61_yyzw" name="n61" src="yyzwd" fileName="pic/baguafuwen.png" xy="733,727" group="n63_yyzw"/>
+    <component id="n62_yyzw" name="bagua4" src="yyzwe" fileName="bagua.xml" xy="765,750" group="n63_yyzw" scale="1,0.65" controller="c1,0"/>
+    <group id="n63_yyzw" name="bg2" xy="733,727" size="131,89" advanced="true" collapsed="true"/>
+    <image id="n64_yyzw" name="n64" src="yyzwd" fileName="pic/baguafuwen.png" xy="506,728" group="n66_yyzw"/>
+    <component id="n65_yyzw" name="bagua3" src="yyzwe" fileName="bagua.xml" xy="538,751" group="n66_yyzw" scale="1,0.65" controller="c1,1"/>
+    <group id="n66_yyzw" name="bg4" xy="506,728" size="131,89" advanced="true" collapsed="true"/>
+    <loader id="n107_czuw" name="haloscenes" xy="0,0" size="1280,960">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <image id="n76_j8q2" name="atkRange" src="j8q21o" fileName="pic/atkRange.png" xy="461,357" pivot="0.5,0.5" anchor="true" size="252,252">
+      <gearDisplay controller="showRange" pages="1"/>
+    </image>
+    <loader id="n75_jg2u" name="shadow" xy="0,0" size="1280,960" touchable="false"/>
+    <component id="n13_n1s0" name="base0" src="n1s0b" fileName="StoneBase.xml" xy="458,361" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n26_n1s0" name="stone0" src="n1s09" fileName="Stone.xml" xy="458,439" pivot="0.5,0.5" anchor="true" group="n77_qrw0" controller="c1,0"/>
+    <component id="n14_n1s0" name="base1" src="n1s0b" fileName="StoneBase.xml" xy="458,523" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n27_n1s0" name="stone1" src="n1s09" fileName="Stone.xml" xy="458,603" pivot="0.5,0.5" anchor="true" group="n77_qrw0" controller="c1,0"/>
+    <component id="n16_n1s0" name="base2" src="n1s0b" fileName="StoneBase.xml" xy="458,685" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n28_yyzw" name="base3" src="n1s0b" fileName="StoneBase.xml" xy="682,361" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n29_yyzw" name="stone2" src="n1s09" fileName="Stone.xml" xy="682,439" pivot="0.5,0.5" anchor="true" group="n77_qrw0" controller="c1,1"/>
+    <component id="n30_yyzw" name="base4" src="n1s0b" fileName="StoneBase.xml" xy="682,523" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n31_yyzw" name="stone3" src="n1s09" fileName="Stone.xml" xy="682,603" pivot="0.5,0.5" anchor="true" group="n77_qrw0" controller="c1,0"/>
+    <component id="n32_yyzw" name="base5" src="n1s0b" fileName="StoneBase.xml" xy="682,685" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n35_yyzw" name="base6" src="n1s0b" fileName="StoneBase.xml" xy="906,361" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n36_yyzw" name="stone4" src="n1s09" fileName="Stone.xml" xy="906,439" pivot="0.5,0.5" anchor="true" group="n77_qrw0" controller="c1,2"/>
+    <component id="n37_yyzw" name="base7" src="n1s0b" fileName="StoneBase.xml" xy="906,523" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <component id="n38_yyzw" name="stone5" src="n1s09" fileName="Stone.xml" xy="906,603" pivot="0.5,0.5" anchor="true" group="n77_qrw0" controller="c1,1"/>
+    <component id="n39_yyzw" name="base8" src="n1s0b" fileName="StoneBase.xml" xy="906,685" pivot="0.5,0.5" anchor="true" group="n77_qrw0"/>
+    <group id="n77_qrw0" name="bas" xy="412,324" size="540,398" advanced="true" collapsed="true"/>
+    <loader id="n57_yyzw" name="scenes" xy="0,0" size="1280,960" touchable="false"/>
+    <loader id="n72_epyr" name="bloods" xy="0,0" size="1280,960" touchable="false"/>
+  </displayList>
+</component>

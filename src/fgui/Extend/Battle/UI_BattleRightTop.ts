@@ -1,7 +1,7 @@
 import fui_BattleRightTop from "../../Generates/Battle/fui_BattleRightTop";
 import BattleWin from "../../../gamemodule/Windows/BattleWin";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import { MenuId } from "../../../gamemodule/MenuId";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1,1" opaque="false">
+  <displayList>
+    <component id="n0_ngrs" name="waveBtn" src="udz4c" fileName="TxtBtn.xml" pkg="130tmfxd" xy="-148,15" size="132,53" visible="false">
+      <relation target="" sidePair="left-left,top-top"/>
+      <Button title="第五关" titleColor="#ffffff" titleFontSize="30"/>
+    </component>
+    <component id="n8_ngrs" name="setBtn" src="ngrs1m" fileName="IcodiBtn.xml" pkg="pdzut3tw" xy="-67,84">
+      <relation target="n0_ngrs" sidePair="right-right,top-bottom"/>
+    </component>
+    <component id="n9_ngrs" name="pauseBtn" src="ngrs1m" fileName="IcodiBtn.xml" pkg="pdzut3tw" xy="-67,149">
+      <relation target="n8_ngrs" sidePair="right-right,top-bottom"/>
+      <Button icon="ui://pdzut3twngrs1g"/>
+    </component>
+    <text id="n10_j5ct" name="time" xy="-179,40" pivot="1,0.5" anchor="true" size="10,39" fontSize="30" align="right" vAlign="middle" text="">
+      <relation target="n0_ngrs" sidePair="middle-middle,right-left"/>
+    </text>
+  </displayList>
+</component>

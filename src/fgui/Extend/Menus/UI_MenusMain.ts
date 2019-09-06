@@ -1,10 +1,15 @@
 import fui_MenusMain from "../../Generates/Menus/fui_MenusMain";
 import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import Game from "../../../Game";
-import Fun from "../../../Tool/Fun";
+import Fun from "../../../tool/Fun";
 import { MenuId } from "../../../gamemodule/MenuId";
 import UI_MapItem from "./UI_MapItem";
 import WaveInfo from "../../../csvInfo/WaveInfo";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
+import LoaderManager from "../../../tool/LoaderManager";
+import LoadFilesList from "../../../tool/LoadFilesList";
+import ProtoEvent from "../../../protobuf/ProtoEvent";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_MenusMain extends fui_MenusMain {
@@ -26,8 +31,10 @@ export default class UI_MenusMain extends fui_MenusMain {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 
-		this.m_backBtn.setXY(Fun.leftTopPoint.x + 5, Fun.leftTopPoint.y + 5);
+		this.m_backBtn.setXY(Fun.leftTopPoint.x + 15, Fun.leftTopPoint.y + 15);
 		this.m_middle.setXY(Fun.topMiddlePoint.x, Fun.topMiddlePoint.y + 5);
+		this.m_help.setXY(Fun.bottomMiddlePoint.x, Fun.bottomMiddlePoint.y - 80);
+		this.m_help.onClick(this, this.helpClick);
 
 		this.m_backBtn.onClick(this, this.backClick);
 
@@ -38,24 +45,55 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.m_list.on(Laya.Event.MOUSE_OUT, this, this.onScrollout);
 		this.m_leftBtn.onClick(this, this.clickLeft);
 		this.m_rightBtn.onClick(this, this.clickRight);
+		this.m_clearBtn.onClick(this, this.clearData);
+		this.m_clearBtn.setXY(Fun.rightBottomPoint.x - 100, Fun.rightBottomPoint.y - 64);
+	}
+	private helpClick(): void {
+		Game.tipWin.showTip(Game.tipTxt.TrialTip, false, null, null, "确定", "", 0);
+	}
+
+	private clearNum: number = 0;
+	clearData(): void {
+		if (this.clearNum < 5) {
+			this.clearNum++;
+		}
+		else {
+			this.clearNum = 0;
+			Game.tipWin.showTip("是否确认删除数据，删除后无法恢复，请谨慎操作，确定后请重启客户端进行体验。", true, Laya.Handler.create(this, () => {
+				Game.proto.clearData();
+			}), null, "删除数据", "继续游戏");
+		}
 	}
 
 	backClick(): void {
+		this.clearNum = 0;
 		Game.menu.open(MenuId.Home);
 		this.closeUI();
 	}
 
 	// 关闭ui
 	closeUI(): void {
+		this.clearNum = 0;
 		this.moduleWindow.menuClose();
 	}
 	// 返回上一级ui
 	backUI(): void {
+		this.clearNum = 0;
 		this.moduleWindow.menuBack();
 	}
 	private curShow: number = -1;
 	// 显示，相当于enable
 	onWindowShow(): void {
+		EventManager.event(EventKey.SHOW_UI_WAIT);
+		EventManager.once(EventKey.LOADER_OVER, this, this.setData);
+		EventManager.on(ProtoEvent.COLLECTDEBRIS_CALL_BACK, this, this.setData);
+		let _list: Array<string> = [];
+		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		LoaderManager.addList(_list);
+	}
+	private setData(): void {
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		this.clearNum = 0;
 		this.moduleWindow.closeOtherWindow();
 		Game.battleData.refrushSeatFightInf();
 		let waveCount = WaveInfo.getCount();
@@ -94,7 +132,9 @@ export default class UI_MenusMain extends fui_MenusMain {
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-
+		Game.battleMap.sUpdateExploreTime.removeAll();
+		Game.battleMap.sUpdateFightCd.removeAll();
+		EventManager.offAllCaller(this);
 	}
 
 	// 渲染item
@@ -128,6 +168,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 		}
 	}
 	private clickLeft(): void {
+		this.clearNum = 0;
 		let firstView: number = this.m_list.getFirstChildInView();
 		if (firstView > 0) {
 			this.m_list.scrollToView(firstView - 1, true);
@@ -135,6 +176,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.checkLeftRight(firstView - 1);
 	}
 	private clickRight(): void {
+		this.clearNum = 0;
 		let firstView: number = this.m_list.getFirstChildInView();
 		if (firstView + 1 < this.maxNum) {
 			this.m_list.scrollToView(firstView + 1, true);

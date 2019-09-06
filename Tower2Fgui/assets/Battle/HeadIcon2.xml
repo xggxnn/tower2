@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="132,194" mask="n2_ngrs">
+  <displayList>
+    <loader id="n1_ngrs" name="icons" xy="0,0" size="132,194" url="ui://pdzut3twngrs1b" align="center" vAlign="bottom" fill="scale"/>
+    <graph id="n2_ngrs" name="n2" xy="0,0" size="132,194" type="rect" lineSize="0" corner="0,0,55,55"/>
+  </displayList>
+</component>

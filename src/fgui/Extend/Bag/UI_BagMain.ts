@@ -1,7 +1,7 @@
 import fui_BagMain from "../../Generates/Bag/fui_BagMain";
 import BagWin from "../../../gamemodule/Windows/BagWin";
 import Game from "../../../Game";
-import EventManager from "../../../Tool/EventManager";
+import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import UI_BagItem from "./UI_BagItem";
 

@@ -34,6 +34,7 @@ export default class Proto1010 extends Proto {
                 }
             }
             if (!Game.playData.curHeroInfoList.hasKey(heroid)) {
+                Game.playData.synUpReset = 1;
                 let hero = HeroInfoData.getInfo(heroid);
                 Game.playData.curHeroInfoList.add(heroid, hero);
                 Game.playData.synthetise = heroid;

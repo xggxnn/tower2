@@ -50,7 +50,7 @@ export default class UI_SkillItem extends fui_SkillItem {
 		}
 		else {
 			this.m_locks.setSelectedIndex(1);
-			this.m_lock.text = "金乌等级达到" + inf.unlock + "级解锁！"
+			this.m_lock.text = "金乌等级达到" + (inf.unlock - 1) + "级解锁！"
 		}
 	}
 

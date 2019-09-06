@@ -1,5 +1,5 @@
-import Fun from "../Tool/Fun";
-import EventManager from "../Tool/EventManager";
+import Fun from "../tool/Fun";
+import EventManager from "../tool/EventManager";
 import Game from "../Game";
 import LoaderManager from "./LoaderManager";
 
