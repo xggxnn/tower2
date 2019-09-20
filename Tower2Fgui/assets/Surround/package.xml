@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="9cap1puy" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="bxj00" name="SurroundMain.xml" path="/" exported="true"/>
+    <component id="j8q25" name="KingItem.xml" path="/" exported="true"/>
+    <component id="qrw07" name="TaskItem.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="Surround" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

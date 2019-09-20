@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="44,44">
+  <displayList>
+    <loader id="n168_czuw" name="quality" xy="22,22" pivot="0.5,0.5" anchor="true" size="44,44" aspect="true" url="ui://88du1wabczuw53p" align="center" vAlign="middle" fill="scale" shrinkOnly="true"/>
+    <loader id="n169_czuw" name="icons" xy="5,5" pivot="0.5,0.5" size="34,34" aspect="true" url="ui://88du1wabjg2u2k" align="center" vAlign="middle" fill="scale" shrinkOnly="true"/>
+  </displayList>
+</component>

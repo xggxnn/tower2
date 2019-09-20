@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="102,102" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <loader id="n1_ngrs" name="icons" xy="0,0" size="102,102" url="ui://88du1wabczuw53q" align="center" vAlign="middle" fill="scale">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <image id="n2_ngrs" name="mask" src="ngrs14" fileName="mask.png" pkg="130tmfxd" xy="0,0" size="102,102" fillMethod="radial360" fillClockwise="false" fillAmount="0">
+      <relation target="n1_ngrs" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n4_qvb6" name="tip" xy="91,-6" pivot="0,1" anchor="true" size="10,39" visible="false" fontSize="30" color="#ff0000" vAlign="bottom" text="">
+      <relation target="n1_ngrs" sidePair="left-right,bottom-top"/>
+    </text>
+  </displayList>
+  <Button downEffect="scale" downEffectValue="1.05"/>
+  <transition name="t0">
+    <item time="0" type="Visible" target="n4_qvb6" value="false"/>
+    <item time="1" type="Alpha" target="n4_qvb6" value="1"/>
+    <item time="1" type="Visible" target="n4_qvb6" value="true"/>
+    <item time="1" type="XY" target="n4_qvb6" tween="true" startValue="-,-6" endValue="-,-76" duration="17" ease="Linear"/>
+    <item time="54" type="Alpha" target="n4_qvb6" tween="true" startValue="1" endValue="0" duration="6" ease="Linear"/>
+    <item time="54" type="XY" target="n4_qvb6" tween="true" startValue="-,-76" endValue="-,-100" duration="6" ease="Linear"/>
+  </transition>
+</component>

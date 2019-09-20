@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <controller name="tab" pages="0,,1,,2,,3,,4," selected="1"/>
+  <displayList>
+    <image id="n0_bxj0" name="n0" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="0,0" size="1280,960"/>
+    <image id="n1_bxj0" name="n1" src="udz4m" fileName="pic/zu2.png" pkg="130tmfxd" xy="55,128" size="1170,704"/>
+    <image id="n2_bxj0" name="n2" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="48,124"/>
+    <image id="n4_bxj0" name="n4" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="101,224" size="1076,592"/>
+    <component id="n5_bxj0" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="62,134">
+      <Button title="返回"/>
+    </component>
+    <text id="n6_bxj0" name="tip" xy="136,140" size="198,39" fontSize="30" color="#f9f3d2" vAlign="middle" autoSize="none" bold="true" strokeColor="#50210e" strokeSize="2" text="签到">
+      <gearDisplay controller="tab" pages="0,2,3,4"/>
+    </text>
+    <image id="n11_j8q2" name="n11" src="j8q24" fileName="pic/title.png" xy="134,138" size="134,43" aspect="true" pkg="130tmfxd">
+      <gearDisplay controller="tab" pages="1"/>
+    </image>
+    <list id="n8_bxj0" name="signlist" xy="122,261" size="1034,518" layout="flow_hz" lineGap="10" colGap="10" defaultItem="ui://130tmfxdbxj019" autoClearItems="true">
+      <gearDisplay controller="tab" pages="0"/>
+    </list>
+    <component id="n9_j8q2" name="signBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="275,171" visible="false">
+      <Button title="签到" controller="tab" page="0"/>
+    </component>
+    <component id="n10_j8q2" name="kingBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="441,171" visible="false">
+      <relation target="n9_j8q2" sidePair="bottom-bottom,left-right"/>
+      <Button checked="true" title="征服之路" controller="tab" page="1"/>
+    </component>
+    <component id="n17_qrw0" name="taskBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="607,171" visible="false">
+      <relation target="n10_j8q2" sidePair="left-right,bottom-bottom"/>
+      <Button title="任务" controller="tab" page="2"/>
+    </component>
+    <component id="n18_qrw0" name="achieveBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="773,171" visible="false">
+      <relation target="n17_qrw0" sidePair="bottom-bottom,left-right"/>
+      <Button title="成就" controller="tab" page="3"/>
+    </component>
+    <component id="n19_qrw0" name="rewardBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="939,171" visible="false">
+      <relation target="n18_qrw0" sidePair="left-right,bottom-bottom"/>
+      <Button title="免费抽奖" controller="tab" page="4"/>
+    </component>
+    <text id="n12_j8q2" name="n12" xy="163,341" size="101,31" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="金乌等级">
+      <gearDisplay controller="tab" pages="1"/>
+    </text>
+    <text id="n13_j8q2" name="n13" xy="163,472" size="101,31" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="金乌奖励">
+      <gearDisplay controller="tab" pages="1"/>
+    </text>
+    <text id="n14_j8q2" name="n14" xy="163,641" size="101,31" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="大王奖励">
+      <gearDisplay controller="tab" pages="1"/>
+    </text>
+    <image id="n15_j8q2" name="n15" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="291,281" size="831,477">
+      <gearDisplay controller="tab" pages="1"/>
+    </image>
+    <list id="n16_j8q2" name="kinglist" xy="320,304" size="772,430" layout="row" overflow="scroll" scroll="horizontal" colGap="10" defaultItem="ui://9cap1puyj8q25" autoClearItems="true">
+      <gearDisplay controller="tab" pages="1"/>
+      <item controllers="lock,0"/>
+    </list>
+    <list id="n20_qrw0" name="rewardList" xy="240,261" size="800,451" layout="flow_hz" selectionMode="none" lineGap="40" colGap="45" defaultItem="ui://130tmfxdbxj019" align="center" vAlign="middle">
+      <gearDisplay controller="tab" pages="4"/>
+    </list>
+    <component id="n21_qrw0" name="rewardStart" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="494,707" size="290,108" controller="bgColor,0">
+      <gearDisplay controller="tab" pages="4"/>
+      <Button title="开始免费抽奖"/>
+    </component>
+    <list id="n28_qrw0" name="taskList" xy="122,261" size="1034,518" overflow="scroll" lineGap="20" defaultItem="ui://9cap1puyqrw07" align="center" autoClearItems="true">
+      <gearDisplay controller="tab" pages="2,3"/>
+    </list>
+  </displayList>
+</component>

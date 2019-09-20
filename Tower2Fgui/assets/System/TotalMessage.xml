@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" opaque="false" adaptationTest="FitSize">
+  <displayList>
+    <text id="n0_q080" name="topTitle" xy="639,200" pivot="0.5,0.5" anchor="true" size="10,61" visible="false" fontSize="50" align="center" vAlign="middle" text="">
+      <relation target="" sidePair="center-center"/>
+    </text>
+    <image id="n2_qvb6" name="bg" src="qvb6546" fileName="pic/jianbiandi.png" xy="1285,199" pivot="0.5,0.5" anchor="true" size="120,39">
+      <relation target="n1_q080" sidePair="middle-middle,width-width"/>
+      <relation target="n1_q080" sidePair="center-center"/>
+    </image>
+    <text id="n1_q080" name="moveTtitle" xy="1285,200" pivot="0.5,0.5" anchor="true" size="44,31" visible="false" fontSize="24" color="#fff7ea" align="center" vAlign="middle" text="123">
+      <relation target="" sidePair="left-right"/>
+    </text>
+  </displayList>
+  <transition name="top" autoPlayRepeat="-1">
+    <item time="0" type="Visible" target="n0_q080" value="false"/>
+    <item time="1" type="Alpha" target="n0_q080" value="1"/>
+    <item time="1" type="Visible" target="n0_q080" value="true"/>
+    <item time="1" type="XY" target="n0_q080" tween="true" startValue="-,200" endValue="-,129" duration="17" ease="Linear"/>
+    <item time="54" type="Alpha" target="n0_q080" tween="true" startValue="1" endValue="0" duration="6" label2="over" ease="Linear"/>
+    <item time="54" type="XY" target="n0_q080" tween="true" startValue="-,129" endValue="-,100" duration="6" ease="Linear"/>
+  </transition>
+  <transition name="move">
+    <item time="0" type="Visible" target="n1_q080" value="false"/>
+    <item time="0" type="Visible" target="n2_qvb6" value="false"/>
+    <item time="1" type="Alpha" target="n1_q080" tween="true" startValue="0" endValue="1" duration="11" ease="Linear"/>
+    <item time="1" type="Visible" target="n1_q080" value="true"/>
+    <item time="1" type="Visible" target="n2_qvb6" value="true"/>
+    <item time="1" type="XY" target="n1_q080" tween="true" startValue="1280,-" endValue="640,-" duration="17" ease="Linear"/>
+    <item time="60" type="Alpha" target="n1_q080" tween="true" startValue="1" endValue="0" duration="12" label2="over" ease="Linear"/>
+    <item time="60" type="XY" target="n1_q080" tween="true" startValue="640,-" endValue="-3.2,-" duration="12" ease="Linear"/>
+    <item time="72" type="Visible" target="n1_q080" value="false"/>
+    <item time="72" type="Visible" target="n2_qvb6" value="false"/>
+  </transition>
+</component>

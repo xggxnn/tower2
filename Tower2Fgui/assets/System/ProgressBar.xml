@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="128,27" extention="ProgressBar">
+  <displayList>
+    <image id="n0_udz4" name="n0" src="udz4u" fileName="pic/jindutiaodi.png" xy="0,0" size="128,27">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n1_udz4" name="bar" src="udz4t" fileName="pic/jindutiao.png" xy="0,0" size="128,27"/>
+    <text id="n2_udz4" name="title" xy="48,-2" pivot="0.5,0.5" size="32,31" fontSize="24" color="#f0f5ff" align="center" vAlign="middle" strokeColor="#461499" strokeSize="3" text="80">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
+  </displayList>
+  <ProgressBar/>
+</component>

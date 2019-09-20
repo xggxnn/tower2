@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="210,21">
+  <displayList>
+    <image id="n206_haq3" name="n206" src="haq32s" fileName="pic/progress.png" xy="-2,0" aspect="true"/>
+    <image id="n207_haq3" name="bar" src="haq32t" fileName="pic/zhizhen.png" xy="0,10" pivot="0.5,0" anchor="true" scale="1,-1"/>
+  </displayList>
+</component>

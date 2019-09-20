@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="150,150">
+  <controller name="have" pages="0,,1," selected="0"/>
+  <displayList>
+    <loader id="n16_bxj0" name="quality" xy="75,75" pivot="0.5,0.5" anchor="true" size="150,150" aspect="true" url="ui://88du1wabczuw53l" align="center" vAlign="middle" fill="scale">
+      <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </loader>
+    <component id="n21_bxj0" name="pic" src="bxj0e" fileName="HeadIcon120107.xml" pkg="130tmfxd" xy="9,10" scale="1.1,1.1">
+      <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+      <Label icon="ui://88du1wabqyum53j"/>
+    </component>
+    <image id="n24_qvb6" name="n24" src="qvb6548" fileName="pic/nameDi.png" pkg="130tmfxd" xy="11,108" size="128,31"/>
+    <text id="n17_bxj0" name="buyNum" xy="0,111" pivot="0.5,0.5" size="150,28" fontSize="20" color="#3dff5d" align="center" vAlign="middle" vars="true" autoSize="none" bold="true" text="拥有数量:{count=0}"/>
+  </displayList>
+</component>

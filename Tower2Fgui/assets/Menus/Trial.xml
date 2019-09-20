@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImageLayer="1">
+  <controller name="c1" pages="0,闯关,1,试炼" selected="0"/>
+  <controller name="cdStatus" pages="0,,1," selected="0"/>
+  <controller name="fightStatus" pages="0,,1,,2," selected="0"/>
+  <controller name="speedStatus" pages="0,,1,,2," selected="0"/>
+  <controller name="critStatus" pages="0,,1,,2," selected="0"/>
+  <controller name="burstStatus" pages="0,,1,,2," selected="0"/>
+  <controller name="skipStatus" pages="0,,1," selected="0"/>
+  <displayList>
+    <image id="n6_udz4" name="n6" src="udz4m" fileName="pic/zu2.png" pkg="130tmfxd" xy="182,173" size="904,643"/>
+    <image id="n0_udz4" name="n0" src="udz4k" fileName="pic/xiangyunzhuangshi01.png" pkg="130tmfxd" xy="153,161" pivot="0.5,0.5" size="972,98"/>
+    <component id="n1_udz4" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="175,168"/>
+    <image id="n2_udz4" name="n2" src="udz4g" fileName="pic/chuangguan.png" pkg="9xvnuoq0" xy="537,173">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <text id="n32_j8q2" name="mapid" xy="651,181" size="76,42" font="ui://130tmfxdj8q220" fontSize="12" text="1-1"/>
+    <image id="n7_udz4" name="n7" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="212,341" size="862,328"/>
+    <text id="n8_udz4" name="n8" xy="417,287" size="130,33" fontSize="24" color="#ffffff" bold="true" text="通关奖励：">
+      <gearDisplay controller="c1" pages="0"/>
+    </text>
+    <list id="n26_h5p9" name="rewardList" xy="567,274" size="368,50" layout="row" colGap="10" defaultItem="ui://130tmfxdh5p91y" autoClearItems="true">
+      <gearDisplay controller="c1" pages="0"/>
+    </list>
+    <text id="n15_udz4" name="tjFight" xy="284,377" size="168,33" fontSize="24" color="#fffcb3" vars="true" bold="true" text="推荐总战力：{count=0}"/>
+    <text id="n16_udz4" name="tjSpeed" xy="615,377" size="225,33" fontSize="24" color="#fffcb3" vars="true" bold="true" text="推荐总攻速：{count=0}次/秒"/>
+    <text id="n30_h5p9" name="tjcrit" xy="282,420" size="186,33" fontSize="24" color="#fffcb3" vars="true" bold="true" text="推荐暴击率：{count=0}%"/>
+    <text id="n31_h5p9" name="tjBurst" xy="613,420" size="211,33" fontSize="24" color="#fffcb3" vars="true" bold="true" text="推荐暴击伤害：{count=0}%"/>
+    <text id="n13_udz4" name="curFight" xy="282,506" size="168,33" fontSize="24" color="#47f66c" vars="true" bold="true" text="当前总战力：{count=0}">
+      <gearColor controller="fightStatus" pages="0,1,2" values="#47f66c,#000000|#ffd940,#000000|#ef1717,#000000"/>
+    </text>
+    <text id="n14_udz4" name="curSpeed" xy="614,507" size="225,33" fontSize="24" color="#3dff5d" vars="true" bold="true" text="当前总攻速：{count=0}次/秒">
+      <gearColor controller="speedStatus" pages="1,2" values="#ffd940,#000000|#ef1717,#000000" default="#3dff5d,#000000"/>
+    </text>
+    <text id="n28_h5p9" name="curCrit" xy="280,546" size="186,33" fontSize="24" color="#47f66c" vars="true" bold="true" text="当前暴击率：{count=0}%">
+      <gearColor controller="critStatus" pages="0,1,2" values="#47f66c,#000000|#ffd940,#000000|#ef1717,#000000"/>
+    </text>
+    <text id="n29_h5p9" name="curBrust" xy="612,547" size="211,33" fontSize="24" color="#47f66c" vars="true" bold="true" text="当前暴击伤害：{count=0}%">
+      <gearColor controller="burstStatus" pages="0,1,2" values="#47f66c,#000000|#ffd940,#000000|#ef1717,#000000"/>
+    </text>
+    <text id="n19_udz4" name="n19" xy="284,280" size="130,33" fontSize="24" color="#ffffff" bold="true" text="试炼进度：">
+      <gearDisplay controller="c1" pages="1"/>
+    </text>
+    <text id="n20_udz4" name="n20" xy="766,279" size="130,33" fontSize="24" color="#ffffff" bold="true" text="试炼奖励：">
+      <gearDisplay controller="c1" pages="1"/>
+    </text>
+    <component id="n27_h5p9" name="reward" src="h5p91y" fileName="RewardItem.xml" pkg="130tmfxd" xy="896,270">
+      <gearDisplay controller="c1" pages="1"/>
+    </component>
+    <component id="n23_udz4" name="progress" src="udz4v" fileName="ProgressBar.xml" pkg="130tmfxd" xy="402,282" size="331,27">
+      <gearDisplay controller="c1" pages="1"/>
+      <ProgressBar value="76" max="100"/>
+    </component>
+    <image id="n24_udz4" name="n24" src="udz4w" fileName="pic/shilian.png" pkg="9xvnuoq0" xy="536,176">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <text id="n25_j5ct" name="cd" xy="777,765" size="64,31" fontSize="24" color="#3dff5d" text="cd:00">
+      <gearDisplay controller="cdStatus" pages="1"/>
+      <relation target="n18_udz4" sidePair="left-right,bottom-bottom"/>
+    </text>
+    <component id="n18_udz4" name="startBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="528,688" size="225,108" controller="bgColor,1">
+      <gearXY controller="skipStatus" pages="1" values="688,688" default="528,688"/>
+      <Button title="准备迎战" titleColor="#ffffff" titleFontSize="38"/>
+    </component>
+    <component id="n33_lljr" name="skipBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="334,688" size="225,108" controller="bgColor,1">
+      <gearDisplay controller="skipStatus" pages="1"/>
+      <Button title="跳过战斗" titleColor="#ffffff" titleFontSize="38"/>
+    </component>
+  </displayList>
+</component>

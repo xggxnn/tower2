@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="49,24" pivot="0.5,0.5" anchor="true">
+  <displayList>
+    <image id="n0_epyr" name="n0" src="epyrj" fileName="pic/shadow.png" xy="23,11" pivot="0.5,0.5" anchor="true" size="48,24">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+  </displayList>
+  <transition name="t0" autoPlay="true" autoPlayRepeat="-1">
+    <item time="0" type="Scale" target="n0_epyr" tween="true" startValue="1,1" endValue="1.1,1.1" duration="12" ease="Linear"/>
+    <item time="12" type="Scale" target="n0_epyr" tween="true" startValue="1.1,1.1" endValue="1,1" duration="12" ease="Linear"/>
+  </transition>
+</component>

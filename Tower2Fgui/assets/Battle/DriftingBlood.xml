@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="150,150" pivot="0.5,0.5" anchor="true" opaque="false" extention="Label">
+  <controller name="c1" pages="0,sub,1,crit,2,add" selected="0"/>
+  <displayList>
+    <text id="n0_epyr" name="title" xy="79,62" pivot="0.5,0.5" anchor="true" size="22,39" fontSize="30" color="#ff0000" align="center" vAlign="middle" strokeColor="#000000" singleLine="true" autoClearText="true" text="0">
+      <gearColor controller="c1" pages="1,2" values="#eece60,#000000|#3dff5d,#000000" default="#ff0000,#000000"/>
+      <relation target="" sidePair="center-center"/>
+    </text>
+  </displayList>
+  <transition name="t0" options="4">
+    <item time="0" type="Alpha" target="n0_epyr" tween="true" startValue="0" endValue="1" duration="6" ease="Linear"/>
+    <item time="0" type="Scale" target="n0_epyr" tween="true" startValue="0.5,0.5" endValue="3,3" duration="2"/>
+    <item time="0" type="XY" target="n0_epyr" tween="true" startValue="-,43" endValue="-,10" duration="2" ease="Linear"/>
+    <item time="2" type="Scale" target="n0_epyr" tween="true" startValue="3,3" endValue="1,1" duration="2"/>
+    <item time="2" type="XY" target="n0_epyr" tween="true" startValue="-,10" endValue="-,-49" duration="10"/>
+    <item time="4" type="Scale" target="n0_epyr" tween="true" startValue="1,1" endValue="1.5,1.5" duration="2"/>
+    <item time="6" type="Alpha" target="n0_epyr" tween="true" startValue="1" endValue="0" duration="6" ease="Linear"/>
+    <item time="6" type="Scale" target="n0_epyr" tween="true" startValue="1.5,1.5" endValue="1.5,1.5" duration="6"/>
+  </transition>
+</component>

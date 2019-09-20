@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="73,73">
+  <controller name="att" exported="true" pages="0,攻击,1,攻频,2,暴击,3,爆伤" selected="0"/>
+  <displayList>
+    <image id="n4_hbcf" name="n4" src="hbcf2j" fileName="pic/chengse.png" xy="-8,-8"/>
+    <image id="n5_hbcf" name="n5" src="hbcf53w" fileName="pic/atk.png" pkg="130tmfxd" xy="36,36" pivot="0.5,0.5" anchor="true">
+      <gearDisplay controller="att" pages="0"/>
+    </image>
+    <image id="n6_hbcf" name="n6" src="hbcf541" fileName="pic/speed.png" pkg="130tmfxd" xy="7,7">
+      <gearDisplay controller="att" pages="1"/>
+    </image>
+    <image id="n7_hbcf" name="n7" src="hbcf53z" fileName="pic/crit.png" pkg="130tmfxd" xy="7,7">
+      <gearDisplay controller="att" pages="2"/>
+    </image>
+    <image id="n8_hbcf" name="n8" src="hbcf53x" fileName="pic/burst.png" pkg="130tmfxd" xy="7,7">
+      <gearDisplay controller="att" pages="3"/>
+    </image>
+  </displayList>
+</component>

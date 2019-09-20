@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <displayList>
+    <loader id="n0_lljr" name="bg" xy="0,0" size="1280,960" url="ui://130tmfxdj5ct1u" fill="scaleFree"/>
+    <image id="n10_lljr" name="n10" src="c8j351z" fileName="pic/road2.png" xy="497,502"/>
+    <image id="n8_lljr" name="n8" src="c8j351y" fileName="pic/road1.png" xy="283,500"/>
+    <image id="n12_lljr" name="n12" src="c8j351y" fileName="pic/road1.png" xy="677,503"/>
+    <image id="n14_lljr" name="n14" src="c8j351z" fileName="pic/road2.png" xy="852,508"/>
+    <component id="n7_lljr" name="s1" src="lljr52a" fileName="SelectionDay.xml" xy="227,444" controller="status,4,starNum,1,grayStatus,0"/>
+    <component id="n9_lljr" name="s2" src="lljr52a" fileName="SelectionDay.xml" xy="439,530" controller="status,4,starNum,2,grayStatus,0"/>
+    <component id="n11_lljr" name="s3" src="lljr52a" fileName="SelectionDay.xml" xy="627,443" controller="status,4,starNum,3,grayStatus,0"/>
+    <component id="n13_lljr" name="s4" src="lljr52a" fileName="SelectionDay.xml" xy="812,547" controller="status,4,starNum,4,grayStatus,0"/>
+    <component id="n15_lljr" name="s5" src="lljr52a" fileName="SelectionDay.xml" xy="985,448" controller="status,4,starNum,5,grayStatus,0"/>
+  </displayList>
+</component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1,1" opaque="false">
+  <displayList>
+    <image id="n2_lljr" name="n2" src="qvb6549" fileName="pic/dikuang.png" pkg="130tmfxd" xy="16,9" size="222,66">
+      <relation target="n1_lljr" sidePair="rightext-right"/>
+    </image>
+    <component id="n0_ngrs" name="waveBtn" src="udz4c" fileName="TxtBtn.xml" pkg="130tmfxd" xy="25,15" size="123,53">
+      <relation target="" sidePair="left-left,top-top"/>
+      <Button title="退出" titleColor="#ffffff" titleFontSize="30"/>
+    </component>
+    <text id="n1_lljr" name="tip" xy="162,29" size="56,27" fontSize="20" color="#feda49" vAlign="middle" vars="true" text="第{level=4}关"/>
+  </displayList>
+</component>

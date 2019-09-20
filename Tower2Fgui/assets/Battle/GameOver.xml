@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImageLayer="1">
+  <controller name="c1" pages="0,win,1,lose" selected="0"/>
+  <displayList>
+    <image id="n8_ngrs" name="n8" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="-10,-20" size="1300,1000" alpha="0.5">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n0_ngrs" name="n0" src="ngrsv" fileName="pic/xiangyunwin.png" xy="241,257" group="n9_ngrs">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n1_ngrs" name="n1" src="ngrsv" fileName="pic/xiangyunwin.png" xy="1049,254" group="n9_ngrs" scale="-1,1">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n2_ngrs" name="n2" src="ngrst" fileName="pic/wintip.png" xy="392,194" group="n9_ngrs">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n3_ngrs" name="n3" src="ngrsr" fileName="pic/passtip1.png" xy="595,402" group="n9_ngrs">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n4_ngrs" name="n4" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="103,396" group="n9_ngrs">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n5_ngrs" name="n5" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="1186,396" group="n9_ngrs" scale="-1,1">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <component id="n22_qrw0" name="synthBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="780,682" size="190,108" group="n9_ngrs" controller="bgColor,1">
+      <gearDisplay controller="c1" pages="0"/>
+      <Button title="去合成" titleColor="#ffffff" titleFontSize="30"/>
+    </component>
+    <component id="n23_qrw0" name="gainBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="545,682" size="190,108" group="n9_ngrs" controller="bgColor,1">
+      <gearDisplay controller="c1" pages="0"/>
+      <Button title="继续闯关" titleColor="#ffffff" titleFontSize="30"/>
+    </component>
+    <component id="n24_qrw0" name="upLevelBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="310,682" size="190,108" group="n9_ngrs" controller="bgColor,1">
+      <gearDisplay controller="c1" pages="0"/>
+      <Button title="去升级" titleColor="#ffffff" titleFontSize="30"/>
+    </component>
+    <group id="n9_ngrs" name="n9" xy="103,194" size="1501,596"/>
+    <image id="n10_ngrs" name="n10" src="ngrsu" fileName="pic/xiangyunlose.png" xy="241,256" group="n18_ngrs">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <image id="n11_ngrs" name="n11" src="ngrsu" fileName="pic/xiangyunlose.png" xy="1049,254" group="n18_ngrs" scale="-1,1">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <image id="n12_ngrs" name="n12" src="ngrsq" fileName="pic/losetip.png" xy="376,195" group="n18_ngrs">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <image id="n13_ngrs" name="n13" src="ngrss" fileName="pic/passtip2.png" xy="592,401" group="n18_ngrs">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <image id="n14_ngrs" name="n14" src="udz4e" fileName="pic/zhuangshi2.png" pkg="pdzut3tw" xy="104,395" group="n18_ngrs">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <image id="n15_ngrs" name="n15" src="udz4e" fileName="pic/zhuangshi2.png" pkg="pdzut3tw" xy="1186,396" group="n18_ngrs" scale="-1,1">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <image id="n16_ngrs" name="n16" src="ngrsw" fileName="pic/losetip2.png" xy="400,536" group="n18_ngrs">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <component id="n17_ngrs" name="upBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="548,682" size="195,108" group="n18_ngrs" controller="bgColor,1">
+      <gearDisplay controller="c1" pages="1"/>
+      <Button title="去升级布阵" titleColor="#ffffff" titleFontSize="30"/>
+    </component>
+    <group id="n18_ngrs" name="n18" xy="104,195" size="1500,595"/>
+    <list id="n19_ngrs" name="rewardList" xy="390,484" size="500,150" layout="row" overflow="scroll" scroll="horizontal" colGap="10" defaultItem="ui://130tmfxdbxj018" align="center" autoClearItems="true">
+      <gearDisplay controller="c1" pages="0"/>
+    </list>
+  </displayList>
+</component>

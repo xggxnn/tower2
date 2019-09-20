@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="120,120" overflow="hidden">
+  <controller name="c1" exported="true" pages="0,none,1,suipian,2,num,3,both" selected="0"/>
+  <controller name="status" exported="true" pages="0,,1,,2," selected="0"/>
+  <displayList>
+    <loader id="n1_ngrs" name="quality" xy="0,0" size="120,120" url="ui://88du1wabczuw53n" fill="scale">
+      <gearLook controller="status" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </loader>
+    <component id="n4_bxj0" name="headIcon" src="bxj0e" fileName="HeadIcon120107.xml" xy="60,60" pivot="0.5,0.5" anchor="true" aspect="true" scale="0.85,0.85">
+      <gearLook controller="status" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </component>
+    <image id="n6_bxj0" name="n6" src="gc5lp" fileName="pic/diguang.png" xy="60,60" pivot="0.5,0.5" anchor="true" size="181,181" aspect="true">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n2_ngrs" name="n2" src="ngrs11" fileName="pic/suipian.png" xy="0,95" size="34,24" aspect="true">
+      <gearDisplay controller="c1" pages="1,3"/>
+      <gearLook controller="status" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </image>
+    <text id="n3_ngrs" name="number" xy="95,93" pivot="1,1" size="25,27" fontSize="20" color="#ffffff" align="right" vAlign="bottom" vars="true" strokeColor="#000000" strokeSize="2" text="x{count=0}">
+      <gearDisplay controller="c1" pages="2,3"/>
+      <gearLook controller="status" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </text>
+    <text id="n5_bxj0" name="n5" xy="17,86" size="95,39" rotation="-30" fontSize="30" color="#ff0000" text="已领取">
+      <gearDisplay controller="status" pages="1"/>
+    </text>
+  </displayList>
+</component>

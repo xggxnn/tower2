@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImageLayer="1">
+  <controller name="dayPass" pages="0,,1,,2," selected="0"/>
+  <displayList>
+    <image id="n20_j5ct" name="n20" src="j5ct1l" fileName="pic/bg1.png" xy="0,0" size="1280,960"/>
+    <component id="n10_j5ct" name="setBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="45,183" size="92,101">
+      <Button icon="ui://9xvnuoq0j5ct1a"/>
+    </component>
+    <component id="n11_j5ct" name="actBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="50,293" size="87,103">
+      <Button icon="ui://9xvnuoq0j5ct18"/>
+    </component>
+    <component id="n12_j5ct" name="shopBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="43,405" size="94,98">
+      <Button icon="ui://9xvnuoq0j5ct1b"/>
+    </component>
+    <component id="n13_j5ct" name="sortBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="51,507" size="95,99">
+      <Button icon="ui://9xvnuoq0c8j321"/>
+    </component>
+    <component id="n14_j5ct" name="bagBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="48,614" size="97,110">
+      <Button icon="ui://9xvnuoq0j5ct19"/>
+    </component>
+    <component id="n43_qyum" name="heroBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="47,729" size="98,103">
+      <Button icon="ui://9xvnuoq0qyum1z"/>
+    </component>
+    <component id="n17_j5ct" name="gold" src="j5ct1k" fileName="coinLabel.xml" xy="572,147"/>
+    <component id="n18_j5ct" name="diamond" src="j5ct1k" fileName="coinLabel.xml" xy="766,147">
+      <Label icon="ui://88du1wabj5ct16"/>
+    </component>
+    <component id="n19_j5ct" name="jadeite" src="j5ct1k" fileName="coinLabel.xml" xy="959,147">
+      <Label icon="ui://88du1wabj5ct1d"/>
+    </component>
+    <component id="n24_j5ct" name="fightBtn" src="j5ct1q" fileName="fightBtn.xml" xy="234,216"/>
+    <component id="n21_j5ct" name="seatBtn" src="j5ct1n" fileName="seatBtn.xml" xy="223,666"/>
+    <component id="n42_j5ct" name="conquestBtn" src="j5ct1r" fileName="conquestBtn.xml" xy="714,669"/>
+    <component id="n44_qvb6" name="testBtn" src="og7810" fileName="GeneralBtns.xml" xy="121,118" size="441,108" scale="0.5,0.5" controller="bgColor,0">
+      <Button title="玩家Q群：855988151" titleColor="#663300" titleFontSize="35"/>
+    </component>
+    <component id="n48_lljr" name="dayBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1074,223" size="109,116">
+      <relation target="n24_j5ct" sidePair="top-top,right-right"/>
+      <Button icon="ui://9xvnuoq0lljr22"/>
+    </component>
+    <image id="n49_lljr" name="n49" src="lljr23" fileName="pic/passAll.png" xy="1069,230">
+      <gearDisplay controller="dayPass" pages="2"/>
+      <relation target="n48_lljr" sidePair="center-center,middle-middle"/>
+    </image>
+    <component id="n50_lljr" name="n50" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="1162,248">
+      <gearDisplay controller="dayPass" pages="1"/>
+      <relation target="n48_lljr" sidePair="right-right,top-top"/>
+    </component>
+  </displayList>
+</component>

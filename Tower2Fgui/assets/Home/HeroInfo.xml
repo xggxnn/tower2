@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImageLayer="1">
+  <controller name="teshu" pages="0,,1," selected="0"/>
+  <controller name="up" pages="0,,1," selected="0"/>
+  <displayList>
+    <loader id="n0_nn3i" name="bg" xy="0,0" size="1280,960" alpha="0.8" url="ui://130tmfxdopk1o" fill="scaleFree">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <loader id="n37_gc5l" name="n37" xy="182,172" size="903,643" url="ui://130tmfxdudz4m" fill="scaleFree"/>
+    <image id="n38_gc5l" name="n38" src="udz4k" fileName="pic/xiangyunzhuangshi01.png" pkg="130tmfxd" xy="142,161" size="984,100"/>
+    <image id="n39_gc5l" name="n39" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="197,261" size="875,415"/>
+    <component id="n40_gc5l" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="175,169"/>
+    <text id="n2_nn3i" name="heroname" xy="639,202" pivot="0.5,0.5" anchor="true" size="170,50" fontSize="40" color="#663300" align="center" vAlign="middle" bold="true" singleLine="true" text="英雄名称"/>
+    <image id="n42_gc5l" name="n42" src="gc5lq" fileName="pic/dizuo.png" pkg="130tmfxd" xy="205,411"/>
+    <image id="n41_gc5l" name="n41" src="gc5lp" fileName="pic/diguang.png" pkg="130tmfxd" xy="214,304"/>
+    <loader id="n3_nn3i" name="icons" xy="344,522" pivot="0.5,1" anchor="true" size="203,227" align="center" vAlign="middle"/>
+    <text id="n6_nn3i" name="atk" xy="513,354" size="114,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击力：{count=0}"/>
+    <text id="n7_nn3i" name="atkspeed" xy="513,395" size="193,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击速度：{count=1}次/秒"/>
+    <text id="n8_nn3i" name="cirt" xy="513,436" size="135,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击率：{count=0}%"/>
+    <text id="n9_nn3i" name="burst" xy="513,477" size="159,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击加成：{count=0}%"/>
+    <text id="n10_nn3i" name="skillname" xy="513,563" size="384,103" fontSize="24" color="#ffa751" vars="true" autoSize="none" text="    {name=1}：{count=残血斩杀}"/>
+    <text id="n30_nn3i" name="race" xy="786,351" size="77,31" fontSize="24" color="#f0f5ff" align="center" vAlign="middle" vars="true" text="五行：{count=}"/>
+    <text id="n31_nn3i" name="career" xy="786,438" size="77,31" fontSize="24" color="#f0f5ff" align="center" vAlign="middle" vars="true" text="门派：{count=}"/>
+    <text id="n32_nn3i" name="special" xy="786,506" size="125,31" fontSize="24" color="#f0f5ff" align="center" vAlign="middle" vars="true" text="特殊羁绊：{count=}">
+      <gearDisplay controller="teshu" pages="1"/>
+    </text>
+    <component id="n43_gc5l" name="lookrace" src="og7810" fileName="GeneralBtns.xml" xy="864,307" size="260,122" scale="0.5,0.5" controller="bgColor,2">
+      <Button title="查看搭配" titleColor="#f3e9d5" titleFontSize="45"/>
+    </component>
+    <component id="n44_gc5l" name="lookcareer" src="og7810" fileName="GeneralBtns.xml" xy="861,391" size="260,122" scale="0.5,0.5" controller="bgColor,2">
+      <Button title="查看搭配" titleColor="#f3e9d5" titleFontSize="45"/>
+    </component>
+    <component id="n45_gc5l" name="lookspecial" src="og7810" fileName="GeneralBtns.xml" xy="862,515" size="260,122" scale="0.5,0.5" controller="bgColor,2">
+      <gearDisplay controller="teshu" pages="1"/>
+      <Button title="查看搭配" titleColor="#f3e9d5" titleFontSize="45"/>
+    </component>
+    <component id="n46_gc5l" name="gainmethod" src="og7810" fileName="GeneralBtns.xml" xy="489,686" size="300,108" controller="bgColor,1">
+      <Button title="合成（[color=#ff0000]90/90[/color]）" titleColor="#f3e9d5" titleFontSize="30"/>
+    </component>
+    <component id="n48_qrw0" name="help" src="qrw053u" fileName="Help.xml" pkg="130tmfxd" xy="1032,754"/>
+    <component id="n49_qyum" name="upQuality" src="og7810" fileName="GeneralBtns.xml" xy="489,686" size="300,108" controller="bgColor,0">
+      <gearDisplay controller="up" pages="1"/>
+      <Button title="提升品质(90/90)" titleColor="#f3e9d5" titleFontSize="30"/>
+    </component>
+    <component id="n50_qyum" name="upAtk" src="og7810" fileName="GeneralBtns.xml" xy="594,315" scale="0.4,0.4" controller="bgColor,0">
+      <gearDisplay controller="up" pages="1"/>
+      <relation target="n6_nn3i" sidePair="left-right"/>
+      <Button title="洗" titleColor="#f3e9d5" titleFontSize="40"/>
+    </component>
+    <component id="n51_qyum" name="upSpeed" src="og7810" fileName="GeneralBtns.xml" xy="674,356" scale="0.4,0.4" controller="bgColor,0">
+      <gearDisplay controller="up" pages="1"/>
+      <relation target="n7_nn3i" sidePair="left-right"/>
+      <Button title="洗" titleColor="#f3e9d5" titleFontSize="40"/>
+    </component>
+    <component id="n52_qyum" name="upCrit" src="og7810" fileName="GeneralBtns.xml" xy="616,397" scale="0.4,0.4" controller="bgColor,0">
+      <gearDisplay controller="up" pages="1"/>
+      <relation target="n8_nn3i" sidePair="left-right"/>
+      <Button title="洗" titleColor="#f3e9d5" titleFontSize="40"/>
+    </component>
+    <component id="n53_qyum" name="upBurst" src="og7810" fileName="GeneralBtns.xml" xy="638,438" scale="0.4,0.4" controller="bgColor,0">
+      <gearDisplay controller="up" pages="1"/>
+      <relation target="n9_nn3i" sidePair="left-right"/>
+      <Button title="洗" titleColor="#f3e9d5" titleFontSize="40"/>
+    </component>
+  </displayList>
+</component>

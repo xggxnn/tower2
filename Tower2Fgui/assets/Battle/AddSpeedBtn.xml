@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="122,70" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <controller name="changeStatus" pages="0,,1," selected="1"/>
+  <displayList>
+    <image id="n3_h5p9" name="n3" src="h5p91m" fileName="pic/image_battle_game_speed_di.png" xy="0,0"/>
+    <image id="n4_h5p9" name="n4" src="h5p91l" fileName="pic/image_battle_game_speed_btn.png" xy="45,9">
+      <gearXY controller="changeStatus" pages="0" values="9,9" default="45,9" tween="true" ease="Linear"/>
+      <gearLook controller="changeStatus" pages="0" values="1,0,1,1" default="1,0,0,1" tween="true" ease="Linear"/>
+    </image>
+  </displayList>
+  <Button/>
+</component>

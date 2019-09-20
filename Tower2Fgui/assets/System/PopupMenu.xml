@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="200,200">
+  <controller name="popType" exported="true" pages="1,txt,0,list,2,pic" selected="0"/>
+  <displayList>
+    <image id="n0_nvpo" name="n0" src="opk1o" fileName="pic/black.png" xy="0,0" size="200,200" alpha="0.7">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <component id="n3_nn3i" name="tip" src="q080f" fileName="ScrollTxt.xml" xy="0,0" size="200,200">
+      <gearDisplay controller="popType" pages="1"/>
+      <relation target="" sidePair="width-width,height-height"/>
+      <Label titleColor="#f0f5ff"/>
+    </component>
+    <list id="n4_c8j3" name="list" xy="0,0" size="200,200" overflow="scroll" lineGap="3" defaultItem="ui://130tmfxdc8j3543" align="center" autoClearItems="true">
+      <gearDisplay controller="popType" pages="0"/>
+      <relation target="" sidePair="width-width,height-height"/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+  </displayList>
+</component>

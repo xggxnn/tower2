@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="pdzut3tw" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="udz45" name="MenusMain.xml" path="/" exported="true"/>
+    <image id="udz4e" name="zhuangshi2.png" path="/pic/" exported="true"/>
+    <component id="udz4h" name="selectionBtn.xml" path="/" exported="true"/>
+    <image id="udz4i" name="chuangguan0.png" path="/pic/"/>
+    <component id="udz4p" name="Trial.xml" path="/" exported="true"/>
+    <component id="ngrs13" name="Selection.xml" path="/" exported="true"/>
+    <image id="ngrs1g" name="pause.png" path="/pic/" exported="true"/>
+    <image id="ngrs1h" name="sett.png" path="/pic/" exported="true"/>
+    <component id="ngrs1m" name="IcodiBtn.xml" path="/" exported="true"/>
+    <component id="11av51w" name="MapItem.xml" path="/" exported="true"/>
+    <image id="c8j351y" name="road1.png" path="/pic/"/>
+    <image id="c8j351z" name="road2.png" path="/pic/"/>
+    <image id="c8j3520" name="seat_4.png" path="/pic/"/>
+    <image id="c8j3521" name="boss.png" path="/pic/"/>
+    <image id="qvb6523" name="goldDi.png" path="/pic/"/>
+    <image id="qvb6524" name="shilianwancheng.png" path="/pic/"/>
+    <image id="qvb6525" name="staran.png" path="/pic/"/>
+    <image id="qvb6526" name="suipian.png" path="/pic/"/>
+    <image id="qvb6527" name="tansuo.png" path="/pic/"/>
+    <component id="lljr528" name="DayFight.xml" path="/" exported="true"/>
+    <image id="lljr529" name="dayFight.png" path="/pic/"/>
+    <component id="lljr52a" name="SelectionDay.xml" path="/" exported="true"/>
+    <image id="9mhx52b" name="seat_1.png" path="/pic/"/>
+    <image id="9mhx52c" name="seat_2.png" path="/pic/"/>
+    <image id="9mhx52d" name="seat_3.png" path="/pic/"/>
+    <image id="9mhx52e" name="title_1.png" path="/pic/"/>
+    <image id="9mhx52f" name="title_2.png" path="/pic/"/>
+    <image id="9mhx52g" name="title_3.png" path="/pic/"/>
+    <image id="9mhx52h" name="waveBg_1.png" path="/pic/"/>
+    <image id="9mhx52i" name="waveBg_2.png" path="/pic/"/>
+    <image id="9mhx52j" name="waveBg_3.png" path="/pic/"/>
+    <image id="9mhx52k" name="title_4.png" path="/pic/"/>
+  </resources>
+  <publish name="Menus" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

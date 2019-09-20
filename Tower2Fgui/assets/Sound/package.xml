@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="32bbq6lk" jpegQuality="80" compressPNG="true">
+  <resources>
+    <sound id="q0800" name="click.mp3" path="/" exported="true"/>
+    <sound id="jx3y1" name="bgm_1.mp3" path="/" exported="true"/>
+    <sound id="11av5q" name="upgrade.mp3" path="/" exported="true"/>
+    <sound id="11av5r" name="s1.mp3" path="/" exported="true"/>
+    <sound id="11av5s" name="s100.mp3" path="/" exported="true"/>
+    <sound id="11av5t" name="s101.mp3" path="/" exported="true"/>
+    <sound id="11av5u" name="s102.mp3" path="/" exported="true"/>
+    <sound id="11av5v" name="s103.mp3" path="/" exported="true"/>
+    <sound id="11av5w" name="s104.mp3" path="/" exported="true"/>
+    <sound id="11av5x" name="s105.mp3" path="/" exported="true"/>
+    <sound id="11av5y" name="s106.mp3" path="/" exported="true"/>
+    <sound id="11av5z" name="s107.mp3" path="/" exported="true"/>
+    <sound id="11av510" name="s2.mp3" path="/" exported="true"/>
+    <sound id="11av511" name="s200.mp3" path="/" exported="true"/>
+    <sound id="11av512" name="s201.mp3" path="/" exported="true"/>
+    <sound id="11av513" name="s202.mp3" path="/" exported="true"/>
+    <sound id="11av514" name="s203.mp3" path="/" exported="true"/>
+    <sound id="11av515" name="s204.mp3" path="/" exported="true"/>
+    <sound id="11av516" name="s205.mp3" path="/" exported="true"/>
+    <sound id="11av517" name="s206.mp3" path="/" exported="true"/>
+    <sound id="11av518" name="s207.mp3" path="/" exported="true"/>
+    <sound id="11av519" name="s208.mp3" path="/" exported="true"/>
+    <sound id="11av51a" name="s3.mp3" path="/" exported="true"/>
+    <sound id="11av51b" name="s4.mp3" path="/" exported="true"/>
+    <sound id="11av51c" name="s80.mp3" path="/" exported="true"/>
+    <sound id="11av51d" name="s81.mp3" path="/" exported="true"/>
+    <sound id="11av51e" name="s82.mp3" path="/" exported="true"/>
+  </resources>
+  <publish name="Sound" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

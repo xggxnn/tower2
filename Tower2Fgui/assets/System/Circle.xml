@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" adaptationTest="FitSize">
+  <controller name="c1" pages="0,load,1,wait" selected="0"/>
+  <controller name="showTip" pages="0,,1," selected="1"/>
+  <displayList>
+    <loader id="n10_qvb6" name="n10" xy="0,0" size="1280,960" alpha="0.5" url="ui://130tmfxdopk1o" fill="scaleFree">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <image id="n12_qvb6" name="n12" src="j5ct1u" fileName="pic/waveBg_4.png" xy="0,0" size="1280,960" aspect="true">
+      <gearDisplay controller="showTip" pages="1"/>
+    </image>
+    <image id="n0_q080" name="n0" src="q0806" fileName="pic/tip.png" xy="448,466">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n1_q080" name="n1" src="q0801" fileName="pic/1.png" xy="544,345">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n2_q080" name="n2" src="q0802" fileName="pic/2.png" xy="541,344">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n3_q080" name="n3" src="q0803" fileName="pic/3.png" xy="543,344">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n4_q080" name="n4" src="q0804" fileName="pic/4.png" xy="541,343">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <image id="n5_q080" name="n5" src="q0805" fileName="pic/5.png" xy="543,343">
+      <gearDisplay controller="c1" pages="0"/>
+    </image>
+    <text id="n6_q080" name="tips" xy="639,560" pivot="0.5,0.5" anchor="true" size="10,39" fontSize="30" color="#ffffff" align="center" vAlign="middle" singleLine="true" text="">
+      <gearDisplay controller="c1" pages="0"/>
+    </text>
+    <image id="n8_opk1" name="n8" src="opk1o" fileName="pic/black.png" xy="0,0" size="1280,960" alpha="0.5">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <image id="n7_opk1" name="n7" src="opk1n" fileName="pic/wait.png" xy="639,479" pivot="0.5,0.5" anchor="true">
+      <gearDisplay controller="c1" pages="1"/>
+    </image>
+    <text id="n9_qvb6" name="n9" xy="639,800" pivot="0.5,0.5" anchor="true" size="845,76" fontSize="30" color="#fff7ea" text="抵制不良游戏，拒绝盗版游戏，注意自我保护，谨防受骗上当。&#xA;适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活。">
+      <gearDisplay controller="showTip" pages="1"/>
+    </text>
+    <text id="n13_9mhx" name="n13" xy="640,662" pivot="0.5,0.5" anchor="true" size="498,61" fontSize="50" color="#fff7ea" text="玩家Q群：855988151">
+      <gearDisplay controller="showTip" pages="1"/>
+    </text>
+  </displayList>
+  <transition name="t0" autoPlay="true" autoPlayRepeat="-1">
+    <item time="0" type="Visible" target="n1_q080" value="true"/>
+    <item time="0" type="Visible" target="n2_q080" value="false"/>
+    <item time="0" type="Visible" target="n3_q080" value="false"/>
+    <item time="0" type="Visible" target="n4_q080" value="false"/>
+    <item time="0" type="Visible" target="n5_q080" value="false"/>
+    <item time="6" type="Visible" target="n1_q080" value="false"/>
+    <item time="6" type="Visible" target="n2_q080" value="true"/>
+    <item time="12" type="Visible" target="n2_q080" value="false"/>
+    <item time="12" type="Visible" target="n3_q080" value="true"/>
+    <item time="18" type="Visible" target="n3_q080" value="false"/>
+    <item time="18" type="Visible" target="n4_q080" value="true"/>
+    <item time="24" type="Visible" target="n4_q080" value="false"/>
+    <item time="24" type="Visible" target="n5_q080" value="true"/>
+    <item time="30" type="Visible" target="n1_q080" value="true"/>
+    <item time="30" type="Visible" target="n5_q080" value="false"/>
+  </transition>
+  <transition name="t1" autoPlay="true" autoPlayRepeat="-1">
+    <item time="0" type="Rotation" target="n7_opk1" tween="true" startValue="0" endValue="359" duration="24" ease="Linear"/>
+  </transition>
+</component>

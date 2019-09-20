@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" overflow="hidden" designImageLayer="1">
+  <controller name="bgStatus" pages="0,1,1,2,2,3,3,4" selected="1"/>
+  <displayList>
+    <loader id="n0_11av5" name="bg" xy="0,0" size="1280,960" url="ui://pdzut3tw9mhx52i" fill="scaleFree">
+      <gearIcon controller="bgStatus" pages="0,1,2" values="ui://pdzut3tw9mhx52h|ui://pdzut3tw9mhx52i|ui://pdzut3tw9mhx52j" default="ui://130tmfxdj5ct1u"/>
+    </loader>
+    <loader id="n27_9mhx" name="n27" xy="0,120" size="1280,720"/>
+    <component id="n3_j8q2" name="s1" src="ngrs13" fileName="Selection.xml" xy="340,700" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,1"/>
+    <component id="n4_j8q2" name="s2" src="ngrs13" fileName="Selection.xml" xy="144,606" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,2"/>
+    <component id="n5_j8q2" name="s3" src="ngrs13" fileName="Selection.xml" xy="337,515" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,3"/>
+    <component id="n6_j8q2" name="s4" src="ngrs13" fileName="Selection.xml" xy="528,603" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,2"/>
+    <component id="n7_j8q2" name="s5" src="ngrs13" fileName="Selection.xml" xy="721,507" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,1"/>
+    <component id="n8_j8q2" name="s6" src="ngrs13" fileName="Selection.xml" xy="550,422" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,2"/>
+    <component id="n9_j8q2" name="s7" src="ngrs13" fileName="Selection.xml" xy="741,326" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,3"/>
+    <component id="n10_j8q2" name="s8" src="ngrs13" fileName="Selection.xml" xy="921,394" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,3"/>
+    <component id="n11_j8q2" name="s9" src="ngrs13" fileName="Selection.xml" xy="1104,490" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,4"/>
+    <component id="n12_j8q2" name="s10" src="ngrs13" fileName="Selection.xml" xy="939,608" pivot="0.5,0.5" anchor="true" controller="status,0,starNum,0,forward,0"/>
+  </displayList>
+</component>

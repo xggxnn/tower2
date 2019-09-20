@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="298,110">
+  <controller name="double" exported="true" pages="0,,1," selected="0"/>
+  <controller name="isGray" pages="0,,1," selected="0"/>
+  <controller name="rewardStatus" pages="0,,1," selected="0"/>
+  <displayList>
+    <image id="n157_czuw" name="n157" src="czuw2a" fileName="pic/splite.png" xy="0,0" size="298,110">
+      <gearDisplay controller="double" pages="0"/>
+    </image>
+    <loader id="n153_czuw" name="icons" xy="26,30" pivot="0.5,0.5" anchor="true" size="52,52" aspect="true" url="ui://88du1wabh5p936" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearLook controller="isGray" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </loader>
+    <text id="n155_czuw" name="count" xy="35,30" size="29,31" fontSize="24" color="#f9f3d2" vars="true" text="x{count=2}">
+      <gearLook controller="isGray" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </text>
+    <text id="n156_czuw" name="tip" xy="69,4" size="227,61" fontSize="20" color="#3dff5d" autoSize="none" text="">
+      <gearLook controller="isGray" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </text>
+    <list id="n159_czuw" name="heroList" xy="0,55" size="298,44" layout="row" selectionMode="none" colGap="-2" defaultItem="ui://9wh71t3fczuw2e" autoClearItems="true"/>
+    <image id="n161_lljr" name="n161" src="j5ct16" fileName="diamond.png" pkg="88du1wab" xy="264,43" pivot="0.5,0.5" anchor="true">
+      <gearDisplay controller="rewardStatus" pages="1"/>
+    </image>
+  </displayList>
+  <transition name="t0" autoPlay="true" autoPlayRepeat="-1">
+    <item time="0" type="Rotation" target="n161_lljr" tween="true" startValue="0" endValue="10" duration="2" ease="Linear"/>
+    <item time="2" type="Rotation" target="n161_lljr" tween="true" startValue="10" endValue="0" duration="2" ease="Linear"/>
+    <item time="4" type="Rotation" target="n161_lljr" tween="true" startValue="0" endValue="-10" duration="2" ease="Linear"/>
+    <item time="6" type="Rotation" target="n161_lljr" tween="true" startValue="-10" endValue="0" duration="2" ease="Linear"/>
+    <item time="8" type="Rotation" target="n161_lljr" tween="true" startValue="0" endValue="10" duration="2" ease="Linear"/>
+    <item time="10" type="Rotation" target="n161_lljr" tween="true" startValue="10" endValue="0" duration="2" ease="Linear"/>
+    <item time="12" type="Rotation" target="n161_lljr" tween="true" startValue="0" endValue="-10" duration="2" ease="Linear"/>
+    <item time="14" type="Rotation" target="n161_lljr" tween="true" startValue="-10" endValue="0" duration="2" ease="Linear"/>
+    <item time="32" type="Rotation" target="n161_lljr" value="0"/>
+  </transition>
+</component>

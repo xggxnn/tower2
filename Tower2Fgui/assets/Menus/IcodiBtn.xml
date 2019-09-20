@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="51,53" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n0_udz4" name="n0" src="udz4b" fileName="pic/kuangti01.png" xy="0,0" pkg="130tmfxd">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <loader id="n2_ngrs" name="icon" xy="0,1" size="51,53" url="ui://pdzut3twngrs1h" align="center" vAlign="middle"/>
+  </displayList>
+  <Button downEffect="scale" downEffectValue="1.05"/>
+</component>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="180,140" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <controller name="pic" exported="true" pages="0,,1," selected="0"/>
+  <controller name="bgStatus" exported="true" pages="0,1,1,2,2,3,3,4" selected="3"/>
+  <displayList>
+    <loader id="n8_c8j3" name="n8" xy="2,2" size="177,136" url="ui://pdzut3twc8j3520" align="center" vAlign="middle" fill="scale" playing="false">
+      <gearIcon controller="bgStatus" pages="0,1,2" values="ui://pdzut3tw9mhx52b|ui://pdzut3tw9mhx52c|ui://pdzut3tw9mhx52d" default="ui://pdzut3twc8j3520"/>
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </loader>
+    <image id="n10_c8j3" name="n10" src="c8j3521" fileName="pic/boss.png" xy="46,-2">
+      <gearDisplay controller="pic" pages="1"/>
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </image>
+    <loader id="n9_c8j3" name="sk" xy="89,69" pivot="0.5,0.5" anchor="true" size="1,1">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </loader>
+    <text id="n7_j8q2" name="map" xy="89,61" pivot="0.5,0.5" anchor="true" size="119,42" font="ui://130tmfxdj8q220" fontSize="12" align="center" autoSize="none" text=""/>
+  </displayList>
+  <Button/>
+</component>

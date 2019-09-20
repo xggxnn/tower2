@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="286,98">
+  <controller name="double" exported="true" pages="0,,1," selected="0"/>
+  <controller name="locks" pages="0,,1," selected="1"/>
+  <displayList>
+    <image id="n151_czuw" name="n151" src="czuw2a" fileName="pic/splite.png" xy="0,0" size="286,98">
+      <gearDisplay controller="double" pages="0"/>
+    </image>
+    <loader id="n148_czuw" name="icons" xy="54,49" pivot="0.5,0.5" anchor="true" size="90,90" url="ui://88du1wabczuw53q" align="center" vAlign="middle" fill="scale" shrinkOnly="true"/>
+    <text id="n149_czuw" name="skillName" xy="111,0" size="175,98" fontSize="24" color="#fcae3e" vAlign="middle" autoSize="none" bold="true" text="攻速加强爆"/>
+    <image id="n152_czuw" name="n152" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="0,0" size="286,98" alpha="0.5">
+      <gearDisplay controller="locks" pages="1"/>
+    </image>
+    <image id="n153_czuw" name="n153" src="j8q22" fileName="pic/lock.png" pkg="130tmfxd" xy="32,22" size="45,51" aspect="true">
+      <gearDisplay controller="locks" pages="1"/>
+    </image>
+    <text id="n154_czuw" name="lock" xy="111,35" size="10,27" fontSize="20" color="#fff7ea" vAlign="middle" text="">
+      <gearDisplay controller="locks" pages="1"/>
+    </text>
+  </displayList>
+</component>

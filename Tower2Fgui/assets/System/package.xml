@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="130tmfxd" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="q0800" name="Circle.xml" path="/" exported="true"/>
+    <image id="q0801" name="1.png" path="/pic/"/>
+    <image id="q0802" name="2.png" path="/pic/"/>
+    <image id="q0803" name="3.png" path="/pic/"/>
+    <image id="q0804" name="4.png" path="/pic/"/>
+    <image id="q0805" name="5.png" path="/pic/"/>
+    <image id="q0806" name="tip.png" path="/pic/"/>
+    <component id="q0808" name="TotalMessage.xml" path="/" exported="true"/>
+    <component id="q080d" name="TipWin.xml" path="/" exported="true"/>
+    <component id="q080e" name="OkBtn.xml" path="/" exported="true"/>
+    <component id="q080f" name="ScrollTxt.xml" path="/" exported="true"/>
+    <image id="q080g" name="tip_ok.png" path="/pic/"/>
+    <image id="q080h" name="btn_b.png" path="/pic/" exported="true" scale="9grid" scale9grid="59,44,9,17"/>
+    <image id="q080i" name="btn_g.png" path="/pic/" exported="true" scale="9grid" scale9grid="73,42,5,20"/>
+    <image id="q080j" name="btn_p.png" path="/pic/" scale="9grid" scale9grid="65,38,4,31"/>
+    <image id="q080k" name="btn_r.png" path="/pic/" scale="9grid" scale9grid="63,41,5,22"/>
+    <component id="q080m" name="GeneralBtn.xml" path="/" exported="true"/>
+    <image id="opk1n" name="wait.png" path="/pic/"/>
+    <image id="opk1o" name="black.png" path="/pic/" exported="true"/>
+    <component id="opk1p" name="GuideLayer.xml" path="/" exported="true"/>
+    <component id="nvpox" name="PopupMenu.xml" path="/" exported="true"/>
+    <component id="ngrsz" name="winBtn.xml" path="/" exported="true"/>
+    <component id="j5ct15" name="comBtn.xml" path="/" exported="true"/>
+    <image id="udz4m" name="zu2.png" path="/pic/" exported="true" scale="9grid" scale9grid="30,36,6,288" atlas="alone"/>
+    <image id="udz4j" name="guangbianniu.png" path="/pic/" exported="true"/>
+    <component id="udz4q" name="IconBtn.xml" path="/" exported="true"/>
+    <image id="j5ct16" name="contentBg.png" path="/pic/" exported="true" scale="9grid" scale9grid="26,30,2,3"/>
+    <image id="udz4l" name="zu1.png" path="/pic/" exported="true" scale="9grid" scale9grid="48,46,4,3"/>
+    <image id="n1s0a" name="stone.png" path="/pic/" exported="true"/>
+    <image id="gc5lp" name="diguang.png" path="/pic/" exported="true"/>
+    <image id="gc5lq" name="dizuo.png" path="/pic/" exported="true"/>
+    <image id="j5ctg" name="yunzhuangshi.png" path="/pic/" exported="true"/>
+    <component id="j5ctl" name="TabBtn.xml" path="/" exported="true"/>
+    <image id="j5cte" name="taban.png" path="/pic/" scale="9grid" scale9grid="23,26,2,15"/>
+    <image id="j5ctf" name="tabliang.png" path="/pic/" scale="9grid" scale9grid="23,25,2,22"/>
+    <component id="bxj0e" name="HeadIcon120107.xml" path="/" exported="true"/>
+    <component id="bxj017" name="GainRewards.xml" path="/" exported="true"/>
+    <image id="udz4k" name="xiangyunzhuangshi01.png" path="/pic/" exported="true"/>
+    <image id="gc5l1t" name="xiangyunzhuangshi02.png" path="/pic/" exported="true"/>
+    <image id="bxj04" name="huodeTitle.png" path="/pic/"/>
+    <image id="gc5ls" name="yunwen.png" path="/pic/" exported="true"/>
+    <component id="bxj018" name="HeroIcon.xml" path="/" exported="true"/>
+    <image id="ngrs11" name="suipian.png" path="/pic/"/>
+    <component id="ngrs10" name="HeadIcon.xml" path="/" exported="true"/>
+    <component id="bxj019" name="ItemIcon.xml" path="/" exported="true"/>
+    <image id="bxj06" name="tujiandi.png" path="/pic/" exported="true" scale="9grid" scale9grid="24,23,15,7"/>
+    <image id="bxj02" name="cebiantiao.png" path="/pic/" exported="true"/>
+    <image id="h5p91u" name="red_tips.png" path="/pic/"/>
+    <component id="h5p91v" name="RedTips.xml" path="/" exported="true"/>
+    <component id="h5p91y" name="RewardItem.xml" path="/" exported="true"/>
+    <component id="h5p91z" name="ScrollTxtNormal.xml" path="/" exported="true"/>
+    <font id="j8q220" name="NumFont.fnt" path="/" exported="true"/>
+    <image id="udz46" name="num-.png" path="/pic/" exported="true"/>
+    <image id="j8q253j" name="num0.png" path="/pic/" exported="true"/>
+    <image id="j5ctb" name="num1.png" path="/pic/" exported="true"/>
+    <image id="j5ctc" name="num2.png" path="/pic/" exported="true"/>
+    <image id="j5ctd" name="num3.png" path="/pic/" exported="true"/>
+    <image id="j8q221" name="num4.png" path="/pic/" exported="true"/>
+    <image id="j8q253k" name="num5.png" path="/pic/"/>
+    <image id="j8q253l" name="num6.png" path="/pic/" exported="true"/>
+    <image id="j8q253m" name="num7.png" path="/pic/" exported="true"/>
+    <image id="j8q253n" name="num8.png" path="/pic/" exported="true"/>
+    <image id="j8q253o" name="num9.png" path="/pic/" exported="true"/>
+    <image id="j8q223" name="left_right.png" path="/pic/"/>
+    <component id="j8q224" name="LeftBtn.xml" path="/" exported="true"/>
+    <component id="j8q226" name="RightBtn.xml" path="/" exported="true"/>
+    <image id="qss353p" name="frame.png" path="/pic/" scale="9grid" scale9grid="38,17,2,3"/>
+    <component id="qss353q" name="DialogBox.xml" path="/" exported="true"/>
+    <component id="udz4v" name="ProgressBar.xml" path="/" exported="true"/>
+    <image id="udz4t" name="jindutiao.png" path="/pic/" scale="9grid" scale9grid="11,11,6,4"/>
+    <image id="udz4u" name="jindutiaodi.png" path="/pic/" scale="9grid" scale9grid="11,11,5,3"/>
+    <image id="qrw053r" name="hand.png" path="/pic/"/>
+    <component id="qrw053s" name="Hand.xml" path="/" exported="true"/>
+    <image id="qrw053t" name="btn.png" path="/pic/"/>
+    <component id="qrw053u" name="Help.xml" path="/" exported="true"/>
+    <image id="czuw53v" name="btn_y.png" path="/pic/" scale="9grid" scale9grid="68,47,4,12"/>
+    <image id="j8q22" name="lock.png" path="/pic/" exported="true"/>
+    <image id="hbcf53w" name="atk.png" path="/pic/" exported="true"/>
+    <image id="hbcf53x" name="burst.png" path="/pic/" exported="true"/>
+    <image id="hbcf53y" name="close.png" path="/pic/" exported="true"/>
+    <image id="hbcf53z" name="crit.png" path="/pic/" exported="true"/>
+    <image id="hbcf540" name="down.png" path="/pic/" exported="true"/>
+    <image id="hbcf541" name="speed.png" path="/pic/" exported="true"/>
+    <image id="hbcf542" name="di.png" path="/pic/" exported="true" scale="9grid" scale9grid="21,13,1,3"/>
+    <component id="c8j3543" name="PopupItem.xml" path="/" exported="true"/>
+    <image id="qvb6544" name="h.png" path="/pic/"/>
+    <image id="qvb6545" name="m.png" path="/pic/"/>
+    <image id="qvb6546" name="jianbiandi.png" path="/pic/" scale="9grid" scale9grid="55,10,12,20"/>
+    <image id="ngrs14" name="mask.png" path="/" exported="true"/>
+    <image id="qvb6548" name="nameDi.png" path="/pic/" exported="true" scale="9grid" scale9grid="12,3,7,3"/>
+    <image id="udz4d" name="zhuangshi1.png" path="/pic/" exported="true"/>
+    <image id="udz4f" name="jianbiandizong.png" path="/pic/" exported="true"/>
+    <component id="udz4c" name="TxtBtn.xml" path="/" exported="true"/>
+    <image id="udz4b" name="kuangti01.png" path="/pic/" scale="9grid" scale9grid="23,23,3,6"/>
+    <image id="qvb6549" name="dikuang.png" path="/pic/" exported="true" scale="9grid" scale9grid="27,26,5,7"/>
+    <image id="j5ct1u" name="waveBg_4.png" path="/pic/" exported="true" atlas="alone"/>
+    <image id="qyum1" name="tujianTitle.png" path="/pic/" exported="true"/>
+    <image id="bxj01" name="bagTitle.png" path="/pic/" exported="true"/>
+    <image id="j8q26" name="line.png" path="/pic/" exported="true"/>
+    <image id="j8q23" name="right.png" path="/pic/" exported="true"/>
+    <image id="j8q24" name="title.png" path="/pic/" exported="true"/>
+    <component id="9mhx54a" name="BlackText.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="System" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>
