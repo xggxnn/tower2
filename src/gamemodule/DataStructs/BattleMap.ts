@@ -14,6 +14,8 @@ import WaveInfo from "../../csvInfo/WaveInfo";
 import Fun from "../../tool/Fun";
 import WaveRewardInfo from "../../csvInfo/WaveRewardInfo";
 import TypedSignal from "../../tool/TypedSignal";
+import Signal from "../../tool/Signal";
+import ConfigData from "../../csvInfo/ConfigData";
 
 export default class BattleMap {
 
@@ -113,25 +115,19 @@ export default class BattleMap {
     }
 
     public openMap(): void {
-        let curwaveinf = WaveInfo.getInfo(Game.battleData.level_id);
-        if (curwaveinf) {
-            this.curMap = curwaveinf.id;
-            this.levelWave = 0;
-            this.setwaveInf(Game.battleData.level_id);
-            EventManager.event(EventKey.MAP_REFRUSH);
-            Game.gameStatus = GameStatus.Gaming;
-            // if (!Game.isMobile) {
-            Game.gm.setGmInf("挑战胜利", Laya.Handler.create(this, this.levelWin, null, false));
-            Game.gm.setGmInf("挑战失败", Laya.Handler.create(this, this.levelLose, null, false));
-            // }
-            Game.gm.setGmInf("开启跑马灯", Laya.Handler.create(this, this.showHideTotal, [false], false));
-            Game.gm.setGmInf("关闭跑马灯", Laya.Handler.create(this, this.showHideTotal, [true], false));
-            Game.gm.setGmInf("开启头顶提示", Laya.Handler.create(this, this.showHideHeroTip, [true], false));
-            Game.gm.setGmInf("关闭头顶提示", Laya.Handler.create(this, this.showHideHeroTip, [false], false));
-        }
-        else {
-            Game.tipWin.showTip(Game.tipTxt.SysError);
-        }
+        this.curMap = Game.battleData.level_id;
+        this.levelWave = 0;
+        this.setwaveInf(Game.battleData.level_id);
+        EventManager.event(EventKey.MAP_REFRUSH);
+        Game.gameStatus = GameStatus.Gaming;
+        // if (!Game.isMobile) {
+        Game.gm.setGmInf("挑战胜利", Laya.Handler.create(this, this.levelWin, null, false));
+        Game.gm.setGmInf("挑战失败", Laya.Handler.create(this, this.levelLose, null, false));
+        // }
+        Game.gm.setGmInf("开启跑马灯", Laya.Handler.create(this, this.showHideTotal, [false], false));
+        Game.gm.setGmInf("关闭跑马灯", Laya.Handler.create(this, this.showHideTotal, [true], false));
+        Game.gm.setGmInf("开启头顶提示", Laya.Handler.create(this, this.showHideHeroTip, [true], false));
+        Game.gm.setGmInf("关闭头顶提示", Laya.Handler.create(this, this.showHideHeroTip, [false], false));
     }
 
     public levelWin(): void {
@@ -156,22 +152,60 @@ export default class BattleMap {
         Game.gm.sUpdateCloseHeroTip.dispatch(closeTip);
     }
 
+    // 退出战斗场景
+    public sUpdateExitBattleMain: Signal = new Signal();
 
     /*******************怪物生成规则***********************/
 
     public setwaveInf(v: number) {
         // 关卡
-        this.waveInfo = WaveInfo.getInfo(v);
+        if (Game.battleData.MenuEnterDay) {
+            v = Game.battleData.dayFightWave + Game.battleData.dayFightProgress - 1;
+            this.dayWaveInfo = ConfigData.getInfo(v);
+            this.waveInfo = null;
+            // console.log(this.dayWaveInfo, Game.battleData.dayFightWave);
+        }
+        else {
+            this.waveInfo = WaveInfo.getInfo(v);
+            this.dayWaveInfo = null;
+        }
         // 类型
-        this.waveType = this.waveInfo.type;
+        if (Game.battleData.MenuEnterDay) {
+            this.waveType = this.dayWaveInfo.type;
+        }
+        else {
+            this.waveType = this.waveInfo.type;
+        }
         // 难度
-        let _difficulty: number = this.waveInfo.difficulty;
+        let _difficulty: number = 0;
+        if (Game.battleData.MenuEnterDay) {
+            _difficulty = this.dayWaveInfo.difficulty;
+        }
+        else {
+            _difficulty = this.waveInfo.difficulty;
+        }
         // 曲线系数
-        this.waveform = WaveformInfo.getInfoWithType(this.waveInfo.waveform);// this.waveInfo.waveform;
+        if (Game.battleData.MenuEnterDay) {
+            this.waveform = WaveformInfo.getInfoWithType(this.dayWaveInfo.waveform);
+        }
+        else {
+            this.waveform = WaveformInfo.getInfoWithType(this.waveInfo.waveform);
+        }
         // 随机种子
-        let seed1: number = this.waveInfo.random;
+        let seed1: number = 0;
+        if (Game.battleData.MenuEnterDay) {
+            seed1 = this.dayWaveInfo.random;
+        }
+        else {
+            seed1 = this.waveInfo.random;
+        }
         // 关卡时长
-        this.waveTime = this.waveInfo.time * 60;
+        if (Game.battleData.MenuEnterDay) {
+            this.waveTime = this.dayWaveInfo.time * 60;
+        }
+        else {
+            this.waveTime = this.waveInfo.time * 60;
+        }
 
 
         // 难度效率
@@ -190,12 +224,18 @@ export default class BattleMap {
         this.mathrandom1 = new MathRandom(seed1);
         this.mathrandomBattle = new MathRandom(seed1);
         // 时间与精神房子
-        this.timeHouse = TimeHouseInfo.getInfoLv(this.waveInfo.lv);
-        this.timeHouseVal = this.timeHouse.vals[this.timeHouse.star];
-        if (this.waveStatusDict.hasKey(v)) {
-            let status: WaveStatus = this.waveStatusDict.getValue(v);
-            let waveRewards = WaveRewardInfo.getInfo(v);
-            this.timeHouseVal = waveRewards.types[status.level - 1];
+        if (Game.battleData.MenuEnterDay) {
+            this.timeHouse = TimeHouseInfo.getInfoLv(Game.playData.curLevel);
+            this.timeHouseVal = this.timeHouse.vals[Game.playData.curStar];
+        }
+        else {
+            this.timeHouse = TimeHouseInfo.getInfoLv(this.waveInfo.lv);
+            this.timeHouseVal = this.timeHouse.vals[this.timeHouse.star];
+            if (this.waveStatusDict.hasKey(v)) {
+                let status: WaveStatus = this.waveStatusDict.getValue(v);
+                let waveRewards = WaveRewardInfo.getInfo(v);
+                this.timeHouseVal = waveRewards.types[status.level - 1];
+            }
         }
         this.nextCD = 0;
         this.curTime = 0;
@@ -206,6 +246,7 @@ export default class BattleMap {
 
     // 关卡信息
     public waveInfo: WaveInfo = null;
+    public dayWaveInfo: ConfigData = null;
     // 关卡时长    
     private _waveTime: number;
     public get waveTime(): number {
@@ -292,12 +333,17 @@ export default class BattleMap {
             let item = MonsterInfo.getInfo(i);
             if (item.type == this.waveType) {
                 // 适用关卡判断
-                let bigWave = item.big_wave.toString();
                 let canAdd = false;
-                for (let k = bigWave.length - 1; k >= 0; k--) {
-                    if (Math.floor((this.curMap - 1) / 10) + 1 == Number(bigWave[k])) {
-                        canAdd = true;
-                        break;
+                if (Game.battleData.MenuEnterDay) {
+                    canAdd = true;
+                }
+                else {
+                    let bigWave = item.big_wave.toString();
+                    for (let k = bigWave.length - 1; k >= 0; k--) {
+                        if (Math.floor((this.curMap - 1) / 10) + 1 == Number(bigWave[k])) {
+                            canAdd = true;
+                            break;
+                        }
                     }
                 }
                 if (canAdd) {
@@ -357,20 +403,40 @@ export default class BattleMap {
                         }
                     }
                     // 攻速判断
-                    if (this.waveType == 1 || this.waveType == 2) {
-                        let remain = this.nextMonster.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                        this.nextCD = this.nextCD + remain * 60;
-                        if (this.bossInfo) {
-                            let remain2 = this.bossInfo.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                            this.nextCD += remain2 * 60
+                    if (Game.battleData.MenuEnterDay) {
+                        if (this.waveType == 1 || this.waveType == 2) {
+                            let remain = this.nextMonster.base_num / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
+                            this.nextCD = this.nextCD + remain * 60;
+                            if (this.bossInfo) {
+                                let remain2 = this.bossInfo.base_num / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
+                                this.nextCD += remain2 * 60
+                            }
+                        }
+                        else {
+                            let remain = this.nextMonster.base_hp / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
+                            this.nextCD = this.nextCD + remain * 60;
+                            if (this.bossInfo) {
+                                let remain2 = this.bossInfo.base_hp / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
+                                this.nextCD += remain2 * 60
+                            }
                         }
                     }
                     else {
-                        let remain = this.nextMonster.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                        this.nextCD = this.nextCD + remain * 60;
-                        if (this.bossInfo) {
-                            let remain2 = this.bossInfo.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                            this.nextCD += remain2 * 60
+                        if (this.waveType == 1 || this.waveType == 2) {
+                            let remain = this.nextMonster.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
+                            this.nextCD = this.nextCD + remain * 60;
+                            if (this.bossInfo) {
+                                let remain2 = this.bossInfo.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
+                                this.nextCD += remain2 * 60
+                            }
+                        }
+                        else {
+                            let remain = this.nextMonster.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
+                            this.nextCD = this.nextCD + remain * 60;
+                            if (this.bossInfo) {
+                                let remain2 = this.bossInfo.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
+                                this.nextCD += remain2 * 60
+                            }
                         }
                     }
                     break;

@@ -3,7 +3,7 @@
         "../bin/**/*.*"
     ],
     "openDataZone": false,
-    "compressJson": false,
+    "compressJson": true,
     "compressJsonFilter": [
         "$basePath/**/*.{json,atlas}"
     ],
@@ -56,5 +56,5 @@
     "compile": true,
     "onlyIndexJS": false,
     "projectType": "ts",
-    "pubTime": 1567769065980
+    "pubTime": 1568947930822
 }

@@ -4,6 +4,7 @@ import fui_GeneralBtn from "./fui_GeneralBtn";
 
 export default class fui_GainRewards extends fairygui.GComponent {
 
+	public m_c1:fairygui.Controller;
 	public m_list:fairygui.GList;
 	public m_okBtn:fui_GeneralBtn;
 
@@ -20,7 +21,8 @@ export default class fui_GainRewards extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
-		this.m_list = <fairygui.GList><any>(this.getChildAt(6));
-		this.m_okBtn = <fui_GeneralBtn><any>(this.getChildAt(7));
+		this.m_c1 = this.getControllerAt(0);
+		this.m_list = <fairygui.GList><any>(this.getChildAt(7));
+		this.m_okBtn = <fui_GeneralBtn><any>(this.getChildAt(8));
 	}
 }

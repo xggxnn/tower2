@@ -266,7 +266,7 @@ export default class Fun {
 
 	public static getResPath(filename: string, dir: string) {
 		if (this.isNullOrEmpty(dir)) {
-			return "res_native/" + filename;
+			return "res_fgui/" + filename;
 		}
 		else {
 			return "res_native/" + dir + "/" + filename;

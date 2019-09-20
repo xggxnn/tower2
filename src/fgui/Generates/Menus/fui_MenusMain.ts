@@ -4,7 +4,10 @@
 
 export default class fui_MenusMain extends fairygui.GComponent {
 
+	public m_waveDay:fairygui.Controller;
+	public m_bgStatus:fairygui.Controller;
 	public m_list:fairygui.GList;
+	public m_listDay:fairygui.GList;
 	public m_middle:fairygui.GImage;
 	public m_rightBtn:fairygui.GButton;
 	public m_leftBtn:fairygui.GButton;
@@ -25,12 +28,15 @@ export default class fui_MenusMain extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
+		this.m_waveDay = this.getControllerAt(0);
+		this.m_bgStatus = this.getControllerAt(1);
 		this.m_list = <fairygui.GList><any>(this.getChildAt(0));
-		this.m_middle = <fairygui.GImage><any>(this.getChildAt(1));
-		this.m_rightBtn = <fairygui.GButton><any>(this.getChildAt(5));
-		this.m_leftBtn = <fairygui.GButton><any>(this.getChildAt(6));
-		this.m_clearBtn = <fairygui.GButton><any>(this.getChildAt(7));
-		this.m_help = <fairygui.GButton><any>(this.getChildAt(8));
-		this.m_backBtn = <fairygui.GButton><any>(this.getChildAt(9));
+		this.m_listDay = <fairygui.GList><any>(this.getChildAt(1));
+		this.m_middle = <fairygui.GImage><any>(this.getChildAt(2));
+		this.m_rightBtn = <fairygui.GButton><any>(this.getChildAt(7));
+		this.m_leftBtn = <fairygui.GButton><any>(this.getChildAt(8));
+		this.m_clearBtn = <fairygui.GButton><any>(this.getChildAt(9));
+		this.m_help = <fairygui.GButton><any>(this.getChildAt(10));
+		this.m_backBtn = <fairygui.GButton><any>(this.getChildAt(11));
 	}
 }

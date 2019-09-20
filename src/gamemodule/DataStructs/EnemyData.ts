@@ -20,15 +20,17 @@ export default class EnemyData {
         if (this._monsterInf) {
             this.splits = this._monsterInf.split;
             this.resurrection = this._monsterInf.resurrection;
-            let dif = Game.battleMap.waveDifEfficiency
-            if (Game.battleMap.waveInfo.type == 1 || Game.battleMap.waveInfo.type == 2) {
-                dif = 1;
-            }
+            let dif = Game.battleMap.waveDifEfficiency;
+            // if (!Game.battleData.MenuEnterDay) {
+            //     if (Game.battleMap.waveInfo.type == 1 || Game.battleMap.waveInfo.type == 2) {
+            //         dif = 1;
+            //     }
+            // }
             this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal * Game.battleMap._heroTypeInf.benchmark_atk * 0.01 * dif;
             this.maxHp = this.curHp;
-            if (this.monsterInf.boss == 1) {
-                console.log(this.monsterInf.id, this.monsterInf.skill_id);
-            }
+            // if (this.monsterInf.boss == 1) {
+            //     console.log(this.monsterInf.id, this.monsterInf.skill_id);
+            // }
             if (this.monsterInf.skill_id > 0) {
                 this.skillcd = 0;
                 this.skill = BossSkillInfo.getInfo(this.monsterInf.skill_id);
@@ -55,14 +57,14 @@ export default class EnemyData {
         this.skillcd = this.skill.cooldown;
     }
 
-    public actionBuff(buff: EnemyBuff): void {
+    public actionBuff(buff: EnemyBuff, curEnemy: BattleSoldier): void {
         switch (buff.types) {
             case 1:
                 {
                     //* 1, 加血 - 配合高爆
                     if (this.curHp > 0) {
                         let addHp = this.maxHp * buff.effectvalue * 0.01;
-                        this.curHp += addHp;
+                        curEnemy.addHp(addHp);
                     }
                 }
                 break;
@@ -70,23 +72,26 @@ export default class EnemyData {
                 {
                     // * 2, 加速 - 配合高频
                     this.buffAddSpeed = buff.effectvalue;
+                    curEnemy.addSpeedOrHideSpeed(true);
                 }
                 break;
             case 3:
                 {
                     // * 3, 加防 - 配合均衡、高爆
                     this.buffAddDefine = buff.effectvalue;
+                    curEnemy.reduceDefOrHideSpeed(true);
                 }
                 break;
         }
     }
-    public unActionBuff(buff: EnemyBuff): void {
+    public unActionBuff(buff: EnemyBuff, curEnemy: BattleSoldier): void {
         switch (buff.types) {
             case 2:
                 {
                     // * 2, 加速 - 配合高频
                     this.buffAddSpeed -= buff.effectvalue;
                     if (this.buffAddSpeed < 0) this.buffAddSpeed = 0;
+                    curEnemy.addSpeedOrHideSpeed(false);
                 }
                 break;
             case 3:
@@ -94,6 +99,7 @@ export default class EnemyData {
                     // * 3, 加防 - 配合均衡、高爆
                     this.buffAddDefine -= buff.effectvalue;
                     if (this.buffAddDefine < 0) this.buffAddDefine = 0;
+                    curEnemy.reduceDefOrHideSpeed(false);
                 }
                 break;
         }

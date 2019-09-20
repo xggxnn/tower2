@@ -10,6 +10,9 @@ import EventKey from "../../../tool/EventKey";
 import LoaderManager from "../../../tool/LoaderManager";
 import LoadFilesList from "../../../tool/LoadFilesList";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
+import UI_DayFight from "./UI_DayFight";
+import LevelmapInfo from "../../../csvInfo/LevelmapInfo";
+import UI_ScrollTxt from "../System/UI_ScrollTxt";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_MenusMain extends fui_MenusMain {
@@ -35,6 +38,10 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.m_middle.setXY(Fun.topMiddlePoint.x, Fun.topMiddlePoint.y + 5);
 		this.m_help.setXY(Fun.bottomMiddlePoint.x, Fun.bottomMiddlePoint.y - 80);
 		this.m_help.onClick(this, this.helpClick);
+		this.tipTxt = UI_ScrollTxt.createInstance();
+		this.addChild(this.tipTxt);
+		this.tipTxt.setXY(this.m_help.x + 42, this.m_help.y);
+		this.tipTxt.title = Game.tipTxt.txts("QInfo");
 
 		this.m_backBtn.onClick(this, this.backClick);
 
@@ -47,9 +54,18 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.m_rightBtn.onClick(this, this.clickRight);
 		this.m_clearBtn.onClick(this, this.clearData);
 		this.m_clearBtn.setXY(Fun.rightBottomPoint.x - 100, Fun.rightBottomPoint.y - 64);
+
+
+		this.m_listDay.itemRenderer = Laya.Handler.create(this, this.initItemDay, null, false);
 	}
+	private tipTxt: UI_ScrollTxt = null;
 	private helpClick(): void {
-		Game.tipWin.showTip(Game.tipTxt.TrialTip, false, null, null, "确定", "", 0);
+		if (Game.battleData.MenuEnterDay) {
+			Game.tipWin.showTip(Game.tipTxt.txts("DailyChallengeHelp"), false, null, null, "确定", "", 0);
+		}
+		else {
+			Game.tipWin.showTip(Game.tipTxt.TrialTip, false, null, null, "确定", "", 0);
+		}
 	}
 
 	private clearNum: number = 0;
@@ -66,7 +82,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 	}
 
 	backClick(): void {
-		this.clearNum = 0;
+		Game.battleData.MenuEnterDay = false;
 		Game.menu.open(MenuId.Home);
 		this.closeUI();
 	}
@@ -81,10 +97,19 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.clearNum = 0;
 		this.moduleWindow.menuBack();
 	}
+
+	enterBattle(): void {
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		Game.menu.open(MenuId.Battle);
+		this.closeUI();
+	}
+
 	private curShow: number = -1;
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.event(EventKey.SHOW_UI_WAIT);
+		EventManager.on(ProtoEvent.DAYFIGHTDATA_CALL_BACK, this, this.setDataDay);
+		EventManager.on(EventKey.DAYFIGHTSELECT, this, this.enterBattle);
 		EventManager.once(EventKey.LOADER_OVER, this, this.setData);
 		EventManager.on(ProtoEvent.COLLECTDEBRIS_CALL_BACK, this, this.setData);
 		let _list: Array<string> = [];
@@ -95,6 +120,25 @@ export default class UI_MenusMain extends fui_MenusMain {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		this.clearNum = 0;
 		this.moduleWindow.closeOtherWindow();
+		if (Game.battleData.MenuEnterDay) {
+			Game.proto.dayFightData();
+		}
+		else {
+			this.setDataWave();
+		}
+	}
+	private dayFight: UI_DayFight = null;
+	private setDataDay(): void {
+		this.m_waveDay.setSelectedIndex(1);
+		this.maxNum = 1;
+		this.m_listDay.numItems = 1;
+		if (!Game.redData.dayFightTip) {
+			Game.redData.dayFightTip = true;
+			Game.tipWin.showTip(Game.tipTxt.txts("DailyChallengeHelp"), false, null, null, "确定", "", 0);
+		}
+	}
+	private setDataWave(): void {
+		this.m_waveDay.setSelectedIndex(0);
 		Game.battleData.refrushSeatFightInf();
 		let waveCount = WaveInfo.getCount();
 		let maxNumss = Math.floor(waveCount / 10) + (waveCount % 10 > 0 ? 1 : 0);
@@ -142,6 +186,10 @@ export default class UI_MenusMain extends fui_MenusMain {
 		let item = obj as UI_MapItem;
 		item.setData(index, this.moduleWindow);
 	}
+	private initItemDay(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_DayFight;
+		item.setData();
+	}
 
 	private startMouseX: number = 0;
 	private maxNum: number = 0;
@@ -187,6 +235,8 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.curShow = cur;
 		this.m_leftBtn.visible = cur > 0;
 		this.m_rightBtn.visible = cur < this.maxNum - 1;
+		let levelmap = LevelmapInfo.getInfo(this.curShow + 1);
+		this.m_bgStatus.setSelectedIndex(levelmap.levelbg - 1);
 	}
 
 }

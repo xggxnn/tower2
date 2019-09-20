@@ -15,7 +15,6 @@ import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
 import Fun from "../../tool/Fun";
 import UI_HeroInfo from "../../fgui/Extend/Home/UI_HeroInfo";
 import TypedSignal from "../../tool/TypedSignal";
-import UI_HeadIcon2 from "../../fgui/Extend/Battle/UI_HeadIcon2";
 import UI_bagua from "../../fgui/Extend/Battle/UI_bagua";
 import UI_AddSpeedBtn from "../../fgui/Extend/Battle/UI_AddSpeedBtn";
 import UI_HeroIcon6060 from "../../fgui/Extend/Battle/UI_HeroIcon6060";
@@ -44,7 +43,6 @@ export default class BattleWin extends FWindow {
 	HeroInfoUI: UI_HeroInfo;
 	constructor() {
 		super();
-		this.addAssetForFguiComponent(UI_HeadIcon2);
 		this.addAssetForFguiComponent(UI_AssociationBtn);
 		this.addAssetForFguiComponent(UI_BattleLeftBottom);
 		this.addAssetForFguiComponent(UI_BattleLeftTop);

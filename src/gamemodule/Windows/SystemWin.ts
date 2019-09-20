@@ -22,6 +22,7 @@ import UI_DialogBox from "../../fgui/Extend/System/UI_DialogBox";
 import UI_Hand from "../../fgui/Extend/System/UI_Hand";
 import UI_Help from "../../fgui/Extend/System/UI_Help";
 import UI_PopupItem from "../../fgui/Extend/System/UI_PopupItem";
+import UI_BlackText from "../../fgui/Extend/System/UI_BlackText";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class SystemWin extends FWindow {
 	content: UI_Circle;
@@ -51,6 +52,7 @@ export default class SystemWin extends FWindow {
 		this.addAssetForFguiComponent(UI_Hand);
 		this.addAssetForFguiComponent(UI_Help);
 		this.addAssetForFguiComponent(UI_PopupItem);
+		this.addAssetForFguiComponent(UI_BlackText);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_Circle.createInstance();

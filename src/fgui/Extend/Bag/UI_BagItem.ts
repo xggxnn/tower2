@@ -47,7 +47,6 @@ export default class UI_BagItem extends fui_BagItem {
 		this.m_have.setSelectedIndex(0);
 		this.m_type.setSelectedIndex(0);
 		this.m_checkBtn.title = "打开";
-		Game.redTip.hideRedTip(this.m_checkBtn, this.id);
 	}
 
 

@@ -41,10 +41,12 @@ export default class UI_HomeMain extends fui_HomeMain {
 		this.m_bagBtn.onClick(this, this.bagClick);
 		this.m_heroBtn.onClick(this, this.heroClick);
 		this.m_testBtn.onClick(this, this.clickTest);
+		this.m_dayBtn.onClick(this, this.dayFight);
 	}
 
 	private menuselect(): void {
 		this.closeUI();
+		Game.battleData.MenuEnterDay = false;
 		Game.menu.open(MenuId.MenuSelect);
 	}
 	seatClick(): void {
@@ -65,7 +67,8 @@ export default class UI_HomeMain extends fui_HomeMain {
 		Game.popup.showPopup(this.m_setBtn, true, false, "试玩版本无此功能！");
 	}
 	clickTest(): void {
-		Game.tipWin.showTip("试玩说明\n当前版本为试玩版，计划于2019年9月1日开始，2019年9月30日结束试玩结束后，玩家的数据将会被清除\n试玩结束后，所有参与试玩的玩家将会获得一个试玩参与奖励：开荒兑换码（在正式版中可兑换开荒礼包）			\n试玩玩家请加入玩家Q群：855988151，欢迎提出反馈与建议，一经采纳，将可以获得正式版礼包奖励", false, null, null, "朕知道了", "", 0);
+		// Game.tipWin.showTip("试玩说明\n当前版本为试玩版，计划于2019年9月1日开始，2019年9月30日结束试玩结束后，玩家的数据将会被清除\n试玩结束后，所有参与试玩的玩家将会获得一个试玩参与奖励：开荒兑换码（在正式版中可兑换开荒礼包）			\n试玩玩家请加入玩家Q群：855988151，欢迎提出反馈与建议，一经采纳，将可以获得正式版礼包奖励", false, null, null, "朕知道了", "", 0);
+		Game.tipWin.showTip(Game.tipTxt.txts("TrialInfo"), false, null, null, "朕知道了", "", 0);
 	}
 	actClick(): void {
 		Game.menu.open(MenuId.Active, 0);
@@ -86,9 +89,34 @@ export default class UI_HomeMain extends fui_HomeMain {
 	conquestReward(): void {
 		Game.proto.conquestReward();
 	}
+	dayFight(): void {
+		if (Game.battleMap.maxMapId < 11) {
+			Game.tipWin.showTip(Game.tipTxt.txts("DailyChallengeUnlockTip"), false);
+		}
+		else if (Game.battleData.dayFightProgress > 5) {
+			Game.tipWin.showTip(Game.tipTxt.txts("DailyChallengeDone"), false);
+		}
+		else {
+			this.closeUI();
+			Game.battleData.MenuEnterDay = true;
+			Game.menu.open(MenuId.MenuSelect);
+		}
+	}
+	checkDayFight(): void {
+		if (Game.battleMap.maxMapId < 11) {
+			this.m_dayPass.setSelectedIndex(0);
+		}
+		else if (Game.battleData.dayFightProgress > 5) {
+			this.m_dayPass.setSelectedIndex(2);
+		}
+		else {
+			this.m_dayPass.setSelectedIndex(1);
+		}
+	}
 
 	setData(): void {
 		Game.sound.playMusic(SoundKey.bgm_1, 0);
+		Game.battleData.MenuEnterDay = false;
 		this.moduleWindow.closeOtherWindow();
 		this.refreshCoinGold();
 		this.refreshCoinDiamond();
@@ -104,10 +132,12 @@ export default class UI_HomeMain extends fui_HomeMain {
 		}
 		else if (Game.playData.guideIndex == GuideType.fettersOver || Game.playData.guideIndex == GuideType.fiveUpLevelOver || Game.playData.guideIndex == GuideType.sixWin) {
 			Game.playData.guideIndex++;
+			EventManager.event(EventKey.SHOW_WAIT);
 			setTimeout(() => {
 				this.moduleWindow.createGuideUI(this.m_fightBtn, new Laya.Point(this.m_fightBtn.x, this.m_fightBtn.y), Laya.Handler.create(this, this.menuselect), Game.tipTxt.fiveEnterMenus, LocationType.Lower);
 			}, 100);
 		}
+		this.checkDayFight();
 	}
 	private synthetise(): void {
 		this.refrushRed();
@@ -177,6 +207,8 @@ export default class UI_HomeMain extends fui_HomeMain {
 		EventManager.on(ProtoEvent.KING_CALL_BACK, this, this.synthetise);
 		EventManager.on(ProtoEvent.BAGGIFT_CALL_BACK, this, this.synthetise);
 		EventManager.on(ProtoEvent.SHOPBUY_CALL_BACK, this, this.synthetise);
+		EventManager.on(ProtoEvent.CONQUESTREWARD_CALL_BACK, this, this.synthetise);
+		EventManager.on(ProtoEvent.DAYFIGHTREWARD_CALL_BACK, this, this.checkDayFight);
 		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.synthetise);
 		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.synthetise);
 		this.setData();

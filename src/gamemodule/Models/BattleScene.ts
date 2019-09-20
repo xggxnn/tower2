@@ -110,32 +110,48 @@ export default class BattleScene {
     }
 
     public setSeat(): void {
-        let data = {
-            // "seat": [this.seatHeroList[0].concat(), this.seatHeroList[1].concat(), this.seatHeroList[2].concat()],
-            "seat": {
-                "seat0": this.seatHeroList[0].concat(),
-                "seat1": this.seatHeroList[1].concat(),
-                "seat2": this.seatHeroList[2].concat(),
-            },
-            "seatNum": this.seatHeroSelect,
-            "skillIndex": Game.playData.curPlaySkillIndex,
+        if (!Game.battleData.MenuEnterDay) {
+            let data = {
+                "seat": {
+                    "seat0": this.seatHeroList[0].concat(),
+                    "seat1": this.seatHeroList[1].concat(),
+                    "seat2": this.seatHeroList[2].concat(),
+                },
+                "seatNum": this.seatHeroSelect,
+                "skillIndex": Game.playData.curPlaySkillIndex,
+            }
+            Game.proto.setSeat(data);
         }
-        Game.proto.setSeat(data);
     }
     /**
      * 初始化所有英雄
      */
     initHeroSeat(): void {
         Game.halo.init();
-        let list: number[] = this.seatHeroList[this.seatHeroSelect];
-        for (let i = 0; i < 9; i++) {
-            if (list[i] > 0) {
-                let hero = BattleHero.create(list[i], i);
-                this.heroList.push(hero);
-                this.battleSeat[i].heroInf = hero.dataInf.heroInf;
+        if (Game.battleData.MenuEnterDay) {
+            let herolist = Game.battleData.dayHeroSeat;
+            for (let i = 0; i < 9; i++) {
+                if (herolist[i] != null) {
+                    let hero = BattleHero.create(herolist[i].id, i);
+                    this.heroList.push(hero);
+                    this.battleSeat[i].heroInf = hero.dataInf.heroInf;
+                }
+                else {
+                    this.battleSeat[i].heroInf = null;
+                }
             }
-            else {
-                this.battleSeat[i].heroInf = null;
+        }
+        else {
+            let list: number[] = this.seatHeroList[this.seatHeroSelect];
+            for (let i = 0; i < 9; i++) {
+                if (list[i] > 0) {
+                    let hero = BattleHero.create(list[i], i);
+                    this.heroList.push(hero);
+                    this.battleSeat[i].heroInf = hero.dataInf.heroInf;
+                }
+                else {
+                    this.battleSeat[i].heroInf = null;
+                }
             }
         }
     }

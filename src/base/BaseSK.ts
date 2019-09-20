@@ -4,6 +4,7 @@ import TempletManager from "../tool/TempletManager";
 import EventKey from "../tool/EventKey";
 import Game from "../Game";
 import LoaderManager from "../tool/LoaderManager";
+import Pools from "../tool/Pools";
 
 export default class BaseSK extends BaseFilter {
 	public static create(key: string): BaseSK {
@@ -39,7 +40,8 @@ export default class BaseSK extends BaseFilter {
 		this.init(templet);
 	}
 	private init(templet: Laya.Templet): void {
-		this._skeleton = templet.buildArmature(0);
+		this._skeleton = Pools.pops(this._key, templet);
+		// this._skeleton = templet.buildArmature(0);
 		this._skeleton.x = 0;
 		this._skeleton.y = 0;
 		this.addChild(this._skeleton);
@@ -58,6 +60,14 @@ export default class BaseSK extends BaseFilter {
 		this._lableHandlerList = [];
 		this._stopHandlerList = [];
 	}
+	public destroyThis(): void {
+		if (this._skeleton != null) {
+			this._skeleton.offAll();
+			Pools.pushs(this._key, this._skeleton);
+		}
+		this.destroy();
+	}
+
 	private _skeleton: Laya.Skeleton = null;
 	private _currAnimation: string = "";
 	private _isLoop: boolean = true;
@@ -127,26 +137,22 @@ export default class BaseSK extends BaseFilter {
 			this._isPause = true;
 		}
 	}
+	private _changeSpeeds: number = 1;
+	public changeSpeeds(v: number): void {
+		this._changeSpeeds += (v / 100);
+		this.speed = this._speed;
+	}
     /**
      * 动画的播放速度 [ 0: 停止播放, (0~1): 慢速播放, 1: 正常播放, (1~N): 快速播放 ]
      */
 	public set speed(v: number) {
 		if (this._skeleton) {
-			this._skeleton.playbackRate(v * Game.playData.gameSpeed);
+			let speeds = v * Game.playData.gameSpeed * this._changeSpeeds;
+			this._skeleton.playbackRate(speeds);
 		} else {
 			this._speed = v;
 		}
 	}
 
-	public pauseAni(): void {
-		if (this._skeleton) {
-			this._skeleton.paused();
-		}
-	}
-	public resumeAni(): void {
-		if (this._skeleton) {
-			this._skeleton.resume();
-		}
-	}
 
 }

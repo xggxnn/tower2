@@ -20,6 +20,8 @@ import Pools from "../../../tool/Pools";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import HeroTypeInfo from "../../../csvInfo/HeroTypeInfo";
+import AssociationRaceInfo from "../../../csvInfo/AssociationRaceInfo";
+import AssociationCareerInfo from "../../../csvInfo/AssociationCareerInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroInfo extends fui_HeroInfo {
@@ -161,7 +163,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 				}
 				break;
 		}
-		return Fun.format(Game.tipTxt.saveAttTip, this.heroInf.name, Game.tipTxt.AttributeName[key], val0.toFixed(0), val1.toFixed(0), max.toFixed(0));
+		return Fun.format(Game.tipTxt.saveAttTip, this.heroInf.name, Game.tipTxt.AttributeName[key], val0.toFixed(2), val1.toFixed(2), max.toFixed(2));
 	}
 	// 保存属性
 	private saveAtt(): void {
@@ -196,11 +198,20 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		this.closeUI();
 	}
 
-
+	private fetterId: number[] = [];
 	private clickLookFetters(types: number): void {
-		Game.playData.fettersInf.id = this.heroInf.id;
-		Game.playData.fettersInf.type = types;
-		Game.playData.sShowFetters.dispatch();
+		Game.playData.fettersInfos = null;
+		let fettinf = Game.battleData.assItem(this.fetterId[types], types);
+		if (Game.playData.unlockAssociationattribute.indexOf(fettinf.attribute_id) != -1) {
+			Game.playData.fettersInfos = fettinf;
+		}
+		if (Game.playData.fettersInfos != null) {
+			Game.playData.sShowFetters.dispatch();
+		}
+		else {
+			let str: number = 2 + types;
+			Game.popup.showPopup(this.m_lookrace, false, false, Game.tipTxt.txts("AssociationLockTip" + str));
+		}
 	}
 	private helpClick(): void {
 		Game.popup.showPopup(this.m_help, true, false, Game.tipTxt.HeroInfTip);
@@ -227,17 +238,21 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	private upClips: number = 0;
 	private _sk: BaseSK = null;
 	setData(): void {
+		this.fetterId = [0, 0, 0];
 		this.heroInf = Game.battleData.clickHeroInf;
 		let heroTYpes = HeroTypeInfo.getInfo(this.heroInf.type);
 		this.upClips = 0;
 		if (this.heroInf != null) {
 			this.m_heroname.text = this.heroInf.name;
 			this.m_race.text = Fun.format("五行：{0}", Association.raceName(this.heroInf.race));
+			this.fetterId[0] = this.heroInf.race;
 			this.m_career.text = Fun.format("门派：{0}", Association.careerName(this.heroInf.career));
+			this.fetterId[1] = this.heroInf.career;
 			if (this.heroInf.point_fetters > 0) {
 				this.m_teshu.setSelectedIndex(1);
 				let assSpecail = AssociationSpecialInfo.getInfo(this.heroInf.point_fetters);
 				if (assSpecail) {
+					this.fetterId[2] = this.heroInf.point_fetters;
 					this.m_special.setVar("count", Association.attributeIdToName(assSpecail.attribute)).flushVars();
 					this.m_teshu.setSelectedIndex(1);
 				}
@@ -253,7 +268,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 				_id = this.heroInf.skin;
 			}
 			if (this._sk) {
-				this._sk.destroy();
+				this._sk.destroyThis();
 				this._sk = null;
 			}
 			this._sk = BaseSK.create("hero_" + _id);
@@ -290,6 +305,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 					if (heroClips >= this.upClips) {
 						if (Game.playData.guideIndex == GuideType.showHeroItem) {
 							Game.playData.guideIndex = GuideType.SnythHero;
+							EventManager.event(EventKey.SHOW_WAIT);
 							setTimeout(() => {
 								this.moduleWindow.createGuideUI(this.m_gainmethod, new Laya.Point(this.m_gainmethod.x, this.m_gainmethod.y),
 									Laya.Handler.create(this, this.clickGain), Game.tipTxt.Guid4, LocationType.Upper);
@@ -329,6 +345,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		if (this.tip == null) {
 			this.tip = Pools.fetch(UI_DialogBox);
 			this.m_icons.root.addChild(this.tip);
+			this.tip.m_titles.width = 400;
 			Game.writeEff.startTypeWrite(50, this.heroInf.story, this.tip.m_titles, null);
 			this.tip.setXY(this.m_icons.x, this.m_icons.y - this.m_icons.height * 0.7);
 			this.tip.onClick(this, this.tipClick);
@@ -373,6 +390,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		this.fwindow = null;
 		if (this.tip) {
 			this.tip.offClick(this, this.tipClick);
+			this.tip.removeFromParent();
 			Pools.recycle(this.tip);
 		}
 		this.tip = null;

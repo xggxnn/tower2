@@ -2,6 +2,7 @@ import Fun from "../tool/Fun";
 import EventManager from "../tool/EventManager";
 import Game from "../Game";
 import LoaderManager from "./LoaderManager";
+import AdsManager from "./AdsManager";
 
 export default class SystemManager {
 
@@ -22,6 +23,9 @@ export default class SystemManager {
 		Game.playData.init();
 		Game.battleData.init();
 		Game.battleScene.init();
+		if (this.canPlayAd) {
+			AdsManager.init();
+		}
 	}
 
 	public static init(): void {
@@ -51,6 +55,12 @@ export default class SystemManager {
 				}
 				if (Game.userData.inviter) {
 					data["inviter"] = Game.userData.inviter;
+				}
+				if (SystemManager.channel) {
+					data["channel"] = SystemManager.channel;
+				}
+				if (SystemManager.channelAPPID) {
+					data["channelAPPID"] = SystemManager.channelAPPID;
 				}
 				Game.proto.login(data);
 			},
@@ -277,7 +287,7 @@ export default class SystemManager {
 		// BJManager.BJexposure();
 	}
 	public static onShow(res): void {
-		console.log("onShow:", res);
+		// console.log("onShow:", res);
 		EventManager.event(SystemManager.ON_SHOW);
 	}
 

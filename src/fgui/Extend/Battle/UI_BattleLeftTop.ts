@@ -46,7 +46,13 @@ export default class UI_BattleLeftTop extends fui_BattleLeftTop {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		this.m_waveBtn.title = Fun.format("退出第{0}关", Game.battleData.level_id);
+		if (Game.battleData.MenuEnterDay) {
+			this.m_tip.setVar("level", Game.battleData.dayFightProgress.toString()).flushVars();
+		}
+		else {
+			let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
+			this.m_tip.setVar("level", mapLevel.map + "-" + mapLevel.level).flushVars();
+		}
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {

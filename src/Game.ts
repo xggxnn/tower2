@@ -156,8 +156,7 @@ export default class Game {
 		EventManager.once(EventKey.LOADER_OVER, this, this.startFight);
 		LoaderManager.resetShowLoad();
 		let _list: Array<string> = [];
-		if (Game.playData.guideIndex < GuideType.Win)
-			_list.push("res_sk/hero_25.sk");
+		_list.push("res_sk/hero_25.sk");
 		_list.push("res_sk/hero_30.sk");
 		_list.push("res_sk/hero_5.sk");
 		_list.push("res_sk/hero_9.sk");
@@ -212,61 +211,62 @@ export default class Game {
 	private openHome(): void {
 		ShareManager.init();
 		SystemManager.initAllData();
-		if (Game.playData.guideIndex == GuideType.None && Game.battleMap.maxMapId > 1) {
-			if (Game.battleMap.maxMapId >= 3 && Game.playData.guideIndex < GuideType.sevenStartFive) {
-				Game.playData.guideIndex = GuideType.sevenStartFive;
-			}
-			// 登录成功，打开主界面
+		if (Game.battleMap.maxMapId >= 3) {
+			Game.playData.guideIndex = GuideType.sevenStartFive;
 			this.onInstallLoadRes2(MenuId.Home);
-			// Game.menu.open(MenuId.Home);
 		}
 		else {
-			if (Game.playData.guideIndex < GuideType.Win) {
-				EventManager.event(EventKey.SHOW_UI_WAIT);
-				EventManager.once(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.onInstallLoadRes);
-				Game.battleData.fight_type = 0;
-				Game.battleData.level_id = 1;
-				let data = {
-					waveId: Game.battleData.level_id,
-					fightType: Game.battleData.fight_type,
-				}
-				Game.proto.selectWave(data);
-			}
-			else if (Game.playData.guideIndex < GuideType.SnythHeroOver) {
-				Game.playData.guideIndex = GuideType.Win;
-				this.onInstallLoadRes2(MenuId.Hero);
-				// Game.menu.open(MenuId.Hero);
-			}
-			else if (Game.playData.guideIndex == GuideType.SnythHeroOver) {
-				Game.playData.guideIndex == GuideType.SnythHeroOver;
-				this.onInstallLoadRes2(MenuId.Arrange);
-				// Game.menu.open(MenuId.Arrange);
-			}
-			else if (Game.playData.guideIndex >= GuideType.fiveWin && Game.playData.guideIndex < GuideType.fiveUpLevelOver) {
-				Game.playData.guideIndex = GuideType.fiveWin;
-				this.onInstallLoadRes2(MenuId.Arrange);
-				// Game.menu.open(MenuId.Arrange);
-			}
-			else {
-				if (Game.playData.guideIndex < GuideType.fiveWin) {
-					Game.playData.guideIndex = GuideType.fettersOver;
-				}
-				else if (Game.playData.guideIndex < GuideType.sixWin) {
-					Game.playData.guideIndex = GuideType.fiveUpLevelOver;
-				}
-				else if (Game.playData.guideIndex < GuideType.sevenStartFive) {
-					Game.playData.guideIndex = GuideType.sixWin;
+			if (Game.playData.guideIndex == GuideType.None && Game.battleMap.maxMapId > 1) {
+				if (Game.battleMap.maxMapId >= 3 && Game.playData.guideIndex < GuideType.sevenStartFive) {
+					Game.playData.guideIndex = GuideType.sevenStartFive;
 				}
 				// 登录成功，打开主界面
 				this.onInstallLoadRes2(MenuId.Home);
-				// Game.menu.open(MenuId.Home);
+			}
+			else {
+				if (Game.playData.guideIndex < GuideType.Win) {
+					EventManager.event(EventKey.SHOW_UI_WAIT);
+					EventManager.once(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.onInstallLoadRes);
+					Game.battleData.fight_type = 0;
+					Game.battleData.level_id = 1;
+					let data = {
+						waveId: Game.battleData.level_id,
+						fightType: Game.battleData.fight_type,
+					}
+					Game.proto.selectWave(data);
+				}
+				else if (Game.playData.guideIndex < GuideType.SnythHeroOver) {
+					Game.playData.guideIndex = GuideType.Win;
+					this.onInstallLoadRes2(MenuId.Hero);
+				}
+				else if (Game.playData.guideIndex <= GuideType.fiveFight) {
+					Game.playData.guideIndex = GuideType.SnythHeroOver;
+					this.onInstallLoadRes2(MenuId.Arrange);
+				}
+				else if (Game.playData.guideIndex >= GuideType.fiveWin && Game.playData.guideIndex < GuideType.fiveUpLevelOver) {
+					Game.playData.guideIndex = GuideType.fiveWin;
+					this.onInstallLoadRes2(MenuId.Arrange);
+				}
+				else {
+					if (Game.playData.guideIndex < GuideType.fiveWin) {
+						Game.playData.guideIndex = GuideType.fettersOver;
+					}
+					else if (Game.playData.guideIndex < GuideType.sixWin) {
+						Game.playData.guideIndex = GuideType.fiveUpLevelOver;
+					}
+					else if (Game.playData.guideIndex < GuideType.sevenStartFive) {
+						Game.playData.guideIndex = GuideType.sixWin;
+					}
+					// 登录成功，打开主界面
+					this.onInstallLoadRes2(MenuId.Home);
+				}
 			}
 		}
 	}
 	private startFight(): void {
 		Game.initOverForLoad = true;
 		if (Game.playData.guideIndex < GuideType.StartFight) {
-			Game.playData.guideIndex = GuideType.FightReady;
+			Game.playData.guideIndex = GuideType.lookSceneOver;
 		}
 		else if (Game.playData.guideIndex < GuideType.Win) {
 			Game.playData.guideIndex = GuideType.StartFight;

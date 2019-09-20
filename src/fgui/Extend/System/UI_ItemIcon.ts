@@ -5,6 +5,7 @@ import Game from "../../../Game";
 import SignInfo from "../../../csvInfo/SignInfo";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import SpriteKey from "../../SpriteKey";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemIcon extends fui_ItemIcon {
@@ -82,7 +83,7 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 	// 获取物品赋值
 	public setData(inf: RewardItem): void {
 		this.itemInfo = inf;
-		this.m_number.setVar("count", this.itemInfo.itemNum.toString()).flushVars();
+		this.m_number.setVar("count", Fun.formatNumberUnit(this.itemInfo.itemNum)).flushVars();
 		if (this.itemInfo.isClips) {
 			this.m_c1.setSelectedIndex(3);
 		}

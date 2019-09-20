@@ -147,8 +147,14 @@ export default class BattleData {
      * 刷新当前阵容战力信息
      */
     public refrushSeatFightInf(): void {
-        let ass = Game.battleData.refrushAssociation(true);
+        let ass = Game.battleData.refrushAssociation();
         let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
+        if (Game.battleData.MenuEnterDay) {
+            seatList = [];
+            for (let i = 0; i < 9; i++) {
+                seatList.push(Game.battleData.dayFightHeroSort[i]);
+            }
+        }
         let speed = 0;
         let atk = 0;
         let crit = 0;
@@ -164,7 +170,6 @@ export default class BattleData {
         for (let i = 0; i < 9; i++) {
             if (seatList[i] > 0) {
                 heroNum++;
-                // let hero = HeroInfo.getInfo(seatList[i]);
                 let hero = HeroInfoData.getInfo(seatList[i]);
                 speed += (1 / hero.cd);
                 let atkHero = hero.basicattckpointCur * star * 0.01 * hero.atkscale * 0.01;
@@ -236,7 +241,7 @@ export default class BattleData {
         let burstEx = 0;
         let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
         if (seatList.indexOf(id) != -1) {
-            let ass = Game.battleData.refrushAssociation(true);
+            let ass = Game.battleData.refrushAssociation();
             let assLen: number = ass.length;
             if (assLen > 0) {
                 for (let j = 0; j < assLen; j++) {
@@ -336,20 +341,16 @@ export default class BattleData {
         this._association = v;
     }
 
-    private _curAssociation: Array<Association> = null;
     // 刷新当前阵型上阵英雄的羁绊信息
-    public refrushAssociation(init: boolean = false): Array<Association> {
-        if (init) {
-            this._curAssociation = null;
-        }
-        if (this._curAssociation == null) {
-            this._curAssociation = [];
-        }
-        else {
-            return this._curAssociation;
-        }
+    public refrushAssociation(): Array<Association> {
         let association: Array<Association> = [];
         let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
+        if (Game.battleData.MenuEnterDay) {
+            seatList = [];
+            for (let i = 0; i < 9; i++) {
+                seatList.push(Game.battleData.dayFightHeroSort[i]);
+            }
+        }
         // 种族
         let raceDic: Dictionary<number, number> = new Dictionary<number, number>();
         // 职业
@@ -412,6 +413,12 @@ export default class BattleData {
                     _ass.attribute_id = valList[i].attribute;
                     _ass.values = valList[i].value;
                     _ass.race = valList[i].race;
+                    if (Game.playData.unlockAssociationattribute.indexOf(_ass.attribute_id) == -1) {
+                        let data = {
+                            id: _ass.attribute_id,
+                        }
+                        Game.proto.fetterUnlock(data);
+                    }
                     association.push(_ass);
                 }
             }
@@ -445,6 +452,12 @@ export default class BattleData {
                     _ass.attribute_id = valList[i].attribute;
                     _ass.values = valList[i].value;
                     _ass.career = valList[i].career;
+                    if (Game.playData.unlockAssociationattribute.indexOf(_ass.attribute_id) == -1) {
+                        let data = {
+                            id: _ass.attribute_id,
+                        }
+                        Game.proto.fetterUnlock(data);
+                    }
                     association.push(_ass);
                 }
             }
@@ -466,14 +479,155 @@ export default class BattleData {
                     _ass.hero = temList;
                     _ass.values = assSpecail.value;
                     _ass.num = temList.length;
+                    if (Game.playData.unlockAssociationattribute.indexOf(_ass.attribute_id) == -1) {
+                        let data = {
+                            id: _ass.attribute_id,
+                        }
+                        Game.proto.fetterUnlock(data);
+                    }
                     association.push(_ass);
                 }
             }
         }
 
-
-        this._curAssociation = association;
         return association;
+    }
+    // 未上阵羁绊
+    public refrushAssociationGray(): Array<Association> {
+        let haveAss = this.refrushAssociation();
+        let result: Array<Association> = [];
+        let raceList: Array<number> = [];
+        let careerList: Array<number> = [];
+        let specailList: Array<number> = [];
+        if (haveAss.length > 0) {
+            for (let i = haveAss.length - 1; i >= 0; i--) {
+                if (haveAss[i].race > 0) {
+                    raceList.push(haveAss[i].race);
+                }
+                else if (haveAss[i].career > 0) {
+                    careerList.push(haveAss[i].career);
+                }
+            }
+        }
+        for (let i = 1, len = AssociationRaceInfo.getCount(); i <= len; i++) {
+            let item = AssociationRaceInfo.getInfo(i);
+            if (raceList.indexOf(item.race) == -1) {
+                let _ass = new Association();
+                _ass.num = item.num;
+                _ass.attribute_id = item.attribute;
+                _ass.values = item.value;
+                _ass.race = item.race;
+                raceList.push(item.race);
+                result.push(_ass);
+            }
+        }
+        for (let i = 1, len = AssociationCareerInfo.getCount(); i <= len; i++) {
+            let item = AssociationCareerInfo.getInfo(i);
+            if (careerList.indexOf(item.career) == -1) {
+                let _ass = new Association();
+                _ass.num = item.num;
+                _ass.attribute_id = item.attribute;
+                _ass.values = item.value;
+                _ass.career = item.career;
+                careerList.push(item.career);
+                result.push(_ass);
+            }
+        }
+        for (let i = 1, len = AssociationSpecialInfo.getCount(); i <= len; i++) {
+            let item = AssociationSpecialInfo.getInfo(i);
+            if (specailList.indexOf(i) == -1) {
+                let _ass = new Association();
+                _ass.pointF = i;
+                _ass.attribute_id = item.attribute;
+                _ass.values = item.value;
+                let heroList = Association.pointFetter(i);
+                _ass.hero = [];
+                for (let j = 0, lens = heroList.length; j < lens; j++) {
+                    _ass.hero.push(heroList[j].id);
+                }
+                _ass.num = _ass.hero.length;
+                specailList.push(i);
+                result.push(_ass);
+            }
+        }
+        return result;
+    }
+    private assDic: Array<Association> = [];
+    public assItem(key: number, types: number): Association {
+        this.initAssItem();
+        for (let i = this.assDic.length - 1; i >= 0; i--) {
+            switch (types) {
+                case 0:
+                    {
+                        if (this.assDic[i].race == key) {
+                            return this.assDic[i];
+                        }
+                    }
+                    break;
+                case 1:
+                    {
+                        if (this.assDic[i].career == key) {
+                            return this.assDic[i];
+                        }
+                    }
+                    break;
+                case 2:
+                    {
+                        if (this.assDic[i].pointF == key) {
+                            return this.assDic[i];
+                        }
+                    }
+                    break;
+            }
+        }
+        return null;
+    }
+    public assItemWAttid(attid: number): Array<Association> {
+        this.initAssItem();
+        let result: Array<Association> = [];
+        for (let i = this.assDic.length - 1; i >= 0; i--) {
+            if (this.assDic[i].attribute_id == attid) {
+                result.push(this.assDic[i]);
+            }
+        }
+        return result;
+    }
+    // 初始化所有羁绊信息
+    private initAssItem(): void {
+        if (this.assDic.length == 0) {
+            for (let i = 1, len = AssociationRaceInfo.getCount(); i <= len; i++) {
+                let item = AssociationRaceInfo.getInfo(i);
+                let _ass = new Association();
+                _ass.num = item.num;
+                _ass.attribute_id = item.attribute;
+                _ass.values = item.value;
+                _ass.race = item.race;
+                this.assDic.push(_ass);
+            }
+            for (let i = 1, len = AssociationCareerInfo.getCount(); i <= len; i++) {
+                let item = AssociationCareerInfo.getInfo(i);
+                let _ass = new Association();
+                _ass.num = item.num;
+                _ass.attribute_id = item.attribute;
+                _ass.values = item.value;
+                _ass.career = item.career;
+                this.assDic.push(_ass);
+            }
+            for (let i = 1, len = AssociationSpecialInfo.getCount(); i <= len; i++) {
+                let item = AssociationSpecialInfo.getInfo(i);
+                let _ass = new Association();
+                _ass.pointF = i;
+                _ass.attribute_id = item.attribute;
+                _ass.values = item.value;
+                let heroList = Association.pointFetter(i);
+                _ass.hero = [];
+                for (let j = 0, lens = heroList.length; j < lens; j++) {
+                    _ass.hero.push(heroList[j].id);
+                }
+                _ass.num = _ass.hero.length;
+                this.assDic.push(_ass);
+            }
+        }
     }
 
     /*******************敌人相关**************************/
@@ -492,6 +646,62 @@ export default class BattleData {
     public play_level: number = 1;
     // 试炼第几小关
     public trial_level: number = 0;
+
+
+    /*******************每日挑战相关数据**************************/
+    public MenuEnterDay: boolean = false;
+    private _dayFightHeroList: Dictionary<string, HeroInfoData> = new Dictionary<string, HeroInfoData>();
+    // 可用英雄数据列表
+    public get curHeroInfoList(): Dictionary<string, HeroInfoData> {
+        return this._dayFightHeroList;
+    }
+    public set curHeroInfoList(v: Dictionary<string, HeroInfoData>) {
+        this._dayFightHeroList = v;
+    }
+    public get dayHeroSeat(): Array<HeroInfoData> {
+        let heroList: Array<HeroInfoData> = [];
+        for (let i = 0; i < 9; i++) {
+            if (this.dayFightHeroSort[i] > 0 && this.curHeroInfoList.hasKey(this.dayFightHeroSort[i])) {
+                let hero = this.curHeroInfoList.getValue(this.dayFightHeroSort[i]);
+                heroList.push(hero);
+            }
+            else {
+                heroList.push(null);
+            }
+        }
+        return heroList;
+    }
+    public get dayHeroNoSeat(): Array<HeroInfoData> {
+        let heroList: Array<HeroInfoData> = [];
+        if (this.dayFightProgress > 1) {
+            for (let i = 9; i < 12; i++) {
+                if (this.dayFightHeroSort[i] > 0 && this.curHeroInfoList.hasKey(this.dayFightHeroSort[i])) {
+                    let hero = this.curHeroInfoList.getValue(this.dayFightHeroSort[i]);
+                    heroList.push(hero);
+                }
+            }
+        }
+        return heroList;
+    }
+    // 英雄排序
+    public dayFightHeroSort: Array<number> = [];
+    public dayFightProgress: number = 0;
+    public dayFightWave: number = 0;
+    public dayReward: Array<RewardItem> = [];
+    public getRewards(obj: any): void {
+        this.dayReward = [];
+        for (var key in obj) {
+            let ids = Number(key);
+            let vals = Number(obj[key]);
+            let curVal = vals;
+            if (curVal > 0) {
+                let item: RewardItem = new RewardItem();
+                item.itemId = ids;
+                item.itemNum = curVal;
+                this.dayReward.push(item);
+            }
+        }
+    }
 
     /*******************战斗结果相关**************************/
     public fight_result: Array<RewardItem> = [];

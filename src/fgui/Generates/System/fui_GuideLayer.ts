@@ -10,6 +10,7 @@ export default class fui_GuideLayer extends fairygui.GComponent {
 	public m_bottom:fui_ScrollTxtNormal;
 	public m_right:fui_ScrollTxtNormal;
 	public m_left:fui_ScrollTxtNormal;
+	public m_rightLow:fui_ScrollTxtNormal;
 
 	public static URL:string = "ui://130tmfxdopk1p";
 
@@ -30,5 +31,6 @@ export default class fui_GuideLayer extends fairygui.GComponent {
 		this.m_bottom = <fui_ScrollTxtNormal><any>(this.getChildAt(5));
 		this.m_right = <fui_ScrollTxtNormal><any>(this.getChildAt(7));
 		this.m_left = <fui_ScrollTxtNormal><any>(this.getChildAt(9));
+		this.m_rightLow = <fui_ScrollTxtNormal><any>(this.getChildAt(11));
 	}
 }

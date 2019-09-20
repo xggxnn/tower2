@@ -10,6 +10,8 @@ import WaveRewardInfo from "../../../csvInfo/WaveRewardInfo";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
 import TrialInfo from "../../../csvInfo/TrialInfo";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Selection extends fui_Selection {
@@ -71,8 +73,7 @@ export default class UI_Selection extends fui_Selection {
 	private wave: WaveInfo = null;
 	public setData(wave: WaveInfo, moduleWindow: MenusWin): void {
 		if (this._sk) {
-			this._sk.sk.destroy();
-			this._sk.destroy();
+			this._sk.sk.destroySk();
 			this._sk = null;
 		}
 		this.moduleWindow = moduleWindow;
@@ -135,13 +136,19 @@ export default class UI_Selection extends fui_Selection {
 		}
 		if ((this.wave.id == 2 && Game.playData.guideIndex == GuideType.fiveEnterMenus) || (this.wave.id == 3 && Game.playData.guideIndex == GuideType.sixEnterMenus)) {
 			Game.playData.guideIndex++;
-			this.moduleWindow.createGuideUI(this.m_selBtn, new Laya.Point(this.x, this.y),
-				Laya.Handler.create(this, this.clickBtn), Game.tipTxt.fiveSelectWave);
+			EventManager.event(EventKey.SHOW_WAIT);
+			setTimeout(() => {
+				this.moduleWindow.createGuideUI(this.m_selBtn, new Laya.Point(this.x - this.m_selBtn.width / 2, this.y - this.m_selBtn.height / 2),
+					Laya.Handler.create(this, this.clickBtn), Game.tipTxt.fiveSelectWave);
+			}, 10);
 		}
 		if (this.wave.id == 2 && (Game.playData.guideIndex == GuideType.sevenEnterMenus || Game.playData.guideIndex == GuideType.sixWin)) {
 			Game.playData.guideIndex = GuideType.sevenSelectWave;
-			this.moduleWindow.createGuideUI(this.m_selBtn, new Laya.Point(this.x, this.y),
-				Laya.Handler.create(this, this.clickBtn), Game.tipTxt.fiveSelectWave);
+			EventManager.event(EventKey.SHOW_WAIT);
+			setTimeout(() => {
+				this.moduleWindow.createGuideUI(this.m_selBtn, new Laya.Point(this.x - this.m_selBtn.width / 2, this.y - this.m_selBtn.height / 2),
+					Laya.Handler.create(this, this.clickBtn), Game.tipTxt.fiveSelectWave);
+			}, 10);
 		}
 	}
 	private _sk: BattleEffectEnemy = null;

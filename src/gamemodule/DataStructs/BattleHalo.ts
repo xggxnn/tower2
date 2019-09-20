@@ -4,6 +4,7 @@ import HeroData from "./HeroData";
 import Game from "../../Game";
 import BattleSoldier from "../Models/BattleSoldier";
 import EnemyData from "./EnemyData";
+import BattleHero from "../Models/BattleHero";
 
 /**
  * 光环
@@ -39,6 +40,7 @@ export default class BattleHalo {
     public addHalo(dat: HeroData): void {
         if (dat.burningGround > 0) {
             let halo = new Halo();
+            halo._battleHero = dat._battleHero;
             halo.types = HaloType.BurningGround;
             halo.seatList = dat.keyList;
             halo.val = dat.curAp(0) * dat.burningGround * 0.01;
@@ -47,6 +49,7 @@ export default class BattleHalo {
         }
         if (dat.reduceSpeedHalo > 0) {
             let halo = new Halo();
+            halo._battleHero = dat._battleHero;
             halo.types = HaloType.ReduceSpeed;
             halo.seatList = dat.keyList;
             halo.val = dat.reduceSpeedHalo;
@@ -55,6 +58,7 @@ export default class BattleHalo {
         }
         if (dat.noSkillHalo) {
             let halo = new Halo();
+            halo._battleHero = dat._battleHero;
             halo.types = HaloType.NoSkill;
             halo.seatList = dat.keyList;
             halo.curReduceDefense = dat.curReduceDefense;
@@ -77,6 +81,8 @@ export class Halo {
         this.preTime = 0;
         this.interval = 2;
     }
+    // 光环所在的英雄
+    public _battleHero: BattleHero;
     // 光环类型
     public types: HaloType = HaloType.None;
     // 影响到的位置

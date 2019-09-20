@@ -17,16 +17,53 @@ export default class Pools {
      */
     static recycle<T extends fairygui.GComponent>(newCls: T) {
         let url = newCls["resourceURL"];
-        if (newCls.parent != null) {
-            newCls.parent.removeChild(newCls);
-        }
-        else if (newCls.displayObject.parent != null) {
-            newCls.displayObject.parent.removeChild(newCls.displayObject);
-        }
+        // if (newCls.parent != null) {
+        //     newCls.parent.removeChild(newCls);
+        // }
+        // else if (newCls.displayObject.parent != null) {
+        //     newCls.displayObject.parent.removeChild(newCls.displayObject);
+        // }
         Laya.Pool.recover(url, newCls);
     }
 
     /************************ sk对象池 ************************** */
+    private static skDic: Dictionary<string, Array<Laya.Skeleton>> = new Dictionary<string, Array<Laya.Skeleton>>();
+    /**
+     * 获取、创建sk实例
+     * @param key 
+     * @param templet 
+     */
+    public static pops(key: string, templet: Laya.Templet): Laya.Skeleton {
+        let list: Array<Laya.Skeleton> = [];
+        let result: Laya.Skeleton = null;
+        if (this.skDic.hasKey(key)) {
+            let list: Array<Laya.Skeleton> = this.skDic.getValue(key);
+            if (list.length > 0) {
+                result = list.shift();
+            }
+        }
+        this.skDic.add(key, list);
+        if (result == null) {
+            result = templet.buildArmature(0);
+        }
+        return result;
+    }
+    /**
+     * 回收sk实例
+     * @param key 
+     * @param sk 
+     */
+    public static pushs(key: string, sk: Laya.Skeleton) {
+        sk.removeSelf();
+        let list: Array<Laya.Skeleton> = this.skDic.getValue(key);
+        if (list.length >= 20) {
+            sk.destroy();
+        }
+        else {
+            list.push(sk);
+        }
+    }
+
     // public static pops(names: string) {
     //     let fun: Function = BattleBaseSK.create;
     //     fun.prototype = names;

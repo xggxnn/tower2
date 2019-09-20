@@ -27,6 +27,7 @@ export default class BattleSoldier extends Laya.Sprite {
     }
     private constructor(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null) {
         super();
+        Game.battleMap.sUpdateExitBattleMain.add(this.clearThis, this);
         // 初始化时，清空buff列表
         this.soldierBuff = [];
         this.hurtBuff = [];
@@ -153,13 +154,14 @@ export default class BattleSoldier extends Laya.Sprite {
 
     // buff光环对速度的英雄
     private buffScaleSpeed: number = 1;
+    private isHaveSpeedBuff: number = 0;
     private get speed() {
         return this.dataInf.monsterInf.move_speed * this.dataInf.moveSpeedScale * this.buffScaleSpeed * (100 + this.dataInf.buffAddSpeed) * 0.01;
     }
 
     private updatePos(x, y): void {
         this.pos(x, y);
-        if (Game.playData.guideIndex == GuideType.fiveMoveHeroSeat && x < 682) {
+        if (Game.playData.guideIndex == GuideType.fiveMoveHeroSeat && x < 906) {
             Game.playData.guideIndex = GuideType.fiveMoveHeroSeat2;
             Game.gameStatus = GameStatus.Pause;
             EventManager.event(EventKey.GUIDEMOVEHERO);
@@ -180,6 +182,7 @@ export default class BattleSoldier extends Laya.Sprite {
 
 
     private init(initPoint) {
+        this.isHaveSpeedBuff = 0;
         this.dataInf.curHp = this.dataInf.maxHp;
         this.blood.value = this.dataInf.maxHp;
         this.blood.max = this.dataInf.maxHp;
@@ -294,7 +297,7 @@ export default class BattleSoldier extends Laya.Sprite {
         // boss技能触发的buff
         for (let i = this.soldierBuff.length - 1; i >= 0; i--) {
             if (this.soldierBuff[i].update(dt)) {
-                this.dataInf.unActionBuff(this.soldierBuff[i]);
+                this.dataInf.unActionBuff(this.soldierBuff[i], this);
                 this.soldierBuff.splice(i, 1);
             }
         }
@@ -331,6 +334,7 @@ export default class BattleSoldier extends Laya.Sprite {
         let canSkill = this.dataInf.skillInfoGetReady(dt);
         this.sk.updateFilter();
         this.buffScaleSpeed = 1;
+        let enterReduce = true;
         if (Game.halo.haloList.length > 0) {
             for (let i = Game.halo.haloList.length - 1; i >= 0; i--) {
                 let halo: Halo = Game.halo.haloList[i];
@@ -342,6 +346,9 @@ export default class BattleSoldier extends Laya.Sprite {
                             break;
                         case HaloType.ReduceSpeed:
                             this.buffScaleSpeed = (100 - halo.val) * 0.01;
+                            this.isHaveSpeedBuff = 100;
+                            this.sk.addTimerFilter("9", 300);
+                            enterReduce = false;
                             break;
                         case HaloType.NoSkill:
                             // 禁止释放技能  
@@ -349,6 +356,12 @@ export default class BattleSoldier extends Laya.Sprite {
                             break;
                     }
                 }
+            }
+        }
+        if (enterReduce) {
+            if (this.isHaveSpeedBuff > 0) {
+                this.isHaveSpeedBuff = 0;
+                this.sk.addTimerFilter("9", 0);
             }
         }
         if (this.dataInf.isDizzines) {
@@ -460,7 +473,6 @@ export default class BattleSoldier extends Laya.Sprite {
         }
         if (this.x <= 1200 && this.dataInf.skill && canSkill) {
             if (this.currentState == HeroAniEnums.Stand || this.currentState == HeroAniEnums.Move) {
-                console.error("=====敌人释放技能");
                 this.dataInf.cast();
                 this.playCast();
             }
@@ -472,11 +484,13 @@ export default class BattleSoldier extends Laya.Sprite {
         this._haveDeath = true;
         if (this.blood) {
             // 回收血条
+            this.blood.displayObject.removeSelf();
             Pools.recycle(this.blood)
             this.blood = null;
         }
         if (this.shadow) {
             // 回收血条
+            this.shadow.displayObject.removeSelf();
             Pools.recycle(this.shadow)
             this.shadow = null;
         }
@@ -498,21 +512,22 @@ export default class BattleSoldier extends Laya.Sprite {
         this._haveDeath = true;
         if (this.blood) {
             // 回收血条
+            this.blood.displayObject.removeSelf();
             Pools.recycle(this.blood)
             this.blood = null;
         }
         if (this.shadow) {
             // 回收血条
+            this.shadow.displayObject.removeSelf();
             Pools.recycle(this.shadow)
             this.shadow = null;
         }
         // Pools.pushs(this.sk);
-        this.sk.destroy();
+        this.sk.destroySk();
         let effList = this.battleEffectList.getValues();
         for (let i = effList.length - 1; i >= 0; i--) {
             if (effList[i]) {
-                effList[i].sk.destroy();
-                effList[i].destroy();
+                effList[i].sk.destroySk();
                 effList[i] = null;
             }
         }
@@ -520,6 +535,7 @@ export default class BattleSoldier extends Laya.Sprite {
         // if (this._node) {
         //     Pools.recycle(this._node);
         // }
+        Game.battleMap.sUpdateExitBattleMain.remove(this.clearThis, this);
         this.destroy();
     }
 
@@ -584,7 +600,6 @@ export default class BattleSoldier extends Laya.Sprite {
                 case HeroAniEnums.Skill:
                     // 释放技能    
                     {
-                        let buff = EnemyBuff.create(this.dataInf.skill.types, this.dataInf.skill.effecttime, this.dataInf.skill.effectvalue);
                         switch (this.dataInf.skill.types) {
                             case 1:
                             case 2:
@@ -594,7 +609,8 @@ export default class BattleSoldier extends Laya.Sprite {
                                     for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
                                         var enemy = Game.battleScene.enemyList[i];
                                         if (enemy && !enemy.haveDeath) {
-                                            enemy.dataInf.actionBuff(buff);
+                                            let buff = EnemyBuff.create(this.dataInf.skill.types, this.dataInf.skill.effecttime, this.dataInf.skill.effectvalue);
+                                            enemy.dataInf.actionBuff(buff, enemy);
                                             enemy.soldierBuff.push(buff);
                                         }
                                     }
@@ -607,6 +623,7 @@ export default class BattleSoldier extends Laya.Sprite {
                                     for (let i = Game.battleScene.heroList.length - 1; i >= 0; i--) {
                                         var hero: BattleHero = Game.battleScene.heroList[i] as BattleHero;
                                         if (hero) {
+                                            let buff = EnemyBuff.create(this.dataInf.skill.types, this.dataInf.skill.effecttime, this.dataInf.skill.effectvalue);
                                             hero.dataInf.actionBuff(buff);
                                             hero.soldierBuff.push(buff);
                                         }
@@ -698,7 +715,7 @@ export default class BattleSoldier extends Laya.Sprite {
                 if (defence < 0) defence = 0;
                 sub = hero.dataInf.curAp(userSkill) * (100 - this.dataInf.defence) * 0.01;
 
-                if (/*!Game.playData.newbie &&*/ hero.dataInf.curCrit(this.dataInf.byCrit, userSkill)) {
+                if (Game.playData.guideIndex >= GuideType.sixWin && hero.dataInf.curCrit(this.dataInf.byCrit, userSkill)) {
                     _crit = hero.dataInf.curBurst(this.dataInf.byBurst, userSkill);
                 }
                 sub *= _crit;
@@ -722,7 +739,7 @@ export default class BattleSoldier extends Laya.Sprite {
                 if (reduce > 0) {
                     let buff = HurtBuff.create(HaloType.ReduceSpeed, reduce, 50, 0, -1);
                     this.hurtBuff.push(buff);
-                    this.sk.addTimerFilter("9", Math.round(reduce / 16.667));
+                    this.sk.addTimerFilter("9", reduce * 60);
                 }
                 // 中毒
                 let pois = hero.dataInf.poisoningTime(userSkill);
@@ -952,44 +969,76 @@ export default class BattleSoldier extends Laya.Sprite {
         if (defence < 0) defence = 0;
         hitVal = hitVal * (100 - this.dataInf.defence) * 0.01;
         this.dataInf.curHp -= hitVal;
+        this.dropBlood(hitVal);
         if (this.blood) {
             this.blood.visible = true;
-            this.dropBlood(hitVal);
             this.blood.value = this.dataInf.curHp;
         }
         if (this.dataInf.curHp <= 0) {
             this.enemyDeath();
         }
     }
+    private addHpEffect: BattleEffectEnemy = null;
+    public addHp(sub: number): void {
+        if (this.addHpEffect == null) {
+            this.addHpEffect = this.addBattleEffect(1023, false);
+        }
+        else {
+            this.addHpEffect.replay(false);
+        }
+        this.dataInf.curHp += sub;
+        if (this.dataInf.curHp > this.dataInf.maxHp) {
+            this.dataInf.curHp = this.dataInf.maxHp;
+        }
+        this.dropBlood(sub * -1);
+        if (this.blood) {
+            this.blood.visible = true;
+            this.blood.value = this.dataInf.curHp;
+        }
+    }
+    private addSpeedEffect: BattleEffectEnemy = null;
+    public addSpeedOrHideSpeed(v: boolean): void {
+        if (v) {
+            if (this.addSpeedEffect == null) {
+                this.addSpeedEffect = this.addBattleEffect(1024, true);
+            }
+            else {
+                this.addSpeedEffect.replay(true);
+            }
+        }
+        else {
+            if (this.addSpeedEffect) {
+                this.addSpeedEffect.stopeAndHide();
+            }
+        }
+    }
+    private reduceDefEffect: BattleEffectEnemy = null;
+    public reduceDefOrHideSpeed(v: boolean): void {
+        if (v) {
+            if (this.reduceDefEffect == null) {
+                this.reduceDefEffect = this.addBattleEffect(1026, true);
+            }
+            else {
+                this.reduceDefEffect.replay(true);
+            }
+        }
+        else {
+            if (this.reduceDefEffect) {
+                this.reduceDefEffect.stopeAndHide();
+            }
+        }
+    }
 
     private dropBlood(sub: number, _crit: number = 1): void {
         // 飘血
-        // let drop = Pools.fetch(UI_DriftingBlood);
-        // this.blood.addChild(drop);
-        // drop.setXY(0, 80);
-        // if (_crit > 1) {
-        //     drop.m_c1.setSelectedIndex(1);
-        // }
-        // else {
-        //     drop.m_c1.setSelectedIndex(0);
-        // }
-        let subStr = Fun.formatNumberUnitBattle(Math.max(sub, 1));
-        // drop.title = subStr;
-        // drop.m_t0.play(Laya.Handler.create(this, () => {
-        //     Pools.recycle(drop);
-        // }), 1);
-        var txt: Laya.Text;
-        if (Game.playData.gameSpeed > 1.5 && this.hpTxt) {
-            txt = this.hpTxt;
-            txt.scale(1, 1, true);
-            txt.alpha = 1;
-            Laya.Tween.clearAll(txt);
-        } else {
-            txt = new Laya.Text();
-            this.addChild(txt);
-        }
-        // txt.fontSize = 30;
+        let subStr = Fun.formatNumberUnitBattle(sub);
+        var txt: Laya.Text = Laya.Pool.getItemByClass("txt", Laya.Text);
+        txt.scale(1, 1, true);
+        txt.alpha = 1;
+        Laya.Tween.clearAll(txt);
+        this.addChild(txt);
         if (sub < 0) {
+            subStr = Fun.formatNumberUnitBattle(sub);
             txt.font = "num_battle_3";
         }
         else if (_crit > 1) {
@@ -1000,19 +1049,14 @@ export default class BattleSoldier extends Laya.Sprite {
         }
         txt.text = subStr;
         txt.pivotX = txt.width / 2;
+        txt.x = 0;
         txt.y = -100;
         Laya.Tween.to(txt, { y: -150 }, 500, null, null);
-        if (Game.playData.gameSpeed > 1.5) {
-            this.hpTxt = txt;
-            Laya.Tween.to(txt, { scaleX: 1.2, scaleY: 1.2, alpha: 0 }, 300, null, Laya.Handler.create(this, this.hpRemove), 500);
-        } else {
-            Laya.Tween.to(txt, { scaleX: 1.2, scaleY: 1.2, alpha: 0 }, 300, null, Laya.Handler.create(txt, txt.destroy), 500);
-        }
+        Laya.Tween.to(txt, { scaleX: 1.2, scaleY: 1.2, alpha: 0 }, 300, null, Laya.Handler.create(this, this.hpRemove, [txt]), 500);
     }
-    private hpTxt: Laya.Text = null;
-    private hpRemove(): void {
-        this.hpTxt.destroy();
-        this.hpTxt = null;
+    private hpRemove(txt: Laya.Text): void {
+        this.removeChild(txt);
+        Laya.Pool.recover("txt", txt);
     }
 
     /**
@@ -1119,8 +1163,7 @@ export default class BattleSoldier extends Laya.Sprite {
             if (_style) {
                 _effect.replay(loop);
             } else {
-                _effect.sk.destroy();
-                _effect.destroy();
+                _effect.sk.destroySk();
                 _effect = null;
             }
         }

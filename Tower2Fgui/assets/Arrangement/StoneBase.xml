@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<component size="84,74" extention="Button">
-  <displayList>
-    <image id="n0_n1s0" name="n0" src="n1s0a" fileName="pic/stone.png" pkg="130tmfxd" xy="0,0"/>
-  </displayList>
-  <Button/>
-</component>

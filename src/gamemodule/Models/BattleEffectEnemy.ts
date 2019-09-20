@@ -10,12 +10,14 @@ export default class BattleEffectEnemy extends Laya.Sprite {
 
     private constructor(id: string, loop: boolean) {
         super();
+        this._id = id;
         this._sk = BattleBaseSK.create("effect_" + id);
         this.replay(loop);
     }
     public get sk() {
         return this._sk;
     }
+    public _id: string = "";
     private _sk: BattleBaseSK = null;
     private loop: boolean = true;
     private _handler: Laya.Handler = Laya.Handler.create(this, this.over, null, false);

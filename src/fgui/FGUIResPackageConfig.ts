@@ -1,5 +1,5 @@
 import ResPackageConfig from "./ResPackageConfig";
-import Dictionary from "../Tool/Dictionary";
+import Dictionary from "../tool/Dictionary";
 
 // 此文件不要修改，会被覆盖
 export default class FGUIResPackageConfig {
@@ -34,18 +34,23 @@ export default class FGUIResPackageConfig {
         config.packageName = "Bag";
         config.resDir = "fgui";
         config.resBin = "Bag.bin";
-        config.resAtlas.push("Bag_atlas0.png");
         this.addconfig(config);
 
 
         config = new ResPackageConfig();
         config.packageName = "Battle";
-        config.resDir = "fgui";
+        config.resDir = "";
         config.resBin = "Battle.bin";
         config.resAtlas.push("Battle_atlas0.png");
         config.resAtlas.push("Battle_atlas0_1.png");
         config.resAtlas.push("Battle_atlas0_2.png");
-        config.resAtlas.push("Battle_atlas_j5ct1j.png");
+        config.resAtlas.push("Battle_atlas0_3.png");
+        config.resAtlas.push("Battle_atlas0_4.png");
+        config.resAtlas.push("Battle_atlas0_5.png");
+        config.resAtlas.push("Battle_atlas0_6.png");
+        config.resAtlas.push("Battle_atlas0_7.png");
+        config.resAtlas.push("Battle_atlas0_8.png");
+        config.resAtlas.push("Battle_atlas0_9.png");
         this.addconfig(config);
 
 
@@ -79,16 +84,16 @@ export default class FGUIResPackageConfig {
         config.packageName = "Illustration";
         config.resDir = "fgui";
         config.resBin = "Illustration.bin";
-        config.resAtlas.push("Illustration_atlas0.png");
         this.addconfig(config);
 
 
         config = new ResPackageConfig();
         config.packageName = "Menus";
-        config.resDir = "fgui";
+        config.resDir = "";
         config.resBin = "Menus.bin";
         config.resAtlas.push("Menus_atlas0.png");
-        config.resAtlas.push("Menus_atlas_j5ct1u.png");
+        config.resAtlas.push("Menus_atlas0_1.png");
+        config.resAtlas.push("Menus_atlas0_2.png");
         this.addconfig(config);
 
 
@@ -138,7 +143,6 @@ export default class FGUIResPackageConfig {
         config.packageName = "Surround";
         config.resDir = "fgui";
         config.resBin = "Surround.bin";
-        config.resAtlas.push("Surround_atlas0.png");
         this.addconfig(config);
 
 
@@ -147,7 +151,7 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "System.bin";
         config.resAtlas.push("System_atlas0.png");
-        config.resAtlas.push("System_atlas0_1.png");
+        config.resAtlas.push("System_atlas_j5ct1u.png");
         config.resAtlas.push("System_atlas_udz4m.png");
         this.addconfig(config);
     }

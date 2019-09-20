@@ -14,6 +14,8 @@ import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import ResourceInfo from "../../../csvInfo/ResourceInfo";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import { GameStatus } from "../../../gamemodule/DataEnums/GameStatus";
+import AdsManager from "../../../tool/AdsManager";
+import SystemManager from "../../../tool/SystemManager";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Trial extends fui_Trial {
@@ -34,9 +36,9 @@ export default class UI_Trial extends fui_Trial {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 
-		this.m_startBtn.title = "准备迎战";
 		this.m_closeBtn.onClick(this, this.closeUI);
 		this.m_startBtn.onClick(this, this.startClick);
+		this.m_skipBtn.onClick(this, this.skipFight);
 		// 设置列表渲染函数
 		this.m_rewardList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
 		// this.m_help.onClick(this, this.helpClick);
@@ -51,22 +53,27 @@ export default class UI_Trial extends fui_Trial {
 	private fight_type: number = 0;
 	// 开始挑战
 	startClick(): void {
-		if (Game.playData.guideIndex >= GuideType.sevenStartFive && this.fight_type == 1 && this.m_fightStatus.selectedIndex == 0 && this.m_speedStatus.selectedIndex == 0 && this.m_critStatus.selectedIndex == 0 && this.m_burstStatus.selectedIndex == 0) {
-			Game.tipWin.showTip(Game.tipTxt.FightSkipTip, true, Laya.Handler.create(this, this.skipFight), Laya.Handler.create(this, this.fightReq), "跳过战斗", "继续战斗");
-		}
-		else {
-			this.fightReq();
-		}
+		this.fightReq();
 	}
 	private _skipFight: boolean = false;
 	// 准备观看视频跳过战斗过程
 	private skipFight(): void {
+		if (AdsManager.usable) {
+			AdsManager.show();
+		}
+		else {
+			Game.tipWin.showTip("视频加载失败，请稍后再试!", false);
+		}
+	}
+	private skipOk(): void {
 		this._skipFight = true;
 		this.fightReq();
 	}
+
+
 	private _clickTime: number = 0;
 	private fightReq(): void {
-		if (Laya.Browser.now() - this._clickTime <= 3000) {
+		if (Laya.Browser.now() - this._clickTime <= 1000) {
 			return;
 		}
 		this._clickTime = Laya.Browser.now();
@@ -105,6 +112,8 @@ export default class UI_Trial extends fui_Trial {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
+		EventManager.on(EventKey.REWARDED_VIDEO_AD_YES, this, this.skipOk);
+
 		this._skipFight = false;
 		let _dic = Game.battleData.getWaveFightInf(Game.battleData.level_id);
 		let _seatDic = Game.playData.curFightInf;
@@ -120,10 +129,10 @@ export default class UI_Trial extends fui_Trial {
 		this.m_tjBurst.setVar("count", tip2.getValue(FightType.Burst)).flushVars();
 
 		let statusTip = Game.playData.checkFightVal(_seatDic, _dic, Game.battleData.level_id);
-		this.m_fightStatus.setSelectedIndex(statusTip.getValue(FightType.Atk));
-		this.m_speedStatus.setSelectedIndex(statusTip.getValue(FightType.Speed));
-		this.m_critStatus.setSelectedIndex(statusTip.getValue(FightType.Crit));
-		this.m_burstStatus.setSelectedIndex(statusTip.getValue(FightType.Burst));
+		this.m_fightStatus.setSelectedIndex(statusTip.getValue(FightType.Atk)[0]);
+		this.m_speedStatus.setSelectedIndex(statusTip.getValue(FightType.Speed)[0]);
+		this.m_critStatus.setSelectedIndex(statusTip.getValue(FightType.Crit)[0]);
+		this.m_burstStatus.setSelectedIndex(statusTip.getValue(FightType.Burst)[0]);
 
 		this.item = null;
 		if (Game.battleMap.waveStatusDict.hasKey(Game.battleData.level_id)) {
@@ -141,17 +150,20 @@ export default class UI_Trial extends fui_Trial {
 			this.m_progress.value = Math.floor((this.item.level - 1) / 5 * 100);
 			if (this.item.fightCd > 0) {
 				this.m_cdStatus.setSelectedIndex(1);
+				this.showSkipBtn(true);
 				this.m_startBtn.enabled = false;
 				this.showFightCd(this.item);
 				Game.battleMap.sUpdateFightCd.add(this.showFightCd, this);
 			}
 			else {
 				this.m_cdStatus.setSelectedIndex(0);
+				this.showSkipBtn();
 			}
 		}
 		else {
 			this.m_c1.setSelectedIndex(0);
 			this.m_cdStatus.setSelectedIndex(0);
+			this.showSkipBtn();
 			this.rewardList = [];
 			if (rewardInf.coin_first > 0) {
 				let itemRew = new RewardItem();
@@ -184,15 +196,31 @@ export default class UI_Trial extends fui_Trial {
 		this.m_mapid.text = mapLevel.map + "-" + mapLevel.level;
 		if (Game.playData.guideIndex == GuideType.fiveSelectWave || Game.playData.guideIndex == GuideType.sixSelectWave || Game.playData.guideIndex == GuideType.sevenSelectWave) {
 			Game.playData.guideIndex++;
+			EventManager.event(EventKey.SHOW_WAIT);
 			setTimeout(() => {
 				this.moduleWindow.createGuideUI(this.m_startBtn, new Laya.Point(this.m_startBtn.x, this.m_startBtn.y), Laya.Handler.create(this, this.startClick), Game.tipTxt.fiveFight);
 			}, 10);
+		}
+
+	}
+	private showSkipBtn(cd: boolean = false): void {
+		if (cd) {
+			this.m_skipStatus.setSelectedIndex(0);
+		}
+		else {
+			if (Game.playData.guideIndex >= GuideType.sevenStartFive && this.fight_type == 1 && this.m_fightStatus.selectedIndex == 0 && this.m_speedStatus.selectedIndex == 0 && this.m_critStatus.selectedIndex == 0 && this.m_burstStatus.selectedIndex == 0) {
+				this.m_skipStatus.setSelectedIndex(1);
+			}
+			else {
+				this.m_skipStatus.setSelectedIndex(0);
+			}
 		}
 	}
 	private showFightCd(waves: WaveStatus): void {
 		if (this.item && this.item.id == waves.id) {
 			if (waves.fightCd <= 0) {
 				this.m_cdStatus.setSelectedIndex(0);
+				this.showSkipBtn();
 				this.m_startBtn.enabled = true;
 			}
 			else {
@@ -203,7 +231,7 @@ export default class UI_Trial extends fui_Trial {
 	private item: WaveStatus = null;
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-		EventManager.off(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
+		EventManager.offAllCaller(this);
 		Game.battleMap.sUpdateFightCd.remove(this.showFightCd, this);
 	}
 

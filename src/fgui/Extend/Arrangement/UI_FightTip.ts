@@ -39,14 +39,5 @@ export default class UI_FightTip extends fui_FightTip {
 
 	}
 
-	public setData(val1: number, val2: number, status: number): void {
-		let val = val1 / val2;
-		this.m_status.setSelectedIndex(status);
-		this.m_ping.fillAmount = val;
-		this.m_down.fillAmount = val;
-		this.m_up.fillAmount = val;
-	}
-
-
 }
 UI_FightTip.bind();

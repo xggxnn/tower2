@@ -35,13 +35,10 @@ export default class UI_PropBtn extends fui_PropBtn {
 
 		this.on(fairygui.Events.DROP, this, this.onDrop);
 		this.onClick(this, this.clickBtn);
-		this.canDrag = true;
 	}
-	// 能否拖拽
-	public canDrag: boolean = true;
 	// 按钮被点击
 	private clickBtn(): void {
-		if (this.isUnlock) return;
+		if (this.isUnlock || Game.battleData.startDrag) return;
 		if (this.heroInf != null && Game.battleMap.maxMapId >= 3) {
 			Game.battleData.clickHeroInf = this.heroInf;
 			Game.battleData.isShowGainBtn = false;
@@ -50,9 +47,9 @@ export default class UI_PropBtn extends fui_PropBtn {
 	}
 	// 上阵英雄拖拽开始
 	private ondragStarts(evt: laya.events.Event): void {
-		if (this.isUnlock) return;
 		var btn: fairygui.GButton = <fairygui.GButton>fairygui.GObject.cast(evt.currentTarget);
 		btn.stopDrag();//取消对原目标的拖动，换成一个替代品
+		if (this.isUnlock) return;
 		if (Game.playData.guideIndex < GuideType.sevenStartFive) {
 			return;
 		}
@@ -87,18 +84,32 @@ export default class UI_PropBtn extends fui_PropBtn {
 			// 交换位置
 			let oldInf = this.heroInf;
 			if (Game.battleData.seatBtn != null) {
-				Game.battleData.seatBtn.addHero(oldInf);
+				Game.battleData.seatBtn.addHero(oldInf, false);
 				Game.battleData.seatBtn = null;
 			}
 			this.addHero(Game.battleData.heroInf);
 		}
 	}
 	// 上阵英雄
-	public addHero(heroInf: HeroInfoData): void {
+	public addHero(heroInf: HeroInfoData, showEvent: boolean = true): void {
 		this.heroInf = heroInf;
-		Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect][this.seatIndex] = this.heroInf != null ? this.heroInf.id : 0;
+		if (Game.battleData.MenuEnterDay) {
+			let old = Game.battleData.dayFightHeroSort[this.seatIndex];
+			Game.battleData.dayFightHeroSort[this.seatIndex] = this.heroInf != null ? this.heroInf.id : 0;
+			for (let i = 9; i < 12; i++) {
+				if (Game.battleData.dayFightHeroSort[this.seatIndex] == Game.battleData.dayFightHeroSort[i]) {
+					Game.battleData.dayFightHeroSort[i] = old;
+					break;
+				}
+			}
+		}
+		else {
+			Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect][this.seatIndex] = this.heroInf != null ? this.heroInf.id : 0;
+		}
 		this.seatSetData(this.seatIndex, this.heroInf);
-		EventManager.event(EventKey.ADD_HERO);
+		if (showEvent) {
+			EventManager.event(EventKey.ADD_HERO);
+		}
 	}
 	public heroInf: HeroInfoData = null;
 	// 列表英雄赋值
@@ -112,7 +123,6 @@ export default class UI_PropBtn extends fui_PropBtn {
 		this.m_career.icon = SpriteKey.getUrl("career" + this.heroInf.career + ".png");
 
 		this.m_status.setSelectedIndex(1);
-		this.canDrag = Game.playData.curHeroInfoList.hasKey(this.heroInf.id);
 	}
 
 	public addSeatEvent(): void {
@@ -164,7 +174,11 @@ export default class UI_PropBtn extends fui_PropBtn {
 		this.heroInf = null;
 		this.seatIndex = index;
 		let unlock = PositionunlockInfo.getSeatInfo(this.seatIndex);
-		if (Game.battleMap.maxMapId <= unlock) {
+		if (this.seatSk) {
+			this.seatSk.destroyThis();
+			this.seatSk = null;
+		}
+		if (!Game.battleData.MenuEnterDay && Game.battleMap.maxMapId <= unlock) {
 			this.m_status.setSelectedIndex(4);
 			let mapLevel = Fun.idToMapLevel(unlock);
 			this.m_unlock.text = "通关" + mapLevel.map + "-" + mapLevel.level + "解锁";
@@ -181,17 +195,21 @@ export default class UI_PropBtn extends fui_PropBtn {
 			this.setData(heroInf, moduleWindow, false);
 		}
 		else {
-			let id = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect][this.seatIndex];
-			if (id > 0) {
-				heroInf = HeroInfoData.getInfo(id);
+			if (Game.battleData.MenuEnterDay) {
+				heroInf = Game.battleData.dayHeroSeat[index];
 				if (heroInf) {
 					this.setData(heroInf, moduleWindow, false);
 				}
 			}
-		}
-		if (this.seatSk) {
-			this.seatSk.destroy();
-			this.seatSk = null;
+			else {
+				let id = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect][this.seatIndex];
+				if (id > 0) {
+					heroInf = HeroInfoData.getInfo(id);
+					if (heroInf) {
+						this.setData(heroInf, moduleWindow, false);
+					}
+				}
+			}
 		}
 		if (heroInf) {
 			this.seatSk = BaseSK.create("hero_" + heroInf.skin);

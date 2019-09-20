@@ -1,5 +1,6 @@
 export enum GuideType {
     None = 0,
+    lookSceneOver,
     FightReady,
     SetSeat,
     StartFight,

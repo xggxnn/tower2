@@ -25,7 +25,7 @@ export default class BattleHero extends Laya.Sprite {
         super();
         this.dataInf = new HeroData();
         this.soldierBuff = [];
-        this.dataInf.setHeroInf(id);
+        this.dataInf.setHeroInf(id, this);
         if (this.dataInf.heroInf) {
             this._id = this.dataInf.heroInf.skin;//id;
             if (Game.haveHeroTem.indexOf(this._id) == -1) {
@@ -37,7 +37,8 @@ export default class BattleHero extends Laya.Sprite {
             this._sk = BattleBaseSK.create("hero_" + this._id);
             this._sk.scale(0.8, 0.8);
             this.sk.addStopEvent(Laya.Handler.create(this, this.overEvent));
-            this.sk.addLableEvent(Laya.Handler.create(this, this.frameEvent));
+            this._thisSkHandle = Laya.Handler.create(this, this.frameEvent);
+            this.sk.addLableEvent(this._thisSkHandle);
             Game.parentObject.addChild(this.sk);
 
             let timehouse = TimeHouseInfo.getInfoLv(Game.playData.curLevel);
@@ -51,6 +52,7 @@ export default class BattleHero extends Laya.Sprite {
             EventManager.on(EventKey.GAMELOSE, this, this.delEffect);
         }
     }
+    private _thisSkHandle: Laya.Handler = null;
     protected _sk: BattleBaseSK = null;
     public get sk(): BattleBaseSK {
         return this._sk;
@@ -59,13 +61,6 @@ export default class BattleHero extends Laya.Sprite {
     // update中的时间
     protected standTime: number = 0;
 
-    protected playPause(): void {
-        if (this.currentState == HeroAniEnums.Death) return;
-        this._sk.pauseAni();
-    }
-    protected playResume(): void {
-        this._sk.resumeAni();
-    }
     protected playStand(): void {
         this.playAnimation(HeroAniEnums.Stand, true);
     }
@@ -157,35 +152,6 @@ export default class BattleHero extends Laya.Sprite {
     private curHitEnemy: BattleSoldier = null;
     private curHitEnemyList: Array<BattleSoldier> = [];
 
-    // private haloSkillList: Array<BattleSkillHalo> = [null, null];
-
-    // public get haloList(): Array<BattleSkillHalo> {
-    //     return this.haloSkillList;
-    // }
-    // private fettersEff: BattleEffectEnemy = null;
-    // // 是否显示羁绊特效
-    // public fettersShow(v: boolean, ass: Association): void {
-    //     let show: boolean = false;
-    //     if (v && ass) {
-    //         if (ass.race > 0) {
-    //             show = this.dataInf.heroInf.race == ass.race;
-    //         }
-    //         else if (ass.career > 0) {
-    //             show = this.dataInf.heroInf.career == ass.career;
-    //         }
-    //         else if (ass.hero && ass.hero.length > 0) {
-    //             show = ass.hero.indexOf(this.dataInf.heroInf.id) != -1;
-    //         }
-    //     }
-    //     if (show) {
-    //         this.fettersEff = this.addBattleEffect(4, true);
-    //     }
-    //     else {
-    //         if (this.fettersEff) {
-    //             this.fettersEff.stopeAndHide();
-    //         }
-    //     }
-    // }
 
     public putDrag(drag: boolean): void {
         if (drag) {
@@ -532,8 +498,7 @@ export default class BattleHero extends Laya.Sprite {
                     for (let i = list.length - 1; i >= 0; i--) {
                         let item = list[i] as BattleHero;
                         if (Math.floor(item.index % 3) == this.index % 3) {
-                            item.dataInf.buffSpeed[0] = heroSkillinf.specialvalue;
-                            item.dataInf.buffSpeedDuration[0] = heroSkillinf.specialtime;
+                            item.dataInf.changeBuffSpeed(heroSkillinf.specialvalue, heroSkillinf.specialtime, 0);
                         }
                     }
                 }
@@ -544,8 +509,7 @@ export default class BattleHero extends Laya.Sprite {
                     for (let i = list.length - 1; i >= 0; i--) {
                         let item = list[i] as BattleHero;
                         if (item.dataInf.heroInf.race == this.dataInf.heroInf.race) {
-                            item.dataInf.buffSpeed[2] = heroSkillinf.specialvalue;
-                            item.dataInf.buffSpeedDuration[2] = heroSkillinf.specialtime;
+                            item.dataInf.changeBuffSpeed(heroSkillinf.specialvalue, heroSkillinf.specialtime, 2);
                         }
                     }
                 }
@@ -556,8 +520,7 @@ export default class BattleHero extends Laya.Sprite {
                     for (let i = list.length - 1; i >= 0; i--) {
                         let item = list[i] as BattleHero;
                         if (Math.floor(item.index / 3) == this.index / 3) {
-                            item.dataInf.buffSpeed[1] = heroSkillinf.specialvalue;
-                            item.dataInf.buffSpeedDuration[1] = heroSkillinf.specialtime;
+                            item.dataInf.changeBuffSpeed(heroSkillinf.specialvalue, heroSkillinf.specialtime, 1);
                         }
                     }
                 }
@@ -574,8 +537,7 @@ export default class BattleHero extends Laya.Sprite {
                     for (let i = list.length - 1; i >= 0; i--) {
                         let item = list[i] as BattleHero;
                         if (item.dataInf.heroInf.race == this.dataInf.heroInf.race) {
-                            item.dataInf.buffSpeed[3] = heroSkillinf.specialvalue;
-                            item.dataInf.buffSpeedDuration[3] = heroSkillinf.specialtime;
+                            item.dataInf.changeBuffSpeed(heroSkillinf.specialvalue, heroSkillinf.specialtime, 3);
                         }
                     }
                 }
@@ -625,7 +587,7 @@ export default class BattleHero extends Laya.Sprite {
                 if (fly) {
                     if (fly.update(dt)) {
                         this.fly.splice(i, 1);
-                        fly.destroy();
+                        fly.destoryThis();
                     }
                 } else {
                     this.fly.splice(i, 1);
@@ -638,34 +600,47 @@ export default class BattleHero extends Laya.Sprite {
             var fly: BattleEffectFly = this.fly[i];
             if (fly) {
                 this.fly.splice(i, 1);
-                fly.destroy();
+                fly.destoryThis();
             } else {
                 this.fly.splice(i, 1);
             }
         }
-        // if (this.playSkillTip) {
-        //     Pools.recycle(this.playSkillTip);
-        //     this.playSkillTip = null;
-        // }
         let effList = this.battleEffectList.getValues();
         for (let i = effList.length - 1; i >= 0; i--) {
             if (effList[i]) {
-                effList[i].sk.destroy();
-                effList[i].destroy();
+                effList[i].sk.destroyThis();
                 effList[i] = null;
             }
         }
         this.skillEfect = null;
+        this.bufEffectList.clear();
         this.battleEffectList.clear();
+    }
+    private bufEffectList: Dictionary<number, BattleEffectEnemy> = new Dictionary<number, BattleEffectEnemy>();
+    public showHideEffectBuf(effId: number, showHide: boolean): void {
+        if (showHide) {
+            if (this.bufEffectList.hasKey(effId)) {
+                this.bufEffectList.getValue(effId).replay(true);
+            }
+            else {
+                let eff = this.addBattleEffect(effId, true);
+                this.bufEffectList.add(effId, eff);
+            }
+        }
+        else {
+            if (this.bufEffectList.hasKey(effId)) {
+                this.bufEffectList.getValue(effId).stopeAndHide();
+            }
+        }
     }
 
     public removeThis(): void {
-        EventManager.event(EventKey.ADD_HERO, [this._index, this]);
         EventManager.off(EventKey.PLAY_SKILL, this.dataInf, this.dataInf.PlaySkillCheck);
         EventManager.offAllCaller(this);
         this.curEnemy = null;
         this.delEffect();
-        this.sk.destroy();
+        this.sk.removeLableEvent(this._thisSkHandle);
+        this.sk.destroySk();
         this.destroy();
     }
 
@@ -680,8 +655,7 @@ export default class BattleHero extends Laya.Sprite {
             if (_style) {
                 _effect.replay(loop);
             } else {
-                _effect.sk.destroy();
-                _effect.destroy();
+                _effect.sk.destroyThis();
                 _effect = null;
             }
         }

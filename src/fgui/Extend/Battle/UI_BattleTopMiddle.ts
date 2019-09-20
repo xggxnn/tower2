@@ -30,6 +30,7 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 
+		this.m_associationList.width = 800;
 		// 设置列表渲染函数
 		this.m_associationList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
 		// 列表内容单个item被点击
@@ -45,13 +46,23 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 	}
 	private initItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_AssociationBtn;
-		let ass = this.association[index];
-		item.m_titles.setVar("count", ass.num.toString()).flushVars();
-		if (ass.race > 0) {
-			item.icon = SpriteKey.getUrl("race" + ass.race + ".png");
+		if (index <= 0) {
+			item.m_c1.setSelectedIndex(1);
 		}
-		else if (ass.career > 0) {
-			item.icon = SpriteKey.getUrl("career" + ass.career + ".png");
+		else {
+			index--;
+			item.m_c1.setSelectedIndex(0);
+			let ass = this.association[index];
+			item.m_titles.setVar("count", ass.num.toString()).flushVars();
+			if (ass.race > 0) {
+				item.icon = SpriteKey.getUrl("race" + ass.race + ".png");
+			}
+			else if (ass.career > 0) {
+				item.icon = SpriteKey.getUrl("career" + ass.career + ".png");
+			}
+			else if (ass.pointF > 0) {
+				item.icon = SpriteKey.getUrl("point" + ass.pointF + ".png");
+			}
 		}
 	}
 	private inRichText: fairygui.GRichTextField = null;
@@ -59,6 +70,8 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 	private onClickItem(obj: fairygui.GObject): void {
 		let index = this.m_associationList.getChildIndex(obj);
 		this.m_t0.stop();
+		if (index <= 0) return;
+		index--;
 		let ass = this.association[index];
 		let att = AssociationAttributeInfo.getInfo(ass.attribute_id);
 		this.m_title.text = Fun.format("[color=#61aa66]{0}[/color] X [color=#51FC55]{1}[/color]  ", ass.names, ass.num)
@@ -72,6 +85,9 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 					this.heroList.push(hero);
 				}
 				else if (ass.career > 0 && hero.career == ass.career) {
+					this.heroList.push(hero);
+				}
+				else if (ass.pointF > 0 && hero.point_fetters == ass.pointF) {
 					this.heroList.push(hero);
 				}
 			}
@@ -99,7 +115,9 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(EventKey.RE_TRYPLAY, this, this.setData);
-		this.setData();
+		this.m_c1.setSelectedIndex(0);
+		this.m_bg.width = 0;
+		this.m_associationList.numItems = 0;
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
@@ -108,8 +126,14 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 
 	private setData(): void {
 		this.m_c1.setSelectedIndex(0);
-		this.association = Game.battleData.refrushAssociation(true);
-		this.m_associationList.numItems = this.association.length;
+		this.association = Game.battleData.refrushAssociation();
+		if (this.association.length > 0) {
+			this.m_associationList.numItems = this.association.length + 1;
+			this.m_bg.width = 65 * (this.association.length + 1);
+		}
+		else {
+			this.m_associationList.numItems = 0;
+		}
 	}
 
 }

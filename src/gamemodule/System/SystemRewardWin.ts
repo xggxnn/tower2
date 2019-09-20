@@ -1,5 +1,6 @@
 import Handler = Laya.Handler;
 import UI_GainRewards from "../../fgui/Extend/System/UI_GainRewards";
+import RewardItem from "../DataStructs/RewardItem";
 
 export default class SystemRewardWin {
 
@@ -17,7 +18,7 @@ export default class SystemRewardWin {
     // 可以使用的池
     private pools: UI_GainRewards[] = [];
 
-    showReward() {
+    showReward(itemList: Array<RewardItem>, tickShow: boolean = true) {
         let item: UI_GainRewards;
         if (this.pools.length > 0) {
             item = this.pools.pop();
@@ -26,7 +27,7 @@ export default class SystemRewardWin {
             item = UI_GainRewards.createInstance();
             this.list.push(item);
         }
-        item.setData(Handler.create(this, this.onItemComplete));
+        item.setData(itemList, tickShow, Handler.create(this, this.onItemComplete));
     }
 
     private onItemComplete(item: UI_GainRewards) {

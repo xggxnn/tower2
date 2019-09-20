@@ -3,7 +3,6 @@ import UI_IllustrationMain from "../../fgui/Extend/Illustration/UI_IllustrationM
 import UI_HeroInfo from "../../fgui/Extend/Home/UI_HeroInfo";
 import UI_HeroFetters from "../../fgui/Extend/Home/UI_HeroFetters";
 import UI_Synthetise from "../../fgui/Extend/Home/UI_Synthetise";
-import UI_HeroItem from "../../fgui/Extend/Illustration/UI_HeroItem";
 import UI_HeroItem2 from "../../fgui/Extend/Illustration/UI_HeroItem2";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class IllustrationWin extends FWindow {
@@ -16,7 +15,6 @@ export default class IllustrationWin extends FWindow {
 	constructor() {
 		super();
 		this.addAssetForFguiComponent(UI_IllustrationMain);
-		this.addAssetForFguiComponent(UI_HeroItem);
 		this.addAssetForFguiComponent(UI_HeroItem2);
 	}
 	protected onMenuCreate(): void {

@@ -13,4 +13,7 @@ export default class BattleBaseSK extends BaseSK {
     private changeSpeed(): void {
         this.speed = this._speed;
     }
+    public destroySk(): void {
+        this.destroyThis();
+    }
 }

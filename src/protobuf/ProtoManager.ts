@@ -188,4 +188,39 @@ export default class ProtoManager {
 	public saveAttribute(data: Object): void {
 		this.sendPro(data, 1030);
 	}
+	/**
+	 * 解锁的羁绊领取奖励
+	 * @param data 
+	 */
+	public fetterReward(data: Object): void {
+		this.sendPro(data, 1031);
+	}
+	/**
+	 * 解锁羁绊
+	 * @param data 
+	 */
+	public fetterUnlock(data: Object): void {
+		this.sendPro(data, 1032);
+	}
+	/**
+	 * 获取每日挑战数据
+	 * @param data 
+	 */
+	public dayFightData(): void {
+		this.sendPro({}, 1033);
+	}
+	/**
+	 * 发起挑战
+	 * @param data 
+	 */
+	public dayFightStart(data: Object): void {
+		this.sendPro(data, 1034);
+	}
+	/**
+	 * 领取挑战奖励
+	 * @param data 
+	 */
+	public dayFightReward(data: Object): void {
+		this.sendPro(data, 1035);
+	}
 }

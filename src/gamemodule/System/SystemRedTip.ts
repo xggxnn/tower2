@@ -14,7 +14,6 @@ export default class SystemRedTip {
     }
 
     private redDic: Dictionary<string, UI_RedTips> = new Dictionary<string, UI_RedTips>();
-    private pools: UI_RedTips[] = [];
 
     /**
      * @param target 哪个UI
@@ -22,22 +21,16 @@ export default class SystemRedTip {
      * @param location 具体位置 枚举 LocationType
      */
     showRedTip(target: fairygui.GObject, parentId: string = "", location: LocationType = LocationType.RightUpper) {
-        let item: UI_RedTips;
+        let item: UI_RedTips = null;
         let key = target.id + parentId;
         if (!this.redDic.hasKey(key)) {
-            if (this.pools.length > 0) {
-                item = this.pools.pop();
-            }
-            else {
-                item = Pools.fetch(UI_RedTips);
-            }
+            item = Pools.fetch(UI_RedTips);
             this.redDic.add(key, item);
         }
         else {
             item = this.redDic.getValue(key);
-            return;
         }
-        if (!item) return;
+        if (!item || item == null || target == null) return;
         (target as fairygui.GRoot).addChild(item);
         let rect = target.localToGlobalRect(-50, -50, target.width / target.scaleX, target.height / target.scaleY);
         item.setScale(1 / target.scaleX, 1 / target.scaleY);
@@ -73,10 +66,10 @@ export default class SystemRedTip {
     }
     hideRedTip(target: fairygui.GObject, parentId: string = "") {
         let key = target.id + parentId;
-        let item = this.redDic.getValue(key);
+        let item: UI_RedTips = this.redDic.getValue(key);
         if (item != null) {
             item.removeFromParent();
-            this.pools.push(item);
+            Pools.recycle(item);
             this.redDic.remove(key);
         }
     }

@@ -8,6 +8,8 @@ import FWindow from "../../../gamemodule/FWindow";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import UI_Hand from "./UI_Hand";
 import Pools from "../../../tool/Pools";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_GuideLayer extends fui_GuideLayer {
@@ -51,6 +53,7 @@ export default class UI_GuideLayer extends fui_GuideLayer {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		this.setData();
+		EventManager.event(EventKey.CLOSE_WAIT);
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
@@ -102,6 +105,13 @@ export default class UI_GuideLayer extends fui_GuideLayer {
 						this.m_bottom.text = "";
 						this.m_pos.setSelectedIndex(3);
 						Game.writeEff.startTypeWrite(50, Game.playData.guideTip, this.m_bottom, null);
+					}
+					break;
+				case LocationType.RightLower:
+					{
+						this.m_rightLow.text = "";
+						this.m_pos.setSelectedIndex(5);
+						Game.writeEff.startTypeWrite(50, Game.playData.guideTip, this.m_rightLow, null);
 					}
 					break;
 				default:

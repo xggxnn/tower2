@@ -5,6 +5,7 @@
 export default class fui_BattleLeftTop extends fairygui.GComponent {
 
 	public m_waveBtn:fairygui.GButton;
+	public m_tip:fairygui.GTextField;
 
 	public static URL:string = "ui://3jvhuirzngrsx";
 
@@ -19,6 +20,7 @@ export default class fui_BattleLeftTop extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
-		this.m_waveBtn = <fairygui.GButton><any>(this.getChildAt(0));
+		this.m_waveBtn = <fairygui.GButton><any>(this.getChildAt(1));
+		this.m_tip = <fairygui.GTextField><any>(this.getChildAt(2));
 	}
 }

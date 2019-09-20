@@ -5,6 +5,8 @@ import UI_selectionBtn from "../../fgui/Extend/Menus/UI_selectionBtn";
 import UI_Trial from "../../fgui/Extend/Menus/UI_Trial";
 import UI_MapItem from "../../fgui/Extend/Menus/UI_MapItem";
 import UI_GameOver from "../../fgui/Extend/Battle/UI_GameOver";
+import UI_DayFight from "../../fgui/Extend/Menus/UI_DayFight";
+import UI_SelectionDay from "../../fgui/Extend/Menus/UI_SelectionDay";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class MenusWin extends FWindow {
 	content: UI_MenusMain;
@@ -21,6 +23,8 @@ export default class MenusWin extends FWindow {
 		this.addAssetForFguiComponent(UI_Trial);
 		this.addAssetForFguiComponent(UI_MapItem);
 		this.addAssetForFguiComponent(UI_GameOver);
+		this.addAssetForFguiComponent(UI_DayFight);
+		this.addAssetForFguiComponent(UI_SelectionDay);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_MenusMain.createInstance();

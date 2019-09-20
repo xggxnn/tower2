@@ -25,6 +25,9 @@ export default class ProtoEvent {
 	public static get SYNTHETISE_CALL_BACK(): string {
 		return this.getProtoEvent(1010);
 	}
+	public static get CONQUESTREWARD_CALL_BACK(): string {
+		return this.getProtoEvent(1012);
+	}
 	public static get BAGGIFT_CALL_BACK(): string {
 		return this.getProtoEvent(1013);
 	}
@@ -54,6 +57,18 @@ export default class ProtoEvent {
 	}
 	public static get SAVEATT_CALL_BACK(): string {
 		return this.getProtoEvent(1030);
+	}
+	public static get FETTERREWARD_CALL_BACK(): string {
+		return this.getProtoEvent(1031);
+	}
+	public static get DAYFIGHTDATA_CALL_BACK(): string {
+		return this.getProtoEvent(1033);
+	}
+	public static get DAYFIGHTSTART_CALL_BACK(): string {
+		return this.getProtoEvent(1034);
+	}
+	public static get DAYFIGHTREWARD_CALL_BACK(): string {
+		return this.getProtoEvent(1035);
 	}
 
 }

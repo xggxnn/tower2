@@ -5,6 +5,7 @@
 export default class fui_GeneralBtn extends fairygui.GButton {
 
 	public m_bgColor:fairygui.Controller;
+	public m_redTip:fairygui.Controller;
 
 	public static URL:string = "ui://130tmfxdq080m";
 
@@ -20,5 +21,6 @@ export default class fui_GeneralBtn extends fairygui.GButton {
 		super.constructFromXML(xml);
 
 		this.m_bgColor = this.getControllerAt(1);
+		this.m_redTip = this.getControllerAt(2);
 	}
 }

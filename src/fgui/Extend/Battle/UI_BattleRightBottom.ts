@@ -30,7 +30,7 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 		this.m_skill2Btn.visible = false;
-		this.m_skill3Btn.onClick(this, this.skillClick);
+		// this.m_skill3Btn.onClick(this, this.skillClick);
 
 		this.addSpeedBtn = this.m_addSpeed as UI_AddSpeedBtn;
 		this.addSpeedBtn.onClick(this, this.doubleSpeed);
@@ -38,30 +38,30 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 	}
 	private addSpeedBtn: UI_AddSpeedBtn;
 	private _cding: boolean = false;
-	public skillClick(): void {
-		if (this._cding) {
-			Game.popup.showPopup(this.m_skill3Btn, true, false, Game.tipTxt.SkillCD);
-			return;
-		}
-		if (this.mapSkillCDMax > 0) {
-			if (Game.playData.guideIndex == GuideType.CastSkill) {
-				Game.playData.guideIndex = GuideType.CastSkillOver;
-				Game.gameStatus = GameStatus.Gaming;
-			}
-			this.mapSkillCD = this.mapSkillCDMax;
-			this.m_skill3Btn.m_mask.fillAmount = 1;
-			this.m_skill3Btn.m_mask.visible = true;
-			this._cding = true;
-			this.m_skill3Btn
-			this.m_skill3Btn.m_tip.text = this.mapSkillInf.des;
-			this.m_skill3Btn.m_t0.play();
-			EventManager.event(EventKey.PLAY_SKILL, [false]);
-		}
-		else {
-			this.m_skill3Btn.m_tip.text = "被动技能：" + this.mapSkillInf.des;
-			this.m_skill3Btn.m_t0.play();
-		}
-	}
+	// public skillClick(): void {
+	// 	if (this._cding) {
+	// 		Game.popup.showPopup(this.m_skill3Btn, true, false, Game.tipTxt.SkillCD);
+	// 		return;
+	// 	}
+	// 	if (this.mapSkillCDMax > 0) {
+	// 		if (Game.playData.guideIndex == GuideType.CastSkill) {
+	// 			Game.playData.guideIndex = GuideType.CastSkillOver;
+	// 			Game.gameStatus = GameStatus.Gaming;
+	// 		}
+	// 		this.mapSkillCD = this.mapSkillCDMax;
+	// 		this.m_skill3Btn.m_mask.fillAmount = 1;
+	// 		this.m_skill3Btn.m_mask.visible = true;
+	// 		this._cding = true;
+	// 		this.m_skill3Btn
+	// 		this.m_skill3Btn.m_tip.text = this.mapSkillInf.des;
+	// 		this.m_skill3Btn.m_t0.play();
+	// 		EventManager.event(EventKey.PLAY_SKILL, [false]);
+	// 	}
+	// 	else {
+	// 		this.m_skill3Btn.m_tip.text = "被动技能：" + this.mapSkillInf.des;
+	// 		this.m_skill3Btn.m_t0.play();
+	// 	}
+	// }
 	private doubleSpeed(): void {
 		if (Game.battleMap.maxMapId < 3) {
 			Game.tipWin.showTip(Game.tipTxt.AddSpeedTip);
@@ -79,23 +79,23 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		}
 	}
 	// 需从ui_main 调用
-	public update(dt): void {
-		if (this.mapSkillCDMax > 0) {
-			if (this.mapSkillCD > 0) {
-				this.mapSkillCD -= dt;
-				if (this.mapSkillCD <= 0) {
-					this.m_skill3Btn.m_mask.visible = false;
-					this._cding = false;
-				}
-				else {
-					if (!this.m_skill3Btn.m_mask.visible) {
-						this.m_skill3Btn.m_mask.visible = true;
-					}
-				}
-				this.m_skill3Btn.m_mask.fillAmount = this.mapSkillCD / this.mapSkillCDMax;
-			}
-		}
-	}
+	// public update(dt): void {
+	// 	if (this.mapSkillCDMax > 0) {
+	// 		if (this.mapSkillCD > 0) {
+	// 			this.mapSkillCD -= dt;
+	// 			if (this.mapSkillCD <= 0) {
+	// 				this.m_skill3Btn.m_mask.visible = false;
+	// 				this._cding = false;
+	// 			}
+	// 			else {
+	// 				if (!this.m_skill3Btn.m_mask.visible) {
+	// 					this.m_skill3Btn.m_mask.visible = true;
+	// 				}
+	// 			}
+	// 			this.m_skill3Btn.m_mask.fillAmount = this.mapSkillCD / this.mapSkillCDMax;
+	// 		}
+	// 	}
+	// }
 
 	private mapSkillInf: PlayerSkillInfo = null;
 	private mapSkillCD: number = 0;
@@ -107,14 +107,14 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		else if (Game.playData.gameSpeed > 1.5) {
 			this.addSpeedBtn.m_changeStatus.setSelectedIndex(1);
 		}
-		this.mapSkillInf = PlayerSkillInfo.getInfo(Game.playData.curPlaySkillIndex);
-		this.mapSkillCD = 0;
-		this.mapSkillCDMax = this.mapSkillInf.cd * 1000;
-		this.m_skill3Btn.m_mask.fillAmount = 0;
-		this.m_skill3Btn.m_mask.visible = false;
-		this.m_skill3Btn.m_icons.icon = SpriteKey.getUrl("icon_skill0" + this.mapSkillInf.id + ".png");
-		this._cding = false;
-		this.m_skill3Btn.m_titles.text = this.mapSkillInf.name;
+		// this.mapSkillInf = PlayerSkillInfo.getInfo(Game.playData.curPlaySkillIndex);
+		// this.mapSkillCD = 0;
+		// this.mapSkillCDMax = this.mapSkillInf.cd * 1000;
+		// this.m_skill3Btn.m_mask.fillAmount = 0;
+		// this.m_skill3Btn.m_mask.visible = false;
+		// this.m_skill3Btn.m_icons.icon = SpriteKey.getUrl("icon_skill0" + this.mapSkillInf.id + ".png");
+		// this._cding = false;
+		// this.m_skill3Btn.m_titles.text = this.mapSkillInf.name;
 	}
 
 	// 关闭ui
@@ -127,18 +127,14 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		Game.playData.sBattleMainUpdate.add(this.update, this);
+		// Game.playData.sBattleMainUpdate.add(this.update, this);
 		EventManager.on(EventKey.GAMESTART, this, this.setData);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-		Game.playData.sBattleMainUpdate.remove(this.update, this);
+		// Game.playData.sBattleMainUpdate.remove(this.update, this);
 		EventManager.off(EventKey.GAMESTART, this, this.setData);
-	}
-	public showGuide(): void {
-		this.visible = true;
-		this.moduleWindow.createGuideUI(this.m_skill3Btn, new Laya.Point(this.x + this.m_skill3Btn.x, this.y + this.m_skill3Btn.y), Laya.Handler.create(this, this.skillClick), Game.tipTxt.battleSkill, LocationType.Left);
 	}
 
 }

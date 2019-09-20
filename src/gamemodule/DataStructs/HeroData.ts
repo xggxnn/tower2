@@ -6,17 +6,25 @@ import SkillInfo from "../../csvInfo/SkillInfo";
 import PlayerSkillInfo from "../../csvInfo/PlayerSkillInfo";
 import EnemyBuff from "./EnemyBuff";
 import HeroInfoData from "./HeroInfoData";
+import BattleHero from "../Models/BattleHero";
 
 export default class HeroData {
     public constructor() { }
 
+    public _battleHero: BattleHero;
 
     private _heroInf: HeroInfoData;
     public get heroInf(): HeroInfoData {
         return this._heroInf;
     }
-    public setHeroInf(id: any) {
-        this._heroInf = HeroInfoData.getInfo(id);
+    public setHeroInf(id: any, _battleHero: BattleHero) {
+        this._battleHero = _battleHero;
+        if (Game.battleData.MenuEnterDay) {
+            this._heroInf = Game.battleData.curHeroInfoList.getValue(id);
+        }
+        else {
+            this._heroInf = HeroInfoData.getInfo(id);
+        }
         if (this._heroInf) {
             if (this.heroInf.skill_id_1 > 0) {
                 this.attackSkillList[0] = SkillInfo.getInfo(this.heroInf.skill_id_1);
@@ -34,6 +42,8 @@ export default class HeroData {
                 {
                     // * 4, 减攻速 - 配合高频
                     this.buffReduceSpeed += buff.effectvalue;
+                    this.changeSkSpeed(buff.effectvalue * -1);
+                    this._battleHero.showHideEffectBuf(1027, true);
                     if (this.skillCd[0] > 0) {
                         this.skillCd[0] += (this.skillCd[0] * (100 + buff.effectvalue) * 0.01);
                     }
@@ -46,6 +56,7 @@ export default class HeroData {
                 {
                     // * 5, 减攻击 - 配合高爆
                     this.buffReduceAtk += buff.effectvalue;
+                    this._battleHero.showHideEffectBuf(1028, true);
                 }
                 break;
         }
@@ -56,6 +67,8 @@ export default class HeroData {
                 {
                     // * 4, 减攻速 - 配合高频
                     this.buffReduceSpeed -= buff.effectvalue;
+                    this._battleHero.showHideEffectBuf(1027, false);
+                    this.changeSkSpeed(buff.effectvalue);
                     if (this.buffReduceSpeed < 0) {
                         this.buffReduceSpeed = 0;
                     }
@@ -72,6 +85,7 @@ export default class HeroData {
                 {
                     // * 5, 减攻击 - 配合高爆
                     this.buffReduceAtk -= buff.effectvalue;
+                    this._battleHero.showHideEffectBuf(1028, false);
                     if (this.buffReduceAtk < 0) this.buffReduceAtk = 0;
                 }
                 break;
@@ -98,6 +112,7 @@ export default class HeroData {
                     this._playSkillAtk = 0;
                     this._playSkillCrit = 0;
                     this._playSkillBurst = 0;
+                    this.changeSkSpeed(this._playSkillSpeed * -1);
                     this._playSkillSpeed = 0;
                     this.playSkillShowStatus = 0;
                 }
@@ -108,7 +123,7 @@ export default class HeroData {
             if (this.buffSpeedDuration[i] > 0) {
                 this.buffSpeedDuration[i] -= dt;
                 if (this.buffSpeedDuration[i] <= 0) {
-                    this.buffSpeedDuration[i] = 0;
+                    this.changeBuffSpeed(-this.buffSpeed[i], 0, i);
                     this.buffSpeed[i] = 0;
                 }
             }
@@ -232,13 +247,21 @@ export default class HeroData {
         cd *= ((100 + this.buffReduceSpeed) * 0.01);
         return cd;
     }
+    public changeBuffSpeed(speed: number, time: number, index: number): void {
+        this.buffSpeed[index] = speed;
+        this.buffSpeedDuration[index] = time;
+        this.changeSkSpeed(speed);
+    }
+    public changeSkSpeed(speed: number): void {
+        this._battleHero.sk.changeSpeeds(speed);
+    }
     // buff提高攻速
     public buffSpeed: Array<number> = [0, 0, 0, 0];
     // buff提高攻速持续时间
     public buffSpeedDuration: Array<number> = [0, 0, 0, 0];
-    // buff提高攻速
+    // buff增加普攻对象数量
     public buffExtra: number = 0;
-    // buff提高攻速持续时间
+    // buff增加普攻对象数量速持续时间
     public buffExtraDuration: number = 0;
     // buff双倍攻击
     public buffDouble: boolean = false;
@@ -403,6 +426,7 @@ export default class HeroData {
                 case 8:
                     {
                         this._playSkillSpeed = this.mapSkillInf.val;
+                        this.changeSkSpeed(this.mapSkillInf.val);
                         if (this.skillCd[0] > 0) {
                             this.skillCd[0] -= (this.skillCd[0] * (100 - this._playSkillSpeed) * 0.01);
                         }
@@ -425,6 +449,7 @@ export default class HeroData {
         this.buffExtraDuration = 0;
         this._normalAtk = 0;
         this._normalCrit = 0;
+        this.changeSkSpeed(this._normalSpeed * -1);
         this._normalSpeed = 0;
         this._normalReduceDefense = 0;
         this._normalReduceEnemySpeed = 0;
@@ -482,6 +507,7 @@ export default class HeroData {
             case 3:// 攻速增加{0}%
                 {
                     this._normalSpeed += val;
+                    this.changeSkSpeed(val);
                 }
                 break;
             case 4://	减防{ 0 }%

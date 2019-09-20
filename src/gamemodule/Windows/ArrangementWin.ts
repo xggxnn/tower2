@@ -9,6 +9,7 @@ import UI_HeroIcon55 from "../../fgui/Extend/Arrangement/UI_HeroIcon55";
 import UI_UpBtn from "../../fgui/Extend/Arrangement/UI_UpBtn";
 import UI_FightTip from "../../fgui/Extend/Arrangement/UI_FightTip";
 import UI_UpLevel from "../../fgui/Extend/Arrangement/UI_UpLevel";
+import UI_FightProgress from "../../fgui/Extend/Arrangement/UI_FightProgress";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class ArrangementWin extends FWindow {
 	content: UI_ArrangementMain;
@@ -26,6 +27,8 @@ export default class ArrangementWin extends FWindow {
 		this.addAssetForFguiComponent(UI_UpBtn);
 		this.addAssetForFguiComponent(UI_FightTip);
 		this.addAssetForFguiComponent(UI_UpLevel);
+		this.addAssetForFguiComponent(UI_FightProgress);
+		this.addAssetForFguiComponent(UI_HeroFetters);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_ArrangementMain.createInstance();

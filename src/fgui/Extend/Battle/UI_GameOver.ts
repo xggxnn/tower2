@@ -35,7 +35,7 @@ export default class UI_GameOver extends fui_GameOver {
 		// ToDo
 		this.m_gainBtn.onClick(this, this.gainClick);
 		this.m_synthBtn.onClick(this, this.synthClick);
-		this.m_upBtn.onClick(this, this.upClick);
+		this.m_upBtn.onClick(this, this.gainClick);
 		this.m_upLevelBtn.onClick(this, this.clickUpLevelBtn);
 		this.m_rewardList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
 	}
@@ -46,21 +46,23 @@ export default class UI_GameOver extends fui_GameOver {
 	}
 	gainClick(): void {
 		this.closeUI();
-		// Game.menu.open(MenuId.MenuSelect, Game.battleMap.maxMapId);
-		Game.menu.open(MenuId.MenuSelect);
+		if (Game.battleData.MenuEnterDay && Game.battleData.dayFightProgress > 5) {
+			Game.menu.open(MenuId.Home);
+		}
+		else {
+			Game.menu.open(MenuId.MenuSelect);
+		}
 	}
 	private scrolltoViewHeroId = 0;
 	private synthClick(): void {
 		this.closeUI();
+		Game.battleData.MenuEnterDay = false;
 		Game.menu.open(MenuId.Hero, this.scrolltoViewHeroId);
 	}
 	private clickUpLevelBtn(): void {
 		this.closeUI();
+		Game.battleData.MenuEnterDay = false;
 		Game.menu.open(MenuId.Arrange);
-	}
-	upClick(): void {
-		this.closeUI();
-		Game.menu.open(MenuId.MenuSelect);
 	}
 
 	setData(): void {
@@ -71,24 +73,33 @@ export default class UI_GameOver extends fui_GameOver {
 		this.m_upLevelBtn.visible = false;
 		let value: number = Game.gameStatus == GameStatus.Win ? 0 : 1;
 		this.m_c1.setSelectedIndex(value);
-		let curDic = Game.playData.curFightInf;
-		let ass = Game.battleData.refrushAssociation(true);
-		let list = {};
-		if (ass.length > 0) {
-			for (let i = ass.length - 1; i >= 0; i--) {
-				list[ass[i].names] = ass[i].num;
+		if (Game.battleData.MenuEnterDay) {
+			let data = {
+				progress: Game.battleData.dayFightProgress,
+				win: Game.gameStatus == GameStatus.Win
 			}
+			Game.proto.dayFightReward(data);
 		}
-		let data = {
-			winLose: Game.gameStatus == GameStatus.Win,
-			waveId: Game.battleData.level_id,
-			fightType: Game.battleData.fight_type,
-			level: Game.battleData.trial_level,
-			seat: Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect].concat(),
-			fightValue: [curDic.getValue(FightType.Atk), curDic.getValue(FightType.AtkEx), curDic.getValue(FightType.Speed), curDic.getValue(FightType.SpeedEx), curDic.getValue(FightType.Crit), curDic.getValue(FightType.CritEx), curDic.getValue(FightType.Burst), curDic.getValue(FightType.BurstEx)],
-			association: list,
+		else {
+			let curDic = Game.playData.curFightInf;
+			let ass = Game.battleData.refrushAssociation();
+			let list = {};
+			if (ass.length > 0) {
+				for (let i = ass.length - 1; i >= 0; i--) {
+					list[ass[i].names] = ass[i].num;
+				}
+			}
+			let data = {
+				winLose: Game.gameStatus == GameStatus.Win,
+				waveId: Game.battleData.level_id,
+				fightType: Game.battleData.fight_type,
+				level: Game.battleData.trial_level,
+				seat: Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect].concat(),
+				fightValue: [curDic.getValue(FightType.Atk), curDic.getValue(FightType.AtkEx), curDic.getValue(FightType.Speed), curDic.getValue(FightType.SpeedEx), curDic.getValue(FightType.Crit), curDic.getValue(FightType.CritEx), curDic.getValue(FightType.Burst), curDic.getValue(FightType.BurstEx)],
+				association: list,
+			}
+			Game.proto.passWave(data);
 		}
-		Game.proto.passWave(data);
 	}
 	private tick: Tick = null;
 	private showResult(): void {
@@ -127,6 +138,11 @@ export default class UI_GameOver extends fui_GameOver {
 			this.tick = null;
 		}
 		this.m_gainBtn.visible = true;
+		if (Game.battleData.MenuEnterDay) {
+			this.m_synthBtn.visible = false;
+			this.m_upLevelBtn.visible = false;
+			return;
+		}
 		this.m_synthBtn.visible = false;
 		// 获取金币和去升级按钮显示哪个？
 		if (Game.playData.upLevelCost() > 0 && Game.playData.upLevelCost() <= Game.playData.curGold) {
@@ -183,19 +199,23 @@ export default class UI_GameOver extends fui_GameOver {
 				Game.playData.guideIndex = GuideType.Win;
 				let xx = this.m_rewardList.x + 149 * 2 + 40;
 				let yy = this.m_rewardList.y;
+				EventManager.event(EventKey.SHOW_WAIT);
 				this.moduleWindow.createGuideUI(this.m_rewardList.getChildAt(0) as UI_HeroIcon, new Laya.Point(xx, yy), Laya.Handler.create(this, this.synNext), Game.tipTxt.txts("Guide6"));
 			}
 			else if (Game.playData.guideIndex == GuideType.fiveStartFive || Game.playData.guideIndex == GuideType.fiveMoveHeroSeat2 || Game.playData.guideIndex == GuideType.fiveMoveHeroSeat) {
 				Game.playData.guideIndex = GuideType.fiveWin;
+				EventManager.event(EventKey.SHOW_WAIT);
 				this.moduleWindow.createGuideUI(this.m_upLevelBtn, new Laya.Point(this.m_upLevelBtn.x, this.m_upLevelBtn.y), Laya.Handler.create(this, this.clickUpLevelBtn), Game.tipTxt.clickUpLevelBtn, LocationType.Left);
 			}
 			else if (Game.playData.guideIndex == GuideType.sixStartFive) {
 				Game.playData.guideIndex++;
+				EventManager.event(EventKey.SHOW_WAIT);
 				this.moduleWindow.createGuideUI(this.m_gainBtn, new Laya.Point(this.m_gainBtn.x, this.m_gainBtn.y), Laya.Handler.create(this, this.gainClick), Game.tipTxt.clickGoldBtn, LocationType.Left);
 			}
 		}
 	}
 	private synNext(): void {
+		EventManager.event(EventKey.SHOW_WAIT);
 		setTimeout(() => {
 			this.moduleWindow.createGuideUI(this.m_synthBtn, new Laya.Point(this.m_synthBtn.x, this.m_synthBtn.y), Laya.Handler.create(this, this.synthClick), Game.tipTxt.battleSynth);
 		}, 30);
@@ -213,11 +233,14 @@ export default class UI_GameOver extends fui_GameOver {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.PASSWAVE_CALL_BACK, this, this.showResult);
+		EventManager.on(ProtoEvent.DAYFIGHTREWARD_CALL_BACK, this, this.showResult);
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
 		EventManager.off(ProtoEvent.PASSWAVE_CALL_BACK, this, this.showResult);
+		EventManager.off(ProtoEvent.DAYFIGHTREWARD_CALL_BACK, this, this.showResult);
+		Game.battleData.fight_result = [];
 	}
 
 

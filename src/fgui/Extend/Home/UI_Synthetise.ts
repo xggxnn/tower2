@@ -9,6 +9,8 @@ import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Synthetise extends fui_Synthetise {
@@ -36,7 +38,7 @@ export default class UI_Synthetise extends fui_Synthetise {
 	// 关闭ui
 	closeUI(): void {
 		if (this._sk) {
-			this._sk.destroy();
+			this._sk.destroyThis();
 			this._sk = null;
 		}
 		if (this.fwindow) {
@@ -83,7 +85,7 @@ export default class UI_Synthetise extends fui_Synthetise {
 			let hero = HeroInfoData.getInfo(Game.playData.synthetise);
 			this.m_quality.setSelectedIndex(2);
 			if (this._sk) {
-				this._sk.destroy();
+				this._sk.destroyThis();
 				this._sk = null;
 			}
 			let _id = 18;
@@ -117,6 +119,7 @@ export default class UI_Synthetise extends fui_Synthetise {
 
 		if (Game.playData.guideIndex == GuideType.SnythHero) {
 			Game.playData.guideIndex = GuideType.SnythHeroOver;
+			EventManager.event(EventKey.SHOW_WAIT);
 			this.moduleWindow.createGuideUI(this.m_setSeat, new Laya.Point(this.m_setSeat.x, this.m_setSeat.y),
 				Laya.Handler.create(this, this.clickSeat), Game.tipTxt.synthetise, LocationType.Upper);
 		}

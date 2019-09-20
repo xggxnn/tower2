@@ -4,6 +4,7 @@
 
 export default class fui_AssociationBtn extends fairygui.GButton {
 
+	public m_c1:fairygui.Controller;
 	public m_titles:fairygui.GTextField;
 
 	public static URL:string = "ui://3jvhuirzngrs18";
@@ -19,6 +20,7 @@ export default class fui_AssociationBtn extends fairygui.GButton {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
-		this.m_titles = <fairygui.GTextField><any>(this.getChildAt(1));
+		this.m_c1 = this.getControllerAt(1);
+		this.m_titles = <fairygui.GTextField><any>(this.getChildAt(2));
 	}
 }

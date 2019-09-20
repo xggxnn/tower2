@@ -1,4 +1,3 @@
-import EventManager from "../../tool/EventManager";
 import Game from "../../Game";
 import BattleHero from "./BattleHero";
 import EventKey from "../../tool/EventKey";
@@ -21,19 +20,20 @@ export default class BattleSeat extends Laya.Sprite {
         this.facade.onClick(this, this.onClick);
         this.facade.on(fairygui.Events.DROP, this, this.onDrop);
         this.facade.on(Laya.Event.MOUSE_OUT, this, this.ondragStarts);
-        Laya.stage.on(Laya.Event.MOUSE_UP, this, this.mouseUp);
-        Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.mouseUp);
     }
     private facade: fairygui.GButton = null;
     private _index: number;
+    private _startGame: boolean = false;
     public onShow(battleMain: UI_BattleMain): void {
         this.battleMain = battleMain;
-        EventManager.on(EventKey.ENTER_FRAME, this, this.update);
+        this._startGame = true;
+        Laya.stage.on(Laya.Event.MOUSE_UP, this, this.mouseUp);
+        Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.mouseUp);
     }
     public onClose(): void {
+        this._startGame = false;
         Laya.stage.off(Laya.Event.MOUSE_UP, this, this.mouseUp);
         Laya.stage.off(Laya.Event.MOUSE_OUT, this, this.mouseUp);
-        EventManager.offAllCaller(this);
     }
     public showHidefacade(v: boolean): void {
         this.facade.visible = v;
@@ -66,7 +66,7 @@ export default class BattleSeat extends Laya.Sprite {
         if (Game.battleData.battleSeatPos < 0 || Game.battleData.battleSeatPos == this._index || this._index == -1 || Game.battleData.battleheroInf == null) {
             return;
         }
-        if (this._guideMove >= 10 && this._index != 3) {
+        if (this._guideMove >= 10 && this._index != 8) {
             this.onScrollup();
             return;
         }
@@ -156,7 +156,7 @@ export default class BattleSeat extends Laya.Sprite {
     }
     public clearSk(): void {
         if (this._sk) {
-            this._sk.destroy();
+            this._sk.destroyThis();
             this._sk = null;
             for (let i = Game.battleScene.heroList.length - 1; i >= 0; i--) {
                 var hero: BattleHero = Game.battleScene.heroList[i];
@@ -165,18 +165,20 @@ export default class BattleSeat extends Laya.Sprite {
         }
     }
     private delayTime: number = 0;
-    private update(): void {
-        if (Game.battleData.startDrag && Game.battleData.battleSeatPos == this._index) {
-            if (fairygui.DragDropManager.inst.dragging) {
-                if (this._sk) {
-                    this._sk.pos(fairygui.DragDropManager.inst.dragAgent.x, fairygui.DragDropManager.inst.dragAgent.y);
+    public update(): void {
+        if (this._startGame) {
+            if (Game.battleData.startDrag && Game.battleData.battleSeatPos == this._index) {
+                if (fairygui.DragDropManager.inst.dragging) {
+                    if (this._sk) {
+                        this._sk.pos(fairygui.DragDropManager.inst.dragAgent.x, fairygui.DragDropManager.inst.dragAgent.y);
+                    }
                 }
-            }
-            else {
-                this.delayTime++;
-                if (this.delayTime > 5) {
-                    this.delayTime = 0;
-                    this.onScrollup();
+                else {
+                    this.delayTime++;
+                    if (this.delayTime > 5) {
+                        this.delayTime = 0;
+                        this.onScrollup();
+                    }
                 }
             }
         }

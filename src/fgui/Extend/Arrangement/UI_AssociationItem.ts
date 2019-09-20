@@ -47,28 +47,89 @@ export default class UI_AssociationItem extends fui_AssociationItem {
 
 	}
 
-	setData(datas: Association, index: number): void {
+	setData(datas: Association, index: number, gray: number): void {
+		let seleIndex: number = gray < index ? 1 : 0
+		this.m_isGray.setSelectedIndex(seleIndex);
+		index = index % 2;
 		let att = AssociationAttributeInfo.getInfo(datas.attribute_id);
-		this.m_tip.text = Fun.format(att.des, datas.values);
+		this.m_rewardStatus.setSelectedIndex(Game.playData.associationattribute.indexOf(datas.attribute_id) == -1 ? 1 : 0);
+		if (seleIndex == 0 || Game.playData.unlockAssociationattribute.indexOf(datas.attribute_id) != -1) {
+			this.m_tip.text = Fun.format(att.des, datas.values);
+		}
+		else {
+			this.m_tip.text = Game.tipTxt.txts("AssociationLockTip");
+		}
 		if (datas.race > 0) {
 			this.m_icons.icon = SpriteKey.getUrl("race" + datas.race + ".png");
 		}
 		else if (datas.career > 0) {
 			this.m_icons.icon = SpriteKey.getUrl("career" + datas.career + ".png");
 		}
+		else if (datas.pointF > 0) {
+			this.m_icons.icon = SpriteKey.getUrl("point" + datas.pointF + ".png");
+		}
 		else {
 			this.m_icons.icon = "";
 		}
 		this.m_count.setVar("count", datas.num.toString()).flushVars();
-		let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
 		this.heroList = [];
-		for (let i = 0; i < 9; i++) {
-			if (seatList[i] > 0) {
-				let hero = HeroInfoData.getInfo(seatList[i]);
+		let seatList: Array<number> = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
+		if (Game.battleData.MenuEnterDay) {
+			let herolist = Game.battleData.dayHeroSeat;
+			seatList = [];
+			for (let i = 0; i < 9; i++) {
+				if (herolist[i] != null) {
+					if (datas.race > 0 && herolist[i].race == datas.race) {
+						seatList.push(herolist[i].id);
+						this.heroList.push(herolist[i]);
+					}
+					else if (datas.career > 0 && herolist[i].career == datas.career) {
+						seatList.push(herolist[i].id);
+						this.heroList.push(herolist[i]);
+					}
+					else if (datas.pointF > 0 && herolist[i].point_fetters == datas.pointF) {
+						seatList.push(herolist[i].id);
+						this.heroList.push(herolist[i]);
+					}
+				}
+			}
+		}
+		else {
+			for (let i = 0; i < 9; i++) {
+				if (seatList[i] > 0) {
+					let hero = HeroInfoData.getInfo(seatList[i]);
+					if (datas.race > 0 && hero.race == datas.race) {
+						this.heroList.push(hero);
+					}
+					else if (datas.career > 0 && hero.career == datas.career) {
+						this.heroList.push(hero);
+					}
+					else if (datas.pointF > 0 && hero.point_fetters == datas.pointF) {
+						this.heroList.push(hero);
+					}
+				}
+			}
+		}
+		this.heroList.sort((a: HeroInfoData, b: HeroInfoData) => {
+			if (a.id > b.id) {
+				return 1;
+			}
+			else if (a.id < b.id) {
+				return -1;
+			}
+			return 0;
+		});
+		this.grayHeroIndex = this.heroList.length - 1;
+		for (let i = 1, len = HeroInfoData.getCount(); i <= len; i++) {
+			let hero = HeroInfoData.getInfo(i);
+			if (seatList.indexOf(i) == -1) {
 				if (datas.race > 0 && hero.race == datas.race) {
 					this.heroList.push(hero);
 				}
 				else if (datas.career > 0 && hero.career == datas.career) {
+					this.heroList.push(hero);
+				}
+				else if (datas.pointF > 0 && hero.point_fetters == datas.pointF) {
 					this.heroList.push(hero);
 				}
 			}
@@ -77,11 +138,15 @@ export default class UI_AssociationItem extends fui_AssociationItem {
 		this.m_double.setSelectedIndex(index);
 	}
 	private heroList: Array<HeroInfoData> = [];
+	private grayHeroIndex: number = 0;
 	// 渲染item
 	private initHeroItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_HeroIcon55;
 		item.m_icons.icon = SpriteKey.getUrl("hero_" + this.heroList[index].skin + ".png");
 		item.m_quality.icon = SpriteKey.getUrl("quality" + this.heroList[index].quality + ".png");
+		let bol = this.grayHeroIndex < index;
+		item.m_icons.grayed = bol;
+		item.m_quality.grayed = bol;
 	}
 
 }

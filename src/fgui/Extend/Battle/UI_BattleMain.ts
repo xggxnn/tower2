@@ -25,6 +25,7 @@ import { Halo } from "../../../gamemodule/DataStructs/BattleHalo";
 import { HaloType } from "../../../gamemodule/DataEnums/HaloType";
 import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
 import UI_Hand from "../System/UI_Hand";
+import UI_BlackText from "../System/UI_BlackText";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleMain extends fui_BattleMain {
@@ -80,8 +81,20 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.m_bgList.push(this.m_bg3);
 		this.m_bgList.push(this.m_bg4);
 		this.m_haloscenes.on(Laya.Event.MOUSE_DOWN, this, this.museDown);
+
+
 	}
 	private m_bgList: Array<fairygui.GGroup> = [];
+
+	private bjTipbjTip: UI_BlackText = null;
+	private maskBj(): void {
+		if (this.bjTipbjTip == null) {
+			this.bjTipbjTip = Pools.fetch(UI_BlackText);
+			this.bjTipbjTip.m_txt.text = "";
+			this.bjTipbjTip.setXY(this.m_bg00.x, 0);
+			this.moduleWindow.windowContainer.addChild(this.bjTipbjTip);
+		}
+	}
 
 	// 关闭ui
 	closeUI(): void {
@@ -93,6 +106,8 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
+		this.maskBj();
+		Game.gameStatus = GameStatus.Pause;
 		this._skipGame = false;
 		this.clearHaloEffect();
 		Game.sound.playMusic(SoundKey.bgm_1, 0);
@@ -103,7 +118,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.m_bagua4.m_t2.play();
 		this.m_showRange.setSelectedIndex(0);
 
-		// Game.playData.gameSpeed = 1;
 		EventManager.event(EventKey.CHANGESPEED);
 		EventManager.on(EventKey.ENTER_FRAME, this, this.update);
 		EventManager.on(EventKey.GAMELOSE, this, this.gameLose);
@@ -111,7 +125,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 		EventManager.on(EventKey.GAMESTART, this, this.startGame);
 		EventManager.on(EventKey.SKIPGAME, this, this.skipGame);
 		EventManager.on(EventKey.GUIDEMOVEHERO, this, this.guideMoveHero);
-		// Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.museDown);
 		EventManager.on(EventKey.GAMEEXIT, this, this.closeUI);
 		this.moduleWindow.sUpdateHeroInf.add(this.clickHero, this);
 		EventManager.once(EventKey.GUIDE_PLAY_SKILL, this, this.guidePlaySkill);
@@ -121,16 +134,12 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.moduleWindow.createRightTop();
 		this.moduleWindow.createRightBottom();
 		this.moduleWindow.createTopMiddle();
-		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
-			Game.battleScene.battleSeat[i].onShow(this);
-		}
-		Game.gameStatus = GameStatus.Pause;
 		this.toastTime = 0;
-		if (Game.playData.guideIndex == GuideType.FightReady) {
+		if (Game.playData.guideIndex == GuideType.lookSceneOver) {
 			for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
 				Game.battleScene.battleSeat[i].showHidefacade(true);
 			}
-			this.lookScenes();
+			this.showBgTip();
 		}
 		else {
 			for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
@@ -142,11 +151,21 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
+		if (this.bjTipbjTip) {
+			this.bjTipbjTip.removeFromParent();
+			Pools.recycle(this.bjTipbjTip);
+			this.bjTipbjTip = null;
+		}
+		if (this.tip) {
+			Game.writeEff.stopTypeWrite();
+			this.tip.visible = false;
+		}
 		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
 			Game.battleScene.battleSeat[i].onClose();
 		}
 		this.clearGuideMoveHero();
 		this.clearHaloEffect();
+		Game.battleMap.sUpdateExitBattleMain.dispatch();
 		EventManager.offAllCaller(this);
 		this.moduleWindow.sUpdateHeroInf.remove(this.clickHero, this);
 	}
@@ -202,10 +221,33 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 
 	}
-	// 唐僧移动
-	private lookScenes(): void {
+	private _bjTip: UI_BlackText = null;
+	private showBgTip(): void {
 		// 隐藏八卦
 		this.hideShowMenu();
+		if (this._bjTip == null) {
+			this._bjTip = UI_BlackText.createInstance();
+			this.addChild(this._bjTip);
+		}
+		let _bjtxt: Array<string> = Game.tipTxt.txtArray("Story") as Array<string>;
+		let __bjtxt = "";
+		for (let i = 0; i < _bjtxt.length; i++) {
+			__bjtxt += "\n" + _bjtxt[i];
+		}
+		Game.writeEff.startTypeWrite(150, __bjtxt, this._bjTip.m_txt, Laya.Handler.create(this, this.showBgTipOver, null, false));
+	}
+	private showBgTipOver(): void {
+		setTimeout(() => {
+			if (this._bjTip) {
+				this._bjTip.removeFromParent();
+				this._bjTip.dispose();
+				this._bjTip = null;
+			}
+			this.lookScenes();
+		}, 3000);
+	}
+	// 唐僧移动
+	private lookScenes(): void {
 
 		this.basPos = new Laya.Point(this.m_bas.x, this.m_bas.y);
 		this.m_bg.setXY(-1000, 0);
@@ -222,7 +264,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	private easetype = fairygui.tween.EaseType.Linear;
 	private loadSKOver(): void {
-		// EventManager.event(EventKey.CLOSE_UI_WAIT);
 		this._skEnemy = [];
 		this._skts = BaseSK.create("npc_1");
 		Game.parentObject.addChild(this._skts);
@@ -286,24 +327,25 @@ export default class UI_BattleMain extends fui_BattleMain {
 	// 悟空第二次移动结束
 	private wukongMove2Over(): void {
 		this.showStonebgNum = -1;
-		this.stonebgTick = Game.tick.addTick(3, Laya.Handler.create(this, this.refrushStone, null, false), Laya.Handler.create(this, this.showBgTickOver, null, false), 20);
+		this._skswk.play(HeroAniEnums.Attack, true);
+		this.stonebgTick = Game.tick.addTick(6, Laya.Handler.create(this, this.refrushStone, null, false), Laya.Handler.create(this, this.showBgTickOver, null, false), 20);
 		this.stonebgTick.Start();
 	}
 	// 刷新石头
 	private refrushStone(): void {
 		this.showStonebgNum++;
-		if (this.showStonebgNum >= 0 && this.showStonebgNum < 6) {
-			Game.battleScene.stoneList[this.showStonebgNum].visible = true;
-			this.showStonebgNum++;
-			Game.battleScene.stoneList[this.showStonebgNum].visible = true;
+		if (this.showStonebgNum == 0) {
+			Game.battleScene.stoneList[0].visible = true;
+			Game.battleScene.stoneList[2].visible = true;
+			Game.battleScene.stoneList[4].visible = true;
 		}
-		if (this.showStonebgNum == 3) {
-			this.m_bgList[0].visible = true;
-			this.m_bgList[1].visible = true;
+		else if (this.showStonebgNum == 1) {
+			Game.battleScene.stoneList[1].visible = true;
+			Game.battleScene.stoneList[3].visible = true;
+			Game.battleScene.stoneList[5].visible = true;
 		}
-		else if (this.showStonebgNum == 5) {
-			this.m_bgList[2].visible = true;
-			this.m_bgList[3].visible = true;
+		else if (this.showStonebgNum < 6) {
+			this.m_bgList[this.showStonebgNum - 2].visible = true;
 		}
 	}
 	private showBgTickOver(): void {
@@ -418,15 +460,17 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	private storyOver(): void {
 		this.tip.visible = false;
-		this._skxzf.destroy();
+		this._skxzf.destroyThis();
 		this._skxzf = null;
 		for (let i = this._skEnemy.length - 1; i >= 0; i--) {
-			this._skEnemy[i].destroy();
+			this._skEnemy[i].destroyThis();
 		}
+		this._skswk = null;
 		this._skEnemy = [];
 		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
 			Game.battleScene.battleSeat[i].showHidefacade(false);
 		}
+		Game.playData.guideIndex = GuideType.FightReady;
 		Game.menu.open(MenuId.Arrange, Game.battleData.trial_level == 0 ? 0 : 1, -1);
 	}
 
@@ -464,7 +508,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		if (Game.playData.guideIndex == GuideType.StartFight) {
 			Game.playData.guideIndex = GuideType.CastSkill;
 			Game.gameStatus = GameStatus.Pause;
-			this.moduleWindow.BattleRightBottom.showGuide();
+			this.moduleWindow.BattleLeftBottom.showGuide();
 		}
 	}
 	/*********************	巡视场景结束	******************************************************************************/
@@ -505,6 +549,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 	public startGame(): void {
 		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
 			Game.battleScene.battleSeat[i].showHidefacade(true);
+			Game.battleScene.battleSeat[i].onShow(this);
 		}
 		Game.battleScene.initHeroSeat();
 
@@ -548,11 +593,45 @@ export default class UI_BattleMain extends fui_BattleMain {
 			}
 			this.tip.visible = true;
 			this.tip.setXY(this._skts.x + 50, this._skts.y - 150);
-			Game.writeEff.startTypeWrite(100, Game.tipTxt.PassWaveTip[0], this.tip.m_titles, Laya.Handler.create(this, this.passWaveTipOver, null, false));
+			Game.writeEff.startTypeWrite(100, Game.tipTxt.PassWaveTip[0], this.tip.m_titles, Laya.Handler.create(this, this.guide10BossTip, null, false));
 		}
+	}
+	private guide10BossTip(): void {
+		if (Game.battleMap.maxMapId > 1) {
+			this.passWaveTipOver();
+		}
+		else {
+			this.tip.visible = false;
+			this._skswk = BaseSK.create("enemy_2");
+			Game.parentObject.addChild(this._skswk);
+			this._skswk.pos(1515, 522);
+			this._skswk.scaleX = -1;
+			this._skswk.play(HeroAniEnums.Move, true);
+			fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, 1015, this._skswk.y, 2).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.guide10BossTip3, this);
+		}
+	}
+	private guide10BossTip3(): void {
+		this._skswk.play(HeroAniEnums.Stand, true);
+		this.tip.setXY(this._skswk.x - 50, this._skswk.y - 150);
+		this.tip.visible = true;
+		Game.writeEff.stopTypeWrite();
+		Game.writeEff.startTypeWrite(100, Game.tipTxt.txts("Guide7"), this.tip.m_titles, Laya.Handler.create(this, this.guide10BossTip2, null, false));
+	}
+	private guide10BossTip2(): void {
+		this._skswk.scaleX = 1;
+		if (this.tip) {
+			Game.writeEff.stopTypeWrite();
+			this.tip.visible = false;
+		}
+		this._skswk.play(HeroAniEnums.Move, true);
+		fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x + 500, this._skswk.y, 2).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.passWaveTipOver, this);
 	}
 	private passWaveTipOver(): void {
 		this._skipGame = false;
+		if (this._skswk != null) {
+			this._skswk.destroyThis();
+			this._skswk = null;
+		}
 		if (this.tip) {
 			Game.writeEff.stopTypeWrite();
 			this.tip.visible = false;
@@ -565,7 +644,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 			if (this.tip) {
 				this.tip.visible = false;
 			}
-		}, 1000);
+		}, 2000);
 	}
 	private gameLose(): void {
 		if (Game.gameStatus != GameStatus.Failed) {
@@ -585,7 +664,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 	private guideMoveHero(): void {
 		if (this._guidTip == null) {
 			this._guidTip = Pools.fetch(UI_DialogBox);
-			this.addChild(this._guidTip);
+			this.moduleWindow.windowContainer.addChild(this._guidTip);
 		}
 		if (this._guidHand == null) {
 			this._guidHand = Pools.fetch(UI_Hand);
@@ -593,17 +672,19 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		this._guidTip.setXY(this.m_base3.x, this.m_base3.y - 110);
 		this._guidTip.m_titles.text = Game.tipTxt.txts("Guid5");
-		fairygui.tween.GTween.to2(this.m_base3.x, this.m_base3.y, this.m_base1.x, this.m_base1.y, 2).setTarget(this._guidHand, this._guidHand.setXY).setRepeat(-1);
+		fairygui.tween.GTween.to2(this.m_base3.x, this.m_base3.y, this.m_base8.x, this.m_base8.y, 2).setTarget(this._guidHand, this._guidHand.setXY).setRepeat(-1);
 		for (let i = 0; i < 9; i++) {
 			Game.battleScene.battleSeat[i].readyMoveHeroGuide(10);
 		}
 	}
 	public clearGuideMoveHero(): void {
 		if (this._guidTip) {
+			this._guidTip.removeFromParent();
 			Pools.recycle(this._guidTip);
 			this._guidTip = null;
 		}
 		if (this._guidHand) {
+			this._guidHand.removeFromParent();
 			Pools.recycle(this._guidHand);
 			this._guidHand = null;
 		}
@@ -613,6 +694,9 @@ export default class UI_BattleMain extends fui_BattleMain {
 	private toastTxt: Array<string> = [];
 	// update
 	private update(): void {
+		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
+			Game.battleScene.battleSeat[i].update();
+		}
 		if (Game.gameStatus != GameStatus.Gaming) return;
 		var dt = Laya.timer.delta * Game.playData.gameSpeed;
 		if (Game.playData.guideIndex >= GuideType.fiveFight) {
@@ -798,8 +882,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 	private clearHaloEffect(): void {
 		for (let i = this.battleEffectList.length - 1; i >= 0; i--) {
 			if (this.battleEffectList[i]) {
-				this.battleEffectList[i].sk.destroy();
-				this.battleEffectList[i].destroy();
+				this.battleEffectList[i].sk.destroySk();
 				this.battleEffectList[i] = null;
 			}
 		}
@@ -814,19 +897,14 @@ export default class UI_BattleMain extends fui_BattleMain {
 			let showNum = Math.floor(this.battleEffectList.length / 2);
 			this.battleEffectList = Fun.randomSortArray(this.battleEffectList);
 			for (let i = this.battleEffectList.length - 1; i >= 0; i--) {
-				if (this.battleEffectList[i]) {
+				if (this.battleEffectList[i] && this.battleEffectList[i]._id != "1025") {
 					this.battleEffectList[i].stopeAndHide();
 				}
 			}
 			for (let i = 0; i < showNum; i++) {
-				if (this.battleEffectList[i]) {
+				if (this.battleEffectList[i] && this.battleEffectList[i]._id != "1025") {
 					this.battleEffectList[i].replay(false);
 				}
-			}
-		}
-		for (let i = this.battleEffectList.length - 1; i >= 0; i--) {
-			if (this.battleEffectList[i]) {
-
 			}
 		}
 	}
@@ -860,6 +938,10 @@ export default class UI_BattleMain extends fui_BattleMain {
 						}
 						break;
 					case HaloType.ReduceSpeed:
+						{
+							let eff = this.addBattleEffect(1025, true);
+							eff.sk.pos(halo._battleHero.sk.x, halo._battleHero.sk.y);
+						}
 						break;
 				}
 			}
@@ -895,14 +977,19 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		let posx = 234 + line * 112;
 		let posy = 280 + row * 81;
-		let eff = this.addBattleEffect(id, true);
+		let eff = this.addBattleEffect(id, false);
 		eff.sk.pos(posx, posy);
 	}
 	private battleEffectList: Array<BattleEffectEnemy> = [];
 	private addBattleEffect(id: number, loop: boolean): BattleEffectEnemy {
 		let key: string = String(id);
 		let _effect: BattleEffectEnemy = BattleEffectEnemy.create(id, loop);
-		Game.haloParent.addChild(_effect.sk);
+		if (id == 1025) {
+			this.m_bloods.displayObject.addChild(_effect.sk);
+		}
+		else {
+			Game.haloParent.addChild(_effect.sk);
+		}
 		this.battleEffectList.push(_effect);
 		_effect.scale(1, 1, true);
 		return _effect;

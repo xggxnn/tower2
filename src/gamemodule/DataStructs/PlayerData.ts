@@ -15,6 +15,7 @@ import HeroInfoData from "./HeroInfoData";
 import WaveInfo from "../../csvInfo/WaveInfo";
 import LevelchallengesuggestInfo from "../../csvInfo/LevelchallengesuggestInfo";
 import ResourceInfo from "../../csvInfo/ResourceInfo";
+import Association from "./Association";
 
 export default class PlayerData {
     private static _Instance: PlayerData;
@@ -34,18 +35,6 @@ export default class PlayerData {
      */
     public sBattleMainUpdate: TypedSignal<number> = new TypedSignal<number>();
 
-    private _newbied: boolean = true;
-    public get newbie(): boolean {
-        return this._newbied;
-    }
-    public set newbie(v: boolean) {
-        this._newbied = v;
-    }
-    public newbied(): void {
-        console.log("新手结束");
-        this._newbied = false;
-        return;
-    }
     // 添加资源
     public addResource(id: any, val: any): void {
         let ids = Number(id);
@@ -120,15 +109,27 @@ export default class PlayerData {
     public getBattleReward(obj: any): void {
         Game.battleData.fight_result = [];
         for (var key in obj) {
+            let cardCount = 0;
             let ids = Number(key);
             let vals = Number(obj[key]);
             let resource = ResourceInfo.getInfo(ids);
             if (resource && resource.type == 6) {
-                let item = new RewardItem();
-                item.itemId = ids;
-                item.itemNum = vals;
-                this._curGift.push(item);
-                Game.redData.bagRed = true;
+                let add = true;
+                for (let i = 0, len = this._curGift.length; i < len; i++) {
+                    if (this._curGift[i].itemId == ids) {
+                        cardCount = vals - this._curGift[i].itemNum;
+                        this._curGift[i].itemNum = vals;
+                        add = false;
+                        break;
+                    }
+                }
+                if (add) {
+                    let item = new RewardItem();
+                    item.itemId = ids;
+                    item.itemNum = vals;
+                    this._curGift.push(item);
+                    Game.redData.bagRed = true;
+                }
             }
             if (ids > 1000) {
                 let heroId = ids - 1000;
@@ -185,7 +186,9 @@ export default class PlayerData {
                     case 10:
                     case 11:
                         // 礼包
-
+                        if (cardCount > 0) {
+                            curVal = cardCount;
+                        }
                         break;
                 }
                 let item: RewardItem = new RewardItem();
@@ -201,14 +204,25 @@ export default class PlayerData {
             let ids = Number(key);
             let vals = Number(obj[key]);
             let resource = ResourceInfo.getInfo(ids);
-            if (resource && resource.type == 6) {
-                let item = new RewardItem();
-                item.itemId = ids;
-                item.itemNum = vals;
-                this._curGift.push(item);
-                Game.redData.bagRed = true;
-            }
             let curVal = vals;
+            if (resource && resource.type == 6) {
+                let add = true;
+                for (let i = 0, len = this._curGift.length; i < len; i++) {
+                    if (this._curGift[i].itemId == ids) {
+                        curVal = vals - this._curGift[i].itemNum;
+                        this._curGift[i].itemNum = vals;
+                        add = false;
+                        break;
+                    }
+                }
+                if (add) {
+                    let item = new RewardItem();
+                    item.itemId = ids;
+                    item.itemNum = vals;
+                    this._curGift.push(item);
+                    Game.redData.bagRed = true;
+                }
+            }
             if (ids > 1000) {
                 let heroId = ids - 1000;
                 let clipsDic = Game.playData.curClips;
@@ -457,60 +471,72 @@ export default class PlayerData {
         result.add(FightType.Burst, burstTip);
         return result;
     }
-    public checkFightVal(curDic: Dictionary<string, number>, _Dic: Dictionary<string, number>, levelId: number): Dictionary<string, number> {
+    public checkFightVal(curDic: Dictionary<string, number>, _Dic: Dictionary<string, number>, levelId: number): Dictionary<string, number[]> {
         let waveInf = WaveInfo.getInfo(levelId)
         let levelchall = LevelchallengesuggestInfo.getInfo(waveInf.type);
-        let atk = 2;
-        let speed = 2;
-        let crit = 2;
-        let burst = 2;
+        let atk: number[] = [2, 0, 0, 0];
+        let speed: number[] = [2, 0, 0, 0];
+        let crit: number[] = [2, 0, 0, 0];
+        let burst: number[] = [2, 0, 0, 0];
         if (curDic.count > 0) {
             let ex = 0;
             if (curDic.hasKey(FightType.AtkEx)) {
                 ex = curDic.getValue(FightType.AtkEx);
             }
-            let atkTip = (curDic.getValue(FightType.Atk) + ex) / _Dic.getValue(FightType.Atk);
+            atk[1] = curDic.getValue(FightType.Atk) + ex;
+            atk[2] = _Dic.getValue(FightType.Atk) * levelchall.atklow / 100;
+            atk[3] = _Dic.getValue(FightType.Atk) * levelchall.atkhigh / 100;
+            let atkTip = atk[1] / _Dic.getValue(FightType.Atk);
             if (atkTip >= levelchall.atkhigh * 0.01) {
-                atk = 0;
+                atk[0] = 0;
             }
             else if (atkTip >= levelchall.atklow * 0.01) {
-                atk = 1;
+                atk[0] = 1;
             }
             ex = 0;
             if (curDic.hasKey(FightType.SpeedEx)) {
                 ex = curDic.getValue(FightType.SpeedEx);
             }
-            let speedTip = (curDic.getValue(FightType.Speed) + ex) / _Dic.getValue(FightType.Speed);
+            speed[1] = curDic.getValue(FightType.Speed) + ex;
+            speed[2] = _Dic.getValue(FightType.Speed) * levelchall.speedlow / 100;
+            speed[3] = _Dic.getValue(FightType.Speed) * levelchall.speedhigh / 100;
+            let speedTip = speed[1] / _Dic.getValue(FightType.Speed);
             if (speedTip >= levelchall.speedhigh * 0.01) {
-                speed = 0;
+                speed[0] = 0;
             }
             else if (speedTip >= levelchall.speedlow * 0.01) {
-                speed = 1;
+                speed[0] = 1;
             }
             ex = 0;
             if (curDic.hasKey(FightType.CritEx)) {
                 ex = curDic.getValue(FightType.CritEx);
             }
-            let critTip = (curDic.getValue(FightType.Crit) + ex) / _Dic.getValue(FightType.Crit);
+            crit[1] = curDic.getValue(FightType.Crit) + ex;
+            crit[2] = _Dic.getValue(FightType.Crit) * levelchall.critlow / 100;
+            crit[3] = _Dic.getValue(FightType.Crit) * levelchall.crithigh / 100;
+            let critTip = crit[1] / _Dic.getValue(FightType.Crit);
             if (critTip >= levelchall.crithigh * 0.01) {
-                crit = 0;
+                crit[0] = 0;
             }
             else if (critTip >= levelchall.critlow * 0.01) {
-                crit = 1;
+                crit[0] = 1;
             }
             ex = 0;
             if (curDic.hasKey(FightType.BurstEx)) {
                 ex = curDic.getValue(FightType.BurstEx);
             }
-            let burstTip = (curDic.getValue(FightType.Burst) + ex) / _Dic.getValue(FightType.Burst);
+            burst[1] = curDic.getValue(FightType.Burst) + ex;
+            burst[2] = _Dic.getValue(FightType.Burst) * levelchall.critslow / 100;
+            burst[3] = _Dic.getValue(FightType.Burst) * levelchall.critshigh / 100;
+            let burstTip = burst[1] / _Dic.getValue(FightType.Burst);
             if (burstTip >= levelchall.critshigh * 0.01) {
-                burst = 0;
+                burst[0] = 0;
             }
             else if (burstTip >= levelchall.critslow * 0.01) {
-                burst = 1;
+                burst[0] = 1;
             }
         }
-        let result: Dictionary<string, number> = new Dictionary<string, number>();
+        let result: Dictionary<string, number[]> = new Dictionary<string, number[]>();
         result.add(FightType.Atk, atk);
         result.add(FightType.Speed, speed);
         result.add(FightType.Crit, crit);
@@ -629,11 +655,11 @@ export default class PlayerData {
     // 显示英雄羁绊
     public sShowFetters: Signal = new Signal();
     // 具体信息
-    public fettersInf: any = {
-        id: 0,
-        type: 0,
-    }
-
+    public fettersInfos: Association = null;
+    // 已领奖羁绊列表
+    public associationattribute: Array<number> = [];
+    // 已解锁羁绊列表
+    public unlockAssociationattribute: Array<number> = [];
 
     /******************  奖励相关       ************************/
 
@@ -647,7 +673,7 @@ export default class PlayerData {
     public set rewardList(v: Array<RewardItem>) {
         this._rewardList = v;
         if (this._rewardList.length > 0) {
-            Game.rewardWin.showReward();
+            Game.rewardWin.showReward(this._rewardList);
         }
     }
 
@@ -666,12 +692,10 @@ export default class PlayerData {
         return this._guideIndex;
     }
     public set guideIndex(v: GuideType) {
-        if (this._guideIndex != GuideType.None && this._guideIndex != v) {
-            let data = {
-                guideIndex: Number(v),
-            }
-            Game.proto.guide(data);
+        let data = {
+            guideIndex: Number(v),
         }
+        Game.proto.guide(data);
         this._guideIndex = v;
     }
     public guideDeathEnemy: number = -1;
@@ -726,9 +750,7 @@ export default class PlayerData {
         let res = SpriteKey.getUrl(SpriteKey.Gift);
         if (resourceid > 11) {
             let inf2 = HeroInfoData.getInfo(resourceid - 11);
-            if (Game.haveHeroTem.indexOf(inf2.skin) != -1) {
-                res = SpriteKey.getUrl("hero_" + inf2.skin + ".png");
-            }
+            res = SpriteKey.getUrl("hero_" + inf2.skin + ".png");
         }
         else {
             switch (resourceid) {

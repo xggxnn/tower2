@@ -31,6 +31,11 @@ import Proto1029 from "./Proto1029";
 import Proto1030 from "./Proto1030";
 import Proto101 from "./Proto101";
 import Proto102 from "./Proto102";
+import Proto1031 from "./Proto1031";
+import Proto1032 from "./Proto1032";
+import Proto1033 from "./Proto1033";
+import Proto1034 from "./Proto1034";
+import Proto1035 from "./Proto1035";
 
 export default class ProtoHash {
     static protoHash: Object = {
@@ -67,5 +72,10 @@ export default class ProtoHash {
         "1028": new Proto1028(),
         "1029": new Proto1029(),
         "1030": new Proto1030(),
+        "1031": new Proto1031(),
+        "1032": new Proto1032(),
+        "1033": new Proto1033(),
+        "1034": new Proto1034(),
+        "1035": new Proto1035(),
     }
 }

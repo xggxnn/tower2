@@ -158,10 +158,9 @@ export default class MenuCtl {
 	// 销毁
 	destory() {
 		if (this.moduleWindow && this.menuId != MenuId.Load) {
-			console.log("销毁面板", "MenuId." + MenuId[this.menuId]);
+			// console.log("销毁面板", "MenuId." + MenuId[this.menuId]);
 			this.moduleWindow.sShowComplete.remove(this.closeOther, this);
-			this.moduleWindow.dispose();
-			this.moduleWindow = null;
+			this.moduleWindow.onMenuClose();
 		}
 		this.state = MenuCtlStateType.Destoryed;
 	}

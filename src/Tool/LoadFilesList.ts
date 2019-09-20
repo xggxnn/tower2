@@ -27,6 +27,12 @@ export default class LoadFilesList {
         _list.push("res_effect/effect_1020.sk");
         _list.push("res_effect/effect_1021.sk");
         _list.push("res_effect/effect_1022.sk");
+        _list.push("res_effect/effect_1023.sk");
+        _list.push("res_effect/effect_1024.sk");
+        _list.push("res_effect/effect_1025.sk");
+        _list.push("res_effect/effect_1026.sk");
+        _list.push("res_effect/effect_1027.sk");
+        _list.push("res_effect/effect_1028.sk");
         _list.push("res_effect/effect_2001.sk");
         _list.push("res_effect/effect_2002.sk");
         _list.push("res_effect/effect_3.sk");
@@ -111,6 +117,7 @@ export default class LoadFilesList {
         _list.push("res_sk/hero_25.sk");
         _list.push("res_sk/hero_26.sk");
         _list.push("res_sk/hero_27.sk");
+        _list.push("res_sk/hero_29.sk");
         _list.push("res_sk/hero_3.sk");
         _list.push("res_sk/hero_30.sk");
         _list.push("res_sk/hero_34.sk");

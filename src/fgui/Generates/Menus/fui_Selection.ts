@@ -6,6 +6,7 @@ export default class fui_Selection extends fairygui.GComponent {
 
 	public m_status:fairygui.Controller;
 	public m_starNum:fairygui.Controller;
+	public m_forward:fairygui.Controller;
 	public m_selBtn:fui_selectionBtn;
 	public m_comquality:fairygui.GLoader;
 	public m_comMask:fairygui.GImage;
@@ -29,12 +30,13 @@ export default class fui_Selection extends fairygui.GComponent {
 
 		this.m_status = this.getControllerAt(0);
 		this.m_starNum = this.getControllerAt(1);
-		this.m_selBtn = <fui_selectionBtn><any>(this.getChildAt(0));
-		this.m_comquality = <fairygui.GLoader><any>(this.getChildAt(2));
-		this.m_comMask = <fairygui.GImage><any>(this.getChildAt(5));
-		this.m_comtime = <fairygui.GTextField><any>(this.getChildAt(6));
-		this.m_mask = <fairygui.GImage><any>(this.getChildAt(20));
-		this.m_protime = <fairygui.GTextField><any>(this.getChildAt(21));
-		this.m_progress = <fairygui.GTextField><any>(this.getChildAt(22));
+		this.m_forward = this.getControllerAt(2);
+		this.m_selBtn = <fui_selectionBtn><any>(this.getChildAt(4));
+		this.m_comquality = <fairygui.GLoader><any>(this.getChildAt(6));
+		this.m_comMask = <fairygui.GImage><any>(this.getChildAt(9));
+		this.m_comtime = <fairygui.GTextField><any>(this.getChildAt(10));
+		this.m_mask = <fairygui.GImage><any>(this.getChildAt(24));
+		this.m_protime = <fairygui.GTextField><any>(this.getChildAt(25));
+		this.m_progress = <fairygui.GTextField><any>(this.getChildAt(26));
 	}
 }

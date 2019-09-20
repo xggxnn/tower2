@@ -7,6 +7,7 @@ import Game from "../../../Game";
 import Fun from "../../../tool/Fun";
 import Handler = Laya.Handler;
 import MenuLayer from "../../../gamemodule/MenuLayer";
+import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_GainRewards extends fui_GainRewards {
@@ -58,7 +59,8 @@ export default class UI_GainRewards extends fui_GainRewards {
 	private tick: Tick = null;
 	private giftCount: number = 0;
 	private _onCompleteHandler: Handler;
-	public setData(onComplete?: Handler): void {
+	private itemList: Array<RewardItem>;
+	public setData(itemList: Array<RewardItem>, tickShow: boolean, onComplete?: Handler): void {
 		this.on(Laya.Event.CLICK, this, this.addNumOver);
 		if (this._onCompleteHandler) {
 			this._onCompleteHandler.recover();
@@ -67,20 +69,28 @@ export default class UI_GainRewards extends fui_GainRewards {
 		this.m_list.numItems = 0;
 		this.m_okBtn.visible = false;
 		MenuLayer.floatMsg.addChild(this);
-		this.giftCount = Game.playData.rewardList.length;
-		if (this.tick) {
-			this.tick.Stop();
-			Game.tick.clearTick(this.tick);
-			this.tick = null;
-		}
-		let count = this.giftCount - 1;
-		if (count < 1) {
-			this.updateNum();
-			this.addNumOver();
+		this.itemList = itemList;
+		this.giftCount = itemList.length;
+		if (tickShow) {
+			this.m_c1.setSelectedIndex(0);
+			if (this.tick) {
+				this.tick.Stop();
+				Game.tick.clearTick(this.tick);
+				this.tick = null;
+			}
+			let count = this.giftCount - 1;
+			if (count < 1) {
+				this.updateNum();
+				this.addNumOver();
+			}
+			else {
+				this.tick = Game.tick.addTick(count, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 20);
+				this.tick.Start();
+			}
 		}
 		else {
-			this.tick = Game.tick.addTick(count, Laya.Handler.create(this, this.updateNum, null, false), Laya.Handler.create(this, this.addNumOver, null, false), 20);
-			this.tick.Start();
+			this.m_c1.setSelectedIndex(1);
+			this.addNumOver();
 		}
 	}
 
@@ -106,7 +116,7 @@ export default class UI_GainRewards extends fui_GainRewards {
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
 		let item = obj as UI_ItemIcon;
-		item.setData(Game.playData.rewardList[index]);
+		item.setData(this.itemList[index]);
 	}
 
 	// 点击item

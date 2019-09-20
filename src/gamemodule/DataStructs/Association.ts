@@ -12,7 +12,7 @@ export default class Association {
     }
 
 
-    private _num: number;
+    private _num: number = 0;
     public get num(): number {
         return this._num;
     }

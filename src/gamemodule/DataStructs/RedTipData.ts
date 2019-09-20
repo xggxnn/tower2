@@ -55,11 +55,12 @@ export default class RedTipData {
     }
     public get kingRedIndex(): number {
         let result = 0;
-        for (let i = KingInfo.getCount(); i > 0; i--) {
+        for (let i = 1, len = KingInfo.getCount(); i <= len; i++) {
             let kInf = KingInfo.getInfo(i);
             if (kInf.rid1 > 0) {
+                result = i - 1;
                 if (!Game.playData.getKingStatus(i, 1)) {
-                    result = i - 1;
+                    break;
                 }
             }
         }
@@ -135,6 +136,15 @@ export default class RedTipData {
     }
     public set skillRed(v: boolean) {
         this._skillRed = v;
+    }
+
+
+    private _dayFightTip: boolean;
+    public get dayFightTip(): boolean {
+        return this._dayFightTip;
+    }
+    public set dayFightTip(v: boolean) {
+        this._dayFightTip = v;
     }
 
 

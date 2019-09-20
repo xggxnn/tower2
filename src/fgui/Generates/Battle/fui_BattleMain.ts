@@ -6,8 +6,9 @@ import fui_Stone from "./fui_Stone";
 export default class fui_BattleMain extends fairygui.GComponent {
 
 	public m_showRange:fairygui.Controller;
+	public m_bgStatus:fairygui.Controller;
 	public m_bg:fairygui.GLoader;
-	public m_bg00:fairygui.GImage;
+	public m_bg00:fairygui.GLoader;
 	public m_cloud:fairygui.GLoader;
 	public m_door:fairygui.GImage;
 	public m_bagua1:fui_bagua;
@@ -54,8 +55,9 @@ export default class fui_BattleMain extends fairygui.GComponent {
 		super.constructFromXML(xml);
 
 		this.m_showRange = this.getControllerAt(0);
+		this.m_bgStatus = this.getControllerAt(1);
 		this.m_bg = <fairygui.GLoader><any>(this.getChildAt(0));
-		this.m_bg00 = <fairygui.GImage><any>(this.getChildAt(1));
+		this.m_bg00 = <fairygui.GLoader><any>(this.getChildAt(1));
 		this.m_cloud = <fairygui.GLoader><any>(this.getChildAt(2));
 		this.m_door = <fairygui.GImage><any>(this.getChildAt(3));
 		this.m_bagua1 = <fui_bagua><any>(this.getChildAt(5));

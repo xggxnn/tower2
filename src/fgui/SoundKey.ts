@@ -1,5 +1,5 @@
-import Fun from "../Tool/Fun";
-import Dictionary from "../Tool/Dictionary";
+import Fun from "../tool/Fun";
+import Dictionary from "../tool/Dictionary";
 
 export default class SoundKey {
     private static _idDict: Dictionary<string, string>;

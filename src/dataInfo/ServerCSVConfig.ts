@@ -26,6 +26,7 @@ import BossSkillInfo from "../csvInfo/BossSkillInfo";
 import LevelchallengesuggestInfo from "../csvInfo/LevelchallengesuggestInfo";
 import PositionunlockInfo from "../csvInfo/PositionunlockInfo";
 import TipsInfo from "../csvInfo/TipsInfo";
+import LevelmapInfo from "../csvInfo/LevelmapInfo";
 
 export default class ServerCSVConfig {
     private static _Instance: ServerCSVConfig;
@@ -39,7 +40,6 @@ export default class ServerCSVConfig {
     private infDic: Dictionary<string, Dictionary<string, Dictionary<string, string>>> = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
     public setCSVInit(json: any): void {
-        // let numCount = 0;
         for (var key in json) {
             let inf = json[key];
             if (!this.infDic.hasKey(key)) {
@@ -59,8 +59,6 @@ export default class ServerCSVConfig {
                     }
                 }
             }
-            // numCount++;
-            // console.log(":", key);
             let dic = this.infDic.getValue(key).getValues();
             switch (key) {
                 case "associationattribute":
@@ -143,6 +141,9 @@ export default class ServerCSVConfig {
                     break;
                 case "levelchallengesuggest":
                     LevelchallengesuggestInfo.server(dic);
+                    break;
+                case "levelmap":
+                    LevelmapInfo.server(dic);
                     break;
             }
         }

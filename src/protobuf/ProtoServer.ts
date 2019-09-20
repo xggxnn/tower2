@@ -45,6 +45,7 @@ export default class ProtoServer {
 		let data = this.dataList[0];
 		data["order"] = this.nextOrder;
 		data["ts"] = new Date().getTime();
+		data["version"] = "v1.1.7";
 		wx.request(
 			{
 				url: ProtoServer.SERVER_URL,

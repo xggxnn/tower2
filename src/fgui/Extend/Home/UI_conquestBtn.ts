@@ -67,7 +67,7 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 			}
 			this.canGet = Math.floor(this.duration / 60) > 0;
 			this.getGold = Fun.formatNumberUnit(Math.floor(WaveRewardInfo.getInfo(this.levelcount).coin_daily * Math.floor(this.duration / 60))).toString();
-			this.getDiamond = Fun.formatNumberUnit(Math.floor(WaveRewardInfo.getInfo(this.levelcount).diamond_daily * Math.floor(this.duration / 60) / 10)).toString();
+			this.getDiamond = Fun.formatNumberUnit(Math.floor(WaveRewardInfo.getInfo(this.levelcount).diamond_daily * Math.floor(this.duration / 60 / 10))).toString();
 			this.m_tip2.setVar("time", Fun.formatTime(this.duration)).setVar("count", this.getGold).setVar("count2", this.getDiamond).flushVars();
 		}
 	}

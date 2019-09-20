@@ -6,6 +6,8 @@ import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import SpriteKey from "../../SpriteKey";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroItem2 extends fui_HeroItem2 {
@@ -71,6 +73,7 @@ export default class UI_HeroItem2 extends fui_HeroItem2 {
 				Game.redTip.showRedTip(this, this.id);
 				if (Game.playData.guideIndex == GuideType.ShowHeroListOver) {
 					Game.playData.guideIndex = GuideType.showHeroItem;
+					EventManager.event(EventKey.SHOW_WAIT);
 					setTimeout(() => {
 						let poss = this.localToGlobalRect(0, 0, this.width, this.height);
 						let yy = Game.scenes.y >= 0 ? 0 : Game.scenes.y * -1;

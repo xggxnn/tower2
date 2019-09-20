@@ -149,4 +149,21 @@ export default class EventKey {
     public static get GUIDE_PLAY_SKILL(): string {
         return "GUIDE_PLAY_SKILL";
     }
+    // 选择每日挑战的关卡
+    public static get DAYFIGHTSELECT(): string {
+        return "DAYFIGHTSELECT";
+    }
+
+    // 激励视频广告播放成功，发放奖励
+    public static get REWARDED_VIDEO_AD_YES(): string {
+        return "REWARDED_VIDEO_AD_YES";
+    }
+    // 播放中途退出，不下发游戏奖励
+    public static get REWARDED_VIDEO_AD_CLOSE(): string {
+        return "REWARDED_VIDEO_AD_CLOSE";
+    }
+    // 无广告
+    public static get REWARDED_VIDEO_AD_NO(): string {
+        return "REWARDED_VIDEO_AD_NO";
+    }
 }

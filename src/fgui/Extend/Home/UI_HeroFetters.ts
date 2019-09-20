@@ -6,10 +6,9 @@ import Fun from "../../../tool/Fun";
 import Association from "../../../gamemodule/DataStructs/Association";
 import UI_ItemIcon from "../System/UI_ItemIcon";
 import AssociationAttributeInfo from "../../../csvInfo/AssociationAttributeInfo";
-import AssociationCareerInfo from "../../../csvInfo/AssociationCareerInfo";
-import AssociationRaceInfo from "../../../csvInfo/AssociationRaceInfo";
-import AssociationSpecialInfo from "../../../csvInfo/AssociationSpecialInfo";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
+import EventManager from "../../../tool/EventManager";
+import ProtoEvent from "../../../protobuf/ProtoEvent";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroFetters extends fui_HeroFetters {
@@ -31,6 +30,7 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 		this.m_tuijianbackBtn.onClick(this, this.closeUI);
+		this.m_rewardBtn.onClick(this, this.rewardClick);
 		this.m_bg.onClick(this, this.closeUI);
 		this.m_heroList.setVirtual();
 		this.m_heroList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
@@ -39,6 +39,7 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 
 	// 关闭ui
 	closeUI(): void {
+		Game.playData.fettersInfos = null;
 		if (this.fwindow) {
 			this.fwindow.windowRemoveChild(this);
 		}
@@ -49,69 +50,81 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		this.setData();
+		EventManager.on(ProtoEvent.FETTERREWARD_CALL_BACK, this, this.closeUI);
+		this.showAss(Game.playData.fettersInfos);
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
+		EventManager.offAllCaller(this);
+	}
 
+	private rewardClick(): void {
+		if (Game.playData.unlockAssociationattribute.indexOf(Game.playData.fettersInfos.attribute_id) != -1) {
+			// 已解锁
+			if (Game.playData.associationattribute.indexOf(Game.playData.fettersInfos.attribute_id) == -1) {
+				// 未领奖
+				let data = {
+					id: Game.playData.fettersInfos.attribute_id,
+				}
+				Game.proto.fetterReward(data);
+			}
+			else {
+				// 已领奖
+				this.closeUI();
+			}
+		}
+		else {
+			Game.popup.showPopup(this.m_rewardBtn, false, false, Game.tipTxt.txts("AssociationUnlockTip"));
+		}
+	}
+
+	private showAss(datas: Association): void {
+		this.heroList = [];
+		this.m_typename.text = datas.names + " 羁绊详情";
+		let assList = Game.battleData.assItemWAttid(datas.attribute_id);
+		let str = "";
+		let att1 = AssociationAttributeInfo.getInfo(datas.attribute_id);
+		for (let i = assList.length - 1; i >= 0; i--) {
+			if (datas.pointF > 0) {
+				str += datas.names + "  " + Fun.format(att1.des, assList[i].values) + "\n";
+			}
+			else {
+				str += datas.names + "x" + assList[i].num + "  " + Fun.format(att1.des, assList[i].values) + "\n";
+			}
+		}
+		this.m_tip.text = str;
+
+		for (let i = 1, len = HeroInfoData.getCount(); i <= len; i++) {
+			let hero = HeroInfoData.getInfo(i);
+			if (datas.race > 0 && hero.race == datas.race) {
+				this.heroList.push(hero);
+			}
+			else if (datas.career > 0 && hero.career == datas.career) {
+				this.heroList.push(hero);
+			}
+			else if (datas.pointF > 0 && hero.point_fetters == datas.pointF) {
+				this.heroList.push(hero);
+			}
+		}
+		this.m_heroList.numItems = this.heroList.length;
+		this.m_heroList.scrollToView(0);
+		if (Game.playData.unlockAssociationattribute.indexOf(datas.attribute_id) != -1) {
+			// 已解锁
+			if (Game.playData.associationattribute.indexOf(datas.attribute_id) == -1) {
+				// 未领奖
+				this.m_c1.setSelectedIndex(1);
+			}
+			else {
+				// 已领奖
+				this.m_c1.setSelectedIndex(2);
+			}
+		}
+		else {
+			this.m_c1.setSelectedIndex(0);
+		}
 	}
 
 	private heroList: Array<HeroInfoData> = [];
-	private setData(): void {
-		let hero = HeroInfoData.getInfo(Game.playData.fettersInf.id)
-		this.heroList = [];
-		switch (Number(Game.playData.fettersInf.type)) {
-			case 0:
-				{
-					let names = Association.raceName(hero.race);
-					this.m_typename.text = Fun.format("五行：{0}", names);
-					let str = "";
-					for (let i = 1, len = AssociationRaceInfo.getCount(); i <= len; i++) {
-						let item = AssociationRaceInfo.getInfo(i);
-						if (item.race == hero.race) {
-							let att = AssociationAttributeInfo.getInfo(item.attribute);
-							str += Fun.format("{0} X {1} 触发 ", names, item.num) + Fun.format(att.des, item.value) + "\n";
-						}
-					}
-					this.m_tip.text = str;
-					for (let i = 1, len = HeroInfoData.getCount(); i <= len; i++) {
-						let heros = HeroInfoData.getInfo(i);
-						if (heros.race == hero.race) {
-							this.heroList.push(heros);
-						}
-					}
-				}
-				break;
-			case 1:
-				{
-					let names = Association.careerName(hero.career);
-					this.m_typename.text = Fun.format("门派：{0}", names);
-					let str = "";
-					for (let i = 1, len = AssociationCareerInfo.getCount(); i <= len; i++) {
-						let item = AssociationCareerInfo.getInfo(i);
-						if (item.career == hero.career) {
-							let att = AssociationAttributeInfo.getInfo(item.attribute);
-							str += Fun.format("{0} X {1} 触发 ", names, item.num) + Fun.format(att.des, item.value) + "\n";
-						}
-					}
-					this.m_tip.text = str;
-					for (let i = 1, len = HeroInfoData.getCount(); i <= len; i++) {
-						let heros = HeroInfoData.getInfo(i);
-						if (heros.career == hero.career) {
-							this.heroList.push(heros);
-						}
-					}
-				}
-				break;
-			case 2:
-				this.heroList = Association.pointFetter(hero.point_fetters);
-				let assSpecial = AssociationSpecialInfo.getInfo(hero.point_fetters);
-				this.m_typename.text = Association.attributeIdToName(assSpecial.attribute);
-				this.m_tip.text = Fun.format("{0} 触发 ", "以上英雄同时上阵") + Fun.format(assSpecial.name, assSpecial.value);
-				break;
-		}
-		this.m_heroList.numItems = this.heroList.length;
-	}
 
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {

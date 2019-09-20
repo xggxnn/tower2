@@ -59,7 +59,7 @@ export default class AssociationRaceInfo {
         this._race = parseInt(obj.getValue("race"));
         this._num = parseInt(obj.getValue("num"));
         this._attribute = parseInt(obj.getValue("attribute"));
-        this._value = parseInt(obj.getValue("value"));
+        this._value = Number(obj.getValue("value"));
     }
 
     private _id: number;

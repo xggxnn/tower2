@@ -7,7 +7,6 @@ import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
-import UI_HeroItem from "./UI_HeroItem";
 import { MenuId } from "../../../gamemodule/MenuId";
 import EventKey from "../../../tool/EventKey";
 import LoaderManager from "../../../tool/LoaderManager";
