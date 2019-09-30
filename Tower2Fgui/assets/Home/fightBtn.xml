@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="970,440" extention="Button">
+<component size="704,182" extention="Button">
   <controller name="button" pages="0,up,1,down" selected="0"/>
   <displayList>
-    <loader id="n24_j5ct" name="n24" xy="0,0" size="960,440" url="ui://9xvnuoq0j5ct1s" fill="scaleFree"/>
-    <image id="n41_j5ct" name="n41" src="j5ct15" fileName="pic/chuangguanmask.png" xy="2,0" size="233,433"/>
-    <image id="n30_j5ct" name="n30" src="j5ct1i" fileName="pic/ziyuandi.png" xy="651,20" size="268,140" hideByEditor="true" visible="false"/>
-    <image id="n31_j5ct" name="n31" src="j5ct17" fileName="gold.png" pkg="88du1wab" xy="798,107" size="38,38" hideByEditor="true" aspect="true" visible="false"/>
-    <text id="n32_j5ct" name="reward" xy="839,126" pivot="0,0.5" anchor="true" size="29,31" hideByEditor="true" visible="false" fontSize="24" color="#f0f5ff" vAlign="middle" leading="0" vars="true" text="x{count=0}"/>
-    <text id="n33_j5ct" name="n33" xy="811,125" pivot="1,0.5" anchor="true" size="159,31" hideByEditor="true" visible="false" fontSize="24" color="#f0f5ff" align="right" vAlign="middle" leading="0" autoSize="none" text="可挑战奖励："/>
-    <text id="n34_j5ct" name="n34" xy="18,213" size="151,31" fontSize="24" color="#ffffff" vAlign="middle" leading="0" text="推荐总攻击："/>
-    <richtext id="n35_j5ct" name="fight" xy="18,244" size="150,31" fontSize="24" color="#ffffff" vAlign="middle" leading="0" ubb="true" autoSize="none" text="0"/>
-    <text id="n36_j5ct" name="n36" xy="18,276" size="149,31" fontSize="24" color="#ffffff" vAlign="middle" leading="0" text="推荐总攻速："/>
-    <richtext id="n37_j5ct" name="speed" xy="18,306" size="148,31" fontSize="24" color="#ffffff" vAlign="middle" leading="0" ubb="true" vars="true" autoSize="none" text="{count=1}次/秒"/>
-    <text id="n38_j5ct" name="cur" xy="14,117" size="169,39" fontSize="30" color="#fcae3e" vAlign="middle" leading="0" vars="true" text="当前挑战{map=1}-{level=1}"/>
-    <loader id="n39_j5ct" name="n39" xy="668,33" size="100,47" hideByEditor="true" visible="false" url="ui://9xvnuoq0udz4w" align="center" vAlign="middle" fill="scaleFree"/>
-    <loader id="n40_j5ct" name="n40" xy="30,28" size="105,64" url="ui://9xvnuoq0udz4g" align="center" vAlign="middle" fill="scale"/>
+    <loader id="n24_j5ct" name="n24" xy="0,0" size="704,182" url="ui://9xvnuoq0bcle2a" fill="scaleFree"/>
+    <text id="n34_j5ct" name="n34" xy="197,18" size="125,27" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" text="推荐总攻击："/>
+    <text id="n35_j5ct" name="fight" xy="197,49" size="150,31" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" ubb="true" autoSize="none" text="0"/>
+    <text id="n36_j5ct" name="n36" xy="197,95" size="125,27" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" text="推荐总攻速："/>
+    <text id="n37_j5ct" name="speed" xy="197,125" size="148,31" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" ubb="true" vars="true" autoSize="none" text="{count=1}次/秒"/>
+    <text id="n38_j5ct" name="cur" xy="11,71" size="174,54" fontSize="24" color="#86120d" align="center" vAlign="middle" leading="0" vars="true" autoSize="none" text="当前挑战{map=99}-{level=99}"/>
   </displayList>
   <Button/>
 </component>

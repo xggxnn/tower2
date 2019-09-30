@@ -1,5 +1,6 @@
 import EventManager from "./EventManager";
 import EventKey from "./EventKey";
+import Game from "../Game";
 
 export default class AdsManager {
 
@@ -12,10 +13,20 @@ export default class AdsManager {
             adUnitId: AdsManager.UNIT_VIDEO
         });
         this.videoAd.onLoad(function () {
+            let data = {
+                type: "videoAd",
+                state: 1,
+            }
+            Game.proto.logUpload(data);
             AdsManager.loadState = 1;
         });
         this.videoAd.onError(function (err) {
             console.log("videoAd load error:", err);
+            let data = {
+                type: "videoAd",
+                state: 0,
+            }
+            Game.proto.logUpload(data);
             AdsManager.loadState = 0;
         });
         this.videoAd.onClose(function (res) {
@@ -26,8 +37,18 @@ export default class AdsManager {
             if (res === undefined || (res && res.isEnded)) {
                 // 正常播放结束，可以下发游戏奖励
                 AdsManager.loadState = 0;
+                let data = {
+                    type: "videoAd",
+                    state: 9,
+                }
+                Game.proto.logUpload(data);
                 EventManager.event(EventKey.REWARDED_VIDEO_AD_YES);
             } else {
+                let data = {
+                    type: "videoAd",
+                    state: 10,
+                }
+                Game.proto.logUpload(data);
                 // 播放中途退出，不下发游戏奖励
                 EventManager.event(EventKey.REWARDED_VIDEO_AD_CLOSE);
             }
@@ -59,6 +80,11 @@ export default class AdsManager {
     }
 
     public static show(): void {
+        let data = {
+            type: "videoAd",
+            state: 8,
+        }
+        Game.proto.logUpload(data);
         if (this.videoAd) {
             EventManager.event(EventKey.SHOW_WAIT);
             this.videoAd.show().catch(function (err) {

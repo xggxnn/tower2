@@ -2,7 +2,7 @@
 
 import fui_FightProgress from "./fui_FightProgress";
 import fui_FightTip from "./fui_FightTip";
-import fui_PropBtn from "./fui_PropBtn";
+import fui_SeatBtn from "./fui_SeatBtn";
 
 export default class fui_ArrangementMain extends fairygui.GComponent {
 
@@ -41,15 +41,15 @@ export default class fui_ArrangementMain extends fairygui.GComponent {
 	public m_select1:fairygui.GButton;
 	public m_select2:fairygui.GButton;
 	public m_select3:fairygui.GButton;
-	public m_seat0:fui_PropBtn;
-	public m_seat1:fui_PropBtn;
-	public m_seat2:fui_PropBtn;
-	public m_seat3:fui_PropBtn;
-	public m_seat4:fui_PropBtn;
-	public m_seat5:fui_PropBtn;
-	public m_seat6:fui_PropBtn;
-	public m_seat7:fui_PropBtn;
-	public m_seat8:fui_PropBtn;
+	public m_seat0:fui_SeatBtn;
+	public m_seat1:fui_SeatBtn;
+	public m_seat2:fui_SeatBtn;
+	public m_seat3:fui_SeatBtn;
+	public m_seat4:fui_SeatBtn;
+	public m_seat5:fui_SeatBtn;
+	public m_seat6:fui_SeatBtn;
+	public m_seat7:fui_SeatBtn;
+	public m_seat8:fui_SeatBtn;
 	public m_heroList:fairygui.GList;
 	public m_middle:fairygui.GGroup;
 	public m_associationList:fairygui.GList;
@@ -117,15 +117,15 @@ export default class fui_ArrangementMain extends fairygui.GComponent {
 		this.m_select1 = <fairygui.GButton><any>(this.getChildAt(35));
 		this.m_select2 = <fairygui.GButton><any>(this.getChildAt(36));
 		this.m_select3 = <fairygui.GButton><any>(this.getChildAt(37));
-		this.m_seat0 = <fui_PropBtn><any>(this.getChildAt(38));
-		this.m_seat1 = <fui_PropBtn><any>(this.getChildAt(39));
-		this.m_seat2 = <fui_PropBtn><any>(this.getChildAt(40));
-		this.m_seat3 = <fui_PropBtn><any>(this.getChildAt(41));
-		this.m_seat4 = <fui_PropBtn><any>(this.getChildAt(42));
-		this.m_seat5 = <fui_PropBtn><any>(this.getChildAt(43));
-		this.m_seat6 = <fui_PropBtn><any>(this.getChildAt(44));
-		this.m_seat7 = <fui_PropBtn><any>(this.getChildAt(45));
-		this.m_seat8 = <fui_PropBtn><any>(this.getChildAt(46));
+		this.m_seat0 = <fui_SeatBtn><any>(this.getChildAt(38));
+		this.m_seat1 = <fui_SeatBtn><any>(this.getChildAt(39));
+		this.m_seat2 = <fui_SeatBtn><any>(this.getChildAt(40));
+		this.m_seat3 = <fui_SeatBtn><any>(this.getChildAt(41));
+		this.m_seat4 = <fui_SeatBtn><any>(this.getChildAt(42));
+		this.m_seat5 = <fui_SeatBtn><any>(this.getChildAt(43));
+		this.m_seat6 = <fui_SeatBtn><any>(this.getChildAt(44));
+		this.m_seat7 = <fui_SeatBtn><any>(this.getChildAt(45));
+		this.m_seat8 = <fui_SeatBtn><any>(this.getChildAt(46));
 		this.m_heroList = <fairygui.GList><any>(this.getChildAt(47));
 		this.m_middle = <fairygui.GGroup><any>(this.getChildAt(48));
 		this.m_associationList = <fairygui.GList><any>(this.getChildAt(51));

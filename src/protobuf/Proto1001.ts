@@ -83,6 +83,14 @@ export default class Proto1001 extends Proto {
         if (json.hasOwnProperty("map")) {
             Game.battleMap.init(json.map);
         }
+        Game.playData.unlockLoginInit = Game.playData.unlockIndex;
+        Game.playData.unlockInit = 0;
+        if (Game.localStorage.hasItem("unlock_Init", true)) {
+            let saveInit = Game.localStorage.getInt("unlock_Init", true);
+            if (saveInit >= 8) {
+                Game.playData.unlockInit = saveInit;
+            }
+        }
         // 关卡情况
         if (json.hasOwnProperty("king")) {
             Game.playData.kingSet(json.king);

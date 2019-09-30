@@ -27,6 +27,7 @@ import LoaderManager from "../../../tool/LoaderManager";
 import UI_FightProgress from "./UI_FightProgress";
 import UI_GeneralBtn from "../System/UI_GeneralBtn";
 import AdsManager from "../../../tool/AdsManager";
+import UI_SeatBtn from "./UI_SeatBtn";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ArrangementMain extends fui_ArrangementMain {
@@ -58,15 +59,15 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		// this.m_sortBtn.onClick(this, this.sortHeroList, [false]);
 
 		this.seatList = [];
-		this.seatList.push(this.m_seat0 as UI_PropBtn);
-		this.seatList.push(this.m_seat1 as UI_PropBtn);
-		this.seatList.push(this.m_seat2 as UI_PropBtn);
-		this.seatList.push(this.m_seat3 as UI_PropBtn);
-		this.seatList.push(this.m_seat4 as UI_PropBtn);
-		this.seatList.push(this.m_seat5 as UI_PropBtn);
-		this.seatList.push(this.m_seat6 as UI_PropBtn);
-		this.seatList.push(this.m_seat7 as UI_PropBtn);
-		this.seatList.push(this.m_seat8 as UI_PropBtn);
+		this.seatList.push(this.m_seat0 as UI_SeatBtn);
+		this.seatList.push(this.m_seat1 as UI_SeatBtn);
+		this.seatList.push(this.m_seat2 as UI_SeatBtn);
+		this.seatList.push(this.m_seat3 as UI_SeatBtn);
+		this.seatList.push(this.m_seat4 as UI_SeatBtn);
+		this.seatList.push(this.m_seat5 as UI_SeatBtn);
+		this.seatList.push(this.m_seat6 as UI_SeatBtn);
+		this.seatList.push(this.m_seat7 as UI_SeatBtn);
+		this.seatList.push(this.m_seat8 as UI_SeatBtn);
 
 		// 设置列表渲染函数
 		this.m_associationList.itemRenderer = Laya.Handler.create(this, this.initAssociationItem, null, false);
@@ -96,7 +97,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 
 
-	private seatList: Array<UI_PropBtn> = [];
+	private seatList: Array<UI_SeatBtn> = [];
 
 	private helpClick(): void {
 		Game.tipWin.showTip(Game.tipTxt.txts("SuggestPowerTip"), false, null, null, "确定", "", 0);
@@ -272,8 +273,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 
 	private openUpLevel(): void {
-		if (Game.playData.guideIndex == GuideType.FightReady) return;
-		if (Game.playData.guideIndex == GuideType.SnythHeroOver) return;
+		// if (Game.playData.guideIndex == GuideType.FightReady) return;
+		// if (Game.playData.guideIndex == GuideType.SnythHeroOver) return;
+		if (Game.playData.guideIndex < GuideType.fiveUpLvelNext) return;
 		this.moduleWindow.createUpLevelUI();
 	}
 
@@ -360,6 +362,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 				clearTimeout(this.mouseupTimeout);
 			}, 10);
 		}
+		// Game.battleData.seatBtn = null;
 		Game.battleData.sUpdateDragHeroOver.dispatch();
 	}
 	private mouseupTimeout: number = -1;
@@ -729,9 +732,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 				}, 1000);
 			}
 			else if (Game.playData.guideIndex == GuideType.fiveWin) {
-				Game.playData.guideIndex = GuideType.fiveUpLvelNext;
 				EventManager.event(EventKey.SHOW_WAIT);
 				setTimeout(() => {
+					Game.playData.guideIndex = GuideType.fiveUpLvelNext;
 					this.moduleWindow.createGuideUI(this.m_levelUpBtn, new Laya.Point(this.m_levelUpBtn.x, this.m_levelUpBtn.y), Laya.Handler.create(this, this.openUpLevel), Game.tipTxt.fiveUpLevel, LocationType.Left);
 				}, 1000);
 			}

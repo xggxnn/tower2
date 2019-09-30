@@ -33,6 +33,7 @@
     <image id="9mhx52i" name="waveBg_2.png" path="/pic/"/>
     <image id="9mhx52j" name="waveBg_3.png" path="/pic/"/>
     <image id="9mhx52k" name="title_4.png" path="/pic/"/>
+    <image id="bcle52l" name="unlock.png" path="/pic/" scale="9grid" scale9grid="0,35,164,2"/>
   </resources>
   <publish name="Menus" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

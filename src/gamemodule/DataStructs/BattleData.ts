@@ -22,6 +22,8 @@ import AssociationAttributeInfo from "../../csvInfo/AssociationAttributeInfo";
 import WaveRewardInfo from "../../csvInfo/WaveRewardInfo";
 import TypedSignal from "../../tool/TypedSignal";
 import HeroInfoData from "./HeroInfoData";
+import BattleMapEnemy from "./BattleMapEnemy";
+import UI_SeatBtn from "../../fgui/Extend/Arrangement/UI_SeatBtn";
 
 export default class BattleData {
 
@@ -40,29 +42,26 @@ export default class BattleData {
     }
 
     /*******************关卡相关**************************/
+    // 生成敌人
+    private createEnemy(): void {
+        if (Game.battleMap.curBattleEnemyListNumber.length > 0) {
+            if (Game.battleMap.curBattleEnemyDic.hasKey(Game.battleMap.curBattleEnemyListNumber[0])) {
+                let item: BattleMapEnemy = Game.battleMap.curBattleEnemyDic.getValue(Game.battleMap.curBattleEnemyListNumber[0]);
+                if (item.curTime <= Game.battleMap.curTime) {
+                    Game.battleScene.createEnemy(item.enemy.initPos, item.isboss, item.enemy);
+                    Game.battleMap.curBattleEnemyListNumber.shift();
+                    this.countdown.dispatch();
+                }
+            }
+        }
+    }
 
     public update(): void {
         if (Game.gameStatus != GameStatus.Gaming) return;
-        Game.battleMap.curTime++;
-        this.countdown.dispatch();
         if (Game.battleMap.curTime < Game.battleMap.waveTime) {
-            if (Game.battleMap.curTime >= Game.battleMap.nextCD) {
-                Game.battleMap.enemyInf();
-                if (Game.battleMap.nextMonster != null) {
-                    // 生成怪物
-                    let dataInf = new EnemyData();
-                    dataInf.monsterInf = Game.battleMap.nextMonster;
-                    dataInf.initPos = Game.battleMap.levelWave % 2;
-                    Game.battleScene.createEnemy(dataInf.initPos, false, dataInf);
-                }
-                if (Game.battleMap.bossInfo != null) {
-                    // 生成boss
-                    let dataInf2 = new EnemyData();
-                    dataInf2.monsterInf = Game.battleMap.bossInfo
-                    dataInf2.initPos = Game.battleMap.levelWave % 2;
-                    Game.battleScene.createEnemy(dataInf2.initPos, true, dataInf2);
-                }
-            }
+            this.createEnemy();
+            // 如果存在boss，此处生效
+            this.createEnemy();
         }
         else {
             if (Game.battleScene.enemyList.length == 0) {
@@ -72,6 +71,37 @@ export default class BattleData {
                 }
             }
         }
+        Game.battleMap.curTime++;
+
+
+        // this.countdown.dispatch();
+        // if (Game.battleMap.curTime < Game.battleMap.waveTime) {
+        //     if (Game.battleMap.curTime >= Game.battleMap.nextCD) {
+        //         Game.battleMap.enemyInf();
+        //         if (Game.battleMap.nextMonster != null) {
+        //             // 生成怪物
+        //             let dataInf = new EnemyData();
+        //             dataInf.monsterInf = Game.battleMap.nextMonster;
+        //             dataInf.initPos = Game.battleMap.levelWave % 2;
+        //             Game.battleScene.createEnemy(dataInf.initPos, false, dataInf);
+        //         }
+        //         if (Game.battleMap.bossInfo != null) {
+        //             // 生成boss
+        //             let dataInf2 = new EnemyData();
+        //             dataInf2.monsterInf = Game.battleMap.bossInfo
+        //             dataInf2.initPos = Game.battleMap.levelWave % 2;
+        //             Game.battleScene.createEnemy(dataInf2.initPos, true, dataInf2);
+        //         }
+        //     }
+        // }
+        // else {
+        //     if (Game.battleScene.enemyList.length == 0) {
+        //         if (Game.battleMap.curTime >= Game.battleMap.waveTime + 60) {
+        //             Game.battleMap.curTime = Game.battleMap.waveTime * Game.battleMap.waveTime;
+        //             EventManager.event(EventKey.GAMEWIN);
+        //         }
+        //     }
+        // }
     }
 
     /*******************英雄相关**************************/
@@ -105,11 +135,11 @@ export default class BattleData {
         this._seatPos = v;
     }
     // 拖拽前的按钮
-    private _seatBtn: UI_PropBtn = null;
-    public get seatBtn(): UI_PropBtn {
+    private _seatBtn: UI_SeatBtn = null;
+    public get seatBtn(): UI_SeatBtn {
         return this._seatBtn;
     }
-    public set seatBtn(v: UI_PropBtn) {
+    public set seatBtn(v: UI_SeatBtn) {
         this._seatBtn = v;
     }
 

@@ -6,11 +6,11 @@
     <loader id="n0_nn3i" name="bg" xy="0,0" size="1280,960" alpha="0.8" url="ui://130tmfxdopk1o" fill="scaleFree">
       <relation target="" sidePair="width-width,height-height"/>
     </loader>
-    <loader id="n37_gc5l" name="n37" xy="182,172" size="903,643" url="ui://130tmfxdudz4m" fill="scaleFree"/>
-    <image id="n38_gc5l" name="n38" src="udz4k" fileName="pic/xiangyunzhuangshi01.png" pkg="130tmfxd" xy="142,161" size="984,100"/>
+    <loader id="n37_gc5l" name="n37" xy="182,172" size="903,643" url="ui://130tmfxdajdp54c" fill="scaleFree"/>
+    <image id="n38_gc5l" name="n38" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="186,176"/>
     <image id="n39_gc5l" name="n39" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="197,261" size="875,415"/>
-    <component id="n40_gc5l" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="175,169"/>
-    <text id="n2_nn3i" name="heroname" xy="639,202" pivot="0.5,0.5" anchor="true" size="170,50" fontSize="40" color="#663300" align="center" vAlign="middle" bold="true" singleLine="true" text="英雄名称"/>
+    <component id="n40_gc5l" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="182,173"/>
+    <loader id="n2_nn3i" name="heroname" xy="639,220" pivot="0.5,0.5" anchor="true" size="169,50" url="ui://88du1wabajdp55x" align="center" vAlign="middle" fill="scale" shrinkOnly="true" playing="false"/>
     <image id="n42_gc5l" name="n42" src="gc5lq" fileName="pic/dizuo.png" pkg="130tmfxd" xy="205,411"/>
     <image id="n41_gc5l" name="n41" src="gc5lp" fileName="pic/diguang.png" pkg="130tmfxd" xy="214,304"/>
     <loader id="n3_nn3i" name="icons" xy="344,522" pivot="0.5,1" anchor="true" size="203,227" align="center" vAlign="middle"/>
@@ -37,7 +37,7 @@
     <component id="n46_gc5l" name="gainmethod" src="og7810" fileName="GeneralBtns.xml" xy="489,686" size="300,108" controller="bgColor,1">
       <Button title="合成（[color=#ff0000]90/90[/color]）" titleColor="#f3e9d5" titleFontSize="30"/>
     </component>
-    <component id="n48_qrw0" name="help" src="qrw053u" fileName="Help.xml" pkg="130tmfxd" xy="1032,754"/>
+    <component id="n48_qrw0" name="help" src="qrw053u" fileName="Help.xml" pkg="130tmfxd" xy="843,186"/>
     <component id="n49_qyum" name="upQuality" src="og7810" fileName="GeneralBtns.xml" xy="489,686" size="300,108" controller="bgColor,0">
       <gearDisplay controller="up" pages="1"/>
       <Button title="提升品质(90/90)" titleColor="#f3e9d5" titleFontSize="30"/>

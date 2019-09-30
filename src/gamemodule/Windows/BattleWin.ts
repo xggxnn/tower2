@@ -20,6 +20,7 @@ import UI_AddSpeedBtn from "../../fgui/Extend/Battle/UI_AddSpeedBtn";
 import UI_HeroIcon6060 from "../../fgui/Extend/Battle/UI_HeroIcon6060";
 import HeroInfoData from "../DataStructs/HeroInfoData";
 import UI_CloudCom from "../../fgui/Extend/Battle/UI_CloudCom";
+import UI_EnemyItem from "../../fgui/Extend/Battle/UI_EnemyItem";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class BattleWin extends FWindow {
 
@@ -60,6 +61,7 @@ export default class BattleWin extends FWindow {
 		this.addAssetForFguiComponent(UI_AddSpeedBtn);
 		this.addAssetForFguiComponent(UI_HeroIcon6060);
 		this.addAssetForFguiComponent(UI_CloudCom);
+		this.addAssetForFguiComponent(UI_EnemyItem);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_BattleMain.createInstance();

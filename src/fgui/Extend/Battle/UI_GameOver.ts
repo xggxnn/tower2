@@ -12,8 +12,8 @@ import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
-import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import { FightType } from "../../../gamemodule/DataEnums/FightType";
+import UnlockInfo from "../../../csvInfo/UnlockInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_GameOver extends fui_GameOver {
@@ -64,6 +64,16 @@ export default class UI_GameOver extends fui_GameOver {
 		Game.battleData.MenuEnterDay = false;
 		Game.menu.open(MenuId.Arrange);
 	}
+	private unlockFuns(): void {
+		this.closeUI();
+		if (Game.playData.unlockInit == 6) {
+			Game.playData.unlockInit = 7;
+			Game.menu.open(MenuId.MenuSelect);
+		}
+		else {
+			Game.menu.open(MenuId.Home);
+		}
+	}
 
 	setData(): void {
 		EventManager.event(EventKey.SHOW_UI_WAIT);
@@ -101,9 +111,30 @@ export default class UI_GameOver extends fui_GameOver {
 			Game.proto.passWave(data);
 		}
 	}
+	private unlockFun: boolean = false;
 	private tick: Tick = null;
 	private showResult(): void {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		// 添加解锁功能icon
+		this.unlockFun = false;
+		if (Game.gameStatus == GameStatus.Win && !Game.battleData.MenuEnterDay) {
+			let index = Game.playData.unlockLoginInit;
+			if (Game.playData.unlockInit > 0) {
+				index = Game.playData.unlockInit;
+			}
+			let unlock = UnlockInfo.getInfo(index + 1);
+			if (unlock) {
+				if (unlock.mapId == Game.battleMap.maxMapId - 1) {
+					for (let i = 0, len = unlock.unLock.length; i < len; i++) {
+						let item: RewardItem = new RewardItem();
+						item.funIndex = unlock.unLock[i];
+						Game.battleData.fight_result.push(item);
+						this.unlockFun = true;
+					}
+				}
+			}
+		}
+
 		if (Game.gameStatus == GameStatus.Win && Game.battleData.fight_result.length > 0) {
 			for (let i = 0, len = Game.battleData.fight_result.length; i < len; i++) {
 				let item: RewardItem = Game.battleData.fight_result[i];
@@ -137,6 +168,7 @@ export default class UI_GameOver extends fui_GameOver {
 			Game.tick.clearTick(this.tick);
 			this.tick = null;
 		}
+		this.m_gainBtn.title = "继续闯关";
 		this.m_gainBtn.visible = true;
 		if (Game.battleData.MenuEnterDay) {
 			this.m_synthBtn.visible = false;
@@ -152,65 +184,69 @@ export default class UI_GameOver extends fui_GameOver {
 			this.m_upLevelBtn.visible = false;
 		}
 		this.scrolltoViewHeroId = 0;
-		// 英雄碎片确定合成按钮是否显示
-		for (let i = 0, len = Game.battleData.fight_result.length; i < len; i++) {
-			let item: RewardItem = Game.battleData.fight_result[i];
-			if (item.isClips) {
-				let heroId = item.itemId - 11;
-				let heroInf = HeroInfoData.getInfo(heroId);
-				let Clips = Game.playData.curClips.getValue(heroId);
-				let heroQuality = HeroqualityInfo.getInfoQuality(heroInf.quality);
-				if (Game.playData.curHeroInfoList.hasKey(heroId)) {
-					// 已经存在的英雄
-					if (heroInf.quality < 5) {
+		if (this.unlockFun) {
+			if (Game.playData.guideIndex >= GuideType.sixStartFive && Game.playData.guideIndex < GuideType.sevenStartFive) {
+				Game.playData.guideIndex = GuideType.sevenStartFive;
+			}
+			this.m_gainBtn.title = "解锁功能";
+			EventManager.event(EventKey.SHOW_WAIT);
+			this.moduleWindow.createGuideUI(this.m_gainBtn, new Laya.Point(this.m_gainBtn.x, this.m_gainBtn.y), Laya.Handler.create(this, this.unlockFuns), "你有新的功能可解锁！", LocationType.Upper);
+		}
+		else {
+			// 英雄碎片确定合成按钮是否显示
+			for (let i = 0, len = Game.battleData.fight_result.length; i < len; i++) {
+				let item: RewardItem = Game.battleData.fight_result[i];
+				if (item.isClips) {
+					let heroId = item.itemId - 11;
+					let heroInf = HeroInfoData.getInfo(heroId);
+					let Clips = Game.playData.curClips.getValue(heroId);
+					if (Game.playData.curHeroInfoList.hasKey(heroId)) {
 						// 判断是否能提升品质
-						if (heroQuality.clip_hero <= Clips) {
+						if (Game.redData.checkHeroCanUpQuality(heroInf)) {
 							this.m_synthBtn.title = "提升品质";
 							this.m_synthBtn.visible = true;
 							this.scrolltoViewHeroId = heroId;
 						}
-					}
-					else {
-						// 判断是否能洗属性
-						if (Game.playData.curLevel < 50) {
-							this.m_synthBtn.visible = false;
-						}
 						else {
-							if (heroQuality.clip_hero <= Clips) {
-								this.m_synthBtn.title = "洗属性";
-								this.m_synthBtn.visible = true;
-								this.scrolltoViewHeroId = heroId;
+							// 判断是否能洗属性
+							if (Game.playData.curLevel < 50) {
+								this.m_synthBtn.visible = false;
+							}
+							else {
+								if (Game.redData.requestClips(heroInf, true) <= Clips) {
+									this.m_synthBtn.title = "洗属性";
+									this.m_synthBtn.visible = true;
+									this.scrolltoViewHeroId = heroId;
+								}
 							}
 						}
 					}
-				}
-				else {
-					if (heroQuality && Clips >= heroQuality.clip_hero) {
-						this.m_synthBtn.title = "合成英雄";
-						this.m_synthBtn.visible = true;
-						this.scrolltoViewHeroId = heroId;
+					else {
+						if (Clips >= Game.redData.requestClips(heroInf, true)) {
+							this.m_synthBtn.title = "合成英雄";
+							this.m_synthBtn.visible = true;
+							this.scrolltoViewHeroId = heroId;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
-		if (Game.gameStatus == GameStatus.Win) {
-			if (Game.playData.guideIndex <= GuideType.CastSkillOver) {
-				Game.playData.guideIndex = GuideType.Win;
-				let xx = this.m_rewardList.x + 149 * 2 + 40;
-				let yy = this.m_rewardList.y;
-				EventManager.event(EventKey.SHOW_WAIT);
-				this.moduleWindow.createGuideUI(this.m_rewardList.getChildAt(0) as UI_HeroIcon, new Laya.Point(xx, yy), Laya.Handler.create(this, this.synNext), Game.tipTxt.txts("Guide6"));
-			}
-			else if (Game.playData.guideIndex == GuideType.fiveStartFive || Game.playData.guideIndex == GuideType.fiveMoveHeroSeat2 || Game.playData.guideIndex == GuideType.fiveMoveHeroSeat) {
-				Game.playData.guideIndex = GuideType.fiveWin;
-				EventManager.event(EventKey.SHOW_WAIT);
-				this.moduleWindow.createGuideUI(this.m_upLevelBtn, new Laya.Point(this.m_upLevelBtn.x, this.m_upLevelBtn.y), Laya.Handler.create(this, this.clickUpLevelBtn), Game.tipTxt.clickUpLevelBtn, LocationType.Left);
-			}
-			else if (Game.playData.guideIndex == GuideType.sixStartFive) {
-				Game.playData.guideIndex++;
-				EventManager.event(EventKey.SHOW_WAIT);
-				this.moduleWindow.createGuideUI(this.m_gainBtn, new Laya.Point(this.m_gainBtn.x, this.m_gainBtn.y), Laya.Handler.create(this, this.gainClick), Game.tipTxt.clickGoldBtn, LocationType.Left);
+			if (Game.gameStatus == GameStatus.Win) {
+				if (Game.playData.guideIndex <= GuideType.CastSkillOver) {
+					Game.playData.guideIndex = GuideType.Win;
+					let xx = this.m_rewardList.x + 149 * 2 + 40;
+					let yy = this.m_rewardList.y;
+					EventManager.event(EventKey.SHOW_WAIT);
+					this.moduleWindow.createGuideUI(this.m_rewardList.getChildAt(0) as UI_HeroIcon, new Laya.Point(xx, yy), Laya.Handler.create(this, this.synNext), Game.tipTxt.txts("Guide6"));
+				}
+				else if (Game.playData.guideIndex == GuideType.fiveStartFive || Game.playData.guideIndex == GuideType.fiveMoveHeroSeat2 || Game.playData.guideIndex == GuideType.fiveMoveHeroSeat) {
+					Game.playData.guideIndex = GuideType.fiveWin;
+					EventManager.event(EventKey.SHOW_WAIT);
+					this.moduleWindow.createGuideUI(this.m_upLevelBtn, new Laya.Point(this.m_upLevelBtn.x, this.m_upLevelBtn.y), Laya.Handler.create(this, this.clickUpLevelBtn), Game.tipTxt.clickUpLevelBtn, LocationType.Left);
+				}
+				else if (Game.playData.guideIndex >= GuideType.sixStartFive && Game.playData.guideIndex < GuideType.sevenStartFive) {
+					Game.playData.guideIndex = GuideType.sevenStartFive;
+				}
 			}
 		}
 	}

@@ -8,7 +8,7 @@ export default class fui_HeroInfo extends fairygui.GComponent {
 	public m_up:fairygui.Controller;
 	public m_bg:fairygui.GLoader;
 	public m_closeBtn:fairygui.GButton;
-	public m_heroname:fairygui.GTextField;
+	public m_heroname:fairygui.GLoader;
 	public m_icons:fairygui.GLoader;
 	public m_atk:fairygui.GTextField;
 	public m_atkspeed:fairygui.GTextField;
@@ -46,7 +46,7 @@ export default class fui_HeroInfo extends fairygui.GComponent {
 		this.m_up = this.getControllerAt(1);
 		this.m_bg = <fairygui.GLoader><any>(this.getChildAt(0));
 		this.m_closeBtn = <fairygui.GButton><any>(this.getChildAt(4));
-		this.m_heroname = <fairygui.GTextField><any>(this.getChildAt(5));
+		this.m_heroname = <fairygui.GLoader><any>(this.getChildAt(5));
 		this.m_icons = <fairygui.GLoader><any>(this.getChildAt(8));
 		this.m_atk = <fairygui.GTextField><any>(this.getChildAt(9));
 		this.m_atkspeed = <fairygui.GTextField><any>(this.getChildAt(10));

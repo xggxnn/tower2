@@ -127,7 +127,7 @@ export default class UI_SurroundMain extends fui_SurroundMain {
 				break;
 			case 1:
 				{
-					this.m_kinglist.numItems = KingInfo.getCount();
+					this.m_kinglist.numItems = KingInfo.getCount() - 9;
 					this.m_kinglist.scrollToView(Game.redData.kingRedIndex);
 				}
 				break;

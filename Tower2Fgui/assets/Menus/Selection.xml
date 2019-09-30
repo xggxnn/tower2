@@ -2,7 +2,10 @@
 <component size="80,80">
   <controller name="status" exported="true" pages="0,none,1,fighting,2,progress,3,complete,4,day" selected="0"/>
   <controller name="starNum" exported="true" pages="0,,1,,2,,3,,4,,5," selected="0"/>
-  <controller name="forward" exported="true" pages="0,,1,,2,,3,,4," selected="4"/>
+  <controller name="forward" exported="true" pages="0,,1,,2,,3,,4," selected="0"/>
+  <controller name="unlockstatus" pages="0,,1," selected="0"/>
+  <controller name="redTip" pages="0,,1," selected="0"/>
+  <controller name="starMax" pages="0,,1,,2,,3,,4,,5," selected="0"/>
   <displayList>
     <image id="n33_9mhx" name="n33" src="c8j351y" fileName="pic/road1.png" xy="-157,-36">
       <gearDisplay controller="forward" pages="1"/>
@@ -17,56 +20,66 @@
       <gearDisplay controller="forward" pages="4"/>
     </image>
     <component id="n0_ngrs" name="selBtn" src="udz4h" fileName="selectionBtn.xml" xy="-50,-30" locked="true" controller="pic,0,bgStatus,3"/>
-    <image id="n2_ngrs" name="n2" src="qvb6549" fileName="pic/dikuang.png" pkg="130tmfxd" xy="-5,78" size="230,60" scale="0.5,0.5">
+    <image id="n2_ngrs" name="n2" src="qvb6549" fileName="pic/dikuang.png" pkg="130tmfxd" xy="52,93" pivot="0.5,0.5" anchor="true" size="230,60" scale="0.5,0.5">
       <gearDisplay controller="status" pages="2,4"/>
     </image>
-    <loader id="n10_qvb6" name="comquality" xy="13,75" size="70,70" locked="true" aspect="true" url="ui://88du1wabczuw53l" fill="scale">
+    <loader id="n10_qvb6" name="comquality" xy="13,51" size="70,70" locked="true" aspect="true" url="ui://88du1wabczuw53l" fill="scale">
       <gearDisplay controller="status" pages="3"/>
     </loader>
-    <loader id="n13_qvb6" name="n13" xy="22,84" size="52,52" locked="true" aspect="true" url="ui://pdzut3twqvb6526" fill="scale">
+    <loader id="n13_qvb6" name="n13" xy="22,60" size="52,52" locked="true" aspect="true" url="ui://pdzut3twqvb6526" fill="scale">
       <gearDisplay controller="status" pages="3"/>
     </loader>
     <image id="n14_qvb6" name="n14" src="qvb6527" fileName="pic/tansuo.png" xy="-27,76" locked="true">
       <gearDisplay controller="status" pages="3"/>
     </image>
-    <image id="n15_qvb6" name="comMask" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="18,80" size="60,60" locked="true" alpha="0.8" fillMethod="radial360" fillClockwise="false" fillAmount="79">
+    <image id="n15_qvb6" name="comMask" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="18,56" size="60,60" locked="true" alpha="0.8" fillMethod="radial360" fillClockwise="false" fillAmount="79">
       <gearDisplay controller="status" pages="3"/>
     </image>
-    <text id="n8_ngrs" name="comtime" xy="48,111" pivot="0.5,0.5" anchor="true" size="57,18" locked="true" font="ui://130tmfxdj8q220" fontSize="4" color="#51fc55" vAlign="middle" text="2h30m">
+    <text id="n8_ngrs" name="comtime" xy="48,87" pivot="0.5,0.5" anchor="true" size="57,18" locked="true" font="ui://130tmfxdj8q220" fontSize="4" color="#51fc55" vAlign="middle" text="2h30m">
       <gearDisplay controller="status" pages="3"/>
     </text>
     <image id="n26_qvb6" name="n26" src="qvb6523" fileName="pic/goldDi.png" xy="-51,56">
       <gearDisplay controller="status" pages="2"/>
     </image>
-    <image id="n16_qvb6" name="n16" src="qvb6525" fileName="pic/staran.png" xy="2,81">
+    <image id="n16_qvb6" name="n16" src="qvb6525" fileName="pic/staran.png" xy="14,92" pivot="0.5,0.5" anchor="true">
       <gearDisplay controller="status" pages="2,4"/>
+      <gearXY controller="starMax" pages="0,1,2,3,4,5" values="14,92|52,92|37,92|28,92|19,92|14,92"/>
     </image>
-    <image id="n17_qvb6" name="n17" src="qvb6525" fileName="pic/staran.png" xy="21,81">
+    <image id="n17_qvb6" name="n17" src="qvb6525" fileName="pic/staran.png" xy="33,92" pivot="0.5,0.5" anchor="true">
       <gearDisplay controller="status" pages="2,4"/>
+      <gearXY controller="starMax" pages="0,1,2,3,4,5" values="33,92|53,92|63,92|53,92|42,92|33,92"/>
     </image>
-    <image id="n18_qvb6" name="n18" src="qvb6525" fileName="pic/staran.png" xy="41,81">
+    <image id="n18_qvb6" name="n18" src="qvb6525" fileName="pic/staran.png" xy="53,92" pivot="0.5,0.5" anchor="true">
       <gearDisplay controller="status" pages="2,4"/>
+      <gearXY controller="starMax" pages="0,1,2,3,4,5" values="53,92|52,92|37,92|77,92|65,92|53,92"/>
     </image>
-    <image id="n19_qvb6" name="n19" src="qvb6525" fileName="pic/staran.png" xy="61,81">
+    <image id="n19_qvb6" name="n19" src="qvb6525" fileName="pic/staran.png" xy="73,92" pivot="0.5,0.5" anchor="true">
       <gearDisplay controller="status" pages="2,4"/>
+      <gearXY controller="starMax" pages="0,1,2,3,4,5" values="73,92|53,92|63,92|28,92|88,92|73,92"/>
     </image>
-    <image id="n20_qvb6" name="n20" src="qvb6525" fileName="pic/staran.png" xy="81,81">
+    <image id="n20_qvb6" name="n20" src="qvb6525" fileName="pic/staran.png" xy="93,92" pivot="0.5,0.5" anchor="true">
       <gearDisplay controller="status" pages="2,4"/>
+      <gearXY controller="starMax" pages="0,1,2,3,4,5" values="93,92|53,92|37,92|77,92|88,92|93,92"/>
     </image>
-    <image id="n21_qvb6" name="n21" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="12,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
-      <gearDisplay controller="starNum" pages="1,2,3,4,5"/>
-    </image>
-    <image id="n22_qvb6" name="n22" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="33,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
-      <gearDisplay controller="starNum" pages="2,3,4,5"/>
-    </image>
-    <image id="n23_qvb6" name="n23" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="53,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
-      <gearDisplay controller="starNum" pages="3,4,5"/>
-    </image>
-    <image id="n24_qvb6" name="n24" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="73,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
-      <gearDisplay controller="starNum" pages="4,5"/>
-    </image>
-    <image id="n25_qvb6" name="n25" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="93,91" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+    <image id="n25_qvb6" name="n25" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="92,92" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
       <gearDisplay controller="starNum" pages="5"/>
+      <gearXY controller="starMax" default="92,92"/>
+    </image>
+    <image id="n24_qvb6" name="n24" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="72,92" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="4,5"/>
+      <gearXY controller="starMax" pages="4" values="87,92" default="72,92"/>
+    </image>
+    <image id="n23_qvb6" name="n23" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="53,92" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="3,4,5"/>
+      <gearXY controller="starMax" pages="0,4,5" values="53,92|64,92|53,92" default="77,92"/>
+    </image>
+    <image id="n22_qvb6" name="n22" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="32,92" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="2,3,4,5"/>
+      <gearXY controller="starMax" pages="0,3,4,5" values="32,92|52,92|41,92|32,92" default="63,92"/>
+    </image>
+    <image id="n21_qvb6" name="n21" src="gc5l2d" fileName="star1.png" pkg="88du1wab" xy="13,92" pivot="0.5,0.5" anchor="true" size="24,23" aspect="true">
+      <gearDisplay controller="starNum" pages="1,2,3,4,5"/>
+      <gearXY controller="starMax" pages="1,2,3,4" values="52,92|38,92|27,92|19,92" default="13,92"/>
     </image>
     <image id="n27_qvb6" name="n27" src="j5ct17" fileName="gold.png" pkg="88du1wab" xy="-47,58">
       <gearDisplay controller="status" pages="2"/>
@@ -90,5 +103,15 @@
       <gearDisplay controller="status" pages="4"/>
       <gearLook controller="starNum" pages="0,1,2,3,4" values="0,0,0,1|0,0,0,1|0,0,0,1|0,0,0,1|0,0,0,1" default="1,0,0,1"/>
     </image>
+    <image id="n37_bcle" name="n37" src="bcle52l" fileName="pic/unlock.png" xy="-38,45" size="164,56">
+      <gearDisplay controller="unlockstatus" pages="1"/>
+      <relation target="n38_bcle" sidePair="bottomext-bottom"/>
+    </image>
+    <text id="n38_bcle" name="unlock" xy="-19,68" size="125,27" fontSize="20" color="#f9f3d2" align="center" autoSize="height" text="解锁征服之路">
+      <gearDisplay controller="unlockstatus" pages="1"/>
+    </text>
+    <component id="n39_bcle" name="n39" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="93,0">
+      <gearDisplay controller="redTip" pages="1"/>
+    </component>
   </displayList>
 </component>

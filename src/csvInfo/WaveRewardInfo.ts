@@ -80,6 +80,7 @@ export default class WaveRewardInfo {
         this._diamond_daily = parseInt(obj.getValue("diamond_daily"));
         this._coin_challenge = parseInt(obj.getValue("coin_challenge"));
         this._jade = parseInt(obj.getValue("jade"));
+        this._jadechallenge = parseInt(obj.getValue("jade_challenge"));
         this._dust_challengedone = parseInt(obj.getValue("dust_challengedone"));
         this._dusttime = parseInt(obj.getValue("dusttime"));
         this._dustmintime = parseInt(obj.getValue("dustmintime"));
@@ -193,6 +194,11 @@ export default class WaveRewardInfo {
     private _jade: number;
     public get jade(): number {
         return this._jade;
+    }
+
+    private _jadechallenge: number;
+    public get jadechallenge(): number {
+        return this._jadechallenge;
     }
 
     private _dust_challengedone: number;

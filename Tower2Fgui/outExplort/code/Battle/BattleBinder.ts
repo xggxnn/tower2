@@ -1,5 +1,6 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
+import fui_EnemyItem from "./fui_EnemyItem";
 import fui_cloudBig from "./fui_cloudBig";
 import fui_cloudSmall from "./fui_cloudSmall";
 import fui_CloudCom from "./fui_CloudCom";
@@ -22,6 +23,7 @@ import fui_bagua from "./fui_bagua";
 
 export default class BattleBinder{
 	public static bindAll():void {
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_EnemyItem.URL, fui_EnemyItem);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_cloudBig.URL, fui_cloudBig);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_cloudSmall.URL, fui_cloudSmall);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_CloudCom.URL, fui_CloudCom);

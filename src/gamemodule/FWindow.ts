@@ -110,14 +110,19 @@ export default class FWindow extends fairygui.Window {
 		}
 	}
 
-	closeOtherWindow(): void {
+	closeOtherWindow(closeHome: boolean = false): void {
 		let list: MenuCtl[] = Game.menu.dict.getValues();
 		for (let i = list.length - 1; i >= 0; i--) {
 			let ctl = list[i];
-			if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load || ctl.menuId == MenuId.Battle || ctl.menuId == this.menuId) {
-				continue;
+			if (closeHome && ctl.menuId == MenuId.Home) {
+				ctl.close();
 			}
-			ctl.close();
+			else {
+				if (ctl.menuId == MenuId.Home || ctl.menuId == MenuId.Load || ctl.menuId == MenuId.Battle || ctl.menuId == this.menuId) {
+					continue;
+				}
+				ctl.close();
+			}
 		}
 	}
 

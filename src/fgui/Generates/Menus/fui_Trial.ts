@@ -11,6 +11,8 @@ export default class fui_Trial extends fairygui.GComponent {
 	public m_critStatus:fairygui.Controller;
 	public m_burstStatus:fairygui.Controller;
 	public m_skipStatus:fairygui.Controller;
+	public m_starMax:fairygui.Controller;
+	public m_starNum:fairygui.Controller;
 	public m_closeBtn:fairygui.GButton;
 	public m_mapid:fairygui.GTextField;
 	public m_rewardList:fairygui.GList;
@@ -22,8 +24,6 @@ export default class fui_Trial extends fairygui.GComponent {
 	public m_curSpeed:fairygui.GTextField;
 	public m_curCrit:fairygui.GTextField;
 	public m_curBrust:fairygui.GTextField;
-	public m_reward:fairygui.GLabel;
-	public m_progress:fairygui.GProgressBar;
 	public m_cd:fairygui.GTextField;
 	public m_startBtn:fairygui.GButton;
 	public m_skipBtn:fairygui.GButton;
@@ -48,21 +48,21 @@ export default class fui_Trial extends fairygui.GComponent {
 		this.m_critStatus = this.getControllerAt(4);
 		this.m_burstStatus = this.getControllerAt(5);
 		this.m_skipStatus = this.getControllerAt(6);
+		this.m_starMax = this.getControllerAt(7);
+		this.m_starNum = this.getControllerAt(8);
 		this.m_closeBtn = <fairygui.GButton><any>(this.getChildAt(2));
 		this.m_mapid = <fairygui.GTextField><any>(this.getChildAt(4));
-		this.m_rewardList = <fairygui.GList><any>(this.getChildAt(7));
-		this.m_tjFight = <fairygui.GTextField><any>(this.getChildAt(8));
-		this.m_tjSpeed = <fairygui.GTextField><any>(this.getChildAt(9));
-		this.m_tjcrit = <fairygui.GTextField><any>(this.getChildAt(10));
-		this.m_tjBurst = <fairygui.GTextField><any>(this.getChildAt(11));
-		this.m_curFight = <fairygui.GTextField><any>(this.getChildAt(12));
-		this.m_curSpeed = <fairygui.GTextField><any>(this.getChildAt(13));
-		this.m_curCrit = <fairygui.GTextField><any>(this.getChildAt(14));
-		this.m_curBrust = <fairygui.GTextField><any>(this.getChildAt(15));
-		this.m_reward = <fairygui.GLabel><any>(this.getChildAt(18));
-		this.m_progress = <fairygui.GProgressBar><any>(this.getChildAt(19));
-		this.m_cd = <fairygui.GTextField><any>(this.getChildAt(21));
-		this.m_startBtn = <fairygui.GButton><any>(this.getChildAt(22));
-		this.m_skipBtn = <fairygui.GButton><any>(this.getChildAt(23));
+		this.m_rewardList = <fairygui.GList><any>(this.getChildAt(8));
+		this.m_tjFight = <fairygui.GTextField><any>(this.getChildAt(9));
+		this.m_tjSpeed = <fairygui.GTextField><any>(this.getChildAt(10));
+		this.m_tjcrit = <fairygui.GTextField><any>(this.getChildAt(11));
+		this.m_tjBurst = <fairygui.GTextField><any>(this.getChildAt(12));
+		this.m_curFight = <fairygui.GTextField><any>(this.getChildAt(13));
+		this.m_curSpeed = <fairygui.GTextField><any>(this.getChildAt(14));
+		this.m_curCrit = <fairygui.GTextField><any>(this.getChildAt(15));
+		this.m_curBrust = <fairygui.GTextField><any>(this.getChildAt(16));
+		this.m_cd = <fairygui.GTextField><any>(this.getChildAt(19));
+		this.m_startBtn = <fairygui.GButton><any>(this.getChildAt(20));
+		this.m_skipBtn = <fairygui.GButton><any>(this.getChildAt(21));
 	}
 }

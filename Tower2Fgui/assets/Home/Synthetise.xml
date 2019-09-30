@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1280,960">
-  <controller name="quality" pages="0,,1,,2," selected="0"/>
+  <controller name="quality" pages="0,,1,,2," selected="2"/>
   <displayList>
     <image id="n7_c8j3" name="n7" src="c8j320" fileName="pic/synthetiseBg.png" xy="0,0" size="1280,960"/>
     <loader id="n8_qvb6" name="skbg" xy="0,0" size="1280,960">
       <relation target="" sidePair="center-center,middle-middle"/>
     </loader>
+    <text id="n9_bcle" name="atk" xy="150,300" size="114,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击力：{count=0}">
+      <gearDisplay controller="quality" pages="1,2"/>
+    </text>
+    <text id="n10_bcle" name="atkspeed" xy="150,341" size="193,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击速度：{count=1}次/秒">
+      <gearDisplay controller="quality" pages="1,2"/>
+    </text>
+    <text id="n11_bcle" name="cirt" xy="150,382" size="135,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击率：{count=0}%">
+      <gearDisplay controller="quality" pages="1,2"/>
+    </text>
+    <text id="n12_bcle" name="burst" xy="150,423" size="159,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击加成：{count=0}%">
+      <gearDisplay controller="quality" pages="1,2"/>
+    </text>
+    <text id="n13_bcle" name="atk2" xy="920,300" size="114,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击力：{count=0}">
+      <gearDisplay controller="quality" pages="2"/>
+    </text>
+    <text id="n14_bcle" name="atkspeed2" xy="920,341" size="193,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击速度：{count=1}次/秒">
+      <gearDisplay controller="quality" pages="2"/>
+    </text>
+    <text id="n15_bcle" name="cirt2" xy="920,382" size="135,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击率：{count=0}%">
+      <gearDisplay controller="quality" pages="2"/>
+    </text>
+    <text id="n16_bcle" name="burst2" xy="920,423" size="159,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击加成：{count=0}%">
+      <gearDisplay controller="quality" pages="2"/>
+    </text>
+    <text id="n17_bcle" name="n17" xy="150,238" size="202,39" fontSize="30" color="#fffcb3" bold="true" text="品质提升前：">
+      <gearDisplay controller="quality" pages="2"/>
+    </text>
+    <text id="n18_bcle" name="n18" xy="920,238" size="202,39" fontSize="30" color="#47f66c" bold="true" text="品质提升后：">
+      <gearDisplay controller="quality" pages="2"/>
+    </text>
     <component id="n4_qrw0" name="setSeat" src="og7810" fileName="GeneralBtns.xml" xy="690,677" size="255,108" controller="bgColor,0">
       <Button title="去布阵" titleColor="#f3e9d5" titleFontSize="40"/>
     </component>

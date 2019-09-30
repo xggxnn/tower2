@@ -15,8 +15,6 @@ export default class Proto1007 extends Proto {
     }
     // any == T
     protected read(json: any): void {
-        Game.playData.getBattleReward(json.resData)
-
         if (json.hasOwnProperty("map")) {
             Game.battleMap.init([json.map]);
         }
@@ -25,5 +23,6 @@ export default class Proto1007 extends Proto {
         if (json.hasOwnProperty("conquestTime")) {
             Game.playData.conqueTime = json.conquestTime
         }
+        Game.playData.getBattleReward(json.resData)
     }
 }

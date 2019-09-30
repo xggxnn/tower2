@@ -76,7 +76,8 @@ export default class FGUIResPackageConfig {
         config.resBin = "Home.bin";
         config.resAtlas.push("Home_atlas0.png");
         config.resAtlas.push("Home_atlas0_1.png");
-        config.resAtlas.push("Home_atlas_j5ct1s.png");
+        config.resAtlas.push("Home_atlas0_2.png");
+        config.resAtlas.push("Home_atlas0_3.png");
         this.addconfig(config);
 
 
@@ -84,6 +85,7 @@ export default class FGUIResPackageConfig {
         config.packageName = "Illustration";
         config.resDir = "fgui";
         config.resBin = "Illustration.bin";
+        config.resAtlas.push("Illustration_atlas0.png");
         this.addconfig(config);
 
 

@@ -11,6 +11,7 @@ import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
 import EventManager from "../../../tool/EventManager";
 import EventKey from "../../../tool/EventKey";
+import { FightType } from "../../../gamemodule/DataEnums/FightType";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Synthetise extends fui_Synthetise {
@@ -37,6 +38,7 @@ export default class UI_Synthetise extends fui_Synthetise {
 
 	// 关闭ui
 	closeUI(): void {
+		Game.playData.upQualityOldTip.clear();
 		if (this._sk) {
 			this._sk.destroyThis();
 			this._sk = null;
@@ -83,7 +85,32 @@ export default class UI_Synthetise extends fui_Synthetise {
 			}
 			Game.playData.synUpReset = 0;
 			let hero = HeroInfoData.getInfo(Game.playData.synthetise);
-			this.m_quality.setSelectedIndex(2);
+			// 属性赋值
+
+			if (Game.playData.upQualityOldTip.count > 0) {
+				let curDic = Game.battleData.getHeroFightVal(hero.id);
+				let tip2 = Game.playData.fightTip(curDic, 2);
+				let tip = Game.playData.upQualityOldTip;
+
+				this.m_atk2.setVar("count", tip2.getValue(FightType.Atk)).flushVars();
+				this.m_atkspeed2.setVar("count", tip2.getValue(FightType.Speed)).flushVars();
+				this.m_cirt2.setVar("count", tip2.getValue(FightType.Crit)).flushVars();
+				this.m_burst2.setVar("count", tip2.getValue(FightType.Burst)).flushVars();
+
+				this.m_atk.setVar("count", tip.getValue(FightType.Atk)).flushVars();
+				this.m_atkspeed.setVar("count", tip.getValue(FightType.Speed)).flushVars();
+				this.m_cirt.setVar("count", tip.getValue(FightType.Crit)).flushVars();
+				this.m_burst.setVar("count", tip.getValue(FightType.Burst)).flushVars();
+			}
+			else {
+				let curDic = Game.battleData.getHeroFightVal(hero.id);
+				let tip = Game.playData.fightTip(curDic, 2);
+				this.m_atk.setVar("count", tip.getValue(FightType.Atk)).flushVars();
+				this.m_atkspeed.setVar("count", tip.getValue(FightType.Speed)).flushVars();
+				this.m_cirt.setVar("count", tip.getValue(FightType.Crit)).flushVars();
+				this.m_burst.setVar("count", tip.getValue(FightType.Burst)).flushVars();
+			}
+			this.m_quality.setSelectedIndex(0);
 			if (this._sk) {
 				this._sk.destroyThis();
 				this._sk = null;
@@ -113,7 +140,12 @@ export default class UI_Synthetise extends fui_Synthetise {
 		return _effect;
 	}
 	private _tweenComplete(): void {
-
+		if (Game.playData.upQualityOldTip.count > 0) {
+			this.m_quality.setSelectedIndex(2);
+		}
+		else {
+			this.m_quality.setSelectedIndex(1);
+		}
 		this.m_ok.visible = true;
 		this.m_setSeat.visible = true;
 

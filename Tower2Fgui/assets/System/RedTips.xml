@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="34,34" pivot="0.5,0.5" anchor="true">
   <displayList>
-    <loader id="n0_h5p9" name="icon" xy="17,17" pivot="0.5,0.5" anchor="true" size="34,34" url="ui://130tmfxdh5p91u" align="center" vAlign="middle" fill="scale" shrinkOnly="true" playing="false">
+    <loader id="n0_h5p9" name="icon" xy="6,28" pivot="0.2,0.85" anchor="true" size="34,34" url="ui://130tmfxdh5p91u" align="center" vAlign="middle" fill="scale" shrinkOnly="true" playing="false">
       <relation target="" sidePair="width-width,height-height"/>
     </loader>
   </displayList>
   <transition name="t0" autoPlay="true" autoPlayRepeat="-1">
-    <item time="0" type="Scale" target="n0_h5p9" tween="true" startValue="1,1" endValue="0.8,0.8" duration="12" ease="Linear"/>
-    <item time="12" type="Scale" target="n0_h5p9" tween="true" startValue="0.8,0.8" endValue="1,1" duration="12" ease="Linear"/>
-    <item time="48" type="Scale" target="n0_h5p9" value="1,1"/>
+    <item time="0" type="Rotation" target="n0_h5p9" tween="true" startValue="0" endValue="-11.5" duration="2" ease="Linear"/>
+    <item time="2" type="Rotation" target="n0_h5p9" tween="true" startValue="-11.5" endValue="17.5" duration="2" ease="Linear"/>
+    <item time="4" type="Rotation" target="n0_h5p9" tween="true" startValue="17.5" endValue="0" duration="2" ease="Linear"/>
+    <item time="6" type="Rotation" target="n0_h5p9" tween="true" startValue="0" endValue="-11.5" duration="2" ease="Linear"/>
+    <item time="8" type="Rotation" target="n0_h5p9" tween="true" startValue="-11.5" endValue="17.5" duration="2" ease="Linear"/>
+    <item time="10" type="Rotation" target="n0_h5p9" tween="true" startValue="17.5" endValue="0" duration="2" ease="Linear"/>
+    <item time="48" type="Rotation" target="n0_h5p9" value="0"/>
   </transition>
 </component>

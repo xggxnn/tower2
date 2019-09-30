@@ -13,7 +13,6 @@ import AssociationSpecialInfo from "../../../csvInfo/AssociationSpecialInfo";
 import { FightType } from "../../../gamemodule/DataEnums/FightType";
 import BaseSK from "../../../base/BaseSK";
 import { HeroAniEnums } from "../../../gamemodule/DataEnums/HeroAniEnums";
-import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import UI_DialogBox from "../System/UI_DialogBox";
 import Pools from "../../../tool/Pools";
@@ -22,6 +21,7 @@ import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import HeroTypeInfo from "../../../csvInfo/HeroTypeInfo";
 import AssociationRaceInfo from "../../../csvInfo/AssociationRaceInfo";
 import AssociationCareerInfo from "../../../csvInfo/AssociationCareerInfo";
+import SpriteKey from "../../SpriteKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroInfo extends fui_HeroInfo {
@@ -63,13 +63,13 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		if (this.heroInf.quality < 5) {
 			let heroClips = Game.playData.curClips.getValue(this.heroInf.id);
 			if (!heroClips) heroClips = 0;
-			if (this.upClips <= heroClips) {
+			if (this.upqualityClips <= heroClips) {
 				Game.tipWin.showTip(Fun.format(Game.tipTxt.UpHeroQuality, this.heroInf.name,
-					this.qualityName(this.heroInf.quality), this.qualityName(this.heroInf.quality + 1), this.upClips, heroClips),
+					this.qualityName(this.heroInf.quality), this.qualityName(this.heroInf.quality + 1), this.upqualityClips, heroClips),
 					true, Laya.Handler.create(this, this.upQuality));
 			}
 			else {
-				Game.tipWin.showTip(Fun.format(Game.tipTxt.NoReqClips, this.upClips, heroClips));
+				Game.tipWin.showTip(Fun.format(Game.tipTxt.NoReqClips, this.upqualityClips, heroClips));
 			}
 		}
 		else {
@@ -83,6 +83,9 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	}
 	// 发送服务器请求提升品质
 	private upQuality(): void {
+		let curDic = Game.battleData.getHeroFightVal(this.heroInf.id);
+		Game.playData.upQualityOldTip = Game.playData.fightTip(curDic, 2);
+
 		let data = {
 			heroId: this.heroInf.id,
 		}
@@ -214,7 +217,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 		}
 	}
 	private helpClick(): void {
-		Game.popup.showPopup(this.m_help, true, false, Game.tipTxt.HeroInfTip);
+		Game.popup.showPopup(this.m_help, false, false, Game.tipTxt.HeroInfTip);
 	}
 
 
@@ -236,14 +239,16 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 	}
 	private heroInf: HeroInfoData = null;
 	private upClips: number = 0;
+	private upqualityClips: number = 0;
 	private _sk: BaseSK = null;
 	setData(): void {
 		this.fetterId = [0, 0, 0];
 		this.heroInf = Game.battleData.clickHeroInf;
 		let heroTYpes = HeroTypeInfo.getInfo(this.heroInf.type);
 		this.upClips = 0;
+		this.upqualityClips = 0;
 		if (this.heroInf != null) {
-			this.m_heroname.text = this.heroInf.name;
+			this.m_heroname.icon = SpriteKey.getUrl("hero_name_" + this.heroInf.skin + ".png");
 			this.m_race.text = Fun.format("五行：{0}", Association.raceName(this.heroInf.race));
 			this.fetterId[0] = this.heroInf.race;
 			this.m_career.text = Fun.format("门派：{0}", Association.careerName(this.heroInf.career));
@@ -286,8 +291,8 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 			this.m_skillname.setVar("name", skill2.des).setVar("count", skill2.explain).flushVars();
 			this.m_gainmethod.enabled = true;
 			this.showTip = false;
-			let heroQuality = HeroqualityInfo.getInfoQuality(this.heroInf.quality);
-			this.upClips = heroQuality.clip_hero;
+			this.upClips = Game.redData.requestClips(this.heroInf, true);
+			this.upqualityClips = Game.redData.requestClips(this.heroInf, false);
 			let heroClips: number = Game.playData.curClips.getValue(this.heroInf.id);
 			if (!heroClips) heroClips = 0;
 			let str = "";
@@ -297,7 +302,14 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 			else {
 				str = "[color=#33ff00]" + heroClips + "[/color]/[color=#33ff00]" + this.upClips + "[/color]";
 			}
-			this.m_upQuality.title = "提升品质(" + str + ")";
+			let str2 = "";
+			if (this.upqualityClips > heroClips) {
+				str2 = "[color=#ff0000]" + heroClips + "[/color]/[color=#33ff00]" + this.upqualityClips + "[/color]";
+			}
+			else {
+				str2 = "[color=#33ff00]" + heroClips + "[/color]/[color=#33ff00]" + this.upqualityClips + "[/color]";
+			}
+			this.m_upQuality.title = "提升品质(" + str2 + ")";
 			this.m_gainmethod.title = "合成(" + str + ")";
 			this.m_up.setSelectedIndex(0);
 			if (Game.haveHeroTem.indexOf(this.heroInf.skin) != -1) {
@@ -319,7 +331,7 @@ export default class UI_HeroInfo extends fui_HeroInfo {
 				else {
 					this.showTip = true;
 					this.m_up.setSelectedIndex(1);
-					if (this.heroInf.quality < 5 && this.upClips <= heroClips) {
+					if (this.heroInf.quality < 5 && this.upqualityClips <= heroClips) {
 						Game.redTip.showRedTip(this.m_upQuality, this.id);
 					}
 					else {

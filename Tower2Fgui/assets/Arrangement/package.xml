@@ -27,6 +27,8 @@
     <image id="haq32s" name="progress.png" path="/pic/"/>
     <image id="haq32t" name="zhizhen.png" path="/pic/"/>
     <component id="haq32u" name="FightProgress.xml" path="/" exported="true"/>
+    <component id="bcle2v" name="SeatBtn.xml" path="/" exported="true"/>
+    <component id="bcle2w" name="StoneBase(1).xml" path="/"/>
   </resources>
   <publish name="Arrangement" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

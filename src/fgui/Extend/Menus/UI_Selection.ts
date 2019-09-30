@@ -12,6 +12,9 @@ import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
 import TrialInfo from "../../../csvInfo/TrialInfo";
 import EventManager from "../../../tool/EventManager";
 import EventKey from "../../../tool/EventKey";
+import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
+import SpriteKey from "../../SpriteKey";
+import UnlockInfo from "../../../csvInfo/UnlockInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Selection extends fui_Selection {
@@ -52,25 +55,26 @@ export default class UI_Selection extends fui_Selection {
 
 	}
 	private updateTime(waves: WaveStatus): void {
-		if (this.item && this.item.id == waves.id && this.item.level >= 6) {
+		if (this.item && this.item.id == waves.id && this.item.level > this.wave.levelcounts) {
 			this.m_comtime.text = Fun.formatTimeEN(waves.exploreTime);
 			this.m_comMask.fillAmount = waves.exploreTime / waves.exploreTotalTime;
 			if (waves.exploreTime <= 0) {
 				this.m_comMask.visible = false;
-				Game.redTip.showRedTip(this, this.parent.id);
+				this.m_redTip.setSelectedIndex(1);
 				Game.battleMap.sUpdateExploreTime.remove(this.updateTime, this);
 			}
 			else {
 				if (!this.m_comMask.visible) {
 					this.m_comMask.visible = true;
 				}
-				Game.redTip.hideRedTip(this, this.parent.id);
+				this.m_redTip.setSelectedIndex(0);
 			}
 		}
 	}
 	private selectionBtn: UI_selectionBtn;
 	private item: WaveStatus = null;
 	private wave: WaveInfo = null;
+	private canClick: boolean = false;
 	public setData(wave: WaveInfo, moduleWindow: MenusWin): void {
 		if (this._sk) {
 			this._sk.sk.destroySk();
@@ -88,41 +92,73 @@ export default class UI_Selection extends fui_Selection {
 				break;
 			}
 		}
+		// 功能解锁情况
+		this.m_unlockstatus.setSelectedIndex(0);
+		let unlock = UnlockInfo.getInfo(Game.playData.unlockIndex + 1);
+		if (unlock) {
+			if (unlock.mapId == this.wave.id) {
+				this.m_unlock.text = unlock.tip[0];
+				if (unlock.tip.length > 1) {
+					for (let i = 1; i < unlock.tip.length; i++) {
+						this.m_unlock.text += unlock.tip[i];
+					}
+				}
+				this.m_unlockstatus.setSelectedIndex(1);
+			}
+		}
+		this.canClick = true;
 		this.selectionBtn.setData(mapLevel.map, mapLevel.level, haveBoss);
 		this.item = null;
 		if (Game.battleMap.waveStatusDict.hasKey(this.wave.id)) {
-			this.item = Game.battleMap.waveStatusDict.getValue(this.wave.id);
-			if (this.item.level < 6) {
-				this.m_status.setSelectedIndex(2);
-				this.m_starNum.setSelectedIndex(this.item.level - 1);
-				let rewardInf = WaveRewardInfo.getInfo(this.wave.id);
-				this.m_progress.text = Fun.formatNumberUnit(rewardInf.coin_challenge);
-				if (this.item.fightCd > 0) {
-					this.curMaxCd = TrialInfo.getInfo(this.item.level - 1).cooldown;
-					this.m_mask.visible = true;
-					this.showFightCd(this.item);
-					Game.battleMap.sUpdateFightCd.add(this.showFightCd, this);
-					Game.redTip.hideRedTip(this, this.parent.id);
-				}
-				else {
-					this.m_mask.fillAmount = 0;
-					this.m_mask.visible = false;
-					this.m_protime.text = "";
-					Game.redTip.showRedTip(this, this.parent.id);
-				}
+			if (this.wave.unlock >= Game.battleMap.maxMapId) {
+				this.m_status.setSelectedIndex(0);
+				this._sk = this.addBattleEffect("ui02", true);
+				this.m_selBtn.enabled = true;
+				this.canClick = false;
+				this.m_redTip.setSelectedIndex(0);
 			}
 			else {
-				Game.redTip.hideRedTip(this, this.parent.id);
-				this.m_comMask.visible = true;
-				this.updateTime(this.item);
-				Game.battleMap.sUpdateExploreTime.add(this.updateTime, this);
-				this.m_status.setSelectedIndex(3);
+				this.item = Game.battleMap.waveStatusDict.getValue(this.wave.id);
+				if (this.item.level <= this.wave.levelcounts) {
+					this.m_status.setSelectedIndex(2);
+					this.m_starNum.setSelectedIndex(this.item.level - 1);
+					this.m_starMax.setSelectedIndex(this.wave.levelcounts);
+					let rewardInf = WaveRewardInfo.getInfo(this.wave.id);
+					this.m_progress.text = Fun.formatNumberUnit(rewardInf.coin_challenge);
+					if (this.item.fightCd > 0) {
+						this.curMaxCd = TrialInfo.getInfo(this.item.level - 1).cooldown;
+						this.m_mask.visible = true;
+						this.showFightCd(this.item);
+						Game.battleMap.sUpdateFightCd.add(this.showFightCd, this);
+						this.m_redTip.setSelectedIndex(0);
+					}
+					else {
+						this.m_mask.fillAmount = 0;
+						this.m_mask.visible = false;
+						this.m_protime.text = "";
+						this.m_redTip.setSelectedIndex(1);
+					}
+				}
+				else {
+					this.m_redTip.setSelectedIndex(0);
+					this.m_comMask.visible = true;
+					this.updateTime(this.item);
+					Game.battleMap.sUpdateExploreTime.add(this.updateTime, this);
+					if (this.item.exploreHeroId > 1000) {
+						let hero = HeroInfoData.getInfo(this.item.exploreHeroId - 1000);
+						this.m_comquality.icon = SpriteKey.getUrl("quality" + hero.quality + ".png");
+					}
+					else {
+						this.m_comquality.icon = SpriteKey.getUrl("quality1.png");
+					}
+					this.m_status.setSelectedIndex(3);
+				}
+				this._sk = this.addBattleEffect("ui02", true);
+				this.m_selBtn.enabled = true;
 			}
-			this._sk = this.addBattleEffect("ui02", true);
-			this.m_selBtn.enabled = true;
 		}
 		else {
-			Game.redTip.hideRedTip(this, this.parent.id);
+			this.m_redTip.setSelectedIndex(0);
 			if (Game.battleMap.maxMapId == this.wave.id) {
 				this.m_status.setSelectedIndex(1);
 				this.m_selBtn.enabled = true;
@@ -134,7 +170,17 @@ export default class UI_Selection extends fui_Selection {
 				this.m_selBtn.enabled = false;
 			}
 		}
-		if ((this.wave.id == 2 && Game.playData.guideIndex == GuideType.fiveEnterMenus) || (this.wave.id == 3 && Game.playData.guideIndex == GuideType.sixEnterMenus)) {
+		if (Game.playData.unlockInit == 8 && this.wave.id == 1) {
+			Game.playData.unlockInit = 9;
+			if (this.item) {
+				EventManager.event(EventKey.SHOW_WAIT);
+				setTimeout(() => {
+					this.moduleWindow.createGuideUI(this.m_selBtn, new Laya.Point(this.x - this.m_selBtn.width / 2, this.y - this.m_selBtn.height / 2),
+						Laya.Handler.create(this, this.clickBtn), Game.tipTxt.clickGoldBtn);
+				}, 10);
+			}
+		}
+		else if ((this.wave.id == 2 && Game.playData.guideIndex == GuideType.fiveEnterMenus) || (this.wave.id == 3 && Game.playData.guideIndex == GuideType.sixEnterMenus)) {
 			Game.playData.guideIndex++;
 			EventManager.event(EventKey.SHOW_WAIT);
 			setTimeout(() => {
@@ -142,7 +188,7 @@ export default class UI_Selection extends fui_Selection {
 					Laya.Handler.create(this, this.clickBtn), Game.tipTxt.fiveSelectWave);
 			}, 10);
 		}
-		if (this.wave.id == 2 && (Game.playData.guideIndex == GuideType.sevenEnterMenus || Game.playData.guideIndex == GuideType.sixWin)) {
+		else if (this.wave.id == 2 && (Game.playData.guideIndex == GuideType.sevenEnterMenus || Game.playData.guideIndex == GuideType.sixWin)) {
 			Game.playData.guideIndex = GuideType.sevenSelectWave;
 			EventManager.event(EventKey.SHOW_WAIT);
 			setTimeout(() => {
@@ -162,43 +208,39 @@ export default class UI_Selection extends fui_Selection {
 
 	private curMaxCd: number = 0;
 	private showFightCd(waves: WaveStatus): void {
-		if (this.item && this.item.id == waves.id && this.item.level < 6) {
+		if (this.item && this.item.id == waves.id && this.item.level <= this.wave.levelcounts) {
 			this.m_mask.fillAmount = waves.fightCd / this.curMaxCd;
 			this.m_protime.text = Fun.formatTimeEN(waves.fightCd);
 			if (waves.fightCd <= 0) {
 				this.m_mask.fillAmount = 0;
 				this.m_mask.visible = false;
-				Game.redTip.showRedTip(this, this.parent.id);
+				this.m_redTip.setSelectedIndex(1);
 				Game.battleMap.sUpdateFightCd.remove(this.showFightCd, this);
 			}
 			else {
-				Game.redTip.hideRedTip(this, this.parent.id);
+				this.m_redTip.setSelectedIndex(0);
 			}
 		}
 	}
 
 	private clickBtn(): void {
-		Game.battleData.level_id = this.wave.id;
-		if (this.item && this.item.level > 5) {
-			if (this.item.exploreTime <= 0) {
-				Game.tipWin.showTip(Game.tipTxt.CollectingRewards, true, Laya.Handler.create(this, this.collectDebris));
+		if (this.canClick) {
+			Game.battleData.level_id = this.wave.id;
+			if (this.item && this.item.level > this.wave.levelcounts) {
+				if (this.item.exploreTime <= 0) {
+					let data = {
+						waveId: this.item.id,
+					}
+					Game.proto.collectDebris(data);
+				}
+				else {
+					Game.tipWin.showTip(Fun.format(Game.tipTxt.DebrisCollection, Fun.formatTime(this.item.exploreTime)));
+				}
 			}
 			else {
-				Game.tipWin.showTip(Fun.format(Game.tipTxt.DebrisCollection, Fun.formatTime(this.item.exploreTime)));
+				this.moduleWindow.createTrialUI();
 			}
 		}
-		else {
-			this.moduleWindow.createTrialUI();
-		}
-	}
-	/**
-	 * 收集碎片
-	 */
-	private collectDebris(): void {
-		let data = {
-			waveId: this.item.id,
-		}
-		Game.proto.collectDebris(data);
 	}
 
 }

@@ -1,6 +1,7 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
 import fui_BlackText from "./fui_BlackText";
+import fui_Exchange from "./fui_Exchange";
 import fui_GainRewards from "./fui_GainRewards";
 import fui_HeroIcon from "./fui_HeroIcon";
 import fui_ItemIcon from "./fui_ItemIcon";
@@ -28,6 +29,7 @@ import fui_DialogBox from "./fui_DialogBox";
 export default class SystemBinder{
 	public static bindAll():void {
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_BlackText.URL, fui_BlackText);
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_Exchange.URL, fui_Exchange);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_GainRewards.URL, fui_GainRewards);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_HeroIcon.URL, fui_HeroIcon);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_ItemIcon.URL, fui_ItemIcon);

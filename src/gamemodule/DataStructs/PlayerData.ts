@@ -16,6 +16,7 @@ import WaveInfo from "../../csvInfo/WaveInfo";
 import LevelchallengesuggestInfo from "../../csvInfo/LevelchallengesuggestInfo";
 import ResourceInfo from "../../csvInfo/ResourceInfo";
 import Association from "./Association";
+import UnlockInfo from "../../csvInfo/UnlockInfo";
 
 export default class PlayerData {
     private static _Instance: PlayerData;
@@ -80,6 +81,9 @@ export default class PlayerData {
             }
         }
     }
+
+    // 提升品质前的属性
+    public upQualityOldTip: Dictionary<number, string> = new Dictionary<number, string>();
 
     private _synthetise: number = 0;
     /**
@@ -433,7 +437,7 @@ export default class PlayerData {
     public set curFightInf(v: Dictionary<string, number>) {
         this._curFightInf = v;
     }
-    public fightTip(curDic: Dictionary<string, number>): Dictionary<number, string> {
+    public fightTip(curDic: Dictionary<string, number>, length: number = 1): Dictionary<number, string> {
         let result: Dictionary<number, string> = new Dictionary<number, string>();
         let atkTip = "0";
         let speedTip = "0";
@@ -447,22 +451,22 @@ export default class PlayerData {
                 atkTip = Fun.formatNumberUnit(curDic.getValue(FightType.Atk));
             }
             if (curDic.hasKey(FightType.SpeedEx) && curDic.getValue(FightType.SpeedEx) > 0) {
-                speedTip = curDic.getValue(FightType.Speed).toFixed(1) + " + " + curDic.getValue(FightType.SpeedEx).toFixed(1);
+                speedTip = curDic.getValue(FightType.Speed).toFixed(length) + " + " + curDic.getValue(FightType.SpeedEx).toFixed(length);
             }
             else {
-                speedTip = curDic.getValue(FightType.Speed).toFixed(1);
+                speedTip = curDic.getValue(FightType.Speed).toFixed(length);
             }
             if (curDic.hasKey(FightType.CritEx) && curDic.getValue(FightType.CritEx) > 0) {
-                critTip = curDic.getValue(FightType.Crit).toFixed(0) + " + " + curDic.getValue(FightType.CritEx).toFixed(0);
+                critTip = curDic.getValue(FightType.Crit).toFixed(length - 1) + " + " + curDic.getValue(FightType.CritEx).toFixed(length - 1);
             }
             else {
-                critTip = curDic.getValue(FightType.Crit).toFixed(0);
+                critTip = curDic.getValue(FightType.Crit).toFixed(length - 1);
             }
             if (curDic.hasKey(FightType.BurstEx) && curDic.getValue(FightType.BurstEx) > 0) {
-                burstTip = curDic.getValue(FightType.Burst).toFixed(0) + " + " + curDic.getValue(FightType.BurstEx).toFixed(0);
+                burstTip = curDic.getValue(FightType.Burst).toFixed(length - 1) + " + " + curDic.getValue(FightType.BurstEx).toFixed(length - 1);
             }
             else {
-                burstTip = curDic.getValue(FightType.Burst).toFixed(0);
+                burstTip = curDic.getValue(FightType.Burst).toFixed(length - 1);
             }
         }
         result.add(FightType.Atk, atkTip);
@@ -559,24 +563,21 @@ export default class PlayerData {
 
 
 
-    // 当前英雄碎片数量
     private _curClips: Dictionary<string, number> = new Dictionary<string, number>();
+    /**
+     * 当前英雄碎片数量
+     */
     public get curClips(): Dictionary<string, number> {
         return this._curClips;
     }
     public set curClips(v: Dictionary<string, number>) {
         this._curClips = v;
     }
-    // 当前拥有的英雄
-    // private _curHero: Array<number> = [];
-    // public get curHero(): Array<number> {
-    //     return this._curHero;
-    // }
-    // public set curHero(v: Array<number>) {
-    //     this._curHero = v;
-    // }
 
     private _curHeroInfoList: Dictionary<string, HeroInfoData> = new Dictionary<string, HeroInfoData>();
+    /**
+     * 当前拥有的英雄
+     */
     public get curHeroInfoList(): Dictionary<string, HeroInfoData> {
         return this._curHeroInfoList;
     }
@@ -692,13 +693,47 @@ export default class PlayerData {
         return this._guideIndex;
     }
     public set guideIndex(v: GuideType) {
-        let data = {
-            guideIndex: Number(v),
+        if (this._guideIndex == GuideType.None && v == GuideType.sevenStartFive) {
+
         }
-        Game.proto.guide(data);
+        else {
+            let data = {
+                guideIndex: Number(v),
+            }
+            Game.proto.guide(data);
+        }
         this._guideIndex = v;
     }
     public guideDeathEnemy: number = -1;
+
+
+    public unlockLoginInit: number = 0;
+
+    private _unlockIndex: number = 1;
+    // 已解锁序号
+    public get unlockIndex(): number {
+        this._unlockIndex = 0;
+        for (let i = 1, len = UnlockInfo.getCount(); i <= len; i++) {
+            let unlock = UnlockInfo.getInfo(i);
+            if (unlock.mapId < Game.battleMap.maxMapId) {
+                this._unlockIndex = i;
+            }
+        }
+        return this._unlockIndex;
+    }
+
+    private _unlockInit: number = 0;
+    public get unlockInit(): number {
+        return this._unlockInit;
+    }
+    public set unlockInit(v: number) {
+        this._unlockInit = v;
+        if (v >= 8) {
+            Game.localStorage.setInt("unlock_Init", v, true);
+        }
+    }
+
+
 
     /****************  国王之路     *************************************** */
     public kingData: Array<RewardItem> = [];

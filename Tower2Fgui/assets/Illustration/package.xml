@@ -3,6 +3,11 @@
   <resources>
     <component id="qyum0" name="IllustrationMain.xml" path="/" exported="true"/>
     <component id="qvb63" name="HeroItem2.xml" path="/" exported="true"/>
+    <image id="ajdp4" name="英雄图鉴12个g.png" path="/"/>
+    <image id="ajdp5" name="bigRed.png" path="/pic/"/>
+    <image id="ajdp6" name="upQuality.png" path="/pic/"/>
+    <image id="ajdp7" name="xidian.png" path="/pic/"/>
+    <image id="ajdp8" name="zhaohuan.png" path="/pic/"/>
   </resources>
   <publish name="Illustration" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

@@ -5,9 +5,38 @@ import EventKey from "../tool/EventKey";
 import Game from "../Game";
 
 export default class ProtoServer {
+
+	private static get LOG_SERVER_URL(): string {
+		return "https://log.yz063.com/log/tf2/client/upload";
+	}
+	public static logPost(data: Object): void {
+		wx.request(
+			{
+				url: ProtoServer.LOG_SERVER_URL,
+				data: data,
+				header: {
+					"content-type": "application/text"
+				},
+				method: "POST",
+				dataType: "text",
+				responseType: "text",
+				success: null,
+				fail: null,
+				complete: null
+			}
+		);
+	}
+
+
+
 	private static get SERVER_URL(): string {
-		return "https://td2.yz063.com/td2/v1/facade.php";
+		// 线上版本
+		// return "https://td2.yz063.com/td2/v1/facade.php";
+		// return "https://td2.yz063.com/td2/v2/facade.php";
+		return "https://td2.yz063.com/td2/v3/facade.php";
+		// 本地测试
 		// return "http://192.168.10.178/td2/v1/facade.php";
+		// return "http://192.168.10.178/td2/v2/facade.php";
 	}
 	public static init(): void {
 		EventManager.on(EventKey.ENTER_SECOND, ProtoServer, ProtoServer.update);
@@ -23,10 +52,11 @@ export default class ProtoServer {
 	private static calling: boolean = false;
 	private static dataList: Array<Object> = [];
 	public static request(data: Object): void {
-		// console.log("============request=========");
-		// console.log(data);
-		// console.log("request:", JSON.stringify(data));
-		// console.log("============request=========");
+		if (Game.showLog) {
+			console.log("				======request start=========");
+			console.log(data);
+			console.log("				======= end	=========");
+		}
 		this.dataList.push(data);
 		this.callServer();
 	}
@@ -45,7 +75,7 @@ export default class ProtoServer {
 		let data = this.dataList[0];
 		data["order"] = this.nextOrder;
 		data["ts"] = new Date().getTime();
-		data["version"] = "v1.1.7";
+		data["version"] = "v1.1.13";
 		wx.request(
 			{
 				url: ProtoServer.SERVER_URL,
@@ -78,7 +108,9 @@ export default class ProtoServer {
 						Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), false, Laya.Handler.create(this, this.closeWait));
 					}
 					else {
-						// console.log("   >>> back:", json.protoId, json);
+						if (Game.showLog) {
+							console.log("   >>> back:", json.protoId, json);
+						}
 						// // 用户数据变更
 						// if (json.hasOwnProperty("userData")) {
 						// 	this.parseUserData(json.userData);

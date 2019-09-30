@@ -67,7 +67,7 @@ export default class UI_KingItem extends fui_KingItem {
 	}
 	private kingInf: KingInfo = null;
 	public setData(index: number): void {
-		this.kingInf = KingInfo.getInfo(index + 1);
+		this.kingInf = KingInfo.getInfo(index + 10);
 		this.m_level.text = (this.kingInf.level - 1).toString();
 		let showNum = 0;
 		if (this.kingInf.rid1 > 0 && this.kingInf.count1 > 0 && this.kingInf.rid2 > 0 && this.kingInf.count2 > 0) {

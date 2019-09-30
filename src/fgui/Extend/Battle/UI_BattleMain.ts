@@ -26,6 +26,7 @@ import { HaloType } from "../../../gamemodule/DataEnums/HaloType";
 import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
 import UI_Hand from "../System/UI_Hand";
 import UI_BlackText from "../System/UI_BlackText";
+import LevelmapInfo from "../../../csvInfo/LevelmapInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleMain extends fui_BattleMain {
@@ -48,6 +49,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 
 		Game.haloParent = this.m_haloscenes.displayObject;
 		Game.parentObject = this.m_scenes.displayObject;
+		Game.EffectsParent = this.m_effects.displayObject;
 		Game.bloodParent = this.m_bloods.root;
 		Game.shadowParent = this.m_shadow.displayObject;
 
@@ -77,8 +79,8 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.m_bagua4.m_t2.play();
 
 		this.m_bgList.push(this.m_bg1);
-		this.m_bgList.push(this.m_bg2);
 		this.m_bgList.push(this.m_bg3);
+		this.m_bgList.push(this.m_bg2);
 		this.m_bgList.push(this.m_bg4);
 		this.m_haloscenes.on(Laya.Event.MOUSE_DOWN, this, this.museDown);
 
@@ -94,6 +96,9 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this.bjTipbjTip.setXY(this.m_bg00.x, 0);
 			this.moduleWindow.windowContainer.addChild(this.bjTipbjTip);
 		}
+		let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
+		let levelmap = LevelmapInfo.getInfo(mapLevel.map);
+		this.m_bgStatus.setSelectedIndex(levelmap.levelbg - 1);
 	}
 
 	// 关闭ui
@@ -216,13 +221,18 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this.moduleWindow.BattleLeftTop.visible = Game.playData.guideIndex > GuideType.sevenEnterMenus;
 			this.moduleWindow.BattleLeftBottom.visible = true;
 			this.moduleWindow.BattleTopMiddle.visible = true;
-			this.moduleWindow.BattleRightTop.visible = false;
+			this.moduleWindow.BattleRightTop.visible = true;
 			this.moduleWindow.BattleRightBottom.visible = true;
 		}
 
 	}
 	private _bjTip: UI_BlackText = null;
 	private showBgTip(): void {
+		let datas = {
+			type: "LoadType",
+			state: 2,
+		}
+		Game.proto.logUpload(datas);
 		// 隐藏八卦
 		this.hideShowMenu();
 		if (this._bjTip == null) {
@@ -246,6 +256,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this.lookScenes();
 		}, 3000);
 	}
+	private aniMoveSpeed: number = 1.5;
 	// 唐僧移动
 	private lookScenes(): void {
 
@@ -264,18 +275,27 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	private easetype = fairygui.tween.EaseType.Linear;
 	private loadSKOver(): void {
-		this._skEnemy = [];
+		// this._skEnemy = [];
 		this._skts = BaseSK.create("npc_1");
 		Game.parentObject.addChild(this._skts);
 		this._skts.pos(654, 522);
 		this._skts.play(HeroAniEnums.Move, true);
+
+		if (this.tip == null) {
+			this.tip = Pools.fetch(UI_DialogBox);
+			Game.bloodParent.addChild(this.tip);
+		}
+		this.tip.setXY(this._skts.x, this._skts.y - 160);
+		this.tip.m_titles.text = "大王派我来巡山，抓到一只唐三藏！！！";
+
 		this.easetype = fairygui.tween.EaseType.Linear;
-		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x, this.basPos.y, 3).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, 0, 0, 3).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280, 0, 3).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, 3).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_cloud.x, this.m_cloud.y, 1500, 0, 3).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, 94, this._skts.y, 3).setTarget(this._skts, this._skts.pos).setEase(this.easetype).onComplete(this.tsMoveOver, this);
+		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x, this.basPos.y, this.aniMoveSpeed * 1.5).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, 0, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_cloud.x, this.m_cloud.y, 1500, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.tip.x, this.tip.y, 235, this.tip.y, this.aniMoveSpeed * 1.5).setTarget(this.tip, this.tip.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, 94, this._skts.y, this.aniMoveSpeed * 1.5).setTarget(this._skts, this._skts.pos).setEase(this.easetype).onComplete(this.tsMoveOver, this);
 	}
 	// 唐僧移动结束
 	private tsMoveOver(): void {
@@ -284,45 +304,50 @@ export default class UI_BattleMain extends fui_BattleMain {
 		Game.parentObject.addChild(this._skxzf);
 		this._skxzf.pos(235, 550);
 		this._skxzf.play(HeroAniEnums.Stand, true);
-		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x - 500, this.basPos.y, 3).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, -500, 0, 3).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280 - 500, 0, 3).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073 - 500, 0, 3).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, this._skts.x - 500, this._skts.y, 3).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x - 500, this._skxzf.y, 3).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype);
-		fairygui.tween.GTween.to2(1500, 0, 1500 - 500, 0, 3).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype).onComplete(this.showWuKong, this);
+		setTimeout(() => {
+			this.tip.visible = false;
+
+			this._skswk = BaseSK.create("enemy_2");
+			Game.parentObject.addChild(this._skswk);
+			this._skswk.pos(1500, 522);
+			this._skswk.scaleX = -1;
+			this._skswk.play(HeroAniEnums.Stand, true);
+			fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, 1000, this._skswk.y, this.aniMoveSpeed).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype);
+
+			fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x - 500, this.basPos.y, this.aniMoveSpeed).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
+			fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, -500, 0, this.aniMoveSpeed).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
+			fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280 - 500, 0, this.aniMoveSpeed).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
+			fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073 - 500, 0, this.aniMoveSpeed).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
+			fairygui.tween.GTween.to2(this._skts.x, this._skts.y, this._skts.x - 500, this._skts.y, this.aniMoveSpeed).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
+			fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x - 500, this._skxzf.y, this.aniMoveSpeed).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype);
+			fairygui.tween.GTween.to2(1500, 0, 1500 - 500, 0, this.aniMoveSpeed).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype).onComplete(this.showWuKong, this);
+		}, 2000);
 	}
 	// 悟空出现
 	private showWuKong(): void {
-		this._skswk = BaseSK.create("enemy_2");
-		Game.parentObject.addChild(this._skswk);
-		this._skswk.pos(1000, 522);
-		this._skswk.scaleX = -1;
-		this._skswk.play(HeroAniEnums.Stand, true);
-		if (this.tip == null) {
-			this.tip = Pools.fetch(UI_DialogBox);
-			Game.bloodParent.addChild(this.tip);
-		}
+		this.tip.visible = true;
 		this.tip.setXY(this._skswk.x, this._skswk.y - 160);
 		Game.writeEff.startTypeWrite(150, Game.tipTxt.wukongTip1, this.tip.m_titles, Laya.Handler.create(this, this.wukongTip1, null, false));
 	}
 	// 悟空第一句话结束
 	private wukongTip1(): void {
-		this.tip.visible = false;
-		this._skswk.play(HeroAniEnums.Move, true);
-		fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x - 500, this._skswk.y, 2).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.wukongMove1Over, this);
+		setTimeout(() => {
+			this.tip.visible = false;
+			this._skswk.play(HeroAniEnums.Move, true);
+			fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x - 500, this._skswk.y, this.aniMoveSpeed).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.wukongMove1Over, this);
+		}, 1000);
 	}
 	// 悟空第一次移动结束
 	private wukongMove1Over(): void {
-		this._skswk.play(HeroAniEnums.Stand, true);
-		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x, this.basPos.y, 3).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, 0, 0, 3).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280, 0, 3).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, 3).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_cloud.x, this.m_cloud.y, 1500, 0, 3).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, 94, this._skts.y, 3).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x + 500, this._skxzf.y, 3).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x + 500, this._skswk.y, 3).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.wukongMove2Over, this);
+		this._skswk.play(HeroAniEnums.Attack, true);
+		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x, this.basPos.y, this.aniMoveSpeed).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, 0, 0, this.aniMoveSpeed).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280, 0, this.aniMoveSpeed).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, this.aniMoveSpeed).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this.m_cloud.x, this.m_cloud.y, 1500, 0, this.aniMoveSpeed).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, 94, this._skts.y, this.aniMoveSpeed).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x + 500, this._skxzf.y, this.aniMoveSpeed).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype);
+		fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x + 500, this._skswk.y, this.aniMoveSpeed).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.wukongMove2Over, this);
 	}
 	// 悟空第二次移动结束
 	private wukongMove2Over(): void {
@@ -360,118 +385,35 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	// 悟空跑出镜头
 	private moveWukongtoRight(): void {
-		this.tip.visible = false;
-		this._skswk.scaleX = 1;
-		this._skswk.play(HeroAniEnums.Move, true);
-		fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x + 500, this._skswk.y, 2).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.wukongMove3Over, this);
+		setTimeout(() => {
+			this.tip.visible = false;
+			this._skswk.scaleX = 1;
+			this._skswk.play(HeroAniEnums.Move, true);
+			fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x + 500, this._skswk.y, this.aniMoveSpeed).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.moveToLeftOver, this);
+		}, 1000);
 	}
-	private wukongMove3Over(): void {
-		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x - 1000, this.basPos.y, 3).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
-		for (let i = 0; i < 4; i++) {
-			fairygui.tween.GTween.to2(this.m_bgList[i].x, this.m_bgList[i].y, this.m_bgList[i].x - 1000, this.m_bgList[i].y, 3).setTarget(this.m_bgList[i], this.m_bgList[i].setXY).setEase(this.easetype);
-		}
-		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, -1000, 0, 3).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280 - 1000, 0, 3).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073 - 1000, 0, 3).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, this._skts.x - 1000, this._skts.y, 3).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x - 1000, this._skxzf.y, 3).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype);
-		this._skswk.scaleX = -1;
-		this._skswk.play(HeroAniEnums.Stand, true);
-		fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, 500, this._skswk.y, 3).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype);
-		this._skEnemy.push(this._skswk);
-		//  第二排
-		// 八戒
-		let bajie = BaseSK.create("enemy_1");
-		bajie.scaleX = -1;
-		bajie.play(HeroAniEnums.Stand, true);
-		Game.parentObject.addChild(bajie);
-		bajie.pos(this._skswk.x + 150, this._skswk.y);
-		fairygui.tween.GTween.to2(bajie.x, bajie.y, 650, bajie.y, 3).setTarget(bajie, bajie.pos).setEase(this.easetype);
-		this._skEnemy.push(bajie);
-		// 沙和尚
-		let shaheshang = BaseSK.create("enemy_4");
-		shaheshang.scaleX = -1;
-		shaheshang.play(HeroAniEnums.Stand, true);
-		Game.parentObject.addChild(shaheshang);
-		shaheshang.pos(this._skswk.x + 150, this._skswk.y + 150);
-		fairygui.tween.GTween.to2(shaheshang.x, shaheshang.y, 650, shaheshang.y, 3).setTarget(shaheshang, shaheshang.pos).setEase(this.easetype);
-		this._skEnemy.push(shaheshang);
-		// 白龙马
-		let xbl = BaseSK.create("enemy_3");
-		xbl.scaleX = -1;
-		xbl.play(HeroAniEnums.Stand, true);
-		Game.parentObject.addChild(xbl);
-		xbl.pos(this._skswk.x + 150, this._skswk.y - 150);
-		fairygui.tween.GTween.to2(xbl.x, xbl.y, 650, xbl.y, 3).setTarget(xbl, xbl.pos).setEase(this.easetype);
-		this._skEnemy.push(xbl);
-		let temI = [0, 100, -100, 200, -200, 300, -300];
-		// 第三排
-		for (let i = 5; i < 10; i++) {
-			let _sk = BaseSK.create("enemy_" + i);
-			_sk.scaleX = -1;
-			_sk.play(HeroAniEnums.Move, true);
-			Game.parentObject.addChild(_sk);
-			let yy = this._skswk.y + temI[i - 5];
-			_sk.pos(this._skswk.x + 300, yy);
-			fairygui.tween.GTween.to2(_sk.x, _sk.y, 800, _sk.y, 3).setTarget(_sk, _sk.pos).setEase(this.easetype);
-			this._skEnemy.push(_sk);
-		}
-		// 第四排
-		for (let i = 10; i < 17; i++) {
-			let _sk = BaseSK.create("enemy_" + i);
-			_sk.scaleX = -1;
-			_sk.play(HeroAniEnums.Move, true);
-			Game.parentObject.addChild(_sk);
-			let yy = this._skswk.y + temI[i - 10];
-			_sk.pos(this._skswk.x + 450, yy);
-			fairygui.tween.GTween.to2(_sk.x, _sk.y, 950, _sk.y, 3).setTarget(_sk, _sk.pos).setEase(this.easetype);
-			this._skEnemy.push(_sk);
-		}
-		this.refreshIndex();
-		fairygui.tween.GTween.to2(this.m_cloud.x, 0, 1500 - 1000, 0, 3).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype).onComplete(this.moveToRightOver, this);
-	}
-	// 镜头右移结束，查看敌情
-	private moveToRightOver(): void {
-		this.tip.visible = true;
-		this.tip.setXY(this._skswk.x, this._skswk.y - 160);
-		Game.writeEff.startTypeWrite(100, Game.tipTxt.wukongTip3, this.tip.m_titles, Laya.Handler.create(this, this.moveToLeft, null, false));
-	}
-	private moveToLeft(): void {
-		this.tip.visible = false;
-		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x, this.basPos.y, 3).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
-		for (let i = 0; i < 4; i++) {
-			fairygui.tween.GTween.to2(this.m_bgList[i].x, this.m_bgList[i].y, this.m_bgList[i].x + 1000, this.m_bgList[i].y, 3).setTarget(this.m_bgList[i], this.m_bgList[i].setXY).setEase(this.easetype);
-		}
-		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, 0, 0, 3).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280, 0, 3).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, 3).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_cloud.x, this.m_cloud.y, 1500, 0, 3).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, 94, this._skts.y, 3).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x + 1000, this._skxzf.y, 3).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype).onComplete(this.moveToLeftOver, this);
-		for (let i = this._skEnemy.length - 1; i >= 0; i--) {
-			fairygui.tween.GTween.to2(this._skEnemy[i].x, this._skEnemy[i].y, this._skEnemy[i].x + 1000, this._skEnemy[i].y, 3).setTarget(this._skEnemy[i], this._skEnemy[i].pos).setEase(this.easetype);
-		}
 
-	}
 	private moveToLeftOver(): void {
 		this.tip.visible = true;
 		this.tip.setXY(235, 550 - 160);
 		Game.writeEff.startTypeWrite(100, Game.tipTxt.battleXzf, this.tip.m_titles, Laya.Handler.create(this, this.storyOver, null, false));
 	}
 	private storyOver(): void {
-		this.tip.visible = false;
-		this._skxzf.destroyThis();
-		this._skxzf = null;
-		for (let i = this._skEnemy.length - 1; i >= 0; i--) {
-			this._skEnemy[i].destroyThis();
-		}
-		this._skswk = null;
-		this._skEnemy = [];
-		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
-			Game.battleScene.battleSeat[i].showHidefacade(false);
-		}
-		Game.playData.guideIndex = GuideType.FightReady;
-		Game.menu.open(MenuId.Arrange, Game.battleData.trial_level == 0 ? 0 : 1, -1);
+		setTimeout(() => {
+			this.tip.visible = false;
+			this._skxzf.destroyThis();
+			this._skxzf = null;
+			// for (let i = this._skEnemy.length - 1; i >= 0; i--) {
+			// 	this._skEnemy[i].destroyThis();
+			// }
+			this._skswk = null;
+			// this._skEnemy = [];
+			for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
+				Game.battleScene.battleSeat[i].showHidefacade(false);
+			}
+			Game.playData.guideIndex = GuideType.FightReady;
+			Game.menu.open(MenuId.Arrange, Game.battleData.trial_level == 0 ? 0 : 1, -1);
+		}, 1000);
 	}
 
 	private cloud: UI_CloudCom;
@@ -498,7 +440,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 	private _skxzf: BaseSK = null;
 	private _skswk: BaseSK = null;
 	private _skts: BaseSK = null;
-	private _skEnemy: BaseSK[] = [];
+	// private _skEnemy: BaseSK[] = [];
 	// 对话文本
 	private tip: UI_DialogBox = null;
 	private stonebgTick: Tick = null;
@@ -567,6 +509,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 			Game.playData.guideIndex = GuideType.StartFight
 		}
 		this.moduleWindow.menuCloseOther();
+		Game.battleData.countdown.dispatch();
 		setTimeout(() => {
 			this.createHaloEffect();
 		}, 100);
@@ -607,7 +550,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this._skswk.pos(1515, 522);
 			this._skswk.scaleX = -1;
 			this._skswk.play(HeroAniEnums.Move, true);
-			fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, 1015, this._skswk.y, 2).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.guide10BossTip3, this);
+			fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, 1015, this._skswk.y, this.aniMoveSpeed).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.guide10BossTip3, this);
 		}
 	}
 	private guide10BossTip3(): void {
@@ -618,13 +561,15 @@ export default class UI_BattleMain extends fui_BattleMain {
 		Game.writeEff.startTypeWrite(100, Game.tipTxt.txts("Guide7"), this.tip.m_titles, Laya.Handler.create(this, this.guide10BossTip2, null, false));
 	}
 	private guide10BossTip2(): void {
-		this._skswk.scaleX = 1;
-		if (this.tip) {
-			Game.writeEff.stopTypeWrite();
-			this.tip.visible = false;
-		}
-		this._skswk.play(HeroAniEnums.Move, true);
-		fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x + 500, this._skswk.y, 2).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.passWaveTipOver, this);
+		setTimeout(() => {
+			this._skswk.scaleX = 1;
+			if (this.tip) {
+				Game.writeEff.stopTypeWrite();
+				this.tip.visible = false;
+			}
+			this._skswk.play(HeroAniEnums.Move, true);
+			fairygui.tween.GTween.to2(this._skswk.x, this._skswk.y, this._skswk.x + 500, this._skswk.y, this.aniMoveSpeed).setTarget(this._skswk, this._skswk.pos).setEase(this.easetype).onComplete(this.passWaveTipOver, this);
+		}, 1000);
 	}
 	private passWaveTipOver(): void {
 		this._skipGame = false;
@@ -670,7 +615,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this._guidHand = Pools.fetch(UI_Hand);
 			this.addChild(this._guidHand);
 		}
-		this._guidTip.setXY(this.m_base3.x, this.m_base3.y - 110);
+		this._guidTip.setXY(this.m_base3.x, this.m_base3.y - 50);
 		this._guidTip.m_titles.text = Game.tipTxt.txts("Guid5");
 		fairygui.tween.GTween.to2(this.m_base3.x, this.m_base3.y, this.m_base8.x, this.m_base8.y, 2).setTarget(this._guidHand, this._guidHand.setXY).setRepeat(-1);
 		for (let i = 0; i < 9; i++) {
@@ -699,7 +644,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		if (Game.gameStatus != GameStatus.Gaming) return;
 		var dt = Laya.timer.delta * Game.playData.gameSpeed;
-		if (Game.playData.guideIndex >= GuideType.fiveFight) {
+		if (Game.playData.guideIndex > GuideType.fiveWin) {
 			if (Game.battleMap.curTime < Game.battleMap.waveTime - 1000) {
 				this.toastTime++;
 				if (this.toastTime > 500) {

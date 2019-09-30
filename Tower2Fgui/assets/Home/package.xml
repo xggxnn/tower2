@@ -3,40 +3,36 @@
   <resources>
     <component id="og780" name="HomeMain.xml" path="/" exported="true"/>
     <component id="og7810" name="GeneralBtns.xml" path="/" exported="true"/>
-    <image id="j5ct11" name="buzhendi.png" path="/pic/" scale="9grid" scale9grid="25,28,13,19"/>
-    <image id="j5ct12" name="buzhenshengji.png" path="/pic/"/>
-    <image id="j5ct13" name="buzhenshengjibg.png" path="/pic/"/>
-    <image id="j5ct14" name="buzhenshengjiicon.png" path="/pic/"/>
-    <image id="j5ct15" name="chuangguanmask.png" path="/pic/" scale="9grid" scale9grid="57,22,9,7"/>
-    <image id="j5ct18" name="iconactive.png" path="/pic/"/>
-    <image id="j5ct19" name="iconbag.png" path="/pic/"/>
-    <image id="j5ct1a" name="iconsetting.png" path="/pic/"/>
-    <image id="j5ct1b" name="iconshop.png" path="/pic/"/>
-    <image id="j5ct1c" name="iconsort.png" path="/pic/"/>
-    <image id="j5ct1e" name="shengjijiantou.png" path="/pic/"/>
-    <image id="j5ct1f" name="zhengfuxitong.png" path="/pic/"/>
-    <image id="j5ct1g" name="zhengfuxitongbg.png" path="/pic/"/>
-    <image id="j5ct1h" name="zhengfuxitongicon.png" path="/pic/"/>
-    <image id="j5ct1i" name="ziyuandi.png" path="/pic/" scale="9grid" scale9grid="15,16,10,4"/>
+    <image id="j5ct1i" name="ziyuandi.png" path="/pics/" scale="9grid" scale9grid="15,16,10,4"/>
     <component id="j5ct1k" name="coinLabel.xml" path="/" exported="true"/>
-    <image id="j5ct1l" name="bg1.png" path="/pic/"/>
     <component id="j5ct1n" name="seatBtn.xml" path="/" exported="true"/>
     <component id="j5ct1q" name="fightBtn.xml" path="/" exported="true"/>
     <component id="j5ct1r" name="conquestBtn.xml" path="/" exported="true"/>
-    <image id="j5ct1s" name="chuanggundi.png" path="/pic/" atlas="alone"/>
     <component id="nn3i9" name="HeroInfo.xml" path="/" exported="true"/>
-    <image id="udz4w" name="shilian.png" path="/pic/" exported="true"/>
-    <image id="udz4g" name="chuangguan.png" path="/pic/" exported="true"/>
     <component id="bxj01u" name="HeroFetters.xml" path="/" exported="true"/>
     <component id="qrw01v" name="Synthetise.xml" path="/" exported="true"/>
-    <image id="qrw01w" name="image_card_ready_avatarbg1.png" path="/pic/"/>
-    <image id="qrw01x" name="image_card_ready_avatarbg2.png" path="/pic/"/>
-    <image id="qrw01y" name="image_card_ready_avatarbg3.png" path="/pic/"/>
-    <image id="qyum1z" name="iconhero.png" path="/pic/"/>
-    <image id="c8j320" name="synthetiseBg.png" path="/pic/"/>
-    <image id="c8j321" name="iconking.png" path="/pic/"/>
-    <image id="lljr22" name="dayFight.png" path="/pic/"/>
-    <image id="lljr23" name="passAll.png" path="/pic/"/>
+    <image id="c8j320" name="synthetiseBg.png" path="/pics/"/>
+    <image id="lljr23" name="passAll.png" path="/pics/"/>
+    <image id="bcle24" name="act.png" path="/pics/"/>
+    <image id="bcle25" name="ad.png" path="/pics/"/>
+    <image id="bcle26" name="bag.png" path="/pics/"/>
+    <image id="bcle27" name="bg.png" path="/pics/"/>
+    <image id="bcle28" name="bg2.png" path="/pics/"/>
+    <image id="bcle29" name="bg3.png" path="/pics/"/>
+    <image id="bcle2a" name="fight.png" path="/pics/"/>
+    <image id="bcle2b" name="guaji.png" path="/pics/"/>
+    <image id="bcle2c" name="hero.png" path="/pics/"/>
+    <image id="bcle2d" name="king.png" path="/pics/"/>
+    <image id="bcle2e" name="lineIcon.png" path="/pics/"/>
+    <image id="bcle2g" name="seat.png" path="/pics/"/>
+    <image id="bcle2h" name="set.png" path="/pics/"/>
+    <image id="bcle2i" name="shop.png" path="/pics/"/>
+    <image id="bcle2j" name="sort.png" path="/pics/"/>
+    <image id="bcle2k" name="topBg.png" path="/pics/"/>
+    <image id="bcle2l" name="zhizhusi.png" path="/pics/"/>
+    <image id="bcle2n" name="dayFight.png" path="/pics/"/>
+    <image id="bcle2o" name="bg4.png" path="/pics/"/>
+    <image id="bcle2p" name="bg5.png" path="/pics/"/>
   </resources>
   <publish name="Home" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

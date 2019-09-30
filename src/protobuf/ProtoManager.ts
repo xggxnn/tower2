@@ -1,6 +1,7 @@
 import Proto from "./Proto";
 import ProtoHash from "./ProtoHash";
 import Game from "../Game";
+import ProtoServer from "./ProtoServer";
 
 export default class ProtoManager {
 
@@ -222,5 +223,45 @@ export default class ProtoManager {
 	 */
 	public dayFightReward(data: Object): void {
 		this.sendPro(data, 1035);
+	}
+
+
+
+
+	private temOpenIds: string = null;
+	private randString(length: number = 16): string {
+		var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		var maxPos = chars.length;
+		var str = '';
+		for (let i = 0; i < length; i++) {
+			str += chars.charAt(Math.floor(Math.random() * maxPos));
+		}
+		return str + new Date().getTime();
+	}
+	// 发送日志服务器信息
+	public logUpload(data: Object): void {
+		if (this.temOpenIds == null) {
+			if (Laya.LocalStorage.getItem("temopenId_Init") !== null) {
+				let val = Laya.LocalStorage.getItem("temopenId_Init");
+				if (val === undefined || val === null || val === "") {
+					val = this.randString();
+				}
+				this.temOpenIds = val;
+			}
+			else {
+				this.temOpenIds = this.randString();
+			}
+			Laya.LocalStorage.setItem("temopenId_Init", this.temOpenIds);
+		}
+		let openids = "";
+		if (Game.userData && Game.userData.openid) {
+			openids = Game.userData.openid
+		}
+		let sendData = {
+			openId: openids,
+			temOpenIds: this.temOpenIds,
+			data: data,
+		}
+		ProtoServer.logPost(sendData);
 	}
 }

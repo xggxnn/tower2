@@ -109,8 +109,8 @@ export default class BattleSoldier extends Laya.Sprite {
 
     protected currentState = HeroAniEnums.None;
     // 出生点
-    protected initPointTop: Point = new Point(1380, 480);
-    protected initPointBom: Point = new Point(1380, 580);
+    protected initPointTop: Point = new Point(1500, 480);
+    protected initPointBom: Point = new Point(1500, 580);
     protected initPoint: Point = new Point();
     protected initPos: number = 0;
     // 下一个动作攻击
@@ -161,11 +161,15 @@ export default class BattleSoldier extends Laya.Sprite {
 
     private updatePos(x, y): void {
         this.pos(x, y);
-        if (Game.playData.guideIndex == GuideType.fiveMoveHeroSeat && x < 906) {
-            Game.playData.guideIndex = GuideType.fiveMoveHeroSeat2;
-            Game.gameStatus = GameStatus.Pause;
-            EventManager.event(EventKey.GUIDEMOVEHERO);
+        if (Game.playData.guideDeathEnemy == 6 && x <= 1150) {
+            Game.playData.guideDeathEnemy = -1;
+            EventManager.event(EventKey.GUIDE_PLAY_SKILL);
         }
+        // if (Game.playData.guideIndex == GuideType.fiveMoveHeroSeat && x < 906) {
+        //     Game.playData.guideIndex = GuideType.fiveMoveHeroSeat2;
+        //     Game.gameStatus = GameStatus.Pause;
+        //     EventManager.event(EventKey.GUIDEMOVEHERO);
+        // }
         // if (this.blood) {
         //     this.blood.setXY(x, y - 100);
         // }
@@ -378,7 +382,7 @@ export default class BattleSoldier extends Laya.Sprite {
                 this.isPause = false;
                 this.currentState = this.preStatus;
                 if (this.currentState == HeroAniEnums.Move) {
-                    this.playMove(); 0
+                    this.playMove();
                 }
             }
         }

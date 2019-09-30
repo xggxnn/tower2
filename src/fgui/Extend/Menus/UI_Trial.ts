@@ -16,6 +16,7 @@ import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import { GameStatus } from "../../../gamemodule/DataEnums/GameStatus";
 import AdsManager from "../../../tool/AdsManager";
 import SystemManager from "../../../tool/SystemManager";
+import WaveInfo from "../../../csvInfo/WaveInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Trial extends fui_Trial {
@@ -146,24 +147,36 @@ export default class UI_Trial extends fui_Trial {
 			this.fight_type = 1;
 			Game.battleData.trial_level = this.item.level;
 			this.m_c1.setSelectedIndex(1);
-			(this.m_reward as UI_RewardItem).m_count.setVar("count", Fun.formatNumberUnit(rewardInf.coin_challenge)).flushVars();
-			this.m_progress.value = Math.floor((this.item.level - 1) / 5 * 100);
+			this.rewardList = [];
+			if (rewardInf.coin_challenge > 0) {
+				let itemRew = new RewardItem();
+				itemRew.itemId = ResourceInfo.gold;
+				itemRew.itemNum = rewardInf.coin_challenge;
+				this.rewardList.push(itemRew);
+			}
+			if (rewardInf.jadechallenge > 0) {
+				let itemRew = new RewardItem();
+				itemRew.itemId = ResourceInfo.jadeite;
+				itemRew.itemNum = rewardInf.jadechallenge;
+				this.rewardList.push(itemRew);
+			}
+			this.m_rewardList.numItems = this.rewardList.length;
+			let waveInf = WaveInfo.getInfo(Game.battleData.level_id);
+			this.m_starMax.setSelectedIndex(waveInf.levelcounts);
+			this.m_starNum.setSelectedIndex(this.item.level - 1);
 			if (this.item.fightCd > 0) {
 				this.m_cdStatus.setSelectedIndex(1);
-				this.showSkipBtn(true);
 				this.m_startBtn.enabled = false;
 				this.showFightCd(this.item);
 				Game.battleMap.sUpdateFightCd.add(this.showFightCd, this);
 			}
 			else {
 				this.m_cdStatus.setSelectedIndex(0);
-				this.showSkipBtn();
 			}
 		}
 		else {
 			this.m_c1.setSelectedIndex(0);
 			this.m_cdStatus.setSelectedIndex(0);
-			this.showSkipBtn();
 			this.rewardList = [];
 			if (rewardInf.coin_first > 0) {
 				let itemRew = new RewardItem();
@@ -203,24 +216,11 @@ export default class UI_Trial extends fui_Trial {
 		}
 
 	}
-	private showSkipBtn(cd: boolean = false): void {
-		if (cd) {
-			this.m_skipStatus.setSelectedIndex(0);
-		}
-		else {
-			if (Game.playData.guideIndex >= GuideType.sevenStartFive && this.fight_type == 1 && this.m_fightStatus.selectedIndex == 0 && this.m_speedStatus.selectedIndex == 0 && this.m_critStatus.selectedIndex == 0 && this.m_burstStatus.selectedIndex == 0) {
-				this.m_skipStatus.setSelectedIndex(1);
-			}
-			else {
-				this.m_skipStatus.setSelectedIndex(0);
-			}
-		}
-	}
+
 	private showFightCd(waves: WaveStatus): void {
 		if (this.item && this.item.id == waves.id) {
 			if (waves.fightCd <= 0) {
 				this.m_cdStatus.setSelectedIndex(0);
-				this.showSkipBtn();
 				this.m_startBtn.enabled = true;
 			}
 			else {

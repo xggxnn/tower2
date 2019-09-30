@@ -27,5 +27,9 @@ export default class RewardItem {
      * 类型
      */
     public types: number = 0;
+    /**
+     * 解锁功能序号
+     */
+    public funIndex: number = 0;
 
 }

@@ -54,6 +54,16 @@ export default class UI_ItemShop extends fui_ItemShop {
 		this.m_quality.icon = SpriteKey.getUrl("quality" + hero.quality + ".png");
 		this.m_heroName.setVar("name", hero.name).flushVars();
 		let heroclip = HeroqualityInfo.getInfoQuality(hero.quality);
+		let haveHeroClip = 0;
+		if (Game.playData.curClips.hasKey(hero.id)) {
+			haveHeroClip = Game.playData.curClips.getValue(hero.id);
+		}
+		if (Game.playData.curHeroInfoList.hasKey(hero.id)) {
+			this.limitHeroTip = Fun.format("当前拥有及需求数量：{0}/{1}", haveHeroClip, Game.redData.requestClips(hero, false));
+		}
+		else {
+			this.limitHeroTip = Fun.format("当前拥有及需求数量：{0}/{1}", haveHeroClip, Game.redData.requestClips(hero, true));
+		}
 		this.m_price.setVar("count", heroclip.magic_clip.toString()).setVar("price", "钻石").flushVars();
 		this.m_buyPrice.setVar("count", this.limitShopInf.itemNum.toString()).flushVars();
 		this.m_pic.icon = SpriteKey.getUrl("hero_" + hero.skin + ".png");
@@ -120,16 +130,18 @@ export default class UI_ItemShop extends fui_ItemShop {
 	private itemShopInf: ShopInfo = null;
 	private itemCardInf: ShopInfo = null;
 	private limitShopInf: RewardItem = null;
+	private limitHeroTip: string = "";
 	private types: number = 0;
 	private showTip(): void {
 		switch (this.types) {
 			case 0:
+				Game.popup.showPopup(this.m_pic, false, false, this.limitHeroTip);
 				break;
 			case 1:
-				Game.popup.showPopup(this.m_pic, true, false, this.itemCardInf.des);
+				Game.popup.showPopup(this.m_pic, false, false, this.itemCardInf.des);
 				break;
 			case 2:
-				Game.popup.showPopup(this.m_pic, true, false, this.itemShopInf.des);
+				Game.popup.showPopup(this.m_pic, false, false, this.itemShopInf.des);
 				break;
 		}
 	}

@@ -10,6 +10,9 @@ import SpriteKey from "../../SpriteKey";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import { GameStatus } from "../../../gamemodule/DataEnums/GameStatus";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
+import UI_EnemyItem from "./UI_EnemyItem";
+import Dictionary from "../../../tool/Dictionary";
+import BattleMapEnemy from "../../../gamemodule/DataStructs/BattleMapEnemy";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleRightBottom extends fui_BattleRightBottom {
@@ -29,39 +32,15 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-		this.m_skill2Btn.visible = false;
-		// this.m_skill3Btn.onClick(this, this.skillClick);
+		this.m_enemyList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
 
 		this.addSpeedBtn = this.m_addSpeed as UI_AddSpeedBtn;
 		this.addSpeedBtn.onClick(this, this.doubleSpeed);
 		this.addSpeedBtn.m_changeStatus.setSelectedIndex(0);
+		this.m_waveBtn.onClick(this, this.showHideList);
 	}
 	private addSpeedBtn: UI_AddSpeedBtn;
-	private _cding: boolean = false;
-	// public skillClick(): void {
-	// 	if (this._cding) {
-	// 		Game.popup.showPopup(this.m_skill3Btn, true, false, Game.tipTxt.SkillCD);
-	// 		return;
-	// 	}
-	// 	if (this.mapSkillCDMax > 0) {
-	// 		if (Game.playData.guideIndex == GuideType.CastSkill) {
-	// 			Game.playData.guideIndex = GuideType.CastSkillOver;
-	// 			Game.gameStatus = GameStatus.Gaming;
-	// 		}
-	// 		this.mapSkillCD = this.mapSkillCDMax;
-	// 		this.m_skill3Btn.m_mask.fillAmount = 1;
-	// 		this.m_skill3Btn.m_mask.visible = true;
-	// 		this._cding = true;
-	// 		this.m_skill3Btn
-	// 		this.m_skill3Btn.m_tip.text = this.mapSkillInf.des;
-	// 		this.m_skill3Btn.m_t0.play();
-	// 		EventManager.event(EventKey.PLAY_SKILL, [false]);
-	// 	}
-	// 	else {
-	// 		this.m_skill3Btn.m_tip.text = "被动技能：" + this.mapSkillInf.des;
-	// 		this.m_skill3Btn.m_t0.play();
-	// 	}
-	// }
+
 	private doubleSpeed(): void {
 		if (Game.battleMap.maxMapId < 3) {
 			Game.tipWin.showTip(Game.tipTxt.AddSpeedTip);
@@ -78,24 +57,6 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 			EventManager.event(EventKey.CHANGESPEED);
 		}
 	}
-	// 需从ui_main 调用
-	// public update(dt): void {
-	// 	if (this.mapSkillCDMax > 0) {
-	// 		if (this.mapSkillCD > 0) {
-	// 			this.mapSkillCD -= dt;
-	// 			if (this.mapSkillCD <= 0) {
-	// 				this.m_skill3Btn.m_mask.visible = false;
-	// 				this._cding = false;
-	// 			}
-	// 			else {
-	// 				if (!this.m_skill3Btn.m_mask.visible) {
-	// 					this.m_skill3Btn.m_mask.visible = true;
-	// 				}
-	// 			}
-	// 			this.m_skill3Btn.m_mask.fillAmount = this.mapSkillCD / this.mapSkillCDMax;
-	// 		}
-	// 	}
-	// }
 
 	private mapSkillInf: PlayerSkillInfo = null;
 	private mapSkillCD: number = 0;
@@ -107,14 +68,6 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		else if (Game.playData.gameSpeed > 1.5) {
 			this.addSpeedBtn.m_changeStatus.setSelectedIndex(1);
 		}
-		// this.mapSkillInf = PlayerSkillInfo.getInfo(Game.playData.curPlaySkillIndex);
-		// this.mapSkillCD = 0;
-		// this.mapSkillCDMax = this.mapSkillInf.cd * 1000;
-		// this.m_skill3Btn.m_mask.fillAmount = 0;
-		// this.m_skill3Btn.m_mask.visible = false;
-		// this.m_skill3Btn.m_icons.icon = SpriteKey.getUrl("icon_skill0" + this.mapSkillInf.id + ".png");
-		// this._cding = false;
-		// this.m_skill3Btn.m_titles.text = this.mapSkillInf.name;
 	}
 
 	// 关闭ui
@@ -127,15 +80,102 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		// Game.playData.sBattleMainUpdate.add(this.update, this);
 		EventManager.on(EventKey.GAMESTART, this, this.setData);
 		this.setData();
+		this.clearThis();
+		this.m_waveBtn.title = "";
+		Game.battleMap.sUpdateExitBattleMain.add(this.clearThis, this);
+		Game.battleData.countdown.add(this.countdown, this);
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
-		// Game.playData.sBattleMainUpdate.remove(this.update, this);
 		EventManager.off(EventKey.GAMESTART, this, this.setData);
+		Game.battleData.countdown.remove(this.countdown, this);
+		Game.battleMap.sUpdateExitBattleMain.remove(this.clearThis, this);
+		this.curSelect = 0;
+		this.m_showHide.setSelectedIndex(0);
 	}
 
+	private enemySkDic: Dictionary<number, enemySkInf> = new Dictionary<number, enemySkInf>();
+	private enemySkList: Array<enemySkInf> = [];
+	private enemyNumb: number = 0;
+
+	private initInf(): void {
+		this.clearThis();
+		let nums = 0;
+		for (let i = 0, len = Game.battleMap.curBattleEnemyListNumber.length; i < len; i++) {
+			let item: BattleMapEnemy = Game.battleMap.curBattleEnemyDic.getValue(Game.battleMap.curBattleEnemyListNumber[i]);
+			if (!this.enemySkDic.hasKey(item.enemy.monsterInf.id)) {
+				let eni: enemySkInf = new enemySkInf();
+				eni.id = item.enemy.monsterInf.id;
+				eni.skin = item.enemy.monsterInf.sk;
+				eni.num = 1;
+				this.enemySkDic.add(item.enemy.monsterInf.id, eni);
+				nums++;
+			}
+			else {
+				let val = this.enemySkDic.getValue(item.enemy.monsterInf.id);
+				val.num++;
+				nums++;
+			}
+		}
+		this.m_waveBtn.title = "剩余敌人：" + nums;
+		this.enemySkList = this.enemySkDic.getValues();
+		this.m_enemyList.width = this.enemySkList.length * 50;
+		this.m_enemyList.numItems = this.enemySkList.length;
+		if (this.enemySkList.length <= 0) {
+			this.curSelect = 0;
+			this.m_showHide.setSelectedIndex(0);
+		}
+		this.enemyNumb = Game.battleMap.curBattleEnemyListNumber.length;
+	}
+
+	countdown(): void {
+		// 初始化
+		if (this.enemyNumb == 0 && Game.battleMap.curBattleEnemyListNumber.length > 0) {
+			this.initInf();
+			this.curSelect = 1;
+			this.m_showHide.setSelectedIndex(1);
+		}
+
+		if (this.enemyNumb > Game.battleMap.curBattleEnemyListNumber.length) {
+			this.initInf();
+		}
+	}
+
+	private clearThis(): void {
+		this.enemyNumb = 0;
+		this.m_enemyList.numItems = 0;
+		this.enemySkDic.clear();
+	}
+
+	// 渲染item 英雄列表的item
+	private initItem(index: number, obj: fairygui.GObject): void {
+		let item = obj as UI_EnemyItem;
+		item.m_titles.text = "x" + this.enemySkList[index].num;
+		item.m_icons.icon = SpriteKey.getUrl("enemy_" + this.enemySkList[index].skin + ".png");
+	}
+	private curSelect: number = 0;
+	private showHideList(): void {
+		if (this.enemySkList.length <= 0) {
+			this.curSelect = 0;
+			this.m_showHide.setSelectedIndex(0);
+		}
+		else {
+			if (this.curSelect == 1) {
+				this.curSelect = 0;
+			}
+			else {
+				this.curSelect = 1;
+			}
+			this.m_showHide.setSelectedIndex(this.curSelect);
+		}
+	}
+
+}
+export class enemySkInf {
+	public id: number = 0;
+	public skin: number = 0;
+	public num: number = 0;
 }
 UI_BattleRightBottom.bind();

@@ -20,7 +20,7 @@ export default class fui_conquestBtn extends fairygui.GButton {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
-		this.m_tip1 = <fairygui.GRichTextField><any>(this.getChildAt(4));
-		this.m_tip2 = <fairygui.GRichTextField><any>(this.getChildAt(5));
+		this.m_tip1 = <fairygui.GRichTextField><any>(this.getChildAt(1));
+		this.m_tip2 = <fairygui.GRichTextField><any>(this.getChildAt(2));
 	}
 }

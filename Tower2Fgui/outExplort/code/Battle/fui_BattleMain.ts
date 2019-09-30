@@ -40,6 +40,7 @@ export default class fui_BattleMain extends fairygui.GComponent {
 	public m_bas:fairygui.GGroup;
 	public m_scenes:fairygui.GLoader;
 	public m_bloods:fairygui.GLoader;
+	public m_effects:fairygui.GLoader;
 
 	public static URL:string = "ui://3jvhuirzn1s05";
 
@@ -89,5 +90,6 @@ export default class fui_BattleMain extends fairygui.GComponent {
 		this.m_bas = <fairygui.GGroup><any>(this.getChildAt(34));
 		this.m_scenes = <fairygui.GLoader><any>(this.getChildAt(35));
 		this.m_bloods = <fairygui.GLoader><any>(this.getChildAt(36));
+		this.m_effects = <fairygui.GLoader><any>(this.getChildAt(37));
 	}
 }

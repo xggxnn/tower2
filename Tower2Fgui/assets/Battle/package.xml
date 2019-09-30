@@ -52,6 +52,8 @@
     <image id="9mhx20" name="bg_1.png" path="/pic/"/>
     <image id="9mhx21" name="bg_2.png" path="/pic/"/>
     <image id="9mhx22" name="bg_3.png" path="/pic/"/>
+    <component id="bcle23" name="EnemyItem.xml" path="/" exported="true"/>
+    <component id="bcle24" name="ShowHideBtn.xml" path="/"/>
   </resources>
   <publish name="Battle" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

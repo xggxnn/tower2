@@ -11,7 +11,7 @@ export default class UserData {
     /**
      * 微信openid
      */
-    private _openid: string;
+    private _openid: string = "";
     public get openid(): string {
         return this._openid;
     }

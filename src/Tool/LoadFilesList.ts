@@ -35,6 +35,7 @@ export default class LoadFilesList {
         _list.push("res_effect/effect_1028.sk");
         _list.push("res_effect/effect_2001.sk");
         _list.push("res_effect/effect_2002.sk");
+        _list.push("res_effect/effect_2003.sk");
         _list.push("res_effect/effect_3.sk");
         _list.push("res_effect/effect_4.sk");
         _list.push("res_effect/effect_ui01.sk");
@@ -65,8 +66,12 @@ export default class LoadFilesList {
         _list.push("res_sk/enemy_15.sk");
         _list.push("res_sk/enemy_16.sk");
         _list.push("res_sk/enemy_17.sk");
+        _list.push("res_sk/enemy_18.sk");
+        _list.push("res_sk/enemy_19.sk");
         _list.push("res_sk/enemy_2.sk");
         _list.push("res_sk/enemy_20.sk");
+        _list.push("res_sk/enemy_21.sk");
+        _list.push("res_sk/enemy_22.sk");
         _list.push("res_sk/enemy_23.sk");
         _list.push("res_sk/enemy_26.sk");
         _list.push("res_sk/enemy_29.sk");

@@ -119,12 +119,19 @@ export default class UI_MenusMain extends fui_MenusMain {
 	private setData(): void {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		this.clearNum = 0;
-		this.moduleWindow.closeOtherWindow();
+		this.moduleWindow.closeOtherWindow(true);
 		if (Game.battleData.MenuEnterDay) {
 			Game.proto.dayFightData();
 		}
 		else {
 			this.setDataWave();
+			if (Game.playData.unlockInit == 7) {
+				Game.playData.unlockInit = 8;
+				EventManager.event(EventKey.SHOW_WAIT);
+				setTimeout(() => {
+					this.moduleWindow.createGuideUI(this.m_leftBtn, new Laya.Point(this.m_leftBtn.x, this.m_leftBtn.y), Laya.Handler.create(this, this.clickLeft), "返回上一张地图！");
+				}, 100);
+			}
 		}
 	}
 	private dayFight: UI_DayFight = null;

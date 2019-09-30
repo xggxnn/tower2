@@ -43,7 +43,7 @@
     <image id="bxj04" name="huodeTitle.png" path="/pic/"/>
     <image id="gc5ls" name="yunwen.png" path="/pic/" exported="true"/>
     <component id="bxj018" name="HeroIcon.xml" path="/" exported="true"/>
-    <image id="ngrs11" name="suipian.png" path="/pic/"/>
+    <image id="ngrs11" name="suipian.png" path="/pic/" exported="true"/>
     <component id="ngrs10" name="HeadIcon.xml" path="/" exported="true"/>
     <component id="bxj019" name="ItemIcon.xml" path="/" exported="true"/>
     <image id="bxj06" name="tujiandi.png" path="/pic/" exported="true" scale="9grid" scale9grid="24,23,15,7"/>
@@ -67,7 +67,7 @@
     <image id="j8q223" name="left_right.png" path="/pic/"/>
     <component id="j8q224" name="LeftBtn.xml" path="/" exported="true"/>
     <component id="j8q226" name="RightBtn.xml" path="/" exported="true"/>
-    <image id="qss353p" name="frame.png" path="/pic/" scale="9grid" scale9grid="38,17,2,3"/>
+    <image id="qss353p" name="frame.png" path="/pic/" exported="true" scale="9grid" scale9grid="38,17,2,3"/>
     <component id="qss353q" name="DialogBox.xml" path="/" exported="true"/>
     <component id="udz4v" name="ProgressBar.xml" path="/" exported="true"/>
     <image id="udz4t" name="jindutiao.png" path="/pic/" scale="9grid" scale9grid="11,11,6,4"/>
@@ -94,7 +94,7 @@
     <image id="udz4d" name="zhuangshi1.png" path="/pic/" exported="true"/>
     <image id="udz4f" name="jianbiandizong.png" path="/pic/" exported="true"/>
     <component id="udz4c" name="TxtBtn.xml" path="/" exported="true"/>
-    <image id="udz4b" name="kuangti01.png" path="/pic/" scale="9grid" scale9grid="23,23,3,6"/>
+    <image id="udz4b" name="kuangti01.png" path="/pic/" exported="true" scale="9grid" scale9grid="23,23,3,6"/>
     <image id="qvb6549" name="dikuang.png" path="/pic/" exported="true" scale="9grid" scale9grid="27,26,5,7"/>
     <image id="j5ct1u" name="waveBg_4.png" path="/pic/" exported="true" atlas="alone"/>
     <image id="qyum1" name="tujianTitle.png" path="/pic/" exported="true"/>
@@ -103,6 +103,11 @@
     <image id="j8q23" name="right.png" path="/pic/" exported="true"/>
     <image id="j8q24" name="title.png" path="/pic/" exported="true"/>
     <component id="9mhx54a" name="BlackText.xml" path="/" exported="true"/>
+    <image id="udz4g" name="chuangguan.png" path="/pic/" exported="true"/>
+    <image id="udz4w" name="shilian.png" path="/pic/" exported="true"/>
+    <component id="bcle54b" name="Exchange.xml" path="/" exported="true"/>
+    <image id="ajdp54c" name="bigDi.png" path="/pic/" exported="true" scale="9grid" scale9grid="31,247,7,28"/>
+    <image id="ajdp54d" name="yunwen2.png" path="/pic/" exported="true"/>
   </resources>
   <publish name="System" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

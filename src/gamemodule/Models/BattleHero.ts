@@ -206,11 +206,6 @@ export default class BattleHero extends Laya.Sprite {
 
         if (this.currentState != HeroAniEnums.Stand) return;
 
-        if (Game.playData.guideDeathEnemy == 6 && this.curEnemy != null) {
-            Game.playData.guideDeathEnemy = -1;
-            EventManager.event(EventKey.GUIDE_PLAY_SKILL);
-        }
-
         if (this.curEnemy != null && canUserList.length) {
             this.dataInf.curUser = canUserList.pop(); //优先使用特殊技能
             this.sk.scaleX = this.curEnemy.x > this.sk.x ? 0.8 : -0.8;
@@ -294,8 +289,8 @@ export default class BattleHero extends Laya.Sprite {
         if (skillcd < 1 && skillcd > 0) {
             speed = 1 / skillcd;
         }
-        let audioId = this.dataInf.attackSkillList[this.dataInf.curUser].attack_audio_id;
-        Game.sound.playSound("s" + audioId + ".mp3", true, 1);
+        // let audioId = this.dataInf.attackSkillList[this.dataInf.curUser].attack_audio_id;
+        // Game.sound.playSound("s" + audioId + ".mp3", true, 1);
         // this.playAttack(speed);
         if (this.dataInf.curUser == 0) {
             this.playAttack(speed);
@@ -491,6 +486,8 @@ export default class BattleHero extends Laya.Sprite {
     }
     private frameEvent(event: Laya.EventData): void {
         let heroSkillinf = this.dataInf.attackSkillList[this.dataInf.curUser];
+        let audioId = this.dataInf.attackSkillList[this.dataInf.curUser].attack_audio_id;
+        Game.sound.playSound("s" + audioId + ".mp3", true, 1);
         switch (heroSkillinf.types) {
             case 3: //  3、提攻速同列1，同列英雄攻速提高50%，持续1秒
                 {
@@ -568,8 +565,8 @@ export default class BattleHero extends Laya.Sprite {
                 case 1:
                     let effect = BattleEffectFly.create(this, enemy, userSkill, atkEffid);
                     effect.x = this.sk.x;
-                    effect.y = this.sk.y + 70;
-                    Game.parentObject.addChild(effect);
+                    effect.y = this.sk.y + 40;
+                    Game.EffectsParent.addChild(effect);
                     this.fly.push(effect);
                     break;
             }

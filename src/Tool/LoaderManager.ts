@@ -15,7 +15,8 @@ export default class LoaderManager {
 			"res_font",
 			"res_csv",
 		];
-		Laya.URL.basePath = "https://ms.yz063.com/td2/v18/";
+		// "res_fgui",
+		Laya.URL.basePath = "https://ms.yz063.com/td2/v024/";
 		// Laya.loader.retryDelay = 100;
 		Laya.loader.retryNum = 3;
 		Laya.loader.on(Laya.Event.ERROR, LoaderManager, LoaderManager.loadError);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1280,960">
   <displayList>
-    <image id="n0_9mhx" name="n0" src="opk1o" fileName="pic/black.png" xy="0,0" size="1280,960">
+    <image id="n0_9mhx" name="n0" src="opk1o" fileName="pic/black.png" xy="-10,-20" size="1300,1000">
       <relation target="" sidePair="width-width,height-height"/>
     </image>
     <text id="n1_9mhx" name="txt" xy="640,479" pivot="0.5,0.5" anchor="true" size="600,39" fontSize="30" color="#fff7ea" autoSize="height" text="">

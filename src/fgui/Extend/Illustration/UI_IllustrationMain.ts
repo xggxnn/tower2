@@ -3,7 +3,6 @@ import IllustrationWin from "../../../gamemodule/Windows/IllustrationWin";
 import Dictionary from "../../../tool/Dictionary";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import Game from "../../../Game";
-import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
@@ -33,7 +32,6 @@ export default class UI_IllustrationMain extends fui_IllustrationMain {
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
 
-		this.m_help.setXY(Fun.topMiddlePoint.x, this.m_closeBtn.y);
 		this.m_help.onClick(this, this.helpClick);
 
 		this.m_closeBtn.onClick(this, this.closeUI);
@@ -112,8 +110,7 @@ export default class UI_IllustrationMain extends fui_IllustrationMain {
 					let clips = Game.playData.curClips.getValue(hero.id);
 					this.datas.add(hero.id, clips);
 					if (firstCanSyn == -1) {
-						let heroQuality = HeroqualityInfo.getInfoQuality(hero.quality);
-						if (heroQuality && clips >= heroQuality.clip_hero) {
+						if (clips >= Game.redData.requestClips(hero, true)) {
 							firstCanSyn = this.datas.count - 1;
 						}
 					}

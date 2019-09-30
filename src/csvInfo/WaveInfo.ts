@@ -58,6 +58,8 @@ export default class WaveInfo {
         this._time = parseInt(obj.getValue("time"));
         this._heronum = parseInt(obj.getValue("heronum"));
         this._difficultyscale = Number(obj.getValue("difficultyscale"));
+        this._levelcounts = parseInt(obj.getValue("levelcounts"));
+        this._unlock = parseInt(obj.getValue("unlock"));
     }
 
     private _id: number;
@@ -103,6 +105,16 @@ export default class WaveInfo {
     private _difficultyscale: number;
     public get difficultyscale(): number {
         return this._difficultyscale;
+    }
+
+    private _levelcounts: number;
+    public get levelcounts(): number {
+        return this._levelcounts;
+    }
+
+    private _unlock: number;
+    public get unlock(): number {
+        return this._unlock;
     }
 
 }

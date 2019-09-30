@@ -24,28 +24,61 @@ export default class RedTipData {
             if (Game.haveHeroTem.indexOf(hero.skin) != -1) {
                 if (Game.playData.curClips.hasKey(hero.id)) {
                     let heroClips = Game.playData.curClips.getValue(hero.id);
-                    if (!heroClips) heroClips = 0;
-                    let heroQuality = HeroqualityInfo.getInfoQuality(hero.quality);
-                    let upClips = 1;
-                    if (heroQuality) {
-                        upClips = heroQuality.clip_hero;
-                    }
-                    if (!Game.playData.curHeroInfoList.hasKey(hero.id)) {
-                        if (heroClips >= upClips) {
+                    if (heroClips == null) heroClips = 0;
+                    if (Game.playData.curHeroInfoList.hasKey(hero.id)) {
+                        if (this.requestClips(hero, false) <= heroClips) {
                             return true;
                         }
                     }
                     else {
-                        if (hero.quality < 5) {
-                            if (upClips <= heroClips) {
-                                return true;
-                            }
+                        if (this.requestClips(hero, true) <= heroClips) {
+                            return true;
                         }
                     }
                 }
             }
         }
         return false;
+    }
+    // 能否提升品质
+    public checkHeroCanUpQuality(hero: HeroInfoData): boolean {
+        if (Game.haveHeroTem.indexOf(hero.skin) != -1) {
+            if (Game.playData.curClips.hasKey(hero.id)) {
+                let heroClips = Game.playData.curClips.getValue(hero.id);
+                if (Game.playData.curHeroInfoList.hasKey(hero.id)) {
+                    return this.requestClips(hero, false) <= heroClips;
+                }
+            }
+        }
+        return false;
+    }
+    /**
+     * 合成及提升品质所需碎片数量
+     * @param hero 
+     * @param synthesis 是否合成
+     */
+    public requestClips(hero: HeroInfoData, synthesis: boolean): number {
+        if (synthesis) {
+            let heroQuality = HeroqualityInfo.getInfoQuality(hero.quality);
+            if (heroQuality) {
+                return heroQuality.clip_hero;
+            }
+        }
+        else {
+            if (hero.quality < 5) {
+                let heroQuality = HeroqualityInfo.getInfoQuality(hero.quality + 1);
+                if (heroQuality) {
+                    return heroQuality.clip_hero;
+                }
+            }
+            else {
+                let heroQuality = HeroqualityInfo.getInfoQuality(hero.quality);
+                if (heroQuality) {
+                    return heroQuality.clip_hero;
+                }
+            }
+        }
+        return 0;
     }
     public get activeRed(): boolean {
         return this.signRed || this.kingRed;
@@ -58,7 +91,7 @@ export default class RedTipData {
         for (let i = 1, len = KingInfo.getCount(); i <= len; i++) {
             let kInf = KingInfo.getInfo(i);
             if (kInf.rid1 > 0) {
-                result = i - 1;
+                result = i - 10;
                 if (!Game.playData.getKingStatus(i, 1)) {
                     break;
                 }

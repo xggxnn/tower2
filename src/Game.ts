@@ -47,6 +47,8 @@ export default class Game {
 	static haloParent: laya.display.Sprite;
 	// 怪物生成的父节点
 	static parentObject: laya.display.Sprite;
+	// 特效生成的父节点
+	static EffectsParent: laya.display.Sprite;
 	// 血条父节点
 	static bloodParent: fairygui.GRoot;
 	// 血条父节点
@@ -120,6 +122,11 @@ export default class Game {
 	static gm: GMData;
 
 	constructor() {
+		let datas = {
+			type: "LoadType",
+			state: 0,
+		}
+		Game.proto.logUpload(datas);
 		// Laya.Stat.show();
 		Game.gameStatus = GameStatus.Load;
 		Game.initOverForLoad = false;
@@ -147,6 +154,7 @@ export default class Game {
 	}
 
 	static onInstallComplete() {
+		this._showLog = window['__wxConfig'].envVersion == undefined;
 		LoadFilesList.allResList;
 		this.menu.open(MenuId.Load);
 		this.loadSKOver();
@@ -160,22 +168,7 @@ export default class Game {
 		_list.push("res_sk/hero_30.sk");
 		_list.push("res_sk/hero_5.sk");
 		_list.push("res_sk/hero_9.sk");
-		_list.push("res_sk/enemy_1.sk");
 		_list.push("res_sk/enemy_2.sk");
-		_list.push("res_sk/enemy_3.sk");
-		_list.push("res_sk/enemy_4.sk");
-		_list.push("res_sk/enemy_5.sk");
-		_list.push("res_sk/enemy_6.sk");
-		_list.push("res_sk/enemy_7.sk");
-		_list.push("res_sk/enemy_8.sk");
-		_list.push("res_sk/enemy_9.sk");
-		_list.push("res_sk/enemy_10.sk");
-		_list.push("res_sk/enemy_11.sk");
-		_list.push("res_sk/enemy_12.sk");
-		_list.push("res_sk/enemy_13.sk");
-		_list.push("res_sk/enemy_14.sk");
-		_list.push("res_sk/enemy_15.sk");
-		_list.push("res_sk/enemy_16.sk");
 		_list.push("res_font/num_battle_1.fnt");
 		_list.push("res_font/num_battle_2.fnt");
 		_list.push("res_font/num_battle_3.fnt");
@@ -209,10 +202,18 @@ export default class Game {
 		SystemManager.login();
 	}
 	private openHome(): void {
+		let datas = {
+			type: "LoadType",
+			state: 1,
+		}
+		Game.proto.logUpload(datas);
+
 		ShareManager.init();
 		SystemManager.initAllData();
 		if (Game.battleMap.maxMapId >= 3) {
-			Game.playData.guideIndex = GuideType.sevenStartFive;
+			if (Game.playData.guideIndex < GuideType.sevenStartFive) {
+				Game.playData.guideIndex = GuideType.sevenStartFive;
+			}
 			this.onInstallLoadRes2(MenuId.Home);
 		}
 		else {
@@ -335,5 +336,11 @@ export default class Game {
 			}
 		}
 	}
+
+	private static _showLog: boolean = false;
+	static get showLog() {
+		return this._showLog;
+	}
+
 }
 window["Game"] = Game;

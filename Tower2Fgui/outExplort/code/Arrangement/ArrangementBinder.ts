@@ -1,5 +1,6 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
+import fui_SeatBtn from "./fui_SeatBtn";
 import fui_SkillItem from "./fui_SkillItem";
 import fui_AssociationItem from "./fui_AssociationItem";
 import fui_UpBtn from "./fui_UpBtn";
@@ -12,6 +13,7 @@ import fui_UpLevel from "./fui_UpLevel";
 
 export default class ArrangementBinder{
 	public static bindAll():void {
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_SeatBtn.URL, fui_SeatBtn);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_SkillItem.URL, fui_SkillItem);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_AssociationItem.URL, fui_AssociationItem);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_UpBtn.URL, fui_UpBtn);

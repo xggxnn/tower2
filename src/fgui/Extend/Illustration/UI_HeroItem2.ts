@@ -3,11 +3,11 @@ import IllustrationWin from "../../../gamemodule/Windows/IllustrationWin";
 import Game from "../../../Game";
 import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
-import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import SpriteKey from "../../SpriteKey";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import EventManager from "../../../tool/EventManager";
 import EventKey from "../../../tool/EventKey";
+import Fun from "../../../tool/Fun";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroItem2 extends fui_HeroItem2 {
@@ -51,26 +51,31 @@ export default class UI_HeroItem2 extends fui_HeroItem2 {
 		this.moduleWindow = moduleWindow;
 		this.heroInf = HeroInfoData.getInfo(id);
 		this.m_quality.icon = SpriteKey.getUrl("quality" + this.heroInf.quality + ".png");
-		this.m_buyNum.setVar("count", Clips.toString()).flushVars();
+		this.m_race.icon = SpriteKey.getUrl("race" + this.heroInf.race + ".png");
+		this.m_career.icon = SpriteKey.getUrl("career" + this.heroInf.career + ".png");
+		this.m_nam.icon = SpriteKey.getUrl("hero_name_" + this.heroInf.skin + ".png");
 		this.m_pic.icon = SpriteKey.getUrl("hero_" + this.heroInf.skin + ".png");
-		let heroQuality = HeroqualityInfo.getInfoQuality(this.heroInf.quality);
-		let upClips = 1;
-		if (heroQuality) {
-			upClips = heroQuality.clip_hero;
-		}
+		this.m_status.setSelectedIndex(0);
+		this.m_num.text = Fun.format("{0}", Clips);
 		if (Game.playData.curHeroInfoList.hasKey(this.heroInf.id)) {
 			this.m_have.setSelectedIndex(0);
-			if (this.heroInf.quality < 5 && upClips <= Clips) {
-				Game.redTip.showRedTip(this, this.id);
+			let upquality = Game.redData.requestClips(this.heroInf, false);
+			if (this.heroInf.quality < 5) {
+				if (upquality <= Clips) {
+					this.m_status.setSelectedIndex(2);
+				}
 			}
 			else {
-				Game.redTip.hideRedTip(this, this.id);
+				if (Game.playData.curLevel >= 50 && upquality <= Clips) {
+					this.m_status.setSelectedIndex(3);
+				}
 			}
 		}
 		else {
+			let upClips = Game.redData.requestClips(this.heroInf, true);
 			this.m_have.setSelectedIndex(1);
 			if (Clips >= upClips) {
-				Game.redTip.showRedTip(this, this.id);
+				this.m_status.setSelectedIndex(1);
 				if (Game.playData.guideIndex == GuideType.ShowHeroListOver) {
 					Game.playData.guideIndex = GuideType.showHeroItem;
 					EventManager.event(EventKey.SHOW_WAIT);
@@ -84,9 +89,6 @@ export default class UI_HeroItem2 extends fui_HeroItem2 {
 							Laya.Handler.create(this, this.checkClick), Game.tipTxt.Guid3, LocationType.Lower);
 					}, 100);
 				}
-			}
-			else {
-				Game.redTip.hideRedTip(this, this.id);
 			}
 		}
 	}

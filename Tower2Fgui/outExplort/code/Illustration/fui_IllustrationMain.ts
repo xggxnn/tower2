@@ -21,8 +21,8 @@ export default class fui_IllustrationMain extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
-		this.m_list = <fairygui.GList><any>(this.getChildAt(5));
-		this.m_closeBtn = <fairygui.GButton><any>(this.getChildAt(6));
-		this.m_help = <fairygui.GButton><any>(this.getChildAt(7));
+		this.m_list = <fairygui.GList><any>(this.getChildAt(6));
+		this.m_closeBtn = <fairygui.GButton><any>(this.getChildAt(7));
+		this.m_help = <fairygui.GButton><any>(this.getChildAt(8));
 	}
 }

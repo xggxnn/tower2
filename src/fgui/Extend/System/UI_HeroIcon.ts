@@ -28,19 +28,29 @@ export default class UI_HeroIcon extends fui_HeroIcon {
 	}
 
 	public setData(item: RewardItem): void {
-		this.m_number.setVar("count", Fun.formatNumberUnit(item.itemNum)).flushVars();
-		this.m_headIcon.m_icons.icon = Game.playData.getIcon(item.itemId);
-		this.m_quality.icon = SpriteKey.getUrl("quality" + 3 + ".png");
-		if (item.isHero) {
-			let inf2 = HeroInfoData.getInfo(item.itemId - 11);
-			this.m_quality.icon = SpriteKey.getUrl("quality" + inf2.quality + ".png");
-		}
-		if (item.isClips) {
-			this.m_c1.setSelectedIndex(3);
+		if (item.funIndex > 0) {
+			this.m_c1.setSelectedIndex(0);
+			this.m_headIcon.m_icons.icon = this.getIcon(item.funIndex);
+			this.m_quality.icon = SpriteKey.getUrl("quality1.png");
 		}
 		else {
-			this.m_c1.setSelectedIndex(2);
+			this.m_number.setVar("count", Fun.formatNumberUnit(item.itemNum)).flushVars();
+			this.m_headIcon.m_icons.icon = Game.playData.getIcon(item.itemId);
+			this.m_quality.icon = SpriteKey.getUrl("quality" + 3 + ".png");
+			if (item.isHero) {
+				let inf2 = HeroInfoData.getInfo(item.itemId - 11);
+				this.m_quality.icon = SpriteKey.getUrl("quality" + inf2.quality + ".png");
+			}
+			if (item.isClips) {
+				this.m_c1.setSelectedIndex(3);
+			}
+			else {
+				this.m_c1.setSelectedIndex(2);
+			}
 		}
+	}
+	private getIcon(index: number): string {
+		return SpriteKey.getUrl("fun" + index + ".png");
 	}
 
 	// 关闭ui

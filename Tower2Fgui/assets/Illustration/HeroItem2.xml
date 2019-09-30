@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="150,150">
   <controller name="have" pages="0,,1," selected="0"/>
+  <controller name="status" pages="3,,0,召唤,1,进阶,2,洗点" selected="0"/>
   <displayList>
     <loader id="n16_bxj0" name="quality" xy="75,75" pivot="0.5,0.5" anchor="true" size="150,150" aspect="true" url="ui://88du1wabczuw53l" align="center" vAlign="middle" fill="scale">
       <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
@@ -9,7 +10,23 @@
       <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
       <Label icon="ui://88du1wabqyum53j"/>
     </component>
-    <image id="n24_qvb6" name="n24" src="qvb6548" fileName="pic/nameDi.png" pkg="130tmfxd" xy="11,108" size="128,31"/>
-    <text id="n17_bxj0" name="buyNum" xy="0,111" pivot="0.5,0.5" size="150,28" fontSize="20" color="#3dff5d" align="center" vAlign="middle" vars="true" autoSize="none" bold="true" text="拥有数量:{count=0}"/>
+    <image id="n28_ajdp" name="n28" src="ngrs11" fileName="pic/suipian.png" pkg="130tmfxd" xy="105,104"/>
+    <text id="n17_bxj0" name="num" xy="129,127" pivot="0.5,0.5" anchor="true" size="40,20" font="ui://130tmfxdj8q220" fontSize="5" color="#fff7ea" align="center" vAlign="bottom" bold="true" text="999"/>
+    <loader id="n26_bcle" name="career" xy="0,0" size="26,26" aspect="true" url="ui://88du1wabngrs19" align="center" vAlign="middle" fill="scale">
+      <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </loader>
+    <loader id="n27_bcle" name="race" xy="0,29" size="26,26" aspect="true" url="ui://88du1wabngrs1a" align="center" vAlign="middle" fill="scale">
+      <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </loader>
+    <loader id="n29_ajdp" name="nam" xy="12,112" size="85,29" aspect="true" url="ui://88du1wabajdp55x" fill="scale" shrinkOnly="true">
+      <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+    </loader>
+    <image id="n30_ajdp" name="n30" src="ajdp5" fileName="pic/bigRed.png" xy="104,0">
+      <gearDisplay controller="status" pages="0,1,2"/>
+    </image>
+    <loader id="n31_ajdp" name="n31" xy="109,12" size="39,23" url="ui://rzze1nh2ajdp6" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearDisplay controller="status" pages="0,1,2"/>
+      <gearIcon controller="status" pages="0,2" values="ui://rzze1nh2ajdp8|ui://rzze1nh2ajdp7" default="ui://rzze1nh2ajdp6"/>
+    </loader>
   </displayList>
 </component>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="50,50" extention="Label">
+  <displayList>
+    <loader id="n1_bcle" name="icons" xy="25,25" pivot="0.5,0.5" anchor="true" size="50,50" align="center" vAlign="middle" fill="scale" shrinkOnly="true"/>
+    <text id="n0_bcle" name="titles" xy="-25,40" size="100,33" fontSize="20" color="#fff7ea" align="center" vAlign="bottom" autoSize="none" bold="true" text="x10"/>
+  </displayList>
+</component>
