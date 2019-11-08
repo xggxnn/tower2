@@ -40,7 +40,6 @@ export default class UI_PropBtn extends fui_PropBtn {
 		if (Game.battleData.startDrag) return;
 		if (this.heroInf != null && Game.battleMap.maxMapId >= 3) {
 			Game.battleData.clickHeroInf = this.heroInf;
-			Game.battleData.isShowGainBtn = false;
 			this.moduleWindow.createHeroInfoUI();
 		}
 	}

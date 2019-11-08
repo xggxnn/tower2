@@ -12,6 +12,9 @@ export default class BaseFilter extends Laya.Sprite {
 	public onDisable(): void {
 		EventManager.offAllCaller(this);
 	}
+	onDestroy(): void {
+		EventManager.offAllCaller(this);
+	}
 	public updateFilter(): void {
 		let _length = this.filterList.length;
 		if (_length) {

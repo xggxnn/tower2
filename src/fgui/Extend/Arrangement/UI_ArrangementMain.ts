@@ -20,10 +20,9 @@ import { LocationType } from "../../../gamemodule/DataEnums/LocationType";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import UI_AssociationItem from "./UI_AssociationItem";
 import UI_SkillItem from "./UI_SkillItem";
-import UI_FightTip from "./UI_FightTip";
 import UI_HeroIcon55 from "./UI_HeroIcon55";
 import LoadFilesList from "../../../tool/LoadFilesList";
-import LoaderManager from "../../../tool/LoaderManager";
+// import LoaderManager from "../../../tool/LoaderManager";
 import UI_FightProgress from "./UI_FightProgress";
 import UI_GeneralBtn from "../System/UI_GeneralBtn";
 import AdsManager from "../../../tool/AdsManager";
@@ -110,10 +109,21 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	// 当前需要定位的位置
 	private _guidCurPos: Laya.Point = null;
 	private _guidHand: UI_Hand = null;
-	private fetterNext(): void {
+	// 引导领取羁绊奖励
+	private guideAssGetReward(): void {
 		setTimeout(() => {
-			this.showStartFightGuide();
-		}, 100);
+			Game.playData.fettersInfos = this.association[0];
+			Game.playData.sShowFetters.dispatch();
+		}, 30);
+	}
+	// 准备引导点击开始战斗按钮
+	private fetterNext(): void {
+		this.refrushHeroList();
+		if (Game.playData.guideIndex == GuideType.SnythHeroOver) {
+			setTimeout(() => {
+				this.showStartFightGuide();
+			}, 100);
+		}
 	}
 	private showGuid(): void {
 		if (this._guidHand) {
@@ -132,8 +142,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			}
 			Game.playData.guideShowTipLong = true;
 			EventManager.event(EventKey.SHOW_WAIT);
-			this.moduleWindow.createGuideUI(this.m_associationList, new Laya.Point(this.m_associationList.x, this.m_associationList.y),
-				Laya.Handler.create(this, this.fetterNext),
+			let item = this.m_associationList.getChildAt(0) as UI_AssociationItem;
+			this.moduleWindow.createGuideUI(item, new Laya.Point(this.m_associationList.x, this.m_associationList.y),
+				Laya.Handler.create(this, this.guideAssGetReward),
 				Game.tipTxt.fettersTip, LocationType.Left);
 		}
 		else if (this._guidIndex == 11) {
@@ -147,7 +158,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			}
 			let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
 			if (seatList[1] == 0) {
-				this._guidCurPos = new Laya.Point(this.seatList[1].x + 50, this.seatList[1].y)
+				this._guidCurPos = new Laya.Point(this.seatList[1].x + 80, this.seatList[1].y + 50)
 			}
 			this._guidTip.setXY(this._guidCurPos.x, this._guidCurPos.y);
 			this._guidTip.m_titles.text = Game.tipTxt.battleDrag;
@@ -164,13 +175,13 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			}
 			let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
 			if (seatList[2] == 0) {
-				this._guidCurPos = new Laya.Point(this.seatList[2].x + 50, this.seatList[2].y)
+				this._guidCurPos = new Laya.Point(this.seatList[2].x + 80, this.seatList[2].y + 50)
 			}
 			else if (seatList[5] == 0) {
-				this._guidCurPos = new Laya.Point(this.seatList[5].x + 50, this.seatList[5].y)
+				this._guidCurPos = new Laya.Point(this.seatList[5].x + 80, this.seatList[5].y + 50)
 			}
 			else {
-				this._guidCurPos = new Laya.Point(this.seatList[8].x + 50, this.seatList[8].y)
+				this._guidCurPos = new Laya.Point(this.seatList[8].x + 80, this.seatList[8].y + 50)
 			}
 			this._guidTip.setXY(this._guidCurPos.x, this._guidCurPos.y);
 			this._guidTip.m_titles.text = Game.tipTxt.battleDrag;
@@ -273,8 +284,6 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 
 	private openUpLevel(): void {
-		// if (Game.playData.guideIndex == GuideType.FightReady) return;
-		// if (Game.playData.guideIndex == GuideType.SnythHeroOver) return;
 		if (Game.playData.guideIndex < GuideType.fiveUpLvelNext) return;
 		this.moduleWindow.createUpLevelUI();
 	}
@@ -324,7 +333,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 	// 在下阵列表范围内抬起鼠标
 	private onScrollupHero(): void {
-		if (!Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType != 2) {
 			if (Game.battleData.seatBtn != null) {
 				Game.battleData.seatBtn.addHero(null);
 				Game.battleData.seatBtn = null;
@@ -374,7 +383,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	}
 	// 刷新英雄列表
 	private refrushHeroList(): void {
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			this.heroList = Game.battleData.dayHeroNoSeat;
 		}
 		else {
@@ -388,7 +397,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_speed2.setVar("count", tip.getValue(FightType.Speed)).flushVars();
 		this.m_cirt2.setVar("count", tip.getValue(FightType.Crit)).flushVars();
 		this.m_burt2.setVar("count", tip.getValue(FightType.Burst)).flushVars();
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2 || Game.battleData.curEnterFightType == 3) {
 			this.m_atkStatus.setSelectedIndex(0);
 			this.m_speedStatus.setSelectedIndex(0);
 			this.m_critStatus.setSelectedIndex(0);
@@ -561,23 +570,8 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		let index = this.m_associationList.getChildIndex(obj);
 		// // 转换为点击item在整个列表中的真实索引
 		// var realIndex: number = this.m_associationList.childIndexToItemIndex(index);
-		if (Game.playData.unlockAssociationattribute.indexOf(this.association[index].attribute_id) != -1) {
-			Game.playData.fettersInfos = this.association[index];
-			Game.playData.sShowFetters.dispatch();
-		}
-		else {
-			let str = "";
-			if (this.association[index].race > 0) {
-				str = "AssociationLockTip2";
-			}
-			else if (this.association[index].career > 0) {
-				str = "AssociationLockTip3";
-			}
-			else if (this.association[index].pointF > 0) {
-				str = "AssociationLockTip4";
-			}
-			Game.popup.showPopup(obj, false, false, Game.tipTxt.txts(str));
-		}
+		Game.playData.fettersInfos = this.association[index];
+		Game.playData.sShowFetters.dispatch();
 	}
 
 
@@ -595,7 +589,17 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		if (Game.playData.guideIndex == GuideType.SnythHeroOver) return;
 		if (Game.playData.guideIndex == GuideType.fiveUpLvelNext) return;
 		Game.battleScene.setSeat();
-		if (this.moduleWindow.menuParameter.args.length == 2) {
+		if (Game.battleData.curEnterFightType == 3) {
+			this.closeUI();
+			setTimeout(() => {
+				EventManager.event(EventKey.GAMEEXIT);
+				Game.battleScene.stoneReset();
+				Game.battleScene.clearEnemy();
+				Game.battleScene.clearHero();
+				Game.menu.open(MenuId.Home);
+			}, 10);
+		}
+		else if (Game.battleData.curEnterFightType >= 0) {
 			this.closeUI();
 			setTimeout(() => {
 				EventManager.event(EventKey.GAMEEXIT);
@@ -606,9 +610,6 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			}, 10);
 		}
 		else {
-			// if (Game.playData.guideIndex == GuideType.SnythHeroOver) {
-			// 	Game.playData.guideIndex = GuideType.fettersOver;
-			// }
 			this.moduleWindow.menuBack();
 		}
 	}
@@ -617,7 +618,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		Laya.stage.on(Laya.Event.MOUSE_UP, this, this.mouseUp);
 		Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.mouseUp);
 		EventManager.on(EventKey.ADD_HERO, this, this.refrushHeroList);
-		EventManager.on(ProtoEvent.FETTERREWARD_CALL_BACK, this, this.refrushHeroList);
+		EventManager.on(ProtoEvent.FETTERREWARD_CALL_BACK, this, this.fetterNext);
 		EventManager.on(EventKey.HERO_LEVEL_UPDATE, this, this.refreshHeroLevel);
 		EventManager.on(EventKey.HERO_STAR_UPDATE, this, this.refreshHeroLevel);
 		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.synthetiseOver);
@@ -625,21 +626,23 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		EventManager.on(ProtoEvent.SAVEATT_CALL_BACK, this, this.synthetiseOver);
 		EventManager.on(ProtoEvent.DAYFIGHTSTART_CALL_BACK, this, this.enterBattle);
 		EventManager.on(EventKey.REWARDED_VIDEO_AD_YES, this, this.skipOk);
+		EventManager.on(EventKey.REWARDED_VIDEO_AD_CLOSE, this, this.skipCancel);
 		Game.playData.sShowFetters.add(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		for (let i = 0; i < 9; i++) {
 			this.seatList[i].addSeatEvent();
 		}
 		this.moduleWindow.closeOtherWindow();
-		if (Game.playData.guideIndex < GuideType.Win) {
-			this.setData();
-		}
-		else {
-			EventManager.event(EventKey.SHOW_UI_WAIT);
-			EventManager.once(EventKey.LOADER_OVER, this, this.setData);
-			let _list: Array<string> = [];
-			_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
-			LoaderManager.addList(_list);
-		}
+		this.setData();
+		// if (Game.playData.guideIndex < GuideType.Win) {
+		// 	this.setData();
+		// }
+		// else {
+		// 	// EventManager.event(EventKey.SHOW_UI_WAIT);
+		// 	// EventManager.once(EventKey.LOADER_OVER, this, this.setData);
+		// 	// let _list: Array<string> = [];
+		// 	// _list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		// 	// LoaderManager.addList(_list);
+		// }
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
@@ -666,19 +669,16 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	// 界面赋值
 	private setData(): void {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
-		var args: Array<any> = this.moduleWindow.menuParameter.args;
-		if (args.length > 0) {
+		if (Game.battleData.curEnterFightType < 0) {
+			this.showInMenu = true;
+			this.showLevelId = Game.battleMap.maxMapId;
+			this.m_fight.title = "去闯关";
+		} else {
 			this.showInMenu = false;
 			this.showLevelId = Game.battleData.level_id;
 			let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
 			this.m_titleMap.text = mapLevel.map + "-" + mapLevel.level;
-			this.titleIndex = args[0] + 1;
 			this.m_fight.title = "开始战斗";
-		}
-		else {
-			this.showInMenu = true;
-			this.showLevelId = Game.battleMap.maxMapId;
-			this.m_fight.title = "去闯关";
 		}
 		this.sortHeroList(true);
 		// this.changeStatus(0);
@@ -688,7 +688,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 			this.m_heroList.scrollToView(0);
 		}
 		this.refreshHeroLevel();
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			this.m_tab.setSelectedIndex(0);
 		}
 		else {
@@ -739,15 +739,20 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 				}, 1000);
 			}
 		}
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			this.m_select2.enabled = false;
 			this.m_select3.enabled = false;
 			this.m_showTitle.setSelectedIndex(3);
 		}
 		else {
-			this.m_showTitle.setSelectedIndex(0);
+			if (Game.battleData.curEnterFightType == 3) {
+				this.m_showTitle.setSelectedIndex(3);
+			}
+			else {
+				this.m_showTitle.setSelectedIndex(0);
+			}
 		}
-		if (args.length > 0) {
+		if (Game.battleData.curEnterFightType >= 0) {
 			this.showUIStep1();
 		}
 		else {
@@ -771,15 +776,22 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this.m_initStatus.setSelectedIndex(0);
 		this.m_aniShow.play(Laya.Handler.create(this, this.showUIStep3));
 	}
-	private titleIndex: number = 0;
 	// 显示战斗UI
 	private showUIStep3(): void {
 		this.m_seatFight.setSelectedIndex(1);
-		if (Game.battleData.MenuEnterDay) {
-			this.m_showTitle.setSelectedIndex(3);
-		}
-		else {
-			this.m_showTitle.setSelectedIndex(this.titleIndex);
+		switch (Game.battleData.curEnterFightType) {
+			case 0:
+				this.m_showTitle.setSelectedIndex(1);
+				break;
+			case 1:
+				this.m_showTitle.setSelectedIndex(2);
+				break;
+			case 2:
+				this.m_showTitle.setSelectedIndex(3);
+				break;
+			default:
+				this.m_showTitle.setSelectedIndex(0);
+				break;
 		}
 		for (let i = 0; i < 9; i++) {
 			this.seatList[i].showTipScale();
@@ -798,7 +810,7 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		}
 	}
 	private hideUIStep3(): void {
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			let heros1: Array<number> = [];
 			let heros2: Array<number> = [];
 			for (let i = 0; i < 12; i++) {
@@ -838,11 +850,11 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 		this._clickTime = Laya.Browser.now();
 
 		this._skipFight = false;
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2 || Game.battleData.curEnterFightType == 3) {
 			this.fightReq();
 		}
 		else {
-			if (this.moduleWindow.menuParameter.args.length == 0) {
+			if (Game.battleData.curEnterFightType < 0) {
 				this.enterMenu();
 			}
 			else {
@@ -881,7 +893,12 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	// 准备观看视频跳过战斗过程
 	private skipFight(): void {
 		if (AdsManager.usable) {
-			AdsManager.show();
+			if (Game.showLog) {
+				this.skipOk();
+			}
+			else {
+				AdsManager.show();
+			}
 		}
 		else {
 			Game.tipWin.showTip("视频加载失败，请稍后再试!", false);
@@ -890,6 +907,9 @@ export default class UI_ArrangementMain extends fui_ArrangementMain {
 	private skipOk(): void {
 		this._skipFight = true;
 		this.fightReq();
+	}
+	private skipCancel(): void {
+		this._skipFight = false;
 	}
 
 	private _init: boolean = false;

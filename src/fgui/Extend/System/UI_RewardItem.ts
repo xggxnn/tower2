@@ -43,8 +43,13 @@ export default class UI_RewardItem extends fui_RewardItem {
 	}
 
 	public setData(item: RewardItem): void {
-		this.m_count.setVar("count", Fun.formatNumberUnit(item.itemNum)).flushVars();
+		this.m_onLyTxt.setSelectedIndex(0);
+		this.m_count.text = Fun.format("x{0}", Fun.formatNumberUnit(item.itemNum));
 		this.icon = Game.playData.getIcon(item.itemId);
+	}
+	public setDataTxt(item: string): void {
+		this.m_onLyTxt.setSelectedIndex(1);
+		this.m_count.text = item;
 	}
 
 }

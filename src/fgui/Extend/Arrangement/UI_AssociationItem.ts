@@ -52,12 +52,13 @@ export default class UI_AssociationItem extends fui_AssociationItem {
 		this.m_isGray.setSelectedIndex(seleIndex);
 		index = index % 2;
 		let att = AssociationAttributeInfo.getInfo(datas.attribute_id);
-		this.m_rewardStatus.setSelectedIndex(Game.playData.associationattribute.indexOf(datas.attribute_id) == -1 ? 1 : 0);
 		if (seleIndex == 0 || Game.playData.unlockAssociationattribute.indexOf(datas.attribute_id) != -1) {
 			this.m_tip.text = Fun.format(att.des, datas.values);
+			this.m_rewardStatus.setSelectedIndex(Game.playData.associationattribute.indexOf(datas.attribute_id) == -1 ? 1 : 0);
 		}
 		else {
 			this.m_tip.text = Game.tipTxt.txts("AssociationLockTip");
+			this.m_rewardStatus.setSelectedIndex(0);
 		}
 		if (datas.race > 0) {
 			this.m_icons.icon = SpriteKey.getUrl("race" + datas.race + ".png");
@@ -74,7 +75,7 @@ export default class UI_AssociationItem extends fui_AssociationItem {
 		this.m_count.setVar("count", datas.num.toString()).flushVars();
 		this.heroList = [];
 		let seatList: Array<number> = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			let herolist = Game.battleData.dayHeroSeat;
 			seatList = [];
 			for (let i = 0; i < 9; i++) {

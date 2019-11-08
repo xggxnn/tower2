@@ -1,7 +1,6 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
 import fui_FightProgress from "./fui_FightProgress";
-import fui_FightTip from "./fui_FightTip";
 import fui_SeatBtn from "./fui_SeatBtn";
 
 export default class fui_ArrangementMain extends fairygui.GComponent {
@@ -30,10 +29,10 @@ export default class fui_ArrangementMain extends fairygui.GComponent {
 	public m_burt2:fairygui.GTextField;
 	public m_skillName:fairygui.GTextField;
 	public m_skillBtn:fairygui.GButton;
-	public m_atkTip:fui_FightTip;
-	public m_speedTip:fui_FightTip;
-	public m_critTip:fui_FightTip;
-	public m_burstTip:fui_FightTip;
+	public m_atkTip:fairygui.GComponent;
+	public m_speedTip:fairygui.GComponent;
+	public m_critTip:fairygui.GComponent;
+	public m_burstTip:fairygui.GComponent;
 	public m_dropTitle:fairygui.GTextField;
 	public m_DropDown:fairygui.GButton;
 	public m_help:fairygui.GButton;
@@ -106,10 +105,10 @@ export default class fui_ArrangementMain extends fairygui.GComponent {
 		this.m_burt2 = <fairygui.GTextField><any>(this.getChildAt(17));
 		this.m_skillName = <fairygui.GTextField><any>(this.getChildAt(19));
 		this.m_skillBtn = <fairygui.GButton><any>(this.getChildAt(21));
-		this.m_atkTip = <fui_FightTip><any>(this.getChildAt(22));
-		this.m_speedTip = <fui_FightTip><any>(this.getChildAt(23));
-		this.m_critTip = <fui_FightTip><any>(this.getChildAt(24));
-		this.m_burstTip = <fui_FightTip><any>(this.getChildAt(25));
+		this.m_atkTip = <fairygui.GComponent><any>(this.getChildAt(22));
+		this.m_speedTip = <fairygui.GComponent><any>(this.getChildAt(23));
+		this.m_critTip = <fairygui.GComponent><any>(this.getChildAt(24));
+		this.m_burstTip = <fairygui.GComponent><any>(this.getChildAt(25));
 		this.m_dropTitle = <fairygui.GTextField><any>(this.getChildAt(29));
 		this.m_DropDown = <fairygui.GButton><any>(this.getChildAt(30));
 		this.m_help = <fairygui.GButton><any>(this.getChildAt(31));

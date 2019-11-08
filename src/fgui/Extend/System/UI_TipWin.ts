@@ -29,6 +29,8 @@ export default class UI_TipWin extends fui_TipWin {
 
 		this.m_ok.onClick(this, this.okBtnClick);
 		this.m_cancel.onClick(this, this.cancelClikc);
+		this.m_actBtn.onClick(this, this.okBtnClick);
+		this.m_skipBtn.onClick(this, this.cancelClikc);
 	}
 	okBtnClick(): void {
 		this.onComplete();
@@ -57,6 +59,10 @@ export default class UI_TipWin extends fui_TipWin {
 		this.closeTimes--;
 		this.m_ok.title = Fun.format("{1}({0})", this.closeTimes, this.okTitle);
 	}
+	private updateNumCancel(): void {
+		this.closeTimes--;
+		this.m_cancel.title = Fun.format("{1}({0})", this.closeTimes, this.cancelTitle);
+	}
 	private _onCompleteHandler: Handler;
 	private _onCancelHandler: Handler;
 	private closeTick: Tick = null;
@@ -78,8 +84,12 @@ export default class UI_TipWin extends fui_TipWin {
 			this._onCancelHandler.recover();
 		}
 		this._onCancelHandler = cancelHandler;
+		this.m_ok.m_adStatus.setSelectedIndex(0);
 		if (okTitle) {
 			this.okTitle = okTitle;
+			if ("跳过战斗" == okTitle) {
+				this.m_ok.m_adStatus.setSelectedIndex(1);
+			}
 		}
 		else {
 			this.okTitle = "确定";
@@ -90,8 +100,8 @@ export default class UI_TipWin extends fui_TipWin {
 		else {
 			this.cancelTitle = "取消";
 		}
-		this.m_c1.setSelectedIndex(1);
 		this.m_scrollTxt.text = txt;
+		this.m_tipOrShipin.setSelectedIndex(0);
 		this.m_types.setSelectedIndex(showCancel ? 1 : 0);
 		if (!showCancel) {
 			if (delcloseTime == undefined) {
@@ -107,20 +117,55 @@ export default class UI_TipWin extends fui_TipWin {
 		}
 		else {
 			this.m_ok.title = this.okTitle;
-			this.m_cancel.title = this.cancelTitle;
+			if (delcloseTime != undefined && delcloseTime > 0) {
+				this.closeTimes = delcloseTime;
+				this.m_cancel.title = Fun.format("{1}({0})", this.closeTimes, this.cancelTitle);
+				this.closeTick = Game.tick.addTick(this.closeTimes - 1, Laya.Handler.create(this, this.updateNumCancel, null, false),
+					Laya.Handler.create(this, this.cancelClikc, null, false), 60);
+				this.closeTick.Start();
+			}
+			else {
+				this.m_cancel.title = this.cancelTitle;
+			}
 		}
 		EventManager.on(EventKey.GAMEWIN, this, this.cancelClikc);
 		EventManager.on(EventKey.GAMEEXIT, this, this.cancelClikc);
 		EventManager.on(EventKey.GAMELOSE, this, this.cancelClikc);
 		MenuLayer.floatMsg.addChild(this);
 	}
-	showList(list: Array<any>, onComplete?: Handler) {
+
+	battleSkip(onComplete: Handler, cancelHandler: Handler, delcloseTime: number): void {
+		if (this.closeTick) {
+			this.closeTick.Stop();
+			Game.tick.clearTick(this.closeTick);
+			this.closeTick = null;
+		}
 		if (this._onCompleteHandler) {
 			this._onCompleteHandler.recover();
 		}
 		this._onCompleteHandler = onComplete;
-		this.m_c1.setSelectedIndex(0);
+		if (this._onCancelHandler) {
+			this._onCancelHandler.recover();
+		}
+		this._onCancelHandler = cancelHandler;
+		this.m_tipOrShipin.setSelectedIndex(1);
+		if (Game.redData.adOneFree) {
+			this.m_actBtn.m_adStatus.setSelectedIndex(1);
+			this.m_actBtn.title = "免费获取";
+		} else {
+			this.m_actBtn.m_adStatus.setSelectedIndex(0);
+			this.m_actBtn.title = "首次免费";
+		}
+		this.closeTimes = delcloseTime;
+		this.m_tipNum.text = Fun.format("{0}", this.closeTimes);
+		this.closeTick = Game.tick.addTick(this.closeTimes - 1, Laya.Handler.create(this, this.updateNumBattle, null, false),
+			Laya.Handler.create(this, this.cancelClikc, null, false), 60);
+		this.closeTick.Start();
 		MenuLayer.floatMsg.addChild(this);
+	}
+	private updateNumBattle(): void {
+		this.m_tipNum.text = Fun.format("{0}", this.closeTimes);
+		this.closeTimes--;
 	}
 
 	private onComplete() {

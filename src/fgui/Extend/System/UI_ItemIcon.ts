@@ -6,6 +6,7 @@ import SignInfo from "../../../csvInfo/SignInfo";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import SpriteKey from "../../SpriteKey";
 import Fun from "../../../tool/Fun";
+import FreeRewardInfo from "../../../csvInfo/FreeRewardInfo";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemIcon extends fui_ItemIcon {
@@ -44,38 +45,64 @@ export default class UI_ItemIcon extends fui_ItemIcon {
 	onWindowHide(): void {
 
 	}
+
+	public freeRewardResId: number = 0;
 	// 免费抽奖赋值
 	public rewardSetData(index: number): void {
-		this.m_status.setSelectedIndex(0);
-	}
-
-	public singIndex: number = 0;
-	public signInf: SignInfo = null;
-	// 签到赋值
-	public signSetData(index: number): void {
-		this.singIndex = index;
-		this.signInf = SignInfo.getInfo(this.singIndex);
-		this.m_number.setVar("count", this.signInf.num.toString()).flushVars();
-		if (this.signInf.rid > 11) {
+		let free = FreeRewardInfo.getInfo(index);
+		this.m_number.setVar("count", free.num.toString()).flushVars();
+		if (free.resId > 11) {
 			this.m_c1.setSelectedIndex(3);
 		}
 		else {
 			this.m_c1.setSelectedIndex(2);
 		}
-		this.m_headIcon.icon = Game.playData.getIcon(this.signInf.rid);
+		this.freeRewardResId = free.resId;
+		this.m_headIcon.icon = Game.playData.getIcon(free.resId);
+		this.m_status.setSelectedIndex(0);
+	}
+
+	private singIndex: number = 0;
+	public signgainstatus: number = 0;
+	public signReward: RewardItem = null;
+	// 签到赋值
+	public signSetData(index: number): void {
+		this.signgainstatus = 0;
+		this.singIndex = index;
+		let signInf = SignInfo.getInfo(this.singIndex);
+		this.signReward = new RewardItem();
+		this.signReward.itemId = signInf.rid;
+		this.signReward.itemNum = signInf.num;
+		this.m_number.setVar("count", signInf.num.toString()).flushVars();
+		if (signInf.rid > 11) {
+			this.m_c1.setSelectedIndex(3);
+			this.signReward.isHero = true;
+			let heros = HeroInfoData.getInfo(signInf.rid - 11);
+			this.m_nam.icon = SpriteKey.getUrl("hero_name_" + heros.skin + ".png");
+		}
+		else {
+			this.m_nam.icon = "";
+			this.m_c1.setSelectedIndex(2);
+			this.signReward.isHero = false;
+		}
+		this.m_headIcon.icon = Game.playData.getIcon(signInf.rid);
 		if (Game.playData.signInIndex >= this.singIndex) {
 			this.m_status.setSelectedIndex(1);
+			this.signgainstatus = 1;
 		}
 		else if (Game.playData.signInIndex + 1 == this.singIndex) {
 			if (Game.playData.isSign) {
 				this.m_status.setSelectedIndex(0);
+				this.signgainstatus = 2;
 			}
 			else {
 				this.m_status.setSelectedIndex(2);
+				this.signgainstatus = 0;
 			}
 		}
 		else {
 			this.m_status.setSelectedIndex(0);
+			this.signgainstatus = 2;
 		}
 	}
 

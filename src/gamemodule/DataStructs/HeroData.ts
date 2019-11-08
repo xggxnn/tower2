@@ -7,6 +7,8 @@ import PlayerSkillInfo from "../../csvInfo/PlayerSkillInfo";
 import EnemyBuff from "./EnemyBuff";
 import HeroInfoData from "./HeroInfoData";
 import BattleHero from "../Models/BattleHero";
+import { HeroSpeedType } from "../DataEnums/HeroSpeedType";
+import Dictionary from "../../tool/Dictionary";
 
 export default class HeroData {
     public constructor() { }
@@ -19,7 +21,7 @@ export default class HeroData {
     }
     public setHeroInf(id: any, _battleHero: BattleHero) {
         this._battleHero = _battleHero;
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             this._heroInf = Game.battleData.curHeroInfoList.getValue(id);
         }
         else {
@@ -42,7 +44,7 @@ export default class HeroData {
                 {
                     // * 4, 减攻速 - 配合高频
                     this.buffReduceSpeed += buff.effectvalue;
-                    this.changeSkSpeed(buff.effectvalue * -1);
+                    this.changeSkSpeed(buff.effectvalue * -1, HeroSpeedType.BossSkill);
                     this._battleHero.showHideEffectBuf(1027, true);
                     if (this.skillCd[0] > 0) {
                         this.skillCd[0] += (this.skillCd[0] * (100 + buff.effectvalue) * 0.01);
@@ -68,7 +70,7 @@ export default class HeroData {
                     // * 4, 减攻速 - 配合高频
                     this.buffReduceSpeed -= buff.effectvalue;
                     this._battleHero.showHideEffectBuf(1027, false);
-                    this.changeSkSpeed(buff.effectvalue);
+                    this.changeSkSpeed(buff.effectvalue, HeroSpeedType.BossSkill);
                     if (this.buffReduceSpeed < 0) {
                         this.buffReduceSpeed = 0;
                     }
@@ -112,7 +114,7 @@ export default class HeroData {
                     this._playSkillAtk = 0;
                     this._playSkillCrit = 0;
                     this._playSkillBurst = 0;
-                    this.changeSkSpeed(this._playSkillSpeed * -1);
+                    this.changeSkSpeed(this._playSkillSpeed * -1, HeroSpeedType.PlaySkill);
                     this._playSkillSpeed = 0;
                     this.playSkillShowStatus = 0;
                 }
@@ -250,9 +252,36 @@ export default class HeroData {
     public changeBuffSpeed(speed: number, time: number, index: number): void {
         this.buffSpeed[index] = speed;
         this.buffSpeedDuration[index] = time;
-        this.changeSkSpeed(speed);
+        let types = HeroSpeedType.Buff0;
+        switch (index) {
+            case 0:
+                types = HeroSpeedType.Buff0;
+                break;
+            case 1:
+                types = HeroSpeedType.Buff1;
+                break;
+            case 2:
+                types = HeroSpeedType.Buff2;
+                break;
+            case 3:
+                types = HeroSpeedType.Buff3;
+                break;
+        }
+        this.changeSkSpeed(speed, types);
     }
-    public changeSkSpeed(speed: number): void {
+    private speedDic: Dictionary<HeroSpeedType, number> = new Dictionary<HeroSpeedType, number>();
+    // 改变速度
+    public changeSkSpeed(speed: number, types: HeroSpeedType = HeroSpeedType.Association): void {
+        let keys = (types * 1000000 + Math.abs(speed)).toString();
+        if (speed > 0) {
+            if (this.speedDic.hasKey(keys)) {
+                return;
+            } else {
+                this.speedDic.add(keys, speed);
+            }
+        } else {
+            this.speedDic.remove(keys);
+        }
         this._battleHero.sk.changeSpeeds(speed);
     }
     // buff提高攻速
@@ -272,6 +301,7 @@ export default class HeroData {
         return this._normalReduceDefense;
     }
     // 攻击使敌人减速50%，持续{ 0 } 秒
+    // 普攻减速  50%  逻辑修改成，固定时长5s，效果 读表 30% 40% 50%
     public reduceEnemyMoveSpeedTime(index: number): number {
         if (index == 0) {
             return this._normalReduceEnemySpeed;
@@ -279,6 +309,7 @@ export default class HeroData {
         return 0;
     }
     // 灼烧伤害10 %，持续{ 0 } 秒
+    // 普攻灼烧        逻辑修改成，固定时长5秒，效果 读表 30% 40% 50%
     public burnHurt(index: number): number {
         if (index == 0) {
             return this._normalBurnHurt;
@@ -286,6 +317,7 @@ export default class HeroData {
         return 0;
     }
     // 中毒攻击持续{ 0 } 秒10 % 伤害
+    // 普攻中毒  逻辑修改成，固定时长5秒，效果 读表 30% 40% 50%
     public poisoningTime(index: number): number {
         if (index == 0) {
             return this._normalPoisoning;
@@ -426,7 +458,7 @@ export default class HeroData {
                 case 8:
                     {
                         this._playSkillSpeed = this.mapSkillInf.val;
-                        this.changeSkSpeed(this.mapSkillInf.val);
+                        this.changeSkSpeed(this._playSkillSpeed, HeroSpeedType.PlaySkill);
                         if (this.skillCd[0] > 0) {
                             this.skillCd[0] -= (this.skillCd[0] * (100 - this._playSkillSpeed) * 0.01);
                         }
@@ -440,7 +472,7 @@ export default class HeroData {
         }
     }
 
-
+    private normalSpeedList: Array<number> = [];
     // 计算羁绊加成
     public checkAssociation(): void {
         this.buffSpeed = [0, 0, 0, 0];
@@ -449,7 +481,10 @@ export default class HeroData {
         this.buffExtraDuration = 0;
         this._normalAtk = 0;
         this._normalCrit = 0;
-        this.changeSkSpeed(this._normalSpeed * -1);
+        for (let i = this.normalSpeedList.length - 1; i >= 0; i--) {
+            this.changeSkSpeed(this.normalSpeedList[i] * -1, HeroSpeedType.Association);
+        }
+        this.normalSpeedList = [];
         this._normalSpeed = 0;
         this._normalReduceDefense = 0;
         this._normalReduceEnemySpeed = 0;
@@ -506,8 +541,9 @@ export default class HeroData {
                 break;
             case 3:// 攻速增加{0}%
                 {
+                    this.normalSpeedList.push(val);
                     this._normalSpeed += val;
-                    this.changeSkSpeed(val);
+                    this.changeSkSpeed(val, HeroSpeedType.Association);
                 }
                 break;
             case 4://	减防{ 0 }%
@@ -517,6 +553,7 @@ export default class HeroData {
                 break;
             case 5://	攻击使敌人减速50 %，持续{ 0 } 秒
                 {
+                    // 普攻减速  50%  逻辑修改成，固定时长5s，效果 读表 30% 40% 50%
                     this._normalReduceEnemySpeed += val;
                 }
                 break;
@@ -527,6 +564,7 @@ export default class HeroData {
                 break;
             case 7://	灼烧伤害10 %，持续{ 0 } 秒
                 {
+                    // 普攻灼烧        逻辑修改成，固定时长5秒，效果 读表 30% 40% 50%
                     this._normalBurnHurt += val;
                 }
                 break;
@@ -537,6 +575,7 @@ export default class HeroData {
                 break;
             case 9://	中毒攻击持续{ 0 } 秒10 % 伤害
                 {
+                    // 普攻中毒  逻辑修改成，固定时长5秒，效果 读表 30% 40% 50%
                     this._normalPoisoning += val;
                 }
                 break;

@@ -7,6 +7,7 @@ import { MenuCtlStateType } from "./MenuCtlStateType";
 import Game from "../Game";
 import EventManager from "../tool/EventManager";
 import EventKey from "../tool/EventKey";
+import SystemManager from "../tool/SystemManager";
 
 export default class MenuManager {
 
@@ -21,17 +22,17 @@ export default class MenuManager {
 		return this.dict.getValue(menuId);
 	}
 	// 销毁
-	destory(menuId: MenuId) {
+	destroy(menuId: MenuId) {
 		let ctl = this.getMenuCtl(menuId);
 		if (ctl) {
 			if (ctl.state == MenuCtlStateType.Opened) {
 				ctl.close();
 				setTimeout(() => {
-					ctl.destory();
+					ctl.destroy();
 				}, 100);
 			}
 			else {
-				ctl.destory();
+				ctl.destroy();
 			}
 		}
 	}
@@ -111,6 +112,7 @@ export default class MenuManager {
 		if (menuId != MenuId.Load) {
 			EventManager.event(EventKey.SHOW_UI_WAIT);
 		}
+		SystemManager.wxTriggerGC();
 		let ctl = this.getMenuCtl(menuId);
 		if (!ctl) {
 
@@ -169,7 +171,7 @@ export default class MenuManager {
 					let cacheTime = Math.max(ctl.cacheTime, this.menuCacheTime);
 					let subtime = Game.time.localTime - ctl.closeTime;
 					if (subtime >= cacheTime && ctl.closeIsDestory) {
-						ctl.destory();
+						ctl.destroy();
 						this.list.splice(i, 0);
 					}
 				}

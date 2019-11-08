@@ -32,6 +32,7 @@ export default class MenusWin extends FWindow {
 		super.onMenuCreate();
 	}
 	public createTrialUI() {
+		this.content.hideFriendGain();
 		if (!this.Trial || this.Trial == null) {
 			this.Trial = UI_Trial.createInstance();
 		}
@@ -39,6 +40,9 @@ export default class MenusWin extends FWindow {
 		if (!this.menuParameter.initFunction.hasKey(this.Trial.id)) {
 			this.menuParameter.initFunction.add(this.Trial.id, this.createTrialUI);
 		}
+	}
+	public showFriendGain(): void {
+		this.content.checkFriendGainBtn();
 	}
 	// 游戏结束，胜利或失败
 	public gameResult(): void {

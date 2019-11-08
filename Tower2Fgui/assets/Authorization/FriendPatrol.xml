@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960" designImage="ui://3gd37va894yv4" designImageAlpha="38" designImageLayer="1">
+  <displayList>
+    <image id="n0_94yv" name="n0" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="-10,-20" size="1300,1000" locked="true" alpha="0.5"/>
+    <image id="n1_94yv" name="n1" src="udz4m" fileName="zu2.png" pkg="3o5nmzs6" xy="240,155" size="800,650"/>
+    <image id="n2_94yv" name="n2" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="242,155"/>
+    <image id="n4_94yv" name="n4" src="94yv2" fileName="pic/friendTitle.png" xy="311,161"/>
+    <image id="n5_94yv" name="n5" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="265,310" size="750,330"/>
+    <text id="n6_94yv" name="haveCount" xy="290,262" size="243,33" fontSize="24" color="#ffffff" vars="true" bold="true" text="已成功邀请好友{count=2}人："/>
+    <text id="n7_94yv" name="tips" xy="290,649" size="700,59" fontSize="20" color="#7e1f12" vAlign="middle" vars="true" autoSize="none" bold="true" text="大王每成功邀请一个好友可提升{count1=10}%挂机收益与减少{count2=5}%探索时间。（最多可叠加10次）"/>
+    <text id="n9_94yv" name="gainTips" xy="562,234" size="274,63" fontSize="24" color="#feda49" vAlign="middle" vars="true" bold="true" text="当前提高挂机收益：{count1=20}%&#xA;当前减少探索时间：{count2=20}%"/>
+    <list id="n12_94yv" name="list" xy="290,331" size="700,300" layout="flow_hz" lineGap="10" colGap="10" defaultItem="ui://3gd37va894yv6" align="center" autoClearItems="true"/>
+    <component id="n8_94yv" name="inviteBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="522,687" controller="bgColor,2,adStatus,0">
+      <Button title="邀请好友"/>
+    </component>
+    <component id="n3_94yv" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="239,154"/>
+  </displayList>
+</component>

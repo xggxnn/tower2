@@ -54,13 +54,12 @@ export default class Pools {
      * @param sk 
      */
     public static pushs(key: string, sk: Laya.Skeleton) {
-        sk.removeSelf();
-        let list: Array<Laya.Skeleton> = this.skDic.getValue(key);
-        if (list.length >= 20) {
-            sk.destroy();
-        }
-        else {
-            list.push(sk);
+        if (sk && sk != undefined && sk != null) {
+            let list: Array<Laya.Skeleton> = this.skDic.getValue(key);
+            if (list.length < 30) {
+                sk.removeSelf();
+                list.push(sk);
+            }
         }
     }
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1000,40" overflow="hidden">
+  <displayList>
+    <image id="n0_exbk" name="n0" src="qvb6546" fileName="pic/jianbiandi.png" pkg="130tmfxd" xy="-7,0" size="1015,40"/>
+    <text id="n1_exbk" name="titles" xy="1000,20" pivot="0.5,0.5" anchor="true" size="10,39" fontSize="30" color="#fff7ea" align="right" vAlign="middle" text=""/>
+  </displayList>
+  <transition name="t0" options="4">
+    <item time="0" type="Alpha" target="n1_exbk" value="1"/>
+    <item time="0" type="XY" target="n1_exbk" tween="true" startValue="1000,-" endValue="500,-" duration="24" ease="Linear"/>
+    <item time="78" type="XY" target="n1_exbk" tween="true" startValue="500,-" endValue="0,-" duration="24" ease="Linear"/>
+    <item time="90" type="Alpha" target="n1_exbk" tween="true" startValue="1" endValue="0" duration="12" ease="Linear"/>
+  </transition>
+</component>

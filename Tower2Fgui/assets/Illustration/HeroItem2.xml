@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="150,150">
   <controller name="have" pages="0,,1," selected="0"/>
-  <controller name="status" pages="3,,0,召唤,1,进阶,2,洗点" selected="0"/>
+  <controller name="status" pages="3,,0,召唤,1,进阶,2,洗点" selected="1"/>
   <displayList>
     <loader id="n16_bxj0" name="quality" xy="75,75" pivot="0.5,0.5" anchor="true" size="150,150" aspect="true" url="ui://88du1wabczuw53l" align="center" vAlign="middle" fill="scale">
       <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
@@ -21,12 +21,24 @@
     <loader id="n29_ajdp" name="nam" xy="12,112" size="85,29" aspect="true" url="ui://88du1wabajdp55x" fill="scale" shrinkOnly="true">
       <gearLook controller="have" pages="1" values="1,0,1,1" default="1,0,0,1"/>
     </loader>
-    <image id="n30_ajdp" name="n30" src="ajdp5" fileName="pic/bigRed.png" xy="104,0">
+    <image id="n30_ajdp" name="n30" src="ajdp5" fileName="pic/bigRed.png" pkg="130tmfxd" xy="104,0" pivot="0.11,0.73">
       <gearDisplay controller="status" pages="0,1,2"/>
     </image>
-    <loader id="n31_ajdp" name="n31" xy="109,12" size="39,23" url="ui://rzze1nh2ajdp6" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+    <loader id="n31_ajdp" name="n31" xy="109,35" pivot="0,1" anchor="true" size="39,23" url="ui://rzze1nh2ajdp8" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
       <gearDisplay controller="status" pages="0,1,2"/>
       <gearIcon controller="status" pages="0,2" values="ui://rzze1nh2ajdp8|ui://rzze1nh2ajdp7" default="ui://rzze1nh2ajdp6"/>
     </loader>
   </displayList>
+  <transition name="t0" autoPlay="true" autoPlayRepeat="-1">
+    <item time="0" type="Rotation" target="n30_ajdp" value="0"/>
+    <item time="0" type="Rotation" target="n31_ajdp" value="0"/>
+    <item time="24" type="Rotation" target="n30_ajdp" tween="true" startValue="0" endValue="10" duration="3" ease="Linear"/>
+    <item time="24" type="Rotation" target="n31_ajdp" tween="true" startValue="0" endValue="10" duration="3" ease="Linear"/>
+    <item time="27" type="Rotation" target="n30_ajdp" tween="true" startValue="10" endValue="0" duration="3" ease="Linear"/>
+    <item time="27" type="Rotation" target="n31_ajdp" tween="true" startValue="10" endValue="0" duration="3" ease="Linear"/>
+    <item time="30" type="Rotation" target="n30_ajdp" tween="true" startValue="0" endValue="-15" duration="3" ease="Linear"/>
+    <item time="30" type="Rotation" target="n31_ajdp" tween="true" startValue="0" endValue="-15" duration="3" ease="Linear"/>
+    <item time="33" type="Rotation" target="n30_ajdp" tween="true" startValue="-15" endValue="0" duration="3" ease="Linear"/>
+    <item time="33" type="Rotation" target="n31_ajdp" tween="true" startValue="-15" endValue="0" duration="3" ease="Linear"/>
+  </transition>
 </component>

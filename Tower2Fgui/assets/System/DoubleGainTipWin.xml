@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <displayList>
+    <loader id="n26_94yv" name="n26" xy="-10,-20" size="1300,1000" alpha="0.5" url="ui://130tmfxdopk1o" fill="scaleFree"/>
+    <image id="n16_qvb6" name="n16" src="udz4m" fileName="zu2.png" pkg="3o5nmzs6" xy="407,171" size="465,644"/>
+    <image id="n17_qvb6" name="n17" src="j5ctg" fileName="pic/yunzhuangshi.png" xy="409,172"/>
+    <image id="n18_qvb6" name="n18" src="j5ct16" fileName="pic/contentBg.png" xy="424,269" size="427,286"/>
+    <image id="n19_qvb6" name="n19" src="gc5ls" fileName="yunwen.png" pkg="3o5nmzs6" xy="410,755"/>
+    <image id="n27_94yv" name="n27" src="94yv54g" fileName="pic/tipTitle.png" xy="484,176"/>
+    <text id="n21_94yv" name="n21" xy="525,562" size="230,33" fontSize="24" color="#3dff5d" bold="true" text="观看视频获得可翻倍"/>
+    <text id="n22_94yv" name="n22" xy="514,285" size="253,39" fontSize="30" color="#fff7ea" bold="true" text="您将获得以下奖励"/>
+    <list id="n3_q080" name="list" xy="442,336" size="390,203" layout="flow_hz" overflow="scroll" defaultItem="ui://130tmfxdbxj019" align="center" autoClearItems="true"/>
+    <component id="n14_qrw0" name="ok" src="q080m" fileName="GeneralBtn.xml" xy="397,628" scale="0.8,0.8" controller="bgColor,1,adStatus,0">
+      <Button title="直接领取" titleColor="#ffffff"/>
+    </component>
+    <component id="n15_qrw0" name="cancel" src="q080m" fileName="GeneralBtn.xml" xy="630,628" scale="0.8,0.8" controller="bgColor,2,adStatus,1">
+      <Button title="免费翻倍"/>
+    </component>
+    <component id="n23_94yv" name="close" src="udz4q" fileName="IconBtn.xml" xy="406,171"/>
+  </displayList>
+</component>

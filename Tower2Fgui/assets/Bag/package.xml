@@ -3,6 +3,8 @@
   <resources>
     <component id="j5ct0" name="BagMain.xml" path="/" exported="true"/>
     <component id="bxj0d" name="BagItem.xml" path="/" exported="true"/>
+    <image id="bxj01" name="bagTitle.png" path="/pic/"/>
+    <image id="bxj02" name="cebiantiao.png" path="/pic/"/>
   </resources>
   <publish name="Bag" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

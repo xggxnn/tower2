@@ -39,7 +39,8 @@ export default class UI_Trial extends fui_Trial {
 
 		this.m_closeBtn.onClick(this, this.closeUI);
 		this.m_startBtn.onClick(this, this.startClick);
-		this.m_skipBtn.onClick(this, this.skipFight);
+		this.m_skipBtn.visible = false;
+		// this.m_skipBtn.onClick(this, this.skipFight);
 		// 设置列表渲染函数
 		this.m_rewardList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
 		// this.m_help.onClick(this, this.helpClick);
@@ -56,20 +57,20 @@ export default class UI_Trial extends fui_Trial {
 	startClick(): void {
 		this.fightReq();
 	}
-	private _skipFight: boolean = false;
+	// private _skipFight: boolean = false;
 	// 准备观看视频跳过战斗过程
-	private skipFight(): void {
-		if (AdsManager.usable) {
-			AdsManager.show();
-		}
-		else {
-			Game.tipWin.showTip("视频加载失败，请稍后再试!", false);
-		}
-	}
-	private skipOk(): void {
-		this._skipFight = true;
-		this.fightReq();
-	}
+	// private skipFight(): void {
+	// 	if (AdsManager.usable) {
+	// 		AdsManager.show();
+	// 	}
+	// 	else {
+	// 		Game.tipWin.showTip("视频加载失败，请稍后再试!", false);
+	// 	}
+	// }
+	// private skipOk(): void {
+	// 	this._skipFight = true;
+	// 	this.fightReq();
+	// }
 
 
 	private _clickTime: number = 0;
@@ -87,16 +88,20 @@ export default class UI_Trial extends fui_Trial {
 		Game.proto.selectWave(data);
 	}
 	private startFight(): void {
-		if (this._skipFight) {
-			Game.gameStatus = GameStatus.Win;
-			this.moduleWindow.gameResult();
-			this.closeUI();
+		// if (this._skipFight) {
+		// 	Game.gameStatus = GameStatus.Win;
+		// 	this.moduleWindow.gameResult();
+		// 	this.closeUI();
+		// }
+		// else {
+		this.moduleWindow.menuClose();
+		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		Game.battleData.curEnterFightType = 0;
+		if (Game.battleData.trial_level > 0) {
+			Game.battleData.curEnterFightType = 1;
 		}
-		else {
-			this.moduleWindow.menuClose();
-			EventManager.event(EventKey.CLOSE_UI_WAIT);
-			Game.menu.open(MenuId.Battle);
-		}
+		Game.menu.open(MenuId.Battle);
+		// }
 	}
 
 	// 关闭ui
@@ -105,6 +110,7 @@ export default class UI_Trial extends fui_Trial {
 			this.moduleWindow.menuParameter.initFunction.remove(this.id);
 		}
 		this.moduleWindow.windowRemoveChild(this);
+		this.moduleWindow.showFriendGain();
 	}
 	// 返回上一级ui
 	backUI(): void {
@@ -113,9 +119,9 @@ export default class UI_Trial extends fui_Trial {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.SELECTWAVE_CALL_BACK, this, this.startFight);
-		EventManager.on(EventKey.REWARDED_VIDEO_AD_YES, this, this.skipOk);
+		// EventManager.on(EventKey.REWARDED_VIDEO_AD_YES, this, this.skipOk);
 
-		this._skipFight = false;
+		// this._skipFight = false;
 		let _dic = Game.battleData.getWaveFightInf(Game.battleData.level_id);
 		let _seatDic = Game.playData.curFightInf;
 		let tip = Game.playData.fightTip(_seatDic);
@@ -134,7 +140,8 @@ export default class UI_Trial extends fui_Trial {
 		this.m_speedStatus.setSelectedIndex(statusTip.getValue(FightType.Speed)[0]);
 		this.m_critStatus.setSelectedIndex(statusTip.getValue(FightType.Crit)[0]);
 		this.m_burstStatus.setSelectedIndex(statusTip.getValue(FightType.Burst)[0]);
-
+		this.m_starMax.setSelectedIndex(0);
+		this.m_starNum.setSelectedIndex(0);
 		this.item = null;
 		if (Game.battleMap.waveStatusDict.hasKey(Game.battleData.level_id)) {
 			this.item = Game.battleMap.waveStatusDict.getValue(Game.battleData.level_id);
@@ -207,7 +214,14 @@ export default class UI_Trial extends fui_Trial {
 		}
 		let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
 		this.m_mapid.text = mapLevel.map + "-" + mapLevel.level;
-		if (Game.playData.guideIndex == GuideType.fiveSelectWave || Game.playData.guideIndex == GuideType.sixSelectWave || Game.playData.guideIndex == GuideType.sevenSelectWave) {
+		if (Game.playData.guideIndex == GuideType.sixSelectWave) {
+			Game.playData.guideIndex++;
+			EventManager.event(EventKey.SHOW_WAIT);
+			setTimeout(() => {
+				this.moduleWindow.createGuideUI(this.m_rewardList, new Laya.Point(this.m_rewardList.x, this.m_rewardList.y), Laya.Handler.create(this, this.tipReward), "闯关可以获得奖励，还有英雄碎片可拿哦！");
+			}, 10);
+		}
+		else if (Game.playData.guideIndex == GuideType.fiveSelectWave || Game.playData.guideIndex == GuideType.sevenSelectWave) {
 			Game.playData.guideIndex++;
 			EventManager.event(EventKey.SHOW_WAIT);
 			setTimeout(() => {
@@ -215,6 +229,12 @@ export default class UI_Trial extends fui_Trial {
 			}, 10);
 		}
 
+	}
+	private tipReward(): void {
+		EventManager.event(EventKey.SHOW_WAIT);
+		setTimeout(() => {
+			this.moduleWindow.createGuideUI(this.m_startBtn, new Laya.Point(this.m_startBtn.x, this.m_startBtn.y), Laya.Handler.create(this, this.startClick), Game.tipTxt.fiveFight);
+		}, 10);
 	}
 
 	private showFightCd(waves: WaveStatus): void {

@@ -3,6 +3,7 @@ import MenusWin from "../../../gamemodule/Windows/MenusWin";
 import WaveInfo from "../../../csvInfo/WaveInfo";
 import UI_Selection from "./UI_Selection";
 import LevelmapInfo from "../../../csvInfo/LevelmapInfo";
+import BigPicKey from "../../BigPicKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_MapItem extends fui_MapItem {
@@ -55,8 +56,13 @@ export default class UI_MapItem extends fui_MapItem {
 	public setData(index: number, moduleWindow: MenusWin): void {
 		this.moduleWindow = moduleWindow;
 		let levelmap = LevelmapInfo.getInfo(index + 1);
-		let statusIndex = levelmap.levelbg - 1;
+		let bg = 1;
+		if (levelmap && levelmap.levelbg) {
+			bg = levelmap.levelbg;
+		}
+		let statusIndex = bg - 1;
 		this.m_bgStatus.setSelectedIndex(statusIndex);
+		this.m_bg.icon = BigPicKey.getUrl("waveBg_" + bg + ".png");
 
 		this.waveInfList = [];
 		for (let i = 1; i < 11; i++) {

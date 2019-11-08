@@ -1,5 +1,7 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
+import fui_DoubleGainTipWin from "./fui_DoubleGainTipWin";
+import fui_FriendGain from "./fui_FriendGain";
 import fui_BlackText from "./fui_BlackText";
 import fui_Exchange from "./fui_Exchange";
 import fui_GainRewards from "./fui_GainRewards";
@@ -10,6 +12,9 @@ import fui_PopupItem from "./fui_PopupItem";
 import fui_RedTips from "./fui_RedTips";
 import fui_RewardItem from "./fui_RewardItem";
 import fui_ScrollTxtNormal from "./fui_ScrollTxtNormal";
+import fui_FightTip from "./fui_FightTip";
+import fui_comBtn from "./fui_comBtn";
+import fui_TabBtn from "./fui_TabBtn";
 import fui_LeftBtn from "./fui_LeftBtn";
 import fui_RightBtn from "./fui_RightBtn";
 import fui_HeadIcon from "./fui_HeadIcon";
@@ -25,9 +30,12 @@ import fui_GeneralBtn from "./fui_GeneralBtn";
 import fui_Hand from "./fui_Hand";
 import fui_Help from "./fui_Help";
 import fui_DialogBox from "./fui_DialogBox";
+import fui_ProgressBar from "./fui_ProgressBar";
 
 export default class SystemBinder{
 	public static bindAll():void {
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_DoubleGainTipWin.URL, fui_DoubleGainTipWin);
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_FriendGain.URL, fui_FriendGain);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_BlackText.URL, fui_BlackText);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_Exchange.URL, fui_Exchange);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_GainRewards.URL, fui_GainRewards);
@@ -38,6 +46,9 @@ export default class SystemBinder{
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_RedTips.URL, fui_RedTips);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_RewardItem.URL, fui_RewardItem);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_ScrollTxtNormal.URL, fui_ScrollTxtNormal);
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_FightTip.URL, fui_FightTip);
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_comBtn.URL, fui_comBtn);
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_TabBtn.URL, fui_TabBtn);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_LeftBtn.URL, fui_LeftBtn);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_RightBtn.URL, fui_RightBtn);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_HeadIcon.URL, fui_HeadIcon);
@@ -53,5 +64,6 @@ export default class SystemBinder{
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_Hand.URL, fui_Hand);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_Help.URL, fui_Help);
 		fairygui.UIObjectFactory.setPackageItemExtension(fui_DialogBox.URL, fui_DialogBox);
+		fairygui.UIObjectFactory.setPackageItemExtension(fui_ProgressBar.URL, fui_ProgressBar);
 	}
 }

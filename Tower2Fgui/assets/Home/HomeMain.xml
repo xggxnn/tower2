@@ -3,15 +3,15 @@
   <controller name="dayPass" pages="0,,1,,2," selected="0"/>
   <controller name="showMask" pages="0,,1," selected="0"/>
   <displayList>
-    <image id="n20_j5ct" name="n20" src="bcle27" fileName="pics/bg.png" xy="0,0" size="1280,960"/>
-    <image id="n64_bcle" name="n64" src="bcle29" fileName="pics/bg3.png" xy="552,304"/>
-    <image id="n65_bcle" name="n65" src="bcle2o" fileName="pics/bg4.png" xy="140,700"/>
-    <image id="n66_bcle" name="n66" src="bcle2o" fileName="pics/bg4.png" xy="1134,700" scale="-1,1"/>
-    <image id="n67_bcle" name="n67" src="bcle2p" fileName="pics/bg5.png" xy="70,390"/>
-    <image id="n68_bcle" name="n68" src="bcle2p" fileName="pics/bg5.png" xy="408,564"/>
-    <image id="n55_bcle" name="n55" src="bcle2l" fileName="pics/zhizhusi.png" xy="1153,140"/>
-    <image id="n54_bcle" name="n54" src="bcle28" fileName="pics/bg2.png" xy="247,163"/>
-    <image id="n53_bcle" name="n53" src="bcle2k" fileName="pics/topBg.png" xy="-5,-12" size="1290,246"/>
+    <image id="n20_j5ct" name="n20" src="bcle27" fileName="bg.png" pkg="3o5nmzs6" xy="0,0" size="1280,960"/>
+    <image id="n64_bcle" name="n64" src="bcle29" fileName="bg3.png" pkg="3o5nmzs6" xy="552,304"/>
+    <image id="n65_bcle" name="n65" src="bcle2o" fileName="bg4.png" pkg="3o5nmzs6" xy="140,700"/>
+    <image id="n66_bcle" name="n66" src="bcle2o" fileName="bg4.png" pkg="3o5nmzs6" xy="1134,700" scale="-1,1"/>
+    <image id="n67_bcle" name="n67" src="bcle2p" fileName="bg5.png" pkg="3o5nmzs6" xy="70,390"/>
+    <image id="n68_bcle" name="n68" src="bcle2p" fileName="bg5.png" pkg="3o5nmzs6" xy="408,564"/>
+    <image id="n55_bcle" name="n55" src="bcle2l" fileName="zhizhusi.png" pkg="3o5nmzs6" xy="1153,140"/>
+    <image id="n54_bcle" name="n54" src="bcle28" fileName="bg2.png" pkg="3o5nmzs6" xy="247,163"/>
+    <image id="n53_bcle" name="n53" src="bcle2k" fileName="topBg.png" pkg="3o5nmzs6" xy="-5,-12" size="1290,246"/>
     <component id="n17_j5ct" name="gold" src="j5ct1k" fileName="coinLabel.xml" xy="362,144"/>
     <component id="n18_j5ct" name="diamond" src="j5ct1k" fileName="coinLabel.xml" xy="558,144">
       <Label icon="ui://88du1wabj5ct16"/>
@@ -38,21 +38,28 @@
     <image id="n59_bcle" name="line2" src="bcle2e" fileName="pics/lineIcon.png" xy="81,415" pivot="0.5,0.5" anchor="true"/>
     <image id="n60_bcle" name="line3" src="bcle2e" fileName="pics/lineIcon.png" xy="202,471" pivot="0.5,0.5" anchor="true"/>
     <image id="n61_bcle" name="line4" src="bcle2e" fileName="pics/lineIcon.png" xy="81,526" pivot="0.5,0.5" anchor="true"/>
-    <image id="n62_bcle" name="line5" src="bcle2e" fileName="pics/lineIcon.png" xy="201,582" pivot="0.5,0.5" anchor="true" visible="false"/>
+    <image id="n62_bcle" name="line5" src="bcle2e" fileName="pics/lineIcon.png" xy="201,582" pivot="0.5,0.5" anchor="true"/>
+    <image id="n71_94yv" name="line6" src="bcle2e" fileName="pics/lineIcon.png" xy="80,637" pivot="0.5,0.5" anchor="true"/>
     <component id="n10_j5ct" name="setBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="80,303" pivot="0.5,0.5" anchor="true" size="107,107">
       <Button icon="ui://9xvnuoq0bcle2h"/>
     </component>
-    <component id="n11_j5ct" name="actBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="201,470" pivot="0.5,0.5" anchor="true" size="107,107">
-      <Button icon="ui://88du1wabbcle54p"/>
+    <component id="n63_bcle" name="freeBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="200,360" pivot="0.5,0.5" anchor="true" size="107,107">
+      <Button icon="ui://9xvnuoq094yv2q"/>
     </component>
-    <component id="n12_j5ct" name="shopBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="80,525" pivot="0.5,0.5" anchor="true" size="107,107">
-      <Button icon="ui://9xvnuoq0bcle2i"/>
+    <component id="n70_94yv" name="boxBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="80,412" pivot="0.5,0.5" anchor="true" size="107,107">
+      <Button icon="ui://88du1wab94yv2r"/>
     </component>
-    <component id="n13_j5ct" name="sortBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="201,359" pivot="0.5,0.5" anchor="true" size="107,107">
+    <component id="n13_j5ct" name="sortBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="200,471" pivot="0.5,0.5" anchor="true" size="107,107">
       <Button icon="ui://9xvnuoq0bcle2d"/>
     </component>
-    <component id="n14_j5ct" name="bagBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="80,414" pivot="0.5,0.5" anchor="true" size="107,107">
+    <component id="n14_j5ct" name="bagBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="80,524" pivot="0.5,0.5" anchor="true" size="107,107">
       <Button icon="ui://9xvnuoq0bcle26"/>
+    </component>
+    <component id="n11_j5ct" name="actBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="200,581" pivot="0.5,0.5" anchor="true" size="107,107">
+      <Button icon="ui://88du1wabbcle54p"/>
+    </component>
+    <component id="n12_j5ct" name="shopBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="80,636" pivot="0.5,0.5" anchor="true" size="107,107">
+      <Button icon="ui://9xvnuoq0bcle2i"/>
     </component>
     <component id="n43_qyum" name="heroBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1168,684" pivot="0.5,0.5" anchor="true" size="119,197">
       <Button icon="ui://9xvnuoq0bcle2c"/>
@@ -61,10 +68,17 @@
     <component id="n56_bcle" name="testBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1178,318" pivot="0.5,0.5" anchor="true" size="103,92">
       <Button icon="ui://9xvnuoq0bcle25"/>
     </component>
-    <component id="n63_bcle" name="playsortBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="200,581" pivot="0.5,0.5" anchor="true" size="107,107" visible="false">
-      <Button icon="ui://9xvnuoq0bcle2j"/>
+    <component id="n74_eaol" name="WishingBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1177,463" pivot="0.5,0.5" anchor="true" size="103,92">
+      <Button icon="ui://9xvnuoq0eaol2r"/>
     </component>
-    <text id="n69_bcle" name="n69" xy="26,781" size="267,39" fontSize="30" bold="true" text="QQ群：855988151"/>
+    <image id="n72_94yv" name="n72" src="94yv52n" fileName="pic/qq.png" pkg="130tmfxd" xy="30,785"/>
+    <component id="n75_eaol" name="kefuBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="53,746" pivot="0.5,0.5" anchor="true" size="106,86">
+      <Button icon="ui://9xvnuoq0eaol2x"/>
+    </component>
+    <component id="n73_94yv" name="friendGainBtn" src="94yv54n" fileName="FriendGain.xml" pkg="130tmfxd" xy="974,222"/>
+    <component id="n76_eaol" name="endlessBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="272,222" pivot="0.5,0.5" size="113,120">
+      <Button icon="ui://88du1wabeaol2y"/>
+    </component>
     <component id="n52_bcle" name="maskBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="640,480" pivot="0.5,0.5" anchor="true" size="1280,960">
       <gearDisplay controller="showMask" pages="1"/>
       <relation target="" sidePair="width-width,height-height"/>

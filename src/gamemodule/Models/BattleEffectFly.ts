@@ -18,7 +18,7 @@ export default class BattleEffectFly extends Laya.Sprite {
         this.userSkill = userSkill;
         this.cdSpeed = 0.8;
     }
-    public destoryThis(): void {
+    public destroyThis(): void {
         this._sk.destroyThis();
         this.destroy();
     }

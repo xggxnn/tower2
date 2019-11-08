@@ -17,7 +17,7 @@ export default class fui_Selection extends fairygui.GComponent {
 	public m_mask:fairygui.GImage;
 	public m_protime:fairygui.GTextField;
 	public m_progress:fairygui.GTextField;
-	public m_unlock:fairygui.GTextField;
+	public m_unLockTipList:fairygui.GList;
 
 	public static URL:string = "ui://pdzut3twngrs13";
 
@@ -45,6 +45,6 @@ export default class fui_Selection extends fairygui.GComponent {
 		this.m_mask = <fairygui.GImage><any>(this.getChildAt(24));
 		this.m_protime = <fairygui.GTextField><any>(this.getChildAt(25));
 		this.m_progress = <fairygui.GTextField><any>(this.getChildAt(26));
-		this.m_unlock = <fairygui.GTextField><any>(this.getChildAt(30));
+		this.m_unLockTipList = <fairygui.GList><any>(this.getChildAt(31));
 	}
 }

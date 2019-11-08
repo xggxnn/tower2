@@ -3,14 +3,13 @@
   <controller name="showRange" pages="0,,1," selected="0"/>
   <controller name="bgStatus" pages="0,1,1,2,2,3,3,4" selected="0"/>
   <displayList>
-    <loader id="n6_n1s0" name="bg" xy="0,0" size="1280,960" url="ui://3jvhuirz9mhx20" fill="scaleFree">
-      <gearIcon controller="bgStatus" pages="0,1,2" values="ui://3jvhuirz9mhx20|ui://3jvhuirz9mhx21|ui://3jvhuirz9mhx22" default="ui://3jvhuirzj5ct1j"/>
+    <loader id="n6_n1s0" name="bg" xy="0,0" size="1280,960" url="ui://3o5nmzs69mhx20" fill="scaleFree">
+      <gearIcon controller="bgStatus" pages="0,1,2" values="ui://3o5nmzs69mhx20|ui://3o5nmzs69mhx21|ui://3o5nmzs69mhx22" default="ui://3o5nmzs6j5ct1j"/>
     </loader>
-    <loader id="n80_czuw" name="bg00" xy="1280,0" size="1210,960" aspect="true" url="ui://3jvhuirz9mhx1x" fill="scale">
-      <gearIcon controller="bgStatus" pages="0,1,2" values="ui://3jvhuirz9mhx1x|ui://3jvhuirz9mhx1y|ui://3jvhuirz9mhx1z" default="ui://3jvhuirzczuw1q"/>
+    <loader id="n80_czuw" name="bg00" xy="1280,0" size="1210,960" aspect="true" url="ui://3o5nmzs69mhx1x" fill="scale">
+      <gearIcon controller="bgStatus" pages="0,1,2" values="ui://3o5nmzs69mhx1x|ui://3o5nmzs69mhx1y|ui://3o5nmzs69mhx1z" default="ui://3o5nmzs6czuw1q"/>
     </loader>
     <loader id="n106_czuw" name="cloud" xy="1500,-143" size="1172,1247"/>
-    <image id="n105_czuw" name="door" src="czuw1s" fileName="pic/Ndoor.png" xy="2073,0"/>
     <image id="n46_yyzw" name="n46" src="yyzwd" fileName="pic/baguafuwen.png" xy="506,231" group="n47_yyzw"/>
     <component id="n45_yyzw" name="bagua1" src="yyzwe" fileName="bagua.xml" xy="538,254" group="n47_yyzw" scale="1,0.65" controller="c1,1"/>
     <group id="n47_yyzw" name="bg3" xy="506,231" size="131,89" advanced="true" collapsed="true"/>

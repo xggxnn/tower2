@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="116,120" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n3_94yv" name="n3" src="94yv54m" fileName="pic/friendGain.png" xy="0,0"/>
+    <text id="n4_94yv" name="titles" xy="57,104" pivot="0.5,0.5" anchor="true" size="116,25" fontSize="12" color="#f0f5ff" align="center" vAlign="middle" vars="true" autoSize="none" bold="true" text="（{count1=2}/{count2=10}）"/>
+  </displayList>
+  <Button downEffect="scale" downEffectValue="1.05"/>
+</component>

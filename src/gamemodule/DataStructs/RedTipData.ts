@@ -17,6 +17,10 @@ export default class RedTipData {
         }
         return RedTipData._Instance;
     }
+    public init(): void {
+        this._skillItemRed.clear();
+        this.setSkillItemRed(1);
+    }
     // 是否存在可合成或提示品质的英雄
     public get heroRed(): boolean {
         for (let i = 1, len = HeroInfoData.getCount(); i <= len; i++) {
@@ -84,7 +88,7 @@ export default class RedTipData {
         return this.signRed || this.kingRed;
     }
     public get signRed(): boolean {
-        return !Game.playData.isSign && Game.battleMap.maxMapId > 1;
+        return (!Game.playData.isSign && Game.battleMap.maxMapId > 1);
     }
     public get kingRedIndex(): number {
         let result = 0;
@@ -171,6 +175,25 @@ export default class RedTipData {
         this._skillRed = v;
     }
 
+    private _skillItemRed: Dictionary<string, boolean> = new Dictionary<string, boolean>();
+    public get skillItemRed(): Dictionary<string, boolean> {
+        if (this._skillItemRed.count < 2) {
+            let saveInit: string = Game.localStorage.getString("skillItemRed_Init", true);
+            let keys = saveInit.split(",");
+            this._skillItemRed.clear();
+            for (let i = 0; i < keys.length; i++) {
+                this._skillItemRed.add(keys[i], true);
+            }
+        }
+        return this._skillItemRed;
+    }
+    public setSkillItemRed(id: number) {
+        this._skillItemRed.add(id, true);
+        let val = this._skillItemRed.getKeys().toString();
+        Game.localStorage.setString("skillItemRed_Init", val, true);
+    }
+
+
 
     private _dayFightTip: boolean;
     public get dayFightTip(): boolean {
@@ -178,6 +201,54 @@ export default class RedTipData {
     }
     public set dayFightTip(v: boolean) {
         this._dayFightTip = v;
+    }
+
+
+    private _shopRed: boolean = true;
+    public get shopRed(): boolean {
+        this._shopRed = true;
+        if (Game.localStorage.hasItem("shopRed_Init", true)) {
+            let saveInit: string = Game.localStorage.getString("shopRed_Init", true);
+            if (saveInit.localeCompare(new Date().toLocaleDateString()) == 0) {
+                this._shopRed = false;
+            }
+        }
+        return this._shopRed;
+    }
+    public shopReds() {
+        Game.localStorage.setString("shopRed_Init", new Date().toLocaleDateString(), true);
+    }
+
+
+    private _fightRed: boolean = true;
+    public get fightRed(): boolean {
+        this._fightRed = true;
+        if (Game.localStorage.hasItem("fightRed_Init", true)) {
+            let saveInit: string = Game.localStorage.getString("fightRed_Init", true);
+            if (saveInit.localeCompare(new Date().toLocaleDateString()) == 0) {
+                this._fightRed = false;
+            }
+        }
+        return this._fightRed;
+    }
+    public fightReds() {
+        Game.localStorage.setString("fightRed_Init", new Date().toLocaleDateString(), true);
+    }
+
+
+    private _adOneFree: boolean = false;
+    // 首次免费不观看视频复活
+    public get adOneFree(): boolean {
+        if (!this._adOneFree) {
+            if (Game.localStorage.hasItem("adOneFree_Init", true)) {
+                this._adOneFree = Game.localStorage.getBoolean("adOneFree_Init", true);
+            }
+        }
+        return this._adOneFree;
+    }
+    public set adOneFree(v: boolean) {
+        this._adOneFree = v;
+        Game.localStorage.setBoolean("adOneFree_Init", v, true);
     }
 
 

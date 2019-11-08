@@ -121,6 +121,8 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
+		this.m_showTip.setSelectedIndex(0);
+		this.isPlayMove = false;
 		EventManager.offAllCaller(this);
 	}
 
@@ -134,6 +136,20 @@ export default class UI_BattleTopMiddle extends fui_BattleTopMiddle {
 		else {
 			this.m_associationList.numItems = 0;
 		}
+	}
+
+	private isPlayMove: boolean = false;
+	public showScrollTip(v: string): void {
+		if (!this.isPlayMove) {
+			this.isPlayMove = true;
+			this.m_showTip.setSelectedIndex(1);
+			this.m_tips.m_titles.text = v;
+			this.m_tips.m_t0.play(Laya.Handler.create(this, this.playOver));
+		}
+	}
+	private playOver(): void {
+		this.m_showTip.setSelectedIndex(0);
+		this.isPlayMove = false;
 	}
 
 }

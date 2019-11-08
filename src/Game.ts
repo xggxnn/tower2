@@ -34,6 +34,7 @@ import TypeWriteData from "./gamemodule/DataStructs/TypeWriteData";
 import ShareManager from "./tool/ShareManager";
 import TipTextInfo from "./gamemodule/DataStructs/TipTextInfo";
 import { GuideType } from "./gamemodule/DataEnums/GuideType";
+import TaskData from "./gamemodule/DataStructs/TaskData";
 
 export default class Game {
 
@@ -117,6 +118,8 @@ export default class Game {
 	static userData: UserData;
 	// 战斗中的光环
 	static halo: BattleHalo;
+	// 每日任务数据
+	static task: TaskData;
 
 
 	static gm: GMData;
@@ -144,13 +147,14 @@ export default class Game {
 			Game.isMobile = Game.isIOS || Game.isAndroid;
 		}
 		EventManager.once(ProtoEvent.CONFIG_CALL_BACK, this, this.configGet);
-		EventManager.once(ProtoEvent.LOGIN_CALL_BACK, this, this.openHome);
+		EventManager.once(ProtoEvent.LOGIN_CALL_BACK, this, this.checkInviteInf);
+		EventManager.on(ProtoEvent.FRIEDNPATROL_CALL_BACK, this, this.openHome);
 		Game.install();
 		LoaderManager.loadCSV();
 		LoaderManager.init();
-		GameInstaller.install();
 		SystemManager.init();
 		TimerManager.init();
+		GameInstaller.install();
 	}
 
 	static onInstallComplete() {
@@ -173,7 +177,7 @@ export default class Game {
 		_list.push("res_font/num_battle_2.fnt");
 		_list.push("res_font/num_battle_3.fnt");
 		_list = _list.concat(LoadFilesList.res_npc_ResList);
-		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		// _list = _list.concat(LoadFilesList.res_effect_effect_ResList);
 		LoaderManager.addList(_list);
 	}
 	private onInstallLoadRes2(menuid: MenuId): void {
@@ -184,7 +188,7 @@ export default class Game {
 		_list.push("res_font/num_battle_2.fnt");
 		_list.push("res_font/num_battle_3.fnt");
 		_list = _list.concat(LoadFilesList.res_npc_ResList);
-		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		// _list = _list.concat(LoadFilesList.res_effect_effect_ResList);
 		LoaderManager.addList(_list);
 	}
 	private openMenu(menuid: MenuId): void {
@@ -198,17 +202,27 @@ export default class Game {
 		Game.proto.reqConfig();
 	}
 	private configGet(): void {
+		ShareManager.init();
 		// 配置表加载完毕，登录
 		SystemManager.login();
 	}
+	private checkInviteInf(): void {
+		Game._showLog = Game.userData.openid == "o1eJ45IN8ef_1EEZZ_llpoiPyUuk";
+		if (Game.userData.inviter) {
+			Game.menu.open(MenuId.Authorization, 0);
+		}
+		else {
+			this.openHome();
+		}
+	}
 	private openHome(): void {
+		EventManager.off(ProtoEvent.FRIEDNPATROL_CALL_BACK, this, this.openHome);
 		let datas = {
 			type: "LoadType",
 			state: 1,
 		}
 		Game.proto.logUpload(datas);
 
-		ShareManager.init();
 		SystemManager.initAllData();
 		if (Game.battleMap.maxMapId >= 3) {
 			if (Game.playData.guideIndex < GuideType.sevenStartFive) {
@@ -242,10 +256,12 @@ export default class Game {
 				}
 				else if (Game.playData.guideIndex <= GuideType.fiveFight) {
 					Game.playData.guideIndex = GuideType.SnythHeroOver;
+					Game.battleData.curEnterFightType = 0;
 					this.onInstallLoadRes2(MenuId.Arrange);
 				}
 				else if (Game.playData.guideIndex >= GuideType.fiveWin && Game.playData.guideIndex < GuideType.fiveUpLevelOver) {
 					Game.playData.guideIndex = GuideType.fiveWin;
+					Game.battleData.curEnterFightType = 0;
 					this.onInstallLoadRes2(MenuId.Arrange);
 				}
 				else {
@@ -273,6 +289,8 @@ export default class Game {
 			Game.playData.guideIndex = GuideType.StartFight;
 		}
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
+		Game.battleData.trial_level = 0;
+		Game.battleData.curEnterFightType = 0;
 		Game.menu.open(MenuId.Battle);
 	}
 
@@ -296,6 +314,7 @@ export default class Game {
 		Game.redData = RedTipData.Instance;
 		Game.writeEff = TypeWriteData.Instance;
 		Game.tipTxt = TipTextInfo.Instance;
+		Game.task = TaskData.Instance;
 	}
 
 	static haveHeroTem = [2];

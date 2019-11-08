@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="940,148">
+  <controller name="boxStatus" exported="true" pages="0,,1,,2," selected="2"/>
+  <controller name="gainStatus" exported="true" pages="0,,1,,2," selected="0"/>
+  <displayList>
+    <image id="n33_94yv" name="n33" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="0,0" size="940,148"/>
+    <loader id="n34_94yv" name="n34" xy="32,13" size="132,120" url="ui://9cap1puy94yvf">
+      <gearIcon controller="boxStatus" pages="1,2" values="ui://9cap1puy94yve|ui://9cap1puy94yvf" default="ui://9cap1puy94yvd"/>
+    </loader>
+    <text id="n35_94yv" name="n35" xy="202,54" size="129,39" fontSize="30" color="#fff25d" bold="true" text="黄金宝箱">
+      <gearText controller="boxStatus" pages="1,2" values="白银宝箱|黄金宝箱" default="青铜宝箱"/>
+    </text>
+    <component id="n36_94yv" name="gold" src="j5ct1k" fileName="coinLabel.xml" pkg="9xvnuoq0" xy="521,53">
+      <gearDisplay controller="boxStatus" pages="0"/>
+    </component>
+    <component id="n37_94yv" name="diamond" src="j5ct1k" fileName="coinLabel.xml" pkg="9xvnuoq0" xy="521,53">
+      <gearDisplay controller="boxStatus" pages="1"/>
+      <Label icon="ui://88du1wabj5ct16"/>
+    </component>
+    <component id="n38_94yv" name="jadeite" src="j5ct1k" fileName="coinLabel.xml" pkg="9xvnuoq0" xy="521,53">
+      <gearDisplay controller="boxStatus" pages="2"/>
+      <Label icon="ui://88du1wabj5ct1d"/>
+    </component>
+    <text id="n39_94yv" name="num" xy="321,54" size="109,39" fontSize="30" color="#f0f5ff" bold="true" text="（0/5）"/>
+    <image id="n41_94yv" name="n41" src="94yv54h" fileName="pic/havelingqu.png" pkg="130tmfxd" xy="755,17">
+      <gearDisplay controller="gainStatus" pages="2"/>
+    </image>
+    <text id="n42_94yv" name="dealyTime" xy="806,134" pivot="0.5,0.5" anchor="true" size="111,27" fontSize="20" color="#fff7ea" align="center" vAlign="middle" text="12：12：12">
+      <gearDisplay controller="gainStatus" pages="1"/>
+    </text>
+    <component id="n40_94yv" name="gainBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="698,17" size="218,108" controller="bgColor,0">
+      <gearDisplay controller="gainStatus" pages="0,1"/>
+      <gearLook controller="gainStatus" pages="1" values="1,0,1,1" default="1,0,0,1"/>
+      <Button title="领取" titleColor="#f0f5ff"/>
+    </component>
+  </displayList>
+</component>

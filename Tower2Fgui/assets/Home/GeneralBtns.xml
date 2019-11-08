@@ -2,6 +2,7 @@
 <component size="132,108" pivot="0.5,0.5" extention="Button">
   <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
   <controller name="bgColor" exported="true" pages="0,b,1,g,2,p,3,r" selected="0"/>
+  <controller name="redTip" pages="0,,1," selected="0"/>
   <displayList>
     <image id="n0_q080" name="n0" src="q080h" fileName="pic/btn_b.png" pkg="130tmfxd" xy="0,0" size="132,108">
       <gearDisplay controller="bgColor" pages="0"/>
@@ -22,6 +23,10 @@
     <richtext id="n1_q080" name="title" xy="66,57" pivot="0.5,0.5" anchor="true" size="132,39" fontSize="30" align="center" vAlign="bottom" ubb="true" autoSize="none" bold="true" text="">
       <relation target="" sidePair="width-width,middle-middle"/>
     </richtext>
+    <component id="n5_94yv" name="n5" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="115,17">
+      <gearDisplay controller="redTip" pages="1"/>
+      <relation target="" sidePair="right-right,top-top"/>
+    </component>
   </displayList>
   <Button downEffect="scale" downEffectValue="1.05"/>
 </component>

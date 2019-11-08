@@ -21,7 +21,7 @@ export default class AdsManager {
             AdsManager.loadState = 1;
         });
         this.videoAd.onError(function (err) {
-            console.log("videoAd load error:", err);
+            // console.log("videoAd load error:", err);
             let data = {
                 type: "videoAd",
                 state: 0,
@@ -31,17 +31,22 @@ export default class AdsManager {
         });
         this.videoAd.onClose(function (res) {
             EventManager.event(EventKey.CLOSE_WAIT);
-            console.log("videoAd onClose");
+            // console.log("videoAd onClose");
             // 用户点击了【关闭广告】按钮
             // 小于 2.1.0 的基础库版本，res 是一个 undefined
             if (res === undefined || (res && res.isEnded)) {
                 // 正常播放结束，可以下发游戏奖励
+                Game.task.sUpdateStatus.dispatch(7);
                 AdsManager.loadState = 0;
                 let data = {
                     type: "videoAd",
                     state: 9,
                 }
                 Game.proto.logUpload(data);
+                let data2 = {
+                    type: 0,
+                }
+                Game.proto.recodeInfo(data2);
                 EventManager.event(EventKey.REWARDED_VIDEO_AD_YES);
             } else {
                 let data = {
@@ -88,7 +93,7 @@ export default class AdsManager {
         if (this.videoAd) {
             EventManager.event(EventKey.SHOW_WAIT);
             this.videoAd.show().catch(function (err) {
-                console.log("videoAd.show err", err);
+                // console.log("videoAd.show err", err);
                 AdsManager.loadState = 0;
                 EventManager.event(EventKey.REWARDED_VIDEO_AD_NO);
             })

@@ -26,7 +26,7 @@ export default class EnemyData {
             //         dif = 1;
             //     }
             // }
-            this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal * Game.battleMap._heroTypeInf.benchmark_atk * 0.01 * dif;
+            this.curHp = this._monsterInf.hp * Game.battleMap.timeHouseVal * Game.battleMap._heroTypeInf.benchmark_atk * 0.01 * dif * Game.battleMap.waveScale;
             this.maxHp = this.curHp;
             // if (this.monsterInf.boss == 1) {
             //     console.log(this.monsterInf.id, this.monsterInf.skill_id);
@@ -117,7 +117,7 @@ export default class EnemyData {
         switch (buff.types) {
             case HaloType.ReduceSpeed:
                 {
-                    this._speedScale = buff.effectvalue * 0.01;
+                    this._speedScale = (100 - buff.effectvalue) * 0.01;
                 }
                 break;
             case HaloType.Poisoning:
@@ -271,8 +271,11 @@ export default class EnemyData {
      * 防御系数，攻击值需要×这个值
      */
     public get defence() {
-        let defen = (100 - this.monsterInf.defence) * 0.01;
-        defen *= ((100 + this.buffAddDefine) * 0.01);
+        let defen = this.monsterInf.defence;
+        defen += this.buffAddDefine;
+        if (defen >= 100) {
+            defen = 99;
+        }
         return defen;
     }
     // 阴影大小

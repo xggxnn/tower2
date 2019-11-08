@@ -38,6 +38,23 @@ export default class UI_GameOver extends fui_GameOver {
 		this.m_upBtn.onClick(this, this.gainClick);
 		this.m_upLevelBtn.onClick(this, this.clickUpLevelBtn);
 		this.m_rewardList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
+
+		this.m_quitBtn.onClick(this, this.quitClick);
+		this.m_reFight.onClick(this, this.reFightClick);
+	}
+	private quitClick(): void {
+		this.closeUI();
+		Game.menu.open(MenuId.Home);
+	}
+	private reFightClick(): void {
+		Game.battleScene.clearBattleScene();
+		Game.battleMap.sUpdateExitBattleMain.dispatch();
+		this.moduleWindow.closeGameResult();
+		if (Game.gameStatus == GameStatus.Win) {
+			Game.proto.endlessConfig();
+		} else if (Game.gameStatus == GameStatus.Failed) {
+			this.moduleWindow.continueRefight();
+		}
 	}
 	// 渲染item
 	private initItem(index: number, obj: fairygui.GObject): void {
@@ -46,7 +63,7 @@ export default class UI_GameOver extends fui_GameOver {
 	}
 	gainClick(): void {
 		this.closeUI();
-		if (Game.battleData.MenuEnterDay && Game.battleData.dayFightProgress > 5) {
+		if (Game.battleData.curEnterFightType == 2 && Game.battleData.dayFightProgress > 5) {
 			Game.menu.open(MenuId.Home);
 		}
 		else {
@@ -56,18 +73,18 @@ export default class UI_GameOver extends fui_GameOver {
 	private scrolltoViewHeroId = 0;
 	private synthClick(): void {
 		this.closeUI();
-		Game.battleData.MenuEnterDay = false;
+		Game.battleData.curEnterFightType = 0;
 		Game.menu.open(MenuId.Hero, this.scrolltoViewHeroId);
 	}
 	private clickUpLevelBtn(): void {
 		this.closeUI();
-		Game.battleData.MenuEnterDay = false;
+		Game.battleData.curEnterFightType = -1;
 		Game.menu.open(MenuId.Arrange);
 	}
 	private unlockFuns(): void {
 		this.closeUI();
-		if (Game.playData.unlockInit == 6) {
-			Game.playData.unlockInit = 7;
+		if (Game.playData.unlockInit == 7) {
+			Game.playData.unlockInit = 8;
 			Game.menu.open(MenuId.MenuSelect);
 		}
 		else {
@@ -81,12 +98,20 @@ export default class UI_GameOver extends fui_GameOver {
 		this.m_gainBtn.visible = false;
 		this.m_synthBtn.visible = false;
 		this.m_upLevelBtn.visible = false;
-		let value: number = Game.gameStatus == GameStatus.Win ? 0 : 1;
-		this.m_c1.setSelectedIndex(value);
-		if (Game.battleData.MenuEnterDay) {
+		this.m_c1.setSelectedIndex(Game.gameStatus == GameStatus.Win ? 0 : 1);
+		this.m_endlessStatus.setSelectedIndex(0);
+		if (Game.battleData.curEnterFightType == 3) {
+			this.m_endlessStatus.setSelectedIndex(1);
+			let data = {
+				waveId: Game.battleData.level_id,
+				win: Game.gameStatus == GameStatus.Win,
+			}
+			Game.proto.endlessReward(data);
+		}
+		else if (Game.battleData.curEnterFightType == 2) {
 			let data = {
 				progress: Game.battleData.dayFightProgress,
-				win: Game.gameStatus == GameStatus.Win
+				win: Game.gameStatus == GameStatus.Win,
 			}
 			Game.proto.dayFightReward(data);
 		}
@@ -117,7 +142,7 @@ export default class UI_GameOver extends fui_GameOver {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		// 添加解锁功能icon
 		this.unlockFun = false;
-		if (Game.gameStatus == GameStatus.Win && !Game.battleData.MenuEnterDay) {
+		if (Game.gameStatus == GameStatus.Win && Game.battleData.curEnterFightType < 2) {
 			let index = Game.playData.unlockLoginInit;
 			if (Game.playData.unlockInit > 0) {
 				index = Game.playData.unlockInit;
@@ -132,6 +157,12 @@ export default class UI_GameOver extends fui_GameOver {
 						this.unlockFun = true;
 					}
 				}
+			}
+			if (!this.unlockFun && Game.battleData.level_id == 14 && Game.battleData.trial_level == 0 && Game.playData.unlockEndless != 2) {
+				let item: RewardItem = new RewardItem();
+				item.funIndex = 11;
+				Game.battleData.fight_result.push(item);
+				this.unlockFun = true;
 			}
 		}
 
@@ -168,9 +199,13 @@ export default class UI_GameOver extends fui_GameOver {
 			Game.tick.clearTick(this.tick);
 			this.tick = null;
 		}
+		if (Game.battleData.curEnterFightType == 3) {
+			this.m_endlessStatus.setSelectedIndex(2);
+			return;
+		}
 		this.m_gainBtn.title = "继续闯关";
 		this.m_gainBtn.visible = true;
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			this.m_synthBtn.visible = false;
 			this.m_upLevelBtn.visible = false;
 			return;
@@ -269,7 +304,9 @@ export default class UI_GameOver extends fui_GameOver {
 	// 显示，相当于enable
 	onWindowShow(): void {
 		EventManager.on(ProtoEvent.PASSWAVE_CALL_BACK, this, this.showResult);
+		EventManager.on(ProtoEvent.ENDLESSGAIN_CALL_BACK, this, this.showResult);
 		EventManager.on(ProtoEvent.DAYFIGHTREWARD_CALL_BACK, this, this.showResult);
+		Game.sound.stopAndClear();
 		this.setData();
 	}
 	// 关闭时调用，相当于disable

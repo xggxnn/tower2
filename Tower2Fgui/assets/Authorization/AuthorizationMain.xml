@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,960">
+  <controller name="login" pages="0,,1," selected="0"/>
+  <displayList>
+    <image id="n0_94yv" name="bg" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="-10,-20" size="1300,1000" alpha="0.5"/>
+    <image id="n1_eaol" name="n1" src="j5ct1u" fileName="waveBg_4.png" pkg="3o5nmzs6" xy="0,0" size="1280,960">
+      <gearDisplay controller="login" pages="1"/>
+    </image>
+    <component id="n2_eaol" name="startBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="514,426" controller="bgColor,2,adStatus,0">
+      <gearDisplay controller="login" pages="1"/>
+      <Button title="开始游戏"/>
+    </component>
+  </displayList>
+</component>

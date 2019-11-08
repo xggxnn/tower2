@@ -1,67 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1280,960">
-  <controller name="tab" pages="0,,1,,2,,3,,4," selected="0"/>
+<component size="1280,960" designImageLayer="1">
+  <controller name="tab" pages="0,签到,1,征服之路,2,任务,3,成就,4,免费抽奖,5,资源补给箱,6,无尽排行" selected="2"/>
+  <controller name="taskBig" pages="0,,1," selected="0"/>
   <displayList>
     <image id="n0_bxj0" name="n0" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="0,0" size="1280,960"/>
-    <image id="n1_bxj0" name="n1" src="ajdp54c" fileName="pic/bigDi.png" pkg="130tmfxd" xy="55,128" size="1170,704"/>
+    <image id="n1_bxj0" name="n1" src="ajdp54c" fileName="bigDi.png" pkg="3o5nmzs6" xy="55,128" size="1170,704"/>
     <image id="n2_bxj0" name="n2" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="59,132"/>
-    <image id="n4_bxj0" name="n4" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="101,224" size="1076,592"/>
+    <image id="n4_bxj0" name="n4" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="100,250" size="1076,558">
+      <gearXY controller="tab" pages="0,2,4,6" values="100,250|100,250|372,209|83,233" default="101,224"/>
+      <gearSize controller="tab" pages="0,2,4,6" values="1076,558,1,1|1076,558,1,1|829,482,1,1|1113,493,1,1" default="1076,592,1,1"/>
+    </image>
     <component id="n5_bxj0" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="55,129">
       <Button title="返回"/>
     </component>
     <text id="n6_bxj0" name="tip" xy="136,140" size="198,39" fontSize="30" color="#f9f3d2" vAlign="middle" autoSize="none" bold="true" strokeColor="#50210e" strokeSize="2" text="签到">
-      <gearDisplay controller="tab" pages="0,2,3,4"/>
+      <gearDisplay controller="tab" pages="0,3"/>
+      <gearText controller="tab" pages="4" values="抽奖" default="签到"/>
     </text>
-    <image id="n11_j8q2" name="n11" src="j8q24" fileName="pic/title.png" pkg="130tmfxd" xy="134,138" size="134,43" aspect="true">
-      <gearDisplay controller="tab" pages="1"/>
-    </image>
-    <list id="n8_bxj0" name="signlist" xy="122,261" size="1034,518" layout="flow_hz" lineGap="10" colGap="10" defaultItem="ui://130tmfxdbxj019" autoClearItems="true">
-      <gearDisplay controller="tab" pages="0"/>
-    </list>
-    <component id="n9_j8q2" name="signBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="275,171" visible="false">
-      <Button checked="true" title="签到" controller="tab" page="0"/>
+    <loader id="n11_j8q2" name="n11" xy="134,138" size="134,43" aspect="true" url="ui://9cap1puyeaolo" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearIcon controller="tab" pages="0,2,4,5,6" values="|ui://9cap1puyeaolo|ui://9cap1puy94yvb|ui://9cap1puy94yvg|ui://9cap1puyeaolt" default="ui://130tmfxdj8q24"/>
+    </loader>
+    <component id="n9_j8q2" name="signBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="316,171" controller="redTip,0">
+      <gearDisplay controller="tab" pages="0,2"/>
+      <Button icon="ui://9cap1puyeaolm" controller="tab" page="0"/>
     </component>
-    <component id="n10_j8q2" name="kingBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="441,171" visible="false">
+    <component id="n10_j8q2" name="kingBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="655,171" hideByEditor="true" visible="false" controller="redTip,0">
       <relation target="n9_j8q2" sidePair="bottom-bottom,left-right"/>
       <Button title="征服之路" controller="tab" page="1"/>
     </component>
-    <component id="n17_qrw0" name="taskBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="607,171" visible="false">
-      <relation target="n10_j8q2" sidePair="left-right,bottom-bottom"/>
-      <Button title="任务" controller="tab" page="2"/>
+    <component id="n17_qrw0" name="taskBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="473,171" controller="redTip,0">
+      <gearDisplay controller="tab" pages="0,2"/>
+      <relation target="n9_j8q2" sidePair="left-right,bottom-bottom"/>
+      <Button checked="true" icon="ui://9cap1puyeaoln" controller="tab" page="2"/>
     </component>
-    <component id="n18_qrw0" name="achieveBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="773,171" visible="false">
+    <component id="n18_qrw0" name="achieveBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="639,171" hideByEditor="true" visible="false" controller="redTip,0">
       <relation target="n17_qrw0" sidePair="bottom-bottom,left-right"/>
       <Button title="成就" controller="tab" page="3"/>
     </component>
-    <component id="n19_qrw0" name="rewardBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="939,171" visible="false">
-      <relation target="n18_qrw0" sidePair="left-right,bottom-bottom"/>
+    <component id="n19_qrw0" name="rewardBtn" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="481,171" hideByEditor="true" visible="false" controller="redTip,0">
+      <gearDisplay controller="tab" pages="0,4"/>
+      <relation target="n9_j8q2" sidePair="left-right,bottom-bottom"/>
       <Button title="免费抽奖" controller="tab" page="4"/>
     </component>
-    <text id="n12_j8q2" name="n12" xy="163,341" size="101,31" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="金乌等级">
+    <list id="n8_bxj0" name="signlist" xy="122,275" size="1034,518" layout="flow_hz" scroll="horizontal" lineGap="10" colGap="10" defaultItem="ui://130tmfxdbxj019" autoClearItems="true">
+      <gearDisplay controller="tab" pages="0"/>
+    </list>
+    <text id="n12_j8q2" name="n12" xy="163,341" size="101,31" group="n44_eaol" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="金乌等级">
       <gearDisplay controller="tab" pages="1"/>
     </text>
-    <text id="n13_j8q2" name="n13" xy="163,472" size="101,31" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="金乌奖励">
+    <text id="n13_j8q2" name="n13" xy="163,472" size="101,31" group="n44_eaol" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="金乌奖励">
       <gearDisplay controller="tab" pages="1"/>
     </text>
-    <text id="n14_j8q2" name="n14" xy="163,641" size="101,31" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="大王奖励">
+    <text id="n14_j8q2" name="n14" xy="163,641" size="101,31" group="n44_eaol" fontSize="24" color="#fcae3e" align="center" vAlign="middle" text="大王奖励">
       <gearDisplay controller="tab" pages="1"/>
     </text>
-    <image id="n15_j8q2" name="n15" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="291,281" size="831,477">
+    <image id="n15_j8q2" name="n15" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="291,281" size="831,477" group="n44_eaol">
       <gearDisplay controller="tab" pages="1"/>
     </image>
-    <list id="n16_j8q2" name="kinglist" xy="320,304" size="772,430" layout="row" overflow="scroll" scroll="horizontal" colGap="10" defaultItem="ui://9cap1puyj8q25" autoClearItems="true">
+    <list id="n16_j8q2" name="kinglist" xy="320,304" size="772,430" group="n44_eaol" layout="row" overflow="scroll" scroll="horizontal" colGap="10" defaultItem="ui://9cap1puyj8q25" autoClearItems="true">
       <gearDisplay controller="tab" pages="1"/>
-      <item controllers="lock,0"/>
     </list>
-    <list id="n20_qrw0" name="rewardList" xy="240,261" size="800,451" layout="flow_hz" selectionMode="none" lineGap="40" colGap="45" defaultItem="ui://130tmfxdbxj019" align="center" vAlign="middle">
+    <group id="n44_eaol" name="n44" xy="163,281" size="959,477" collapsed="true"/>
+    <list id="n20_qrw0" name="rewardList" xy="386,226" size="800,451" group="n45_eaol" layout="flow_hz" selectionMode="none" lineGap="40" colGap="45" defaultItem="ui://130tmfxdbxj019" align="center" vAlign="middle" autoClearItems="true">
       <gearDisplay controller="tab" pages="4"/>
     </list>
-    <component id="n21_qrw0" name="rewardStart" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="494,707" size="290,108" controller="bgColor,0">
+    <component id="n21_qrw0" name="rewardStart" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="660,703" group="n45_eaol" controller="bgColor,2,adStatus,1">
       <gearDisplay controller="tab" pages="4"/>
-      <Button title="开始免费抽奖"/>
     </component>
-    <list id="n28_qrw0" name="taskList" xy="122,261" size="1034,518" overflow="scroll" lineGap="20" defaultItem="ui://9cap1puyqrw07" align="center" autoClearItems="true">
+    <image id="n30_94yv" name="n30" src="94yvc" fileName="pic/xiaozuanfeng.png" xy="48,360" group="n45_eaol">
+      <gearDisplay controller="tab" pages="4"/>
+    </image>
+    <image id="n31_94yv" name="n31" src="94yva" fileName="pic/dawangmianfeilingjiang.png" xy="59,234" group="n45_eaol">
+      <gearDisplay controller="tab" pages="4"/>
+    </image>
+    <group id="n45_eaol" name="n45" xy="48,226" size="1138,604" collapsed="true"/>
+    <component id="n33_94yv" name="box1" src="94yvi" fileName="boxItem.xml" xy="170,260" group="n46_eaol" controller="boxStatus,0,gainStatus,0">
+      <gearDisplay controller="tab" pages="5"/>
+    </component>
+    <component id="n42_94yv" name="box2" src="94yvi" fileName="boxItem.xml" xy="170,448" group="n46_eaol" controller="boxStatus,1,gainStatus,1">
+      <gearDisplay controller="tab" pages="5"/>
+    </component>
+    <component id="n43_94yv" name="box3" src="94yvi" fileName="boxItem.xml" xy="170,636" group="n46_eaol" controller="boxStatus,2,gainStatus,2">
+      <gearDisplay controller="tab" pages="5"/>
+    </component>
+    <group id="n46_eaol" name="n46" xy="170,260" size="940,524" collapsed="true"/>
+    <list id="n28_qrw0" name="taskList" xy="124,387" size="1032,398" group="n47_eaol" overflow="scroll" lineGap="10" defaultItem="ui://9cap1puyqrw07" align="center" autoClearItems="true">
       <gearDisplay controller="tab" pages="2,3"/>
     </list>
+    <component id="n48_eaol" name="dayProgress" src="eaolq" fileName="weekProgress.xml" xy="282,294" size="700,40" group="n47_eaol">
+      <gearDisplay controller="tab" pages="2"/>
+      <ProgressBar max="5"/>
+    </component>
+    <image id="n50_eaol" name="n50" src="eaols" fileName="pic/tip.png" xy="445,270" group="n47_eaol">
+      <gearDisplay controller="tab" pages="2"/>
+    </image>
+    <image id="n51_eaol" name="n51" src="eaoll" fileName="pic/qiicon.png" xy="217,257" size="105,96" group="n47_eaol" aspect="true">
+      <gearDisplay controller="tab" pages="2"/>
+    </image>
+    <component id="n53_eaol" name="dayBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="961,240" size="146,142" group="n47_eaol">
+      <gearDisplay controller="tab" pages="2"/>
+      <gearLook controller="taskBig" pages="1" values="0,0,0,0" default="1,0,0,1"/>
+      <Button icon="ui://9cap1puyeaolp"/>
+    </component>
+    <image id="n54_eaol" name="n54" src="94yv54h" fileName="pic/havelingqu.png" pkg="130tmfxd" xy="989,271" group="n47_eaol" scale="0.8,0.8">
+      <gearDisplay controller="taskBig" pages="1"/>
+    </image>
+    <group id="n47_eaol" name="n47" xy="124,240" size="1032,545" advanced="true">
+      <gearDisplay controller="tab" pages="2"/>
+    </group>
+    <image id="n55_eaol" name="n55" src="eaolu" fileName="pic/endlessTitle.png" xy="560,167" group="n56_eaol">
+      <gearDisplay controller="tab" pages="6"/>
+    </image>
+    <image id="n57_eaol" name="n57" src="eaoly" fileName="pic/line.png" xy="115,611" size="1050,1" group="n56_eaol">
+      <gearDisplay controller="tab" pages="6"/>
+    </image>
+    <component id="n64_eaol" name="my" src="eaol10" fileName="EndlessItem.xml" xy="102,621" group="n56_eaol" controller="colorTab,0">
+      <gearDisplay controller="tab" pages="6"/>
+    </component>
+    <list id="n65_eaol" name="endlessList" xy="102,242" size="1076,360" group="n56_eaol" overflow="scroll" lineGap="6" defaultItem="ui://9cap1puyeaol10" autoClearItems="true">
+      <gearDisplay controller="tab" pages="6"/>
+    </list>
+    <component id="n66_eaol" name="endleStart" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="493,716" size="294,108" group="n56_eaol" scale="0.8,0.8" controller="bgColor,2,adStatus,0">
+      <gearDisplay controller="tab" pages="6"/>
+      <Button title="挑战第1关"/>
+    </component>
+    <group id="n56_eaol" name="n56" xy="102,167" size="1076,657"/>
   </displayList>
 </component>

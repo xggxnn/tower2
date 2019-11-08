@@ -16,6 +16,7 @@ export default class Proto1035 extends Proto {
     // any == T
     protected read(json: any): void {
         Game.battleData.dayFightProgress = Number(json.progress);
+        Game.task.sUpdateStatus.dispatch(5);
         if (json.hasOwnProperty("resData")) {
             Game.playData.getRewards(json.resData);
         }

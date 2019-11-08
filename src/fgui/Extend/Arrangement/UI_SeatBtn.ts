@@ -58,7 +58,6 @@ export default class UI_SeatBtn extends fui_SeatBtn {
 		if (this.isUnlock || Game.battleData.startDrag) return;
 		if (this.heroInf != null && Game.battleMap.maxMapId >= 3) {
 			Game.battleData.clickHeroInf = this.heroInf;
-			Game.battleData.isShowGainBtn = false;
 			this.moduleWindow.createHeroInfoUI();
 		}
 	}
@@ -121,7 +120,7 @@ export default class UI_SeatBtn extends fui_SeatBtn {
 	// 上阵英雄
 	public addHero(heroInf: HeroInfoData, showEvent: boolean = true): void {
 		this.heroInf = heroInf;
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			let old = Game.battleData.dayFightHeroSort[this.seatIndex];
 			Game.battleData.dayFightHeroSort[this.seatIndex] = this.heroInf != null ? this.heroInf.id : 0;
 			for (let i = 9; i < 12; i++) {
@@ -193,7 +192,7 @@ export default class UI_SeatBtn extends fui_SeatBtn {
 			this.seatSk.destroyThis();
 			this.seatSk = null;
 		}
-		if (!Game.battleData.MenuEnterDay && Game.battleMap.maxMapId <= unlock) {
+		if (Game.battleData.curEnterFightType != 2 && Game.battleMap.maxMapId <= unlock) {
 			this.m_status.setSelectedIndex(4);
 			let mapLevel = Fun.idToMapLevel(unlock);
 			this.m_unlock.text = "通关" + mapLevel.map + "-" + mapLevel.level + "解锁";
@@ -210,7 +209,7 @@ export default class UI_SeatBtn extends fui_SeatBtn {
 			this.setData(heroInf, moduleWindow, false);
 		}
 		else {
-			if (Game.battleData.MenuEnterDay) {
+			if (Game.battleData.curEnterFightType == 2) {
 				heroInf = Game.battleData.dayHeroSeat[index];
 				if (heroInf) {
 					this.setData(heroInf, moduleWindow, false);

@@ -178,6 +178,18 @@
     <image id="ajdp56t" name="hero_name_7.png" path="/" exported="true"/>
     <image id="ajdp56u" name="hero_name_8.png" path="/" exported="true"/>
     <image id="ajdp56v" name="hero_name_9.png" path="/" exported="true"/>
+    <image id="94yv56w" name="enemy_24.png" path="/" exported="true"/>
+    <image id="94yv56x" name="enemy_25.png" path="/" exported="true"/>
+    <image id="94yv56y" name="enemy_27.png" path="/" exported="true"/>
+    <image id="94yv56z" name="enemy_28.png" path="/" exported="true"/>
+    <image id="94yv2r" name="fun3.png" path="/" exported="true"/>
+    <image id="eaol570" name="QualityName_0.png" path="/" exported="true"/>
+    <image id="eaol571" name="QualityName_1.png" path="/" exported="true"/>
+    <image id="eaol572" name="QualityName_2.png" path="/" exported="true"/>
+    <image id="eaol573" name="QualityName_3.png" path="/" exported="true"/>
+    <image id="eaol574" name="QualityName_4.png" path="/" exported="true"/>
+    <image id="94yv7" name="wxTop.png" path="/" exported="true"/>
+    <image id="eaol2y" name="fun11.png" path="/" exported="true"/>
   </resources>
   <publish name="FSprite" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

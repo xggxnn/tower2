@@ -10,8 +10,8 @@
   <controller name="starMax" pages="0,,1,,2,,3,,4,,5," selected="0"/>
   <controller name="starNum" pages="0,,1,,2,,3,,4,,5," selected="0"/>
   <displayList>
-    <image id="n6_udz4" name="n6" src="udz4m" fileName="pic/zu2.png" pkg="130tmfxd" xy="182,173" size="904,643"/>
-    <image id="n0_udz4" name="n0" src="udz4k" fileName="pic/xiangyunzhuangshi01.png" pkg="130tmfxd" xy="153,161" pivot="0.5,0.5" size="972,98"/>
+    <image id="n6_udz4" name="n6" src="udz4m" fileName="pic/zu2.png" pkg="3o5nmzs6" xy="182,173" size="904,643"/>
+    <image id="n0_udz4" name="n0" src="udz4k" fileName="pic/xiangyunzhuangshi01.png" xy="153,161" pivot="0.5,0.5" size="972,98"/>
     <component id="n1_udz4" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="175,168"/>
     <image id="n2_udz4" name="n2" src="udz4g" fileName="pic/chuangguan.png" pkg="130tmfxd" xy="537,173">
       <gearDisplay controller="c1" pages="0"/>

@@ -166,4 +166,14 @@ export default class EventKey {
     public static get REWARDED_VIDEO_AD_NO(): string {
         return "REWARDED_VIDEO_AD_NO";
     }
+    public static get REFRUSHBOXSTATUS(): string {
+        return "REFRUSHBOXSTATUS";
+    }
+
+    public static get SHOWHOMEMENU(): string {
+        return "SHOWHOMEMENU";
+    }
+    public static get HIDEHOMEMENU(): string {
+        return "HIDEHOMEMENU";
+    }
 }

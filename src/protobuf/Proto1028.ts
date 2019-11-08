@@ -20,14 +20,13 @@ export default class Proto1028 extends Proto {
         let heroid: number = Number(json.heroId);
         let hero = HeroInfoData.getInfo(heroid);
         hero.quality = Number(json.quality);
-        let clipsDic = Game.playData.curClips;
         let clips: number = Number(json.clips);
-        if (clipsDic.hasKey(heroid)) {
+        if (Game.playData.curClips.hasKey(heroid)) {
             if (clips > 0) {
-                clipsDic.set(heroid, clips);
+                Game.playData.curClips.set(heroid, clips);
             }
             else {
-                clipsDic.remove(heroid);
+                Game.playData.curClips.remove(heroid);
             }
         }
         Game.playData.synthetise = heroid;

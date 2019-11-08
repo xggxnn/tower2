@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1280,960">
+<component size="1280,960" designImageLayer="1">
   <displayList>
     <image id="n22_bcle" name="n22" src="opk1o" fileName="pic/black.png" xy="-10,-20" size="1300,1000" alpha="0.5">
       <relation target="" sidePair="width-width,height-height"/>
     </image>
-    <image id="n16_qvb6" name="n16" src="udz4m" fileName="pic/zu2.png" xy="407,220" size="465,458"/>
-    <image id="n17_qvb6" name="n17" src="gc5l1t" fileName="pic/xiangyunzhuangshi02.png" xy="375,207"/>
-    <image id="n18_qvb6" name="n18" src="j5ct16" fileName="pic/contentBg.png" xy="424,358" size="427,64"/>
-    <image id="n19_qvb6" name="n19" src="gc5ls" fileName="pic/yunwen.png" xy="410,617"/>
-    <text id="n21_bcle" name="tip" xy="634,475" pivot="0.5,0.5" anchor="true" size="430,62" fontSize="24" color="#ffa751" align="center" vAlign="middle" bold="true" text="请输入口令“我要变强”，点击确定&#xA;更多兑换口令，请加QQ群：855988151"/>
-    <text id="n20_bcle" name="txt" xy="428,373" size="419,39" input="true" prompt="请输入口令" maxLength="20" fontSize="24" color="#f0f5ff" align="center" vAlign="bottom" autoSize="none" text=""/>
-    <component id="n14_qrw0" name="ok" src="q080m" fileName="GeneralBtn.xml" xy="413,524" size="220,108" controller="bgColor,1">
+    <image id="n16_qvb6" name="n16" src="udz4m" fileName="zu2.png" pkg="3o5nmzs6" xy="227,158" size="824,642"/>
+    <image id="n17_qvb6" name="n17" src="j5ctg" fileName="pic/yunzhuangshi.png" xy="230,158"/>
+    <image id="n25_eaol" name="n25" src="j5ct16" fileName="pic/contentBg.png" xy="245,263" size="788,357"/>
+    <image id="n18_qvb6" name="n18" src="j5ct16" fileName="pic/contentBg.png" xy="312,300" size="651,75"/>
+    <image id="n19_qvb6" name="n19" src="gc5ls" fileName="yunwen.png" pkg="3o5nmzs6" xy="225,741"/>
+    <image id="n27_eaol" name="n27" src="gc5ls" fileName="yunwen.png" pkg="3o5nmzs6" xy="1055,742" scale="-1,1"/>
+    <text id="n21_bcle" name="tipsss" xy="640,533" pivot="0.5,0.5" anchor="true" size="626,132" fontSize="24" color="#e8a04b" vAlign="middle" autoSize="none" bold="true" text="1、请输入兑换码，点击确定，领取奖励&#xA;2、加入玩家QQ群 ：855988151，领新手大礼包。"/>
+    <text id="n29_eaol" name="tip" xy="639,422" pivot="0.5,0.5" anchor="true" size="155,33" fontSize="24" color="#f9f3d2" align="center" vAlign="middle" bold="true" text="请输入兑换码"/>
+    <image id="n23_eaol" name="n23" src="eaol54o" fileName="pic/wishingTitle.png" xy="319,162"/>
+    <image id="n26_eaol" name="n26" src="udz4d" fileName="zhuangshi1.png" pkg="3o5nmzs6" xy="555,425"/>
+    <image id="n28_eaol" name="n28" src="udz4d" fileName="zhuangshi1.png" pkg="3o5nmzs6" xy="723,425" scale="-1,1"/>
+    <text id="n20_bcle" name="txt" xy="320,326" size="630,40" input="true" prompt="请输入兑换码" maxLength="20" fontSize="24" color="#f0f5ff" align="center" vAlign="bottom" autoSize="none" text=""/>
+    <component id="n14_qrw0" name="ok" src="q080m" fileName="GeneralBtn.xml" xy="530,634" size="220,108" controller="bgColor,2,adStatus,0">
       <Button title="确定"/>
     </component>
-    <component id="n15_qrw0" name="cancel" src="q080m" fileName="GeneralBtn.xml" xy="646,524" size="220,108" controller="bgColor,2">
-      <Button title="取消"/>
-    </component>
+    <component id="n24_eaol" name="cancel" src="udz4q" fileName="IconBtn.xml" xy="227,157"/>
   </displayList>
 </component>

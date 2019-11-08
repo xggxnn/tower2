@@ -24,13 +24,12 @@ export default class Proto1010 extends Proto {
             clips = Number(json.resData[key]);
         }
         if (heroid > 0) {
-            let clipsDic = Game.playData.curClips;
-            if (clipsDic.hasKey(heroid)) {
+            if (Game.playData.curClips.hasKey(heroid)) {
                 if (clips > 0) {
-                    clipsDic.set(heroid, clips);
+                    Game.playData.curClips.set(heroid, clips);
                 }
                 else {
-                    clipsDic.remove(heroid);
+                    Game.playData.curClips.remove(heroid);
                 }
             }
             if (!Game.playData.curHeroInfoList.hasKey(heroid)) {
@@ -39,10 +38,6 @@ export default class Proto1010 extends Proto {
                 Game.playData.curHeroInfoList.add(heroid, hero);
                 Game.playData.synthetise = heroid;
             }
-            // if (Game.playData.curHero.indexOf(heroid) == -1) {
-            //     Game.playData.curHero.push(heroid);
-            //     Game.playData.synthetise = heroid;
-            // }
         }
     }
 }

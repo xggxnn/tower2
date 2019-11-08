@@ -53,8 +53,8 @@ export default class ProtoManager {
      * 获取关卡数据
      * @param data 
      */
-	public waveInfo(data: Object): void {
-		this.sendPro(data, 1003);
+	public waveInfo(): void {
+		this.sendPro({}, 1003);
 	}
 	/**
      * 选择关卡
@@ -103,7 +103,7 @@ export default class ProtoManager {
      * @param data 
      */
 	public synthetise(data: Object): void {
-		this.sendPro(data, 1010);
+		// this.sendPro(data, 1010);
 	}
 	/**
      * 悬赏
@@ -128,8 +128,8 @@ export default class ProtoManager {
 	 * 商城获取
 	 * @param data 
 	 */
-	public shopGain(): void {
-		this.sendPro({}, 1016);
+	public shopGain(data: Object): void {
+		this.sendPro(data, 1016);
 	}
 	/**
 	 * 商城购买
@@ -162,8 +162,14 @@ export default class ProtoManager {
 	/**
 	 * 签到
 	 */
-	public sign(): void {
-		this.sendPro({}, 1021);
+	public sign(data: Object): void {
+		this.sendPro(data, 1021);
+	}
+	/**
+	 * 免费抽奖
+	 */
+	public freeReward(): void {
+		this.sendPro({}, 1024);
 	}
 	/**
 	 * 引导序号
@@ -186,8 +192,8 @@ export default class ProtoManager {
 	/**
 	 * 保存洗好的属性
 	 */
-	public saveAttribute(data: Object): void {
-		this.sendPro(data, 1030);
+	public saveAttribute(): void {
+		this.sendPro({}, 1030);
 	}
 	/**
 	 * 解锁的羁绊领取奖励
@@ -223,6 +229,84 @@ export default class ProtoManager {
 	 */
 	public dayFightReward(data: Object): void {
 		this.sendPro(data, 1035);
+	}
+	/**
+	 * 获取看视频抽奖配置表
+	 * @param data 
+	 */
+	public freeConfig(): void {
+		this.sendPro({}, 1036);
+	}
+	/**
+	 * 获取资源补给箱信息
+	 */
+	public boxConfig(): void {
+		this.sendPro({}, 1038);
+	}
+	/**
+	 * 领取资源补给箱
+	 */
+	public gainBox(data: Object): void {
+		this.sendPro(data, 1039);
+	}
+	/**
+	 * 获取巡山数据
+	 */
+	public friendPatrolData(): void {
+		this.sendPro({}, 1040);
+	}
+	/**
+	 * 巡山,邀请好友，保存用户信息
+	 */
+	public reqFriendPatrol(data: Object): void {
+		this.sendPro(data, 1041);
+	}
+	/**
+	 * 许愿池口令
+	 */
+	public wishingCode(data: Object): void {
+		this.sendPro(data, 1042);
+	}
+	/**
+	 * 获取任务详情
+	 */
+	public taskConfig(): void {
+		this.sendPro({}, 1043);
+	}
+	/**
+	 * 领取任务奖励
+	 */
+	public taskGain(data: Object): void {
+		this.sendPro(data, 1044);
+	}
+	/**
+	 * 记录信息
+	 * 0：看视频
+	 * 1: 闯关
+     * 2：试炼
+     * 3：每日挑战
+     * 4：无尽模式
+	 */
+	public recodeInfo(data: Object): void {
+		this.sendPro(data, 1045);
+	}
+	/**
+	 * 获取无尽时空数据
+	 */
+	public endlessConfig(): void {
+		this.sendPro({}, 1046);
+	}
+	/**
+	 * 无尽时空领奖
+	 */
+	public endlessReward(data: Object): void {
+		this.sendPro(data, 1047);
+	}
+	/**
+	 * 无尽排行榜
+	 */
+	public endlessSort(data: Object): void {
+		this.sendPro(data, 1048);
 	}
 
 

@@ -95,8 +95,7 @@ export default class UI_HeroItem2 extends fui_HeroItem2 {
 	private checkClick(): void {
 		if (this.heroInf != null) {
 			Game.battleData.clickHeroInf = this.heroInf;
-			Game.battleData.isShowGainBtn = true;
-			this.moduleWindow.createHeroInfoUI();
+			this.moduleWindow.createSynthetiseUI();
 		}
 	}
 

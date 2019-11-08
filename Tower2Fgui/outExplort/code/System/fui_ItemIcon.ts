@@ -9,6 +9,7 @@ export default class fui_ItemIcon extends fairygui.GComponent {
 	public m_quality:fairygui.GLoader;
 	public m_headIcon:fui_HeadIcon120107;
 	public m_number:fairygui.GTextField;
+	public m_nam:fairygui.GLoader;
 
 	public static URL:string = "ui://130tmfxdbxj019";
 
@@ -25,8 +26,9 @@ export default class fui_ItemIcon extends fairygui.GComponent {
 
 		this.m_c1 = this.getControllerAt(0);
 		this.m_status = this.getControllerAt(1);
-		this.m_quality = <fairygui.GLoader><any>(this.getChildAt(0));
-		this.m_headIcon = <fui_HeadIcon120107><any>(this.getChildAt(1));
+		this.m_quality = <fairygui.GLoader><any>(this.getChildAt(1));
+		this.m_headIcon = <fui_HeadIcon120107><any>(this.getChildAt(2));
 		this.m_number = <fairygui.GTextField><any>(this.getChildAt(4));
+		this.m_nam = <fairygui.GLoader><any>(this.getChildAt(6));
 	}
 }

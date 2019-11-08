@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="704,182" extention="Button">
   <controller name="button" pages="0,up,1,down" selected="0"/>
+  <controller name="redTip" pages="0,,1," selected="0"/>
   <displayList>
-    <loader id="n24_j5ct" name="n24" xy="0,0" size="704,182" url="ui://9xvnuoq0bcle2a" fill="scaleFree"/>
+    <loader id="n24_j5ct" name="n24" xy="0,0" size="704,182" url="ui://3o5nmzs6bcle2a" fill="scaleFree"/>
     <text id="n34_j5ct" name="n34" xy="197,18" size="125,27" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" text="推荐总攻击："/>
     <text id="n35_j5ct" name="fight" xy="197,49" size="150,31" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" ubb="true" autoSize="none" text="0"/>
     <text id="n36_j5ct" name="n36" xy="197,95" size="125,27" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" text="推荐总攻速："/>
     <text id="n37_j5ct" name="speed" xy="197,125" size="148,31" fontSize="20" color="#7e5ebe" vAlign="middle" leading="0" ubb="true" vars="true" autoSize="none" text="{count=1}次/秒"/>
     <text id="n38_j5ct" name="cur" xy="11,71" size="174,54" fontSize="24" color="#86120d" align="center" vAlign="middle" leading="0" vars="true" autoSize="none" text="当前挑战{map=99}-{level=99}"/>
+    <component id="n39_94yv" name="n39" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="687,17">
+      <gearDisplay controller="redTip" pages="1"/>
+    </component>
   </displayList>
   <Button/>
 </component>

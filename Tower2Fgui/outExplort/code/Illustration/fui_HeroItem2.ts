@@ -12,6 +12,7 @@ export default class fui_HeroItem2 extends fairygui.GComponent {
 	public m_career:fairygui.GLoader;
 	public m_race:fairygui.GLoader;
 	public m_nam:fairygui.GLoader;
+	public m_t0:fairygui.Transition;
 
 	public static URL:string = "ui://rzze1nh2qvb63";
 
@@ -34,5 +35,6 @@ export default class fui_HeroItem2 extends fairygui.GComponent {
 		this.m_career = <fairygui.GLoader><any>(this.getChildAt(4));
 		this.m_race = <fairygui.GLoader><any>(this.getChildAt(5));
 		this.m_nam = <fairygui.GLoader><any>(this.getChildAt(6));
+		this.m_t0 = this.getTransitionAt(0);
 	}
 }

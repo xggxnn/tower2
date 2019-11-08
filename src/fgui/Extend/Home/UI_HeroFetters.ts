@@ -9,6 +9,7 @@ import AssociationAttributeInfo from "../../../csvInfo/AssociationAttributeInfo"
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
+import { GuideType } from "../../../gamemodule/DataEnums/GuideType";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_HeroFetters extends fui_HeroFetters {
@@ -39,9 +40,11 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 
 	// 关闭ui
 	closeUI(): void {
-		Game.playData.fettersInfos = null;
-		if (this.fwindow) {
-			this.fwindow.windowRemoveChild(this);
+		if (!this.isGuide) {
+			Game.playData.fettersInfos = null;
+			if (this.fwindow) {
+				this.fwindow.windowRemoveChild(this);
+			}
 		}
 	}
 	// 返回上一级ui
@@ -50,6 +53,7 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
+		this.isGuide = true;
 		EventManager.on(ProtoEvent.FETTERREWARD_CALL_BACK, this, this.closeUI);
 		this.showAss(Game.playData.fettersInfos);
 	}
@@ -59,28 +63,31 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 	}
 
 	private rewardClick(): void {
-		if (Game.playData.unlockAssociationattribute.indexOf(Game.playData.fettersInfos.attribute_id) != -1) {
-			// 已解锁
-			if (Game.playData.associationattribute.indexOf(Game.playData.fettersInfos.attribute_id) == -1) {
-				// 未领奖
-				let data = {
-					id: Game.playData.fettersInfos.attribute_id,
+		if (this.guideIndex == 1) {
+			this.isGuide = false;
+			if (Game.playData.unlockAssociationattribute.indexOf(Game.playData.fettersInfos.attribute_id) != -1) {
+				// 已解锁
+				if (Game.playData.associationattribute.indexOf(Game.playData.fettersInfos.attribute_id) == -1) {
+					// 未领奖
+					let data = {
+						id: Game.playData.fettersInfos.attribute_id,
+					}
+					Game.proto.fetterReward(data);
 				}
-				Game.proto.fetterReward(data);
+				else {
+					// 已领奖
+					this.closeUI();
+				}
 			}
 			else {
-				// 已领奖
-				this.closeUI();
+				Game.popup.showPopup(this.m_rewardBtn, false, false, Game.tipTxt.txts("AssociationUnlockTip"));
 			}
-		}
-		else {
-			Game.popup.showPopup(this.m_rewardBtn, false, false, Game.tipTxt.txts("AssociationUnlockTip"));
 		}
 	}
 
 	private showAss(datas: Association): void {
 		this.heroList = [];
-		this.m_typename.text = datas.names + " 羁绊详情";
+		this.m_typename.text = datas.names;
 		let assList = Game.battleData.assItemWAttid(datas.attribute_id);
 		let str = "";
 		let att1 = AssociationAttributeInfo.getInfo(datas.attribute_id);
@@ -122,7 +129,21 @@ export default class UI_HeroFetters extends fui_HeroFetters {
 		else {
 			this.m_c1.setSelectedIndex(0);
 		}
+		this.guideIndex = 0;
+		if (Game.playData.guideIndex == GuideType.SnythHeroOver) {
+			this.moduleWindow.createGuideUI(this.m_rewardBtn, new Laya.Point(this.m_rewardBtn.x, this.m_rewardBtn.y),
+				Laya.Handler.create(this, this.rewardClick),
+				"领取奖励");
+			setTimeout(() => {
+				this.guideIndex = 1;
+			}, 10);
+		} else {
+			this.isGuide = false;
+			this.guideIndex = 1;
+		}
 	}
+	private isGuide: boolean = false;
+	private guideIndex: number = 0;
 
 	private heroList: Array<HeroInfoData> = [];
 

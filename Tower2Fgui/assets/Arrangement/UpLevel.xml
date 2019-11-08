@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1280,960">
   <displayList>
-    <image id="n0_qvb6" name="n0" src="qvb62p" fileName="pic/jinwuyuchanbg.png" xy="0,0" size="1280,960">
+    <image id="n0_qvb6" name="n0" src="qvb62p" fileName="pic/jinwuyuchanbg.png" xy="0,0" size="1280,960" pkg="3o5nmzs6">
       <relation target="" sidePair="width-width,height-height"/>
     </image>
     <component id="n2_qvb6" name="upStar" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="798,678" size="208,108" controller="bgColor,0">
@@ -11,10 +11,10 @@
       <Button title="升级" titleColor="#fff7ea"/>
     </component>
     <image id="n4_qvb6" name="middle" src="udz4f" fileName="pic/jianbiandizong.png" pkg="130tmfxd" xy="639,142" pivot="0.5,0" anchor="true" size="940,37"/>
-    <image id="n5_qvb6" name="n5" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="141,145">
+    <image id="n5_qvb6" name="n5" src="udz4d" fileName="pic/zhuangshi1.png" pkg="3o5nmzs6" xy="141,145">
       <relation target="n4_qvb6" sidePair="left-left,top-top"/>
     </image>
-    <image id="n6_qvb6" name="n6" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="1137,145" scale="-1,1">
+    <image id="n6_qvb6" name="n6" src="udz4d" fileName="pic/zhuangshi1.png" pkg="3o5nmzs6" xy="1137,145" scale="-1,1">
       <relation target="n4_qvb6" sidePair="right-right,top-top"/>
     </image>
     <text id="n8_qvb6" name="n8" xy="605,141" size="67,39" fontSize="30" color="#ffa751" align="center" vAlign="middle" bold="true" text="修炼">

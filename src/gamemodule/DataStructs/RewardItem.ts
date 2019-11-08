@@ -4,7 +4,18 @@
  */
 export default class RewardItem {
 
+    constructor() {
+        this.id = 0;
+        this.itemId = 0;
+        this.itemNum = 0;
+        this.isClips = false;
+        this.isHero = false;
+        this.types = 0;
+        this.funIndex = 0;
+        this.itemBuyTimes = 0;
+    }
 
+    public id: number = 0;
     /**
      * ResourceId
      * 
@@ -15,6 +26,7 @@ export default class RewardItem {
      * 数量
      */
     public itemNum: number = 0;
+    public itemBuyTimes: number = 0;
     /**
      * 是否英雄碎片
      */

@@ -17,19 +17,18 @@ export default class Proto1029 extends Proto {
     // any == T
     protected read(json: any): void {
         Game.playData.synUpReset = 3;
-        let heroid: number = Number(json.heroId);
+        let heroid: number = json.heroId;
         let hero = HeroInfoData.getInfo(heroid);
-        let clipsDic = Game.playData.curClips;
-        let clips: number = Number(json.clips);
-        if (clipsDic.hasKey(heroid)) {
+        let clips: number = json.clips;
+        if (Game.playData.curClips.hasKey(heroid)) {
             if (clips > 0) {
-                clipsDic.set(heroid, clips);
+                Game.playData.curClips.set(heroid, clips);
             }
             else {
-                clipsDic.remove(heroid);
+                Game.playData.curClips.remove(heroid);
             }
         }
         Game.playData.resetAttribute.clear();
-        Game.playData.resetAttribute.add(json.attribute, Number(json.attributeVal));
+        Game.playData.resetAttribute.add(json.attribute, json.attributeVal);
     }
 }

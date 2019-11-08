@@ -24,6 +24,8 @@ import TypedSignal from "../../tool/TypedSignal";
 import HeroInfoData from "./HeroInfoData";
 import BattleMapEnemy from "./BattleMapEnemy";
 import UI_SeatBtn from "../../fgui/Extend/Arrangement/UI_SeatBtn";
+import BattleSoldier from "../Models/BattleSoldier";
+import EndlessRankData from "./EndlessRankData";
 
 export default class BattleData {
 
@@ -42,13 +44,35 @@ export default class BattleData {
     }
 
     /*******************关卡相关**************************/
+    public startClear(): void {
+        this.haveShowBoss = null;
+    }
+    // 当前已生成的boss
+    private haveShowBoss: BattleSoldier = null;
     // 生成敌人
     private createEnemy(): void {
+        if (this.haveShowBoss == null && Game.battleMap.curBattleBossList.length > 0) {
+            let item: BattleMapEnemy = Game.battleMap.curBattleBossList[0];
+            if (Game.battleMap.curBossShowTime <= Game.battleMap.curTime) {
+                this.haveShowBoss = Game.battleScene.createEnemy(1, item.isboss, item.enemy);
+                if (Game.battleMap.curBattleBossList.length > 1) {
+                    let item2: BattleMapEnemy = Game.battleMap.curBattleBossList[1];
+                    Game.battleMap.curBossShowTime = (item2.curTime - Game.battleMap.curTime) * 0.5 + Game.battleMap.curTime;
+                }
+            }
+        }
         if (Game.battleMap.curBattleEnemyListNumber.length > 0) {
             if (Game.battleMap.curBattleEnemyDic.hasKey(Game.battleMap.curBattleEnemyListNumber[0])) {
                 let item: BattleMapEnemy = Game.battleMap.curBattleEnemyDic.getValue(Game.battleMap.curBattleEnemyListNumber[0]);
                 if (item.curTime <= Game.battleMap.curTime) {
-                    Game.battleScene.createEnemy(item.enemy.initPos, item.isboss, item.enemy);
+                    if (item.isboss && item.compares(Game.battleMap.curBattleBossList[0])) {
+                        Game.battleMap.curBattleBossList.shift();
+                        this.haveShowBoss.bossStartMove();
+                        this.haveShowBoss = null;
+                    }
+                    else {
+                        Game.battleScene.createEnemy(item.enemy.initPos, item.isboss, item.enemy);
+                    }
                     Game.battleMap.curBattleEnemyListNumber.shift();
                     this.countdown.dispatch();
                 }
@@ -56,7 +80,7 @@ export default class BattleData {
         }
     }
 
-    public update(): void {
+    public update(dt): void {
         if (Game.gameStatus != GameStatus.Gaming) return;
         if (Game.battleMap.curTime < Game.battleMap.waveTime) {
             this.createEnemy();
@@ -65,43 +89,14 @@ export default class BattleData {
         }
         else {
             if (Game.battleScene.enemyList.length == 0) {
-                if (Game.battleMap.curTime >= Game.battleMap.waveTime + 60) {
+                if (Game.battleMap.curTime >= Game.battleMap.waveTime + 1000) {
                     Game.battleMap.curTime = Game.battleMap.waveTime * Game.battleMap.waveTime;
                     EventManager.event(EventKey.GAMEWIN);
                 }
             }
         }
-        Game.battleMap.curTime++;
+        Game.battleMap.curTime += dt;
 
-
-        // this.countdown.dispatch();
-        // if (Game.battleMap.curTime < Game.battleMap.waveTime) {
-        //     if (Game.battleMap.curTime >= Game.battleMap.nextCD) {
-        //         Game.battleMap.enemyInf();
-        //         if (Game.battleMap.nextMonster != null) {
-        //             // 生成怪物
-        //             let dataInf = new EnemyData();
-        //             dataInf.monsterInf = Game.battleMap.nextMonster;
-        //             dataInf.initPos = Game.battleMap.levelWave % 2;
-        //             Game.battleScene.createEnemy(dataInf.initPos, false, dataInf);
-        //         }
-        //         if (Game.battleMap.bossInfo != null) {
-        //             // 生成boss
-        //             let dataInf2 = new EnemyData();
-        //             dataInf2.monsterInf = Game.battleMap.bossInfo
-        //             dataInf2.initPos = Game.battleMap.levelWave % 2;
-        //             Game.battleScene.createEnemy(dataInf2.initPos, true, dataInf2);
-        //         }
-        //     }
-        // }
-        // else {
-        //     if (Game.battleScene.enemyList.length == 0) {
-        //         if (Game.battleMap.curTime >= Game.battleMap.waveTime + 60) {
-        //             Game.battleMap.curTime = Game.battleMap.waveTime * Game.battleMap.waveTime;
-        //             EventManager.event(EventKey.GAMEWIN);
-        //         }
-        //     }
-        // }
     }
 
     /*******************英雄相关**************************/
@@ -163,7 +158,6 @@ export default class BattleData {
     /////////////////////////////////////////////////////////////
 
     // 当前显示那个英雄详情 -- 打开英雄详情时调用
-    public isShowGainBtn: boolean = false;
     private _clickHeroInf: HeroInfoData = null;
     public get clickHeroInf(): HeroInfoData {
         return this._clickHeroInf;
@@ -179,7 +173,7 @@ export default class BattleData {
     public refrushSeatFightInf(): void {
         let ass = Game.battleData.refrushAssociation();
         let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             seatList = [];
             for (let i = 0; i < 9; i++) {
                 seatList.push(Game.battleData.dayFightHeroSort[i]);
@@ -256,7 +250,7 @@ export default class BattleData {
         Game.playData.curFightInf = curDic;
     }
 
-    public getHeroFightVal(id: number): Dictionary<string, number> {
+    public getHeroFightVal(id: number, withExp: boolean = true): Dictionary<string, number> {
         let hero = HeroInfoData.getInfo(id);
         let timehouse = TimeHouseInfo.getInfoLv(Game.playData.curLevel);
         let star = timehouse.vals[Game.playData.curStar];
@@ -269,38 +263,40 @@ export default class BattleData {
         let atkEx = 0;
         let critEx = 0;
         let burstEx = 0;
-        let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
-        if (seatList.indexOf(id) != -1) {
-            let ass = Game.battleData.refrushAssociation();
-            let assLen: number = ass.length;
-            if (assLen > 0) {
-                for (let j = 0; j < assLen; j++) {
-                    let item = ass[j];
-                    let add: boolean = false;
-                    if (item.race > 0 && hero.race == item.race) {
-                        add = true;
-                    }
-                    if (item.career > 0 && hero.career == item.career) {
-                        add = true;
-                    }
-                    if (item.hero.length > 0 && hero.point_fetters == item.pointF) {
-                        add = true;
-                    }
-                    if (add) {
-                        let att = AssociationAttributeInfo.getInfo(item.attribute_id);
-                        switch (att.types) {
-                            case 1:// 普通攻击力增加{0}%
-                                atkEx += atkHero * item.values * 0.01;
-                                break;
-                            case 2:// 普通攻击暴击率增加{0}%
-                                critEx += item.values;
-                                break;
-                            case 3:// 攻速增加{0}%
-                                speedEx += item.values * 0.01 / hero.cd;
-                                break;
-                            case 8://	普通攻击爆伤增加{ 0 }%
-                                burstEx += item.values;
-                                break;
+        if (withExp) {
+            let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
+            if (seatList.indexOf(id) != -1) {
+                let ass = Game.battleData.refrushAssociation();
+                let assLen: number = ass.length;
+                if (assLen > 0) {
+                    for (let j = 0; j < assLen; j++) {
+                        let item = ass[j];
+                        let add: boolean = false;
+                        if (item.race > 0 && hero.race == item.race) {
+                            add = true;
+                        }
+                        if (item.career > 0 && hero.career == item.career) {
+                            add = true;
+                        }
+                        if (item.hero.length > 0 && hero.point_fetters == item.pointF) {
+                            add = true;
+                        }
+                        if (add) {
+                            let att = AssociationAttributeInfo.getInfo(item.attribute_id);
+                            switch (att.types) {
+                                case 1:// 普通攻击力增加{0}%
+                                    atkEx += atkHero * item.values * 0.01;
+                                    break;
+                                case 2:// 普通攻击暴击率增加{0}%
+                                    critEx += item.values;
+                                    break;
+                                case 3:// 攻速增加{0}%
+                                    speedEx += item.values * 0.01 / hero.cd;
+                                    break;
+                                case 8://	普通攻击爆伤增加{ 0 }%
+                                    burstEx += item.values;
+                                    break;
+                            }
                         }
                     }
                 }
@@ -327,9 +323,15 @@ export default class BattleData {
         let wave = WaveInfo.getInfo(id);
         // 难度效率
         let _difEfficiency: number = 1;
+        let _difficulty: number = 0;
+        if (Game.battleData.curEnterFightType == 3) {
+            _difficulty = 10;
+        } else {
+            _difficulty = wave.difficulty;
+        }
         for (let i = 1, len = DifficultyEfficiencyInfo.getCount(); i <= len; i++) {
             let item = DifficultyEfficiencyInfo.getInfo(i);
-            if (item.difficulty == wave.difficulty) {
+            if (item.difficulty == _difficulty) {
                 _difEfficiency = item.val;
                 break;
             }
@@ -345,12 +347,15 @@ export default class BattleData {
         let heroType = HeroTypeInfo.getInfo(wave.type);
         let dic = new Dictionary<string, number>();
         let timehouse = TimeHouseInfo.getInfoLv(wave.lv);
-        let star = timehouse.vals[timehouse.star];
-        if (Game.battleMap.waveStatusDict.hasKey(id)) {
-            let status: WaveStatus = Game.battleMap.waveStatusDict.getValue(id);
-            let waveRewards = WaveRewardInfo.getInfo(id);
-            star = waveRewards.types[status.level - 1];
+        if (Game.battleData.curEnterFightType == 3) {
+            timehouse = TimeHouseInfo.getInfoLv(Game.battleData.endlessMy.progress + 30);
         }
+        let star = timehouse.vals[timehouse.star];
+        // if (Game.battleData.curEnterFightType != 3 && Game.battleMap.waveStatusDict.hasKey(id)) {
+        //     let status: WaveStatus = Game.battleMap.waveStatusDict.getValue(id);
+        //     let waveRewards = WaveRewardInfo.getInfo(id);
+        //     star = waveRewards.types[status.level - 1];
+        // }
         dic.add(FightType.Atk, heroType.benchmark_pure_atk * star * 0.01 * atkDieff * wave.heronum);
         dic.add(FightType.Speed, heroType.bench_atk_speed * speedDieff * wave.heronum);
         dic.add(FightType.Crit, heroType.benchmark_crit);
@@ -375,7 +380,7 @@ export default class BattleData {
     public refrushAssociation(): Array<Association> {
         let association: Array<Association> = [];
         let seatList = Game.battleScene.seatHeroList[Game.battleScene.seatHeroSelect];
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             seatList = [];
             for (let i = 0; i < 9; i++) {
                 seatList.push(Game.battleData.dayFightHeroSort[i]);
@@ -677,9 +682,18 @@ export default class BattleData {
     // 试炼第几小关
     public trial_level: number = 0;
 
+    /**
+     *  从哪里进入战斗场景
+     *  -1:主界面进入
+     *  0: 闯关
+     *  1：试炼
+     *  2：每日挑战
+     *  3：无尽模式
+     */
+    public curEnterFightType: number = 0;
 
     /*******************每日挑战相关数据**************************/
-    public MenuEnterDay: boolean = false;
+
     private _dayFightHeroList: Dictionary<string, HeroInfoData> = new Dictionary<string, HeroInfoData>();
     // 可用英雄数据列表
     public get curHeroInfoList(): Dictionary<string, HeroInfoData> {
@@ -735,5 +749,15 @@ export default class BattleData {
 
     /*******************战斗结果相关**************************/
     public fight_result: Array<RewardItem> = [];
+
+
+    // 分裂复活特效添加
+    public sUpdateResurrection: TypedSignal<Array<number>> = new TypedSignal<Array<number>>();
+
+
+    /*******************无尽天宫相关**************************/
+    // 无尽时空进度
+    public endlessMy: EndlessRankData = null;
+    public endlessRank: Array<EndlessRankData> = [];
 
 }

@@ -2,8 +2,8 @@
 <component size="1280,960" designImage="ui://rzze1nh2ajdp4">
   <displayList>
     <image id="n0_qyum" name="n0" src="opk1o" fileName="pic/black.png" pkg="130tmfxd" xy="-10,-20" size="1300,1000"/>
-    <image id="n1_qyum" name="n1" src="ajdp54c" fileName="pic/bigDi.png" pkg="130tmfxd" xy="55,128" size="1170,704"/>
-    <image id="n9_ajdp" name="n9" src="ajdp54d" fileName="pic/yunwen2.png" pkg="130tmfxd" xy="309,136"/>
+    <image id="n1_qyum" name="n1" src="ajdp54c" fileName="pic/bigDi.png" pkg="3o5nmzs6" xy="55,128" size="1170,704"/>
+    <image id="n9_ajdp" name="n9" src="ajdp54d" fileName="pic/yunwen2.png" xy="309,136"/>
     <image id="n2_qyum" name="n2" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="59,132"/>
     <image id="n3_qyum" name="n3" src="qyum1" fileName="pic/tujianTitle.png" pkg="130tmfxd" xy="126,146"/>
     <image id="n4_qyum" name="n4" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="103,224" size="1077,592"/>

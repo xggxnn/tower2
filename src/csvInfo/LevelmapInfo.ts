@@ -70,7 +70,7 @@ export default class LevelmapInfo {
         return this._chapter;
     }
 
-    private _levelbg: number;
+    private _levelbg: number = 4;
     public get levelbg(): number {
         return this._levelbg;
     }

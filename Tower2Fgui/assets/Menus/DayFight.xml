@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1280,960">
   <displayList>
-    <loader id="n0_lljr" name="bg" xy="0,0" size="1280,960" url="ui://130tmfxdj5ct1u" fill="scaleFree"/>
+    <loader id="n0_lljr" name="bg" xy="0,0" size="1280,960" url="ui://3o5nmzs6j5ct1u" fill="scaleFree"/>
     <image id="n10_lljr" name="n10" src="c8j351z" fileName="pic/road2.png" xy="497,502"/>
     <image id="n8_lljr" name="n8" src="c8j351y" fileName="pic/road1.png" xy="283,500"/>
     <image id="n12_lljr" name="n12" src="c8j351y" fileName="pic/road1.png" xy="677,503"/>

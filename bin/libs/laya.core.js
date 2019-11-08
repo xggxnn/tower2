@@ -27872,7 +27872,7 @@ var IndexBuffer2D=(function(_super){
 		return false;
 	}
 
-	__proto.destory=function(){
+	__proto.destroy=function(){
 		this._uint16Array=null;
 		this._buffer=null;
 	}

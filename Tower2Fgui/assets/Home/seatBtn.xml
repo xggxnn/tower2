@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="580,160" extention="Button">
   <controller name="button" pages="0,up,1,down" selected="0"/>
-  <controller name="speedStatus" pages="0,,1," selected="0"/>
+  <controller name="redTip" pages="0,,1," selected="0"/>
   <displayList>
-    <image id="n21_j5ct" name="n21" src="bcle2g" fileName="pics/seat.png" xy="0,1"/>
+    <image id="n21_j5ct" name="n21" src="bcle2g" fileName="pics/seat.png" xy="0,1" pkg="3o5nmzs6"/>
     <text id="n27_j5ct" name="hitTip" xy="306,70" size="274,31" fontSize="18" color="#a93800" vAlign="middle" leading="0" vars="true" autoSize="none" bold="true" text="当前阵容总伤害：{count=0}"/>
     <text id="n28_j5ct" name="speedTip" xy="306,100" size="274,31" fontSize="18" color="#a93800" vAlign="middle" leading="0" vars="true" autoSize="none" bold="true" text="当前阵容总攻频：{count=0}次/秒"/>
+    <component id="n29_94yv" name="n29" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="563,17">
+      <gearDisplay controller="redTip" pages="1"/>
+    </component>
   </displayList>
   <Button/>
 </component>

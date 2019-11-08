@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="286,98">
   <controller name="double" exported="true" pages="0,,1," selected="0"/>
-  <controller name="locks" pages="0,,1," selected="1"/>
+  <controller name="locks" pages="0,,1," selected="0"/>
+  <controller name="redTip" pages="0,,1," selected="0"/>
   <displayList>
     <image id="n151_czuw" name="n151" src="czuw2a" fileName="pic/splite.png" xy="0,0" size="286,98">
       <gearDisplay controller="double" pages="0"/>
@@ -17,5 +18,8 @@
     <text id="n154_czuw" name="lock" xy="111,35" size="10,27" fontSize="20" color="#fff7ea" vAlign="middle" text="">
       <gearDisplay controller="locks" pages="1"/>
     </text>
+    <component id="n155_mdua" name="n155" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="88,17">
+      <gearDisplay controller="redTip" pages="1"/>
+    </component>
   </displayList>
 </component>

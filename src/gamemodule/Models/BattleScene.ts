@@ -39,10 +39,11 @@ export default class BattleScene {
     public activationEnemy: BattleSoldier = null;
 
     // 生成敌人
-    createEnemy(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null) {
+    createEnemy(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null): BattleSoldier {
         let soldier = BattleSoldier.create(initPos, isboss, monster, initPoint);
         // Game.total.toastMsg("出现第" + Game.battleMap.levelWave + "个敌人" + Game.battleMap.curTime, true);
         this.enemyList.push(soldier);
+        return soldier;
     }
     // 重新开始游戏
     reTryPlay(): void {
@@ -110,7 +111,7 @@ export default class BattleScene {
     }
 
     public setSeat(): void {
-        if (!Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType != 2) {
             let data = {
                 "seat": {
                     "seat0": this.seatHeroList[0].concat(),
@@ -128,7 +129,7 @@ export default class BattleScene {
      */
     initHeroSeat(): void {
         Game.halo.init();
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             let herolist = Game.battleData.dayHeroSeat;
             for (let i = 0; i < 9; i++) {
                 if (herolist[i] != null) {

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1280,960" adaptationTest="FitSize">
-  <controller name="c1" pages="0,load,1,wait" selected="0"/>
-  <controller name="showTip" pages="0,,1," selected="0"/>
+  <controller name="c1" pages="0,load,1,wait" selected="1"/>
+  <controller name="showTip" pages="0,,1," selected="1"/>
   <displayList>
     <loader id="n10_qvb6" name="n10" xy="-10,-20" size="1300,1000" alpha="0.5" url="ui://130tmfxdopk1o" fill="scaleFree">
       <relation target="" sidePair="width-width,height-height"/>
     </loader>
-    <image id="n12_qvb6" name="n12" src="j5ct1u" fileName="pic/waveBg_4.png" xy="0,0" size="1280,960" aspect="true">
+    <image id="n12_qvb6" name="n12" src="j5ct1u" fileName="waveBg_4.png" pkg="3o5nmzs6" xy="0,0" size="1280,960" aspect="true">
       <gearDisplay controller="showTip" pages="1"/>
     </image>
     <image id="n0_q080" name="n0" src="q0806" fileName="pic/tip.png" xy="448,466">
@@ -39,7 +39,7 @@
     <text id="n9_qvb6" name="n9" xy="639,800" pivot="0.5,0.5" anchor="true" size="845,76" fontSize="30" color="#fff7ea" text="抵制不良游戏，拒绝盗版游戏，注意自我保护，谨防受骗上当。&#xA;适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活。">
       <gearDisplay controller="showTip" pages="1"/>
     </text>
-    <text id="n13_9mhx" name="n13" xy="640,662" pivot="0.5,0.5" anchor="true" size="496,61" fontSize="50" color="#fff7ea" text="玩家Q群：855988151">
+    <text id="n13_9mhx" name="n13" xy="640,662" pivot="0.5,0.5" anchor="true" size="1049,61" fontSize="50" color="#fff7ea" text="加入玩家QQ群 ：855988151，领新手大礼包。">
       <gearDisplay controller="showTip" pages="1"/>
     </text>
   </displayList>

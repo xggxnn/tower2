@@ -4,6 +4,7 @@
 
 export default class fui_TaskItem extends fairygui.GComponent {
 
+	public m_gainStatus:fairygui.Controller;
 	public m_task:fairygui.GLabel;
 	public m_progress:fairygui.GProgressBar;
 	public m_reward:fairygui.GLabel;
@@ -22,6 +23,7 @@ export default class fui_TaskItem extends fairygui.GComponent {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
+		this.m_gainStatus = this.getControllerAt(0);
 		this.m_task = <fairygui.GLabel><any>(this.getChildAt(1));
 		this.m_progress = <fairygui.GProgressBar><any>(this.getChildAt(2));
 		this.m_reward = <fairygui.GLabel><any>(this.getChildAt(3));

@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="250,260">
+<component size="304,220">
   <controller name="type" pages="0,礼包,1,其他" selected="0"/>
   <controller name="limNum" pages="0,,1," selected="0"/>
+  <controller name="posStatus" exported="true" pages="0,,1," selected="1"/>
   <displayList>
-    <image id="n5_bxj0" name="n5" src="bxj06" fileName="pic/tujiandi.png" pkg="130tmfxd" xy="0,0" size="250,260"/>
-    <loader id="n1_bxj0" name="quality" xy="65,3" size="120,120" aspect="true" url="ui://88du1wabczuw53n" align="center" vAlign="middle" fill="scale"/>
-    <component id="n0_bxj0" name="pic" src="bxj0e" fileName="HeadIcon120107.xml" pkg="130tmfxd" xy="125,63" pivot="0.5,0.5" anchor="true" scale="0.85,0.85"/>
-    <image id="n8_bxj0" name="n8" src="bxj02" fileName="pic/cebiantiao.png" pkg="130tmfxd" xy="0,0">
-      <gearDisplay controller="type" pages="0"/>
-    </image>
-    <text id="n9_bxj0" name="tip" xy="32,33" pivot="0.5,0.5" anchor="true" size="77,31" rotation="-47" fontSize="24" color="#f0f5ff" align="center" vAlign="middle" autoSize="none" text="小包">
-      <gearDisplay controller="type" pages="0"/>
-    </text>
-    <component id="n6_bxj0" name="picBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="65,3" size="120,120"/>
-    <text id="n4_bxj0" name="heroName" xy="125,137" pivot="0.5,0.5" anchor="true" size="240,31" fontSize="24" color="#f4c2ff" align="center" vAlign="middle" vars="true" autoSize="none" text="{name=}"/>
-    <text id="n3_bxj0" name="price" xy="5,152" pivot="0.5,0.5" size="240,28" fontSize="20" color="#3dff5d" align="center" vAlign="middle" ubb="true" vars="true" autoSize="none" bold="true" text="{count=0}{price=1}"/>
-    <text id="n7_bxj0" name="buyPrice" xy="5,181" pivot="0.5,0.5" size="240,28" fontSize="20" color="#3dff5d" align="center" vAlign="middle" ubb="true" vars="true" autoSize="none" bold="true" text="剩余购买次数:{count=0}">
+    <image id="n5_bxj0" name="n5" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="0,0" size="304,220"/>
+    <image id="n10_94yv" name="n10" src="94yv8" fileName="pic/hongsezhuangshi.png" xy="8,6"/>
+    <image id="n12_94yv" name="n12" src="94yv8" fileName="pic/hongsezhuangshi.png" xy="294,6" scale="-1,1"/>
+    <loader id="n1_bxj0" name="quality" xy="83,-3" size="130,130" aspect="true" url="ui://88du1wabczuw53n" align="center" vAlign="middle" fill="scale"/>
+    <component id="n0_bxj0" name="pic" src="bxj0e" fileName="HeadIcon120107.xml" pkg="130tmfxd" xy="149,63" pivot="0.5,0.5" anchor="true" scale="0.85,0.85"/>
+    <loader id="n14_94yv" name="heroname" xy="147,30" pivot="0.5,0.5" anchor="true" size="109,32" aspect="true" url="ui://88du1wabajdp55x" align="center" vAlign="middle" fill="scale" shrinkOnly="true" playing="false">
+      <gearDisplay controller="type" pages="1"/>
+    </loader>
+    <text id="n3_bxj0" name="price" xy="32,119" pivot="0.5,0.5" size="240,28" fontSize="16" color="#3dff5d" align="center" vAlign="middle" ubb="true" vars="true" autoSize="none" bold="true" text="{count=0}{price=1}"/>
+    <text id="n7_bxj0" name="buyPrice" xy="32,138" pivot="0.5,0.5" size="240,28" fontSize="16" color="#3dff5d" align="center" vAlign="middle" ubb="true" vars="true" autoSize="none" bold="true" text="剩余购买次数:{count=0}">
       <gearDisplay controller="limNum" pages="0"/>
     </text>
-    <component id="n2_bxj0" name="checkBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="-22,176" size="294,108" scale="0.5,0.5" controller="bgColor,1">
-      <Button title="购买" titleColor="#f0f5ff"/>
+    <component id="n6_bxj0" name="picBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="89,3" size="120,120"/>
+    <component id="n2_bxj0" name="checkBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="-42,130" size="252,108" scale="0.5,0.5" controller="bgColor,1,adStatus,0">
+      <gearXY controller="posStatus" pages="0" values="25,130" default="-42,130"/>
+      <Button title="购买（六折）" titleColor="#f0f5ff"/>
+    </component>
+    <component id="n13_94yv" name="freeBuy" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="94,130" size="252,108" scale="0.5,0.5" controller="bgColor,2,adStatus,1">
+      <gearDisplay controller="posStatus" pages="1"/>
     </component>
   </displayList>
 </component>

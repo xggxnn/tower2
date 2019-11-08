@@ -33,7 +33,6 @@ export default class BattleHero extends Laya.Sprite {
             }
             this._index = Number(index);
             this.checkKeyList();
-            // this._sk = Pools.skFetch("hero_" + this._id);
             this._sk = BattleBaseSK.create("hero_" + this._id);
             this._sk.scale(0.8, 0.8);
             this.sk.addStopEvent(Laya.Handler.create(this, this.overEvent));
@@ -50,6 +49,7 @@ export default class BattleHero extends Laya.Sprite {
             EventManager.on(EventKey.GAMEWIN, this, this.delEffect);
             EventManager.on(EventKey.GAMEEXIT, this, this.delEffect);
             EventManager.on(EventKey.GAMELOSE, this, this.delEffect);
+            EventManager.on(EventKey.GAME_PAUSE, this, this.delFlyEffect);
         }
     }
     private _thisSkHandle: Laya.Handler = null;
@@ -88,7 +88,10 @@ export default class BattleHero extends Laya.Sprite {
         this._sk.play(state, loop);
     }
 
-    public onDisable(): void {
+    onDisable(): void {
+        EventManager.offAllCaller(this);
+    }
+    onDestroy(): void {
         EventManager.offAllCaller(this);
     }
 
@@ -218,6 +221,7 @@ export default class BattleHero extends Laya.Sprite {
                 }
             }
             this.curHitEnemy = this.curEnemy;
+            this.curHitEnemyList = [];
             if (this.dataInf.curUser == 0) {
                 if (this.dataInf.buffExtra > 0) {
                     for (let i = 0; i < this.dataInf.buffExtra; i++) {
@@ -228,55 +232,58 @@ export default class BattleHero extends Laya.Sprite {
                     }
                 }
             }
-            else {
-                this.curHitEnemyList = [];
-            }
             let curSkill = this.dataInf.attackSkillList[this.dataInf.curUser];
             switch (curSkill.hit_type) {
                 case 2://多
-                    if (curSkill.rangevalue > 1) {
-                        for (let i = 1; i < curSkill.rangevalue; i++) {
-                            if (this.curEnemyList.length > 0) {
-                                this.curHitEnemyList.push(this.curEnemyList[0]);
-                                this.curEnemyList.splice(0, 1);
+                    {
+                        if (curSkill.rangevalue > 1) {
+                            for (let i = 1; i < curSkill.rangevalue; i++) {
+                                if (this.curEnemyList.length > 0) {
+                                    this.curHitEnemyList.push(this.curEnemyList[0]);
+                                    this.curEnemyList.splice(0, 1);
+                                }
                             }
                         }
                     }
                     break;
                 case 3://溅射
-                    this.curHitEnemyList = [];
-                    if (Game.battleScene.enemyList.length > 0 && curSkill.rangevalue > 0) {
-                        let xx = this.curHitEnemy.x;
-                        let yy = this.curHitEnemy.y;
-                        for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
-                            let enemy: BattleSoldier = Game.battleScene.enemyList[i] as BattleSoldier;
-                            if (enemy && !enemy.canHit) {
-                                if ((Math.abs(enemy.x - xx) < 220 * curSkill.rangevalue) && (Math.abs(enemy.y - yy) < 80 * curSkill.rangevalue)) {
-                                    this.curHitEnemyList.push(enemy);
+                    {
+                        if (Game.battleScene.enemyList.length > 0 && curSkill.rangevalue > 0) {
+                            let xx = this.curHitEnemy.x;
+                            let yy = this.curHitEnemy.y;
+                            for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
+                                let enemy: BattleSoldier = Game.battleScene.enemyList[i] as BattleSoldier;
+                                if (enemy && !enemy.canHit) {
+                                    if ((Math.abs(enemy.x - xx) < 220 * curSkill.rangevalue) && (Math.abs(enemy.y - yy) < 80 * curSkill.rangevalue)) {
+                                        this.curHitEnemyList.push(enemy);
+                                    }
                                 }
                             }
-                        }
-                        if (this.curHitEnemyList.length > 0) {
-                            this.curHitEnemy = this.curHitEnemyList[0];
-                            this.curHitEnemyList.splice(0, 1);
+                            if (this.curHitEnemyList.length > 0) {
+                                this.curHitEnemy = this.curHitEnemyList[0];
+                                this.curHitEnemyList.splice(0, 1);
+                            }
                         }
                     }
                     break;
                 case 4://范围
-                    this.curHitEnemyList = this.curEnemyList;
+                    {
+                        this.curHitEnemyList = this.curEnemyList;
+                    }
                     break;
                 case 5://全屏
-                    this.curHitEnemyList = [];
-                    if (Game.battleScene.enemyList.length > 0) {
-                        for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
-                            let enemy: BattleSoldier = Game.battleScene.enemyList[i] as BattleSoldier;
-                            if (enemy && !enemy.canHit) {
-                                this.curHitEnemyList.push(enemy);
+                    {
+                        if (Game.battleScene.enemyList.length > 0) {
+                            for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
+                                let enemy: BattleSoldier = Game.battleScene.enemyList[i] as BattleSoldier;
+                                if (enemy && !enemy.canHit) {
+                                    this.curHitEnemyList.push(enemy);
+                                }
                             }
-                        }
-                        if (this.curHitEnemyList.length > 0) {
-                            this.curHitEnemy = this.curHitEnemyList[0];
-                            this.curHitEnemyList.splice(0, 1);
+                            if (this.curHitEnemyList.length > 0) {
+                                this.curHitEnemy = this.curHitEnemyList[0];
+                                this.curHitEnemyList.splice(0, 1);
+                            }
                         }
                     }
                     break;
@@ -285,6 +292,7 @@ export default class BattleHero extends Laya.Sprite {
         }
     }
     private castSkill(skillcd: number): void {
+        this.standTime = 0;
         let speed = 1;
         if (skillcd < 1 && skillcd > 0) {
             speed = 1 / skillcd;
@@ -295,6 +303,9 @@ export default class BattleHero extends Laya.Sprite {
         if (this.dataInf.curUser == 0) {
             this.playAttack(speed);
         } else {
+            let scalexx = this.sk.scaleX;
+            Laya.Tween.to(this.sk, { scaleX: scalexx * 1.5, scaleY: 1.2 }, 100);
+            Laya.Tween.to(this.sk, { scaleX: scalexx, scaleY: 0.8 }, 300, null, null, 400);
             this.playCast();
         }
     }
@@ -317,9 +328,6 @@ export default class BattleHero extends Laya.Sprite {
             if (this.keyList.indexOf(this.curEnemy.atkRangIndex) == -1) {
                 this.curEnemy = null;
             }
-            else {
-                return;
-            }
         }
         if (Game.battleScene.atkCellDIc.count == 0) return;
         this.curEnemyList = [];
@@ -339,8 +347,15 @@ export default class BattleHero extends Laya.Sprite {
             }
         }
         if (this.curEnemyList.length > 0) {
-            this.curEnemy = this.curEnemyList[0];
-            this.curEnemyList.splice(0, 1);
+            if (this.curEnemy == null) {
+                this.curEnemy = this.curEnemyList[0];
+                this.curEnemyList.splice(0, 1);
+            } else {
+                let t = this.curEnemyList.indexOf(this.curEnemy);
+                if (t >= 0) {
+                    this.curEnemyList.splice(t, 1);
+                }
+            }
         }
     }
     private preAddAtkRange: number = 0;
@@ -546,12 +561,15 @@ export default class BattleHero extends Laya.Sprite {
                 }
                 return;
         }
-        if (this.curHitEnemy == null || this.curHitEnemy.haveDeath) return;
         if (event.name == "cast_time") {
-            this.addFlyEffect(this.curHitEnemy, this.dataInf.curUser);
+            if (this.curHitEnemy != null && this.curHitEnemy.canHit) {
+                this.addFlyEffect(this.curHitEnemy, this.dataInf.curUser);
+            }
             if (this.curHitEnemyList.length > 0) {
                 for (let i = 0, len = this.curHitEnemyList.length; i < len; i++) {
-                    this.addFlyEffect(this.curHitEnemyList[i], this.dataInf.curUser);
+                    if (this.curHitEnemyList[i] != null && this.curHitEnemyList[i].canHit) {
+                        this.addFlyEffect(this.curHitEnemyList[i], this.dataInf.curUser);
+                    }
                 }
             }
         }
@@ -583,8 +601,8 @@ export default class BattleHero extends Laya.Sprite {
                 var fly: BattleEffectFly = this.fly[i];
                 if (fly) {
                     if (fly.update(dt)) {
+                        fly.destroyThis();
                         this.fly.splice(i, 1);
-                        fly.destoryThis();
                     }
                 } else {
                     this.fly.splice(i, 1);
@@ -592,16 +610,18 @@ export default class BattleHero extends Laya.Sprite {
             }
         }
     }
-    private delEffect(): void {
+    // 移除飞行特效
+    private delFlyEffect(): void {
         for (var i = this.fly.length - 1; i >= 0; i--) {
             var fly: BattleEffectFly = this.fly[i];
             if (fly) {
-                this.fly.splice(i, 1);
-                fly.destoryThis();
-            } else {
-                this.fly.splice(i, 1);
+                fly.destroyThis();
             }
+            this.fly.splice(i, 1);
         }
+    }
+    private delEffect(): void {
+        this.delFlyEffect();
         let effList = this.battleEffectList.getValues();
         for (let i = effList.length - 1; i >= 0; i--) {
             if (effList[i]) {

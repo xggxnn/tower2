@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="130,140">
+  <controller name="status" exported="true" pages="0,无,1,有人,2,倒计时" selected="2"/>
+  <displayList>
+    <image id="n10_94yv" name="n10" src="94yv3" fileName="pic/wxDi.png" xy="28,0">
+      <gearDisplay controller="status" pages="0"/>
+    </image>
+    <text id="n11_94yv" name="nam" xy="0,78" size="130,62" fontSize="20" color="#f0f5ff" align="center" vAlign="middle" autoSize="none" bold="true" text="">
+      <gearDisplay controller="status" pages="1,2"/>
+    </text>
+    <loader id="n12_94yv" name="icons" xy="30,2" size="70,70" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearDisplay controller="status" pages="1,2"/>
+    </loader>
+    <image id="n14_94yv" name="mask" src="94yv1" fileName="pic/black.png" xy="30,2" size="70,70" alpha="0.5" fillMethod="radial360" fillClockwise="false">
+      <gearDisplay controller="status" pages="2"/>
+    </image>
+    <image id="n13_94yv" name="n13" src="94yv7" fileName="pic/wxTop.png" xy="28,0" pkg="88du1wab">
+      <gearDisplay controller="status" pages="1,2"/>
+    </image>
+    <text id="n15_94yv" name="tim" xy="65,37" pivot="0.5,0.5" anchor="true" size="34,18" font="ui://130tmfxdj8q220" fontSize="4" color="#f0f5ff" align="center" vAlign="middle" bold="true" text="24h">
+      <gearDisplay controller="status" pages="2"/>
+    </text>
+    <component id="n16_94yv" name="tipBtn" src="ngrsz" fileName="winBtn.xml" pkg="130tmfxd" xy="0,0" size="130,140"/>
+  </displayList>
+</component>

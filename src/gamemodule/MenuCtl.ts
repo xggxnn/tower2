@@ -85,13 +85,18 @@ export default class MenuCtl {
 		// console.log("设置显示面板 : ", "MenuId." + MenuId[this.menuId]);
 
 		this.moduleWindow.sShowComplete.addOnce(this.closeOther, this);
-
 		this.state = MenuCtlStateType.Opened;
 		if (this.moduleWindow.menuIsCreated) {
 			this.moduleWindow.onMenuOpen(this.openParametar);
+			if (this.menuId == MenuId.Home) {
+				EventManager.event(EventKey.SHOWHOMEMENU);
+			}
 		}
 		else {
 			this.moduleWindow.menuParameter = this.openParametar;
+		}
+		if (this.menuId != MenuId.Home) {
+			EventManager.event(EventKey.HIDEHOMEMENU);
 		}
 		this.moduleWindow.menuShow(this.moduleWindow.windowContainer);
 	}
@@ -156,7 +161,7 @@ export default class MenuCtl {
 		this.state = MenuCtlStateType.Closed;
 	}
 	// 销毁
-	destory() {
+	destroy() {
 		if (this.moduleWindow && this.menuId != MenuId.Load) {
 			// console.log("销毁面板", "MenuId." + MenuId[this.menuId]);
 			this.moduleWindow.sShowComplete.remove(this.closeOther, this);

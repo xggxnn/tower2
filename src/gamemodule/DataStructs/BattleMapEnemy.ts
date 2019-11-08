@@ -14,4 +14,10 @@ export default class BattleMapEnemy {
         this.enemy.monsterInf = enemy;
         this.enemy.initPos = initPos;
     }
+    public compares(other: BattleMapEnemy): boolean {
+        if (other.index == this.index && other.isboss == this.isboss && other.enemy.monsterInf.id == this.enemy.monsterInf.id) {
+            return true;
+        }
+        return false;
+    }
 }

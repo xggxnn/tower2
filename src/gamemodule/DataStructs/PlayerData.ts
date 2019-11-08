@@ -17,6 +17,7 @@ import LevelchallengesuggestInfo from "../../csvInfo/LevelchallengesuggestInfo";
 import ResourceInfo from "../../csvInfo/ResourceInfo";
 import Association from "./Association";
 import UnlockInfo from "../../csvInfo/UnlockInfo";
+import BoxStatus from "./BoxStatus";
 
 export default class PlayerData {
     private static _Instance: PlayerData;
@@ -83,7 +84,7 @@ export default class PlayerData {
     }
 
     // 提升品质前的属性
-    public upQualityOldTip: Dictionary<number, string> = new Dictionary<number, string>();
+    // public upQualityOldTip: Dictionary<number, string> = new Dictionary<number, string>();
 
     private _synthetise: number = 0;
     /**
@@ -132,17 +133,18 @@ export default class PlayerData {
                     item.itemId = ids;
                     item.itemNum = vals;
                     this._curGift.push(item);
-                    Game.redData.bagRed = true;
                 }
+                Game.redData.bagRed = true;
             }
             if (ids > 1000) {
                 let heroId = ids - 1000;
-                let clipsDic = Game.playData.curClips;
-                if (clipsDic.hasKey(heroId)) {
-                    vals -= clipsDic.getValue(heroId);
+                let valss = vals;
+                if (Game.playData.curClips.hasKey(heroId)) {
+                    vals -= Game.playData.curClips.getValue(heroId);
                 }
-                clipsDic.add(heroId, vals);
+                Game.playData.curClips.add(heroId, valss);
                 if (vals > 0) {
+                    Game.task.sUpdateStatus.dispatch(3);
                     let item: RewardItem = new RewardItem();
                     item.itemId = heroId + 11;
                     item.itemNum = vals;
@@ -224,17 +226,17 @@ export default class PlayerData {
                     item.itemId = ids;
                     item.itemNum = vals;
                     this._curGift.push(item);
-                    Game.redData.bagRed = true;
                 }
+                Game.redData.bagRed = true;
             }
             if (ids > 1000) {
                 let heroId = ids - 1000;
-                let clipsDic = Game.playData.curClips;
-                if (clipsDic.hasKey(heroId)) {
-                    vals -= clipsDic.getValue(heroId);
+                if (Game.playData.curClips.hasKey(heroId)) {
+                    vals -= Game.playData.curClips.getValue(heroId);
                 }
-                clipsDic.add(heroId, curVal);
+                Game.playData.curClips.add(heroId, curVal);
                 if (vals > 0) {
+                    Game.task.sUpdateStatus.dispatch(3);
                     let item: RewardItem = new RewardItem();
                     item.itemId = heroId + 11;
                     item.itemNum = vals;
@@ -366,7 +368,9 @@ export default class PlayerData {
     private _curStar: number = 0;
     // 当前星级
     public get curStar(): number {
-        return this._curStar;
+        // 测试专用
+        return 5;
+        // return this._curStar;
     }
     public set curStar(v: number) {
         this._curStar = v;
@@ -375,7 +379,9 @@ export default class PlayerData {
     private _curLevel: number = 0;
     // 当前等级
     public get curLevel(): number {
-        return this._curLevel;
+        // 测试专用
+        return 50;
+        // return this._curLevel;
     }
     public set curLevel(v: number) {
         this._curLevel = v;
@@ -641,6 +647,22 @@ export default class PlayerData {
             }
         }
     }
+    public checkShopBuyTimes(json): void {
+        let count = this.limitShopData.length;
+        for (var key in json) {
+            let ids = Number(key) - 1000;
+            let num = Number(json[key]);
+            for (let i = 0; i < count; i++) {
+                let item = this.limitShopData[i];
+                if (item.itemId == ids) {
+                    item.itemBuyTimes = num;
+                }
+            }
+        }
+    }
+    // 商城刷新价格
+    public shopDiamondRefresh: number = 0;
+    public shopLimitBuyHeroId: number = 0;
 
     private _limitShopData: RewardItem[] = [];
     public get limitShopData(): RewardItem[] {
@@ -663,6 +685,8 @@ export default class PlayerData {
     public unlockAssociationattribute: Array<number> = [];
 
     /******************  奖励相关       ************************/
+
+    public isSendWXRequest: boolean = false;
 
     private _rewardList: Array<RewardItem> = [];
     /**
@@ -690,7 +714,9 @@ export default class PlayerData {
 
     private _guideIndex: GuideType = GuideType.None;
     public get guideIndex(): GuideType {
-        return this._guideIndex;
+        // 测试专用
+        return GuideType.sevenStartFive;
+        // return this._guideIndex;
     }
     public set guideIndex(v: GuideType) {
         if (this._guideIndex == GuideType.None && v == GuideType.sevenStartFive) {
@@ -731,6 +757,19 @@ export default class PlayerData {
         if (v >= 8) {
             Game.localStorage.setInt("unlock_Init", v, true);
         }
+    }
+
+
+    private _unlockEndless: number = 0;
+    public get unlockEndless(): number {
+        if (this._unlockEndless == 0) {
+            this._unlockEndless = Game.localStorage.getInt("unlock_Endless_Fun", true);
+        }
+        return this._unlockEndless;
+    }
+    public set unlockEndless(v: number) {
+        this._unlockEndless = v;
+        Game.localStorage.setInt("unlock_Endless_Fun", v, true);
     }
 
 
@@ -776,6 +815,17 @@ export default class PlayerData {
         this._isSign = v;
     }
 
+    /****************  免费视频     *************************************** */
+    public videoLottryNum: number = 0;
+    public totalVideoLottryNum: Number = 0;
+    public freeGetReward: RewardItem = new RewardItem();
+
+    /****************  资源补给箱     *************************************** */
+
+    public BoxInfo: BoxStatus = new BoxStatus();
+
+
+    public wishingState: number = 0;
 
     /****************  获取icon     *************************************** */
     /**

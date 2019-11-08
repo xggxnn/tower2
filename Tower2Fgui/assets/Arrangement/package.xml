@@ -4,31 +4,22 @@
     <component id="og780" name="ArrangementMain.xml" path="/" exported="true"/>
     <component id="nn3i4" name="PropBtn.xml" path="/" exported="true"/>
     <image id="nn3i5" name="image_edit_place_frame.png" path="/pic/"/>
-    <image id="j5ctb" name="buzhenditu.png" path="/pic/"/>
     <image id="j5ctc" name="jihuojiban.png" path="/pic/"/>
     <image id="j5ctd" name="skilldi.png" path="/pic/" scale="9grid" scale9grid="62,61,4,8"/>
     <image id="j5cth" name="zhenrong1.png" path="/pic/"/>
     <image id="j5cti" name="zhenrong3.png" path="/pic/"/>
     <image id="j5ctj" name="zhenrong2.png" path="/pic/"/>
-    <component id="qrw023" name="StoneBase.xml" path="/"/>
     <image id="czuw25" name="stop.png" path="/pic/"/>
     <image id="czuw2a" name="splite.png" path="/pic/" scale9grid="1,1,2,2"/>
     <component id="czuw2b" name="SkillItem.xml" path="/" exported="true"/>
     <component id="czuw2c" name="AssociationItem.xml" path="/" exported="true"/>
     <component id="czuw2d" name="UpBtn.xml" path="/" exported="true"/>
     <component id="czuw2e" name="HeroIcon55.xml" path="/" exported="true"/>
-    <image id="hbcf2g" name="arrowdown.png" path="/pic/"/>
-    <image id="hbcf2h" name="arrowping.png" path="/pic/"/>
-    <image id="hbcf2i" name="arrowup.png" path="/pic/"/>
-    <image id="hbcf2j" name="chengse.png" path="/pic/"/>
-    <component id="hbcf2o" name="FightTip.xml" path="/" exported="true"/>
-    <image id="qvb62p" name="jinwuyuchanbg.png" path="/pic/"/>
     <component id="qvb62q" name="UpLevel.xml" path="/" exported="true"/>
     <image id="haq32s" name="progress.png" path="/pic/"/>
     <image id="haq32t" name="zhizhen.png" path="/pic/"/>
     <component id="haq32u" name="FightProgress.xml" path="/" exported="true"/>
     <component id="bcle2v" name="SeatBtn.xml" path="/" exported="true"/>
-    <component id="bcle2w" name="StoneBase(1).xml" path="/"/>
   </resources>
   <publish name="Arrangement" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

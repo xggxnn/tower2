@@ -19,9 +19,6 @@ export default class UI_BattleRightTop extends fui_BattleRightTop {
 		super.constructFromXML(xml);
 		// 此处可以引入初始化信息，比如初始化按钮点击，相当于awake()
 		// ToDo
-		// this.m_pauseBtn.onClick(this, this.clickPause);
-		// this.m_setBtn.visible = false;
-		this.m_pauseBtn.visible = false;
 	}
 	private clickPause(): void {
 		// Game.battleMap.levelWin();

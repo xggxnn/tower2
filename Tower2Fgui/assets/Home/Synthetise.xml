@@ -1,47 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1280,960">
-  <controller name="quality" pages="0,,1,,2," selected="2"/>
+<component size="1280,960" designImageLayer="1">
+  <controller name="quality" pages="0,,1,,2,,3," selected="0">
+    <action type="play_transition" fromPage="3" toPage="1" transition="t4"/>
+  </controller>
+  <controller name="teshu" pages="0,,1," selected="0"/>
+  <controller name="resetAtt" pages="0,,1," selected="0"/>
+  <controller name="heroStatus" pages="0,合成,1,提升品质,2,洗点" selected="0"/>
+  <controller name="tipStatus" pages="0,,1,,2,,3," selected="0"/>
+  <controller name="upd" pages="0,,1,,2,,3," selected="0"/>
+  <controller name="showMask" pages="0,,1," selected="0"/>
   <displayList>
-    <image id="n7_c8j3" name="n7" src="c8j320" fileName="pic/synthetiseBg.png" xy="0,0" size="1280,960"/>
-    <loader id="n8_qvb6" name="skbg" xy="0,0" size="1280,960">
+    <image id="n7_c8j3" name="n7" src="c8j320" fileName="synthetiseBg.png" pkg="3o5nmzs6" xy="0,0" size="1280,960" locked="true"/>
+    <loader id="n8_qvb6" name="skbg" xy="0,0" size="1280,960" locked="true">
       <relation target="" sidePair="center-center,middle-middle"/>
     </loader>
-    <text id="n9_bcle" name="atk" xy="150,300" size="114,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击力：{count=0}">
+    <image id="n98_eaol" name="n98" src="eaol2w" fileName="pics/heroNew.png" xy="592,509">
+      <gearDisplay controller="heroStatus" pages="0"/>
+      <gearLook controller="quality" pages="3" values="1,0,0,1" default="1,0,0,1"/>
+    </image>
+    <loader id="n19_eaol" name="qualitys" xy="422,343" size="155,96" rotation="-25" url="ui://88du1wabeaol573" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
       <gearDisplay controller="quality" pages="1,2"/>
-    </text>
-    <text id="n10_bcle" name="atkspeed" xy="150,341" size="193,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击速度：{count=1}次/秒">
-      <gearDisplay controller="quality" pages="1,2"/>
-    </text>
-    <text id="n11_bcle" name="cirt" xy="150,382" size="135,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击率：{count=0}%">
-      <gearDisplay controller="quality" pages="1,2"/>
-    </text>
-    <text id="n12_bcle" name="burst" xy="150,423" size="159,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击加成：{count=0}%">
-      <gearDisplay controller="quality" pages="1,2"/>
-    </text>
-    <text id="n13_bcle" name="atk2" xy="920,300" size="114,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击力：{count=0}">
-      <gearDisplay controller="quality" pages="2"/>
-    </text>
-    <text id="n14_bcle" name="atkspeed2" xy="920,341" size="193,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="攻击速度：{count=1}次/秒">
-      <gearDisplay controller="quality" pages="2"/>
-    </text>
-    <text id="n15_bcle" name="cirt2" xy="920,382" size="135,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击率：{count=0}%">
-      <gearDisplay controller="quality" pages="2"/>
-    </text>
-    <text id="n16_bcle" name="burst2" xy="920,423" size="159,31" fontSize="24" color="#f0f5ff" vAlign="middle" ubb="true" vars="true" text="暴击加成：{count=0}%">
-      <gearDisplay controller="quality" pages="2"/>
-    </text>
-    <text id="n17_bcle" name="n17" xy="150,238" size="202,39" fontSize="30" color="#fffcb3" bold="true" text="品质提升前：">
-      <gearDisplay controller="quality" pages="2"/>
-    </text>
-    <text id="n18_bcle" name="n18" xy="920,238" size="202,39" fontSize="30" color="#47f66c" bold="true" text="品质提升后：">
-      <gearDisplay controller="quality" pages="2"/>
-    </text>
-    <component id="n4_qrw0" name="setSeat" src="og7810" fileName="GeneralBtns.xml" xy="690,677" size="255,108" controller="bgColor,0">
-      <Button title="去布阵" titleColor="#f3e9d5" titleFontSize="40"/>
+    </loader>
+    <image id="n20_eaol" name="n20" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="115,364" size="318,160" group="n101_eaol">
+      <gearSize controller="teshu" pages="0" values="318,160,1,1" default="318,292,1,1"/>
+    </image>
+    <loader id="n21_eaol" name="career" xy="217,379" size="56,56" group="n101_eaol" aspect="true" url="ui://88du1wabngrs19" align="center" vAlign="middle" fill="scale"/>
+    <loader id="n22_eaol" name="race" xy="216,448" size="56,56" group="n101_eaol" aspect="true" url="ui://88du1wabngrs1a" align="center" vAlign="middle" fill="scale"/>
+    <text id="n23_eaol" name="n23" xy="133,393" size="80,33" group="n101_eaol" fontSize="24" color="#feda49" bold="true" text="门派："/>
+    <text id="n24_eaol" name="n24" xy="133,460" size="80,33" group="n101_eaol" fontSize="24" color="#feda49" bold="true" text="五行："/>
+    <component id="n59_eaol" name="lookcareer" src="og7810" fileName="GeneralBtns.xml" xy="230,346" size="260,122" group="n101_eaol" scale="0.5,0.5" controller="bgColor,2">
+      <Button title="查看" titleColor="#f3e9d5" titleFontSize="45"/>
     </component>
-    <component id="n5_qrw0" name="ok" src="og7810" fileName="GeneralBtns.xml" xy="333,677" size="255,108" controller="bgColor,1">
-      <Button title="确定" titleColor="#f3e9d5" titleFontSize="40"/>
+    <component id="n58_eaol" name="lookrace" src="og7810" fileName="GeneralBtns.xml" xy="230,415" size="260,122" group="n101_eaol" scale="0.5,0.5" controller="bgColor,2">
+      <Button title="查看" titleColor="#f3e9d5" titleFontSize="45"/>
     </component>
+    <text id="n60_eaol" name="special" xy="133,537" size="130,33" group="n101_eaol" fontSize="24" color="#ffa751" align="center" vAlign="middle" vars="true" bold="true" text="特殊羁绊：{count=}">
+      <gearDisplay controller="teshu" pages="1"/>
+    </text>
+    <component id="n61_eaol" name="lookspecial" src="og7810" fileName="GeneralBtns.xml" xy="230,546" size="260,122" group="n101_eaol" scale="0.5,0.5" controller="bgColor,2">
+      <gearDisplay controller="teshu" pages="1"/>
+      <Button title="查看" titleColor="#f3e9d5" titleFontSize="45"/>
+    </component>
+    <group id="n101_eaol" name="n101" xy="115,346" size="375,322" group="n46_eaol" advanced="true" collapsed="true"/>
+    <image id="n25_eaol" name="n25" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="864,364" size="166,45" group="n100_eaol">
+      <relation target="n27_eaol" sidePair="left-left,rightext-right"/>
+    </image>
+    <component id="n26_eaol" name="atktip" src="hbcf2o" fileName="FightTip.xml" pkg="130tmfxd" xy="849,362" size="108,108" group="n100_eaol" aspect="true" scale="0.45,0.45" controller="att,0"/>
+    <text id="n27_eaol" name="atk" xy="899,372" size="116,31" group="n100_eaol" fontSize="24" color="#feda49" vAlign="middle" vars="true" text="攻击：{count=289}"/>
+    <component id="n63_eaol" name="upAtk" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1035,365" size="42,44" group="n100_eaol">
+      <gearDisplay controller="resetAtt" pages="1"/>
+      <relation target="n25_eaol" sidePair="left-right"/>
+      <Button icon="ui://9xvnuoq0eaol2u"/>
+    </component>
+    <text id="n13_bcle" name="atk2" xy="1085,371" size="32,33" group="n100_eaol" fontSize="24" color="#3dff5d" vAlign="middle" ubb="true" vars="true" bold="true" text="+{count=0}">
+      <gearDisplay controller="quality" pages="2"/>
+      <relation target="n25_eaol" sidePair="left-right"/>
+    </text>
+    <image id="n49_eaol" name="n49" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="863,412" size="208,45" group="n100_eaol">
+      <relation target="n32_eaol" sidePair="left-left,rightext-right"/>
+    </image>
+    <component id="n31_eaol" name="speedtip" src="hbcf2o" fileName="FightTip.xml" pkg="130tmfxd" xy="848,410" size="108,108" group="n100_eaol" scale="0.45,0.45" controller="att,1"/>
+    <text id="n32_eaol" name="atkspeed" xy="899,419" size="158,31" group="n100_eaol" fontSize="24" color="#feda49" vAlign="middle" vars="true" text="攻频：{count=25}次/秒"/>
+    <component id="n64_eaol" name="upSpeed" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1077,413" size="42,44" group="n100_eaol">
+      <gearDisplay controller="resetAtt" pages="1"/>
+      <relation target="n49_eaol" sidePair="left-right"/>
+      <Button icon="ui://9xvnuoq0eaol2u"/>
+    </component>
+    <text id="n14_bcle" name="atkspeed2" xy="1126,419" size="89,33" group="n100_eaol" fontSize="24" color="#3dff5d" vAlign="middle" ubb="true" vars="true" bold="true" text="+{count=1}次/秒">
+      <gearDisplay controller="quality" pages="2"/>
+      <relation target="n49_eaol" sidePair="left-right"/>
+    </text>
+    <image id="n50_eaol" name="n50" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="863,460" size="172,45" group="n100_eaol">
+      <relation target="n37_eaol" sidePair="left-left,rightext-right"/>
+    </image>
+    <component id="n36_eaol" name="crittip" src="hbcf2o" fileName="FightTip.xml" pkg="130tmfxd" xy="848,458" size="108,108" group="n100_eaol" scale="0.45,0.45" controller="att,2"/>
+    <text id="n37_eaol" name="crit" xy="899,466" size="124,31" group="n100_eaol" fontSize="24" color="#feda49" vAlign="middle" vars="true" text="暴击：{count=25}%"/>
+    <component id="n65_eaol" name="upCrit" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1043,460" size="42,44" group="n100_eaol">
+      <gearDisplay controller="resetAtt" pages="1"/>
+      <relation target="n50_eaol" sidePair="left-right"/>
+      <Button icon="ui://9xvnuoq0eaol2u"/>
+    </component>
+    <text id="n15_bcle" name="cirt2" xy="1092,466" size="50,33" group="n100_eaol" fontSize="24" color="#3dff5d" vAlign="middle" ubb="true" vars="true" bold="true" text="+{count=0}%">
+      <gearDisplay controller="quality" pages="2"/>
+      <relation target="n50_eaol" sidePair="left-right"/>
+    </text>
+    <image id="n51_eaol" name="n51" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="863,510" size="174,45" group="n100_eaol">
+      <relation target="n42_eaol" sidePair="left-left,rightext-right"/>
+    </image>
+    <component id="n41_eaol" name="bursttip" src="hbcf2o" fileName="FightTip.xml" pkg="130tmfxd" xy="848,508" size="108,108" group="n100_eaol" scale="0.45,0.45" controller="att,3"/>
+    <text id="n42_eaol" name="burst" xy="899,517" size="124,31" group="n100_eaol" fontSize="24" color="#feda49" vAlign="middle" vars="true" text="爆伤：{count=25}%"/>
+    <component id="n66_eaol" name="upBurst" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1047,511" size="42,44" group="n100_eaol">
+      <gearDisplay controller="resetAtt" pages="1"/>
+      <relation target="n51_eaol" sidePair="left-right"/>
+      <Button icon="ui://9xvnuoq0eaol2u"/>
+    </component>
+    <text id="n16_bcle" name="burst2" xy="1097,517" size="50,33" group="n100_eaol" fontSize="24" color="#3dff5d" vAlign="middle" ubb="true" vars="true" bold="true" text="+{count=0}%">
+      <gearDisplay controller="quality" pages="2"/>
+      <relation target="n51_eaol" sidePair="left-right"/>
+    </text>
+    <image id="n47_eaol" name="n47" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="849,565" size="208,131" group="n100_eaol"/>
+    <component id="n48_eaol" name="skillInf" src="h5p91z" fileName="ScrollTxtNormal.xml" pkg="130tmfxd" xy="859,581" size="190,101" group="n100_eaol">
+      <Label titleColor="#feda49" titleFontSize="20"/>
+    </component>
+    <group id="n100_eaol" name="n100" xy="848,362" size="367,334" group="n46_eaol" advanced="true" collapsed="true"/>
+    <group id="n46_eaol" name="n46" xy="115,346" size="1100,350" advanced="true">
+      <gearDisplay controller="quality" pages="1,2"/>
+    </group>
+    <loader id="n53_eaol" name="nam" xy="540,608" size="200,68" aspect="true" url="ui://88du1wabajdp55x" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearDisplay controller="quality" pages="0,1,2"/>
+    </loader>
+    <component id="n67_eaol" name="progress" src="udz4v" fileName="ProgressBar.xml" pkg="130tmfxd" xy="549,670">
+      <gearDisplay controller="quality" pages="0,1,2"/>
+      <ProgressBar value="25" max="25"/>
+    </component>
+    <image id="n68_eaol" name="n68" src="ngrs11" fileName="pic/suipian.png" pkg="130tmfxd" xy="511,657">
+      <gearDisplay controller="quality" pages="0,1,2"/>
+    </image>
+    <component id="n4_qrw0" name="setSeat" src="og7810" fileName="GeneralBtns.xml" xy="653,722" size="255,108" controller="bgColor,0">
+      <gearDisplay controller="heroStatus" pages="1,2"/>
+      <gearXY controller="heroStatus" pages="1,2" values="653,722|512,722" default="653,722"/>
+      <gearLook controller="quality" pages="3" values="0,0,0,1" default="1,0,0,1"/>
+      <Button title="布阵"/>
+    </component>
+    <component id="n5_qrw0" name="ok" src="og7810" fileName="GeneralBtns.xml" xy="512,722" size="255,108" controller="bgColor,2">
+      <gearDisplay controller="heroStatus" pages="0,1"/>
+      <gearXY controller="heroStatus" pages="0,1,2" values="512,722|377,722|377,722"/>
+      <gearLook controller="quality" pages="3" values="0,0,0,0" default="1,0,0,1"/>
+      <gearText controller="heroStatus" pages="0,1" values="合成|提升品质" default="确定"/>
+      <Button title="合成"/>
+    </component>
+    <image id="n54_eaol" name="middle" src="udz4f" fileName="pic/jianbiandizong.png" pkg="130tmfxd" xy="640,140" pivot="0.5,0" anchor="true" size="940,37"/>
+    <image id="n55_eaol" name="n55" src="udz4d" fileName="zhuangshi1.png" pkg="3o5nmzs6" xy="142,144">
+      <relation target="n54_eaol" sidePair="left-left,top-top"/>
+    </image>
+    <image id="n56_eaol" name="n56" src="udz4d" fileName="zhuangshi1.png" pkg="3o5nmzs6" xy="1138,144" scale="-1,1">
+      <relation target="n54_eaol" sidePair="right-right,top-top"/>
+    </image>
+    <component id="n57_eaol" name="backBtn" src="udz4c" fileName="TxtBtn.xml" pkg="130tmfxd" xy="10,131" size="140,53">
+      <Button title="返回" titleColor="#ffffff" titleFontSize="28"/>
+    </component>
+    <image id="n62_eaol" name="n62" src="eaol2t" fileName="pics/heroInfTitle.png" xy="640,158" pivot="0.5,0.5" anchor="true">
+      <relation target="n54_eaol" sidePair="center-center,middle-middle"/>
+    </image>
+    <loader id="n74_eaol" name="bg" xy="-10,-20" size="1300,1000" group="n73_eaol" alpha="0.5" url="ui://130tmfxdopk1o" fill="scaleFree">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <image id="n69_eaol" name="n69" src="udz4m" fileName="zu2.png" pkg="3o5nmzs6" xy="407,185" size="465,644" group="n73_eaol"/>
+    <image id="n70_eaol" name="n70" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="409,185" group="n73_eaol"/>
+    <image id="n71_eaol" name="n71" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="424,283" size="427,357" group="n73_eaol"/>
+    <image id="n72_eaol" name="n72" src="gc5ls" fileName="yunwen.png" pkg="3o5nmzs6" xy="410,769" group="n73_eaol"/>
+    <loader id="n75_eaol" name="n75" xy="454,190" size="150,47" group="n73_eaol" url="ui://130tmfxd94yv54g" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearIcon controller="tipStatus" pages="2,3" values="ui://9xvnuoq0eaol2v|ui://9xvnuoq0eaol2v" default="ui://130tmfxd94yv54g"/>
+    </loader>
+    <component id="n76_eaol" name="tipleftBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="390,662" group="n73_eaol" scale="0.8,0.8" controller="bgColor,1,adStatus,0">
+      <gearDisplay controller="tipStatus" pages="1,3"/>
+      <gearText controller="tipStatus" pages="1,2" values="确定|确定" default="保存"/>
+      <Button title="保存"/>
+    </component>
+    <component id="n77_eaol" name="tiprightBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="635,662" group="n73_eaol" scale="0.8,0.8" controller="bgColor,2,adStatus,0">
+      <gearText controller="tipStatus" pages="1" values="取消" default="洗点"/>
+      <Button title="洗点"/>
+    </component>
+    <component id="n78_eaol" name="tips" src="h5p91z" fileName="ScrollTxtNormal.xml" pkg="130tmfxd" xy="442,297" size="394,345" group="n73_eaol">
+      <gearDisplay controller="tipStatus" pages="1"/>
+      <Label titleColor="#feda49" titleFontSize="20"/>
+    </component>
+    <component id="n79_eaol" name="fightTips" src="hbcf2o" fileName="FightTip.xml" pkg="130tmfxd" xy="432,289" size="108,108" group="n73_eaol" aspect="true" scale="0.45,0.45" controller="att,0">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </component>
+    <component id="n83_eaol" name="suipian" src="j5ct1k" fileName="coinLabel.xml" xy="671,204" group="n73_eaol">
+      <Label icon="ui://130tmfxdngrs11"/>
+    </component>
+    <image id="n84_eaol" name="n84" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="582,412" size="222,46" group="n73_eaol">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </image>
+    <image id="n87_eaol" name="n87" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="582,476" size="222,46" group="n73_eaol">
+      <gearDisplay controller="tipStatus" pages="3"/>
+    </image>
+    <text id="n85_eaol" name="n85" xy="488,421" size="105,33" group="n73_eaol" fontSize="24" color="#feda49" bold="true" text="当前值：">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </text>
+    <text id="n86_eaol" name="n86" xy="488,484" size="105,33" group="n73_eaol" fontSize="24" color="#feda49" bold="true" text="洗点后：">
+      <gearDisplay controller="tipStatus" pages="3"/>
+    </text>
+    <text id="n88_eaol" name="cur" xy="663,419" size="57,33" group="n73_eaol" fontSize="24" color="#feda49" bold="true" text="8000">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </text>
+    <text id="n89_eaol" name="pro" xy="663,484" size="57,33" group="n73_eaol" fontSize="24" color="#feda49" bold="true" text="8000">
+      <gearDisplay controller="tipStatus" pages="3"/>
+    </text>
+    <image id="n90_eaol" name="n90" src="hbcf2g" fileName="pic/arrowdown.png" pkg="130tmfxd" xy="814,493" group="n73_eaol">
+      <gearDisplay controller="upd" pages="3"/>
+    </image>
+    <image id="n91_eaol" name="n91" src="hbcf2h" fileName="pic/arrowping.png" pkg="130tmfxd" xy="814,498" group="n73_eaol">
+      <gearDisplay controller="upd" pages="2"/>
+    </image>
+    <image id="n92_eaol" name="n92" src="hbcf2i" fileName="pic/arrowup.png" pkg="130tmfxd" xy="813,493" group="n73_eaol">
+      <gearDisplay controller="upd" pages="1"/>
+    </image>
+    <text id="n93_eaol" name="maxTip" xy="639,356" pivot="0.5,0.5" anchor="true" size="257,33" group="n73_eaol" fontSize="24" color="#fcae3e" align="center" vAlign="middle" vars="true" bold="true" text="（{count1=攻击}最大值为{count2=1000}）">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </text>
+    <image id="n94_eaol" name="n94" src="eaol54q" fileName="pic/blackBg.png" pkg="130tmfxd" xy="426,572" size="423,66" group="n73_eaol">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </image>
+    <text id="n95_eaol" name="n95" xy="639,606" pivot="0.5,0.5" anchor="true" size="230,33" group="n73_eaol" fontSize="24" color="#f0f5ff" align="center" vAlign="middle" bold="true" text="是否保存本次洗点？">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+      <gearText controller="tipStatus" pages="2" values="点击洗点按钮开始洗点" default="是否保存本次洗点？"/>
+    </text>
+    <text id="n96_eaol" name="costTip" xy="691,650" size="139,25" group="n73_eaol" fontSize="18" color="#fcae3e" align="center" vAlign="middle" vars="true" underline="true" bold="true" text="每次消耗{count=25}碎片">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </text>
+    <component id="n97_eaol" name="closeBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="406,184" group="n73_eaol">
+      <gearDisplay controller="tipStatus" pages="2,3"/>
+    </component>
+    <group id="n73_eaol" name="n73" xy="-10,-20" size="1300,1000" advanced="true">
+      <gearDisplay controller="tipStatus" pages="1,2,3"/>
+    </group>
+    <loader id="n99_eaol" name="mask" xy="-10,-20" size="1300,1000" locked="true" alpha="0.1" url="ui://130tmfxdopk1o" fill="scaleFree">
+      <gearDisplay controller="showMask" pages="1"/>
+    </loader>
   </displayList>
-  <transition name="t0" autoPlay="true" autoPlayRepeat="-1"/>
+  <transition name="t4">
+    <item time="0" type="Scale" target="n19_eaol" tween="true" startValue="6,6" endValue="0.5,0.5" duration="4" ease="Linear"/>
+    <item time="0" type="Visible" target="n99_eaol" value="true"/>
+    <item time="0" type="XY" target="n100_eaol" value="1500,362"/>
+    <item time="0" type="XY" target="n101_eaol" value="-524,346"/>
+    <item time="0" type="XY" target="n4_qrw0" value="-,982"/>
+    <item time="0" type="XY" target="n5_qrw0" value="-,982"/>
+    <item time="4" type="Scale" target="n19_eaol" tween="true" startValue="0.5,0.5" endValue="1,1" duration="2" ease="Linear"/>
+    <item time="16" type="XY" target="n100_eaol" tween="true" startValue="1500,362" endValue="838,362" duration="5" ease="Linear"/>
+    <item time="16" type="XY" target="n101_eaol" tween="true" startValue="-523,346" endValue="125,346" duration="5" ease="Linear"/>
+    <item time="21" type="XY" target="n100_eaol" tween="true" startValue="838,362" endValue="848,362" duration="3" ease="Linear"/>
+    <item time="21" type="XY" target="n101_eaol" tween="true" startValue="125,346" endValue="115,346" duration="3" ease="Linear"/>
+    <item time="24" type="XY" target="n4_qrw0" tween="true" startValue="-,982" endValue="-,712" duration="5" ease="Linear"/>
+    <item time="24" type="XY" target="n5_qrw0" tween="true" startValue="-,982" endValue="-,712" duration="5" ease="Linear"/>
+    <item time="29" type="XY" target="n4_qrw0" tween="true" startValue="-,712" endValue="-,722" duration="3" ease="Linear"/>
+    <item time="29" type="XY" target="n5_qrw0" tween="true" startValue="-,712" endValue="-,722" duration="3" ease="Linear"/>
+    <item time="33" type="Visible" target="n99_eaol" value="false"/>
+  </transition>
+  <transition name="t5">
+    <item time="0" type="Alpha" target="n98_eaol" tween="true" startValue="1" endValue="0" duration="30" ease="Linear"/>
+  </transition>
 </component>

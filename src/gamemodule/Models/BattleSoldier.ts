@@ -10,7 +10,6 @@ import EventManager from "../../tool/EventManager";
 import UI_Blood from "../../fgui/Extend/Battle/UI_Blood";
 import UI_Shadow from "../../fgui/Extend/Battle/UI_Shadow";
 import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
-// import UI_DriftingBlood from "../../fgui/Extend/Battle/UI_DriftingBlood";
 import { GameStatus } from "../DataEnums/GameStatus";
 import Fun from "../../tool/Fun";
 import { HaloType } from "../DataEnums/HaloType";
@@ -22,12 +21,13 @@ import HurtBuff from "../DataStructs/HurtBuff";
 import { GuideType } from "../DataEnums/GuideType";
 
 export default class BattleSoldier extends Laya.Sprite {
-    public static create(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null): BattleSoldier {
+    public static create(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Point = null): BattleSoldier {
         return new BattleSoldier(initPos, isboss, monster, initPoint);
     }
-    private constructor(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Laya.Point = null) {
+    private constructor(initPos: number, isboss: boolean, monster: EnemyData, initPoint: Point = null) {
         super();
         Game.battleMap.sUpdateExitBattleMain.add(this.clearThis, this);
+        this._showEffectAndClear = false;
         // 初始化时，清空buff列表
         this.soldierBuff = [];
         this.hurtBuff = [];
@@ -38,13 +38,16 @@ export default class BattleSoldier extends Laya.Sprite {
             console.log("no sk -> sk:", skid, "  enemyId:", this.dataInf.monsterInf.id);
             skid = 3;
         }
-        // this._sk = Pools.pops("enemy_" + skid);
         this._sk = BattleBaseSK.create("enemy_" + skid);
         if (this.dataInf.monsterInf.boss == 1) {
             this._sk.scale(-1, 1);
+            this.skScaleX = -1;
+            this.skScaleY = 1;
         }
         else {
             this._sk.scale(-0.7, 0.7);
+            this.skScaleX = -0.7;
+            this.skScaleY = 0.7;
         }
         this.dataInf.shadowScales = new Laya.Point(1.7, 1.7);
 
@@ -57,14 +60,12 @@ export default class BattleSoldier extends Laya.Sprite {
         this.shadow = Pools.fetch(UI_Shadow);
 
         this.shadow.setScale(this.dataInf.shadowScales.x, this.dataInf.shadowScales.y);
-        // this.addChild(this.shadow.displayObject);
         Game.shadowParent.addChild(this.shadow.displayObject);
         this.initPos = initPos;
 
         // 添加血条
         this.blood = Pools.fetch(UI_Blood);
         this.addChild(this.blood.displayObject);
-        // Game.bloodParent.addChild(this.blood);
         this.blood.max = this.dataInf.curHp;
         this.blood.value = this.dataInf.maxHp;
         if (this.blood) {
@@ -73,8 +74,56 @@ export default class BattleSoldier extends Laya.Sprite {
         if (this.shadow) {
             this.shadow.setXY(0, 0);
         }
-        this.init(initPoint);
+        this.bossStand = false;
+        for (let i = 1; i < 6; i++) {
+            this.huoyanPos(i);
+        }
+        if (this.dataInf.monsterInf.sk == 40 || this.dataInf.monsterInf.sk == 41 || this.dataInf.monsterInf.sk == 42 || this.dataInf.monsterInf.sk == 43) {
+            if (this.dataInf.resurrection > 0) {
+                let huoPos = this.huoyanPos(this.dataInf.resurrection);
+                for (let i = 0; i < this.dataInf.resurrection; i++) {
+                    let huoyan = this.addBattleEffectDouble(1031, true);
+                    huoyan.sk.pos(huoPos[i].x, huoPos[i].y);
+                    this.dengeHuoyan.push(huoyan);
+                }
+            }
+        }
+        this.byRepel = false;
+        if (isboss) {
+            this.bossInit(initPoint);
+        }
+        else {
+            this.init(initPoint);
+        }
     }
+
+    private dengeHuoyan: Array<BattleEffectEnemy> = [];
+    private angleDengeHuoyan: Array<number> = [];
+    private huoyanPos(num: number): Array<Point> {
+        let huoPos: Array<Point> = [];
+        let a = 360 / num;
+        this.angleDengeHuoyan = [];
+        for (let i = 0; i < num; i++) {
+            let aa = a * (i + 1);
+            if (aa >= 360) aa = 0;
+            this.angleDengeHuoyan.push(aa);
+            aa = aa * Math.PI / 180;
+            let pos = new Point(25 + 15 * Math.cos(aa), -50 + 15 * Math.sin(aa));
+            huoPos.push(pos);
+        }
+        return huoPos;
+    }
+    private onRotationHuoYan(): void {
+        if (this.dengeHuoyan.length > 0) {
+            for (let i = this.dengeHuoyan.length - 1; i >= 0; i--) {
+                this.angleDengeHuoyan[i] += 5;
+                if (this.angleDengeHuoyan[i] >= 360) this.angleDengeHuoyan[i] -= 360;
+                let aa = this.angleDengeHuoyan[i] * Math.PI / 180;
+                this.dengeHuoyan[i].sk.pos(25 + 15 * Math.cos(aa), -50 + 15 * Math.sin(aa));
+            }
+        }
+    }
+
 
     protected _sk: BattleBaseSK = null;
     public get sk(): BattleBaseSK {
@@ -129,7 +178,7 @@ export default class BattleSoldier extends Laya.Sprite {
         return this._haveDeath;
     }
     // 能否被攻击
-    protected _canHit: boolean = true;
+    private _canHit: boolean = true;
     public get canHit(): boolean {
         return this._canHit && !this._haveDeath;
     }
@@ -159,39 +208,67 @@ export default class BattleSoldier extends Laya.Sprite {
         return this.dataInf.monsterInf.move_speed * this.dataInf.moveSpeedScale * this.buffScaleSpeed * (100 + this.dataInf.buffAddSpeed) * 0.01;
     }
 
+    private skScaleX: number = 1;
+    private skScaleY: number = 1;
     private updatePos(x, y): void {
         this.pos(x, y);
         if (Game.playData.guideDeathEnemy == 6 && x <= 1150) {
             Game.playData.guideDeathEnemy = -1;
             EventManager.event(EventKey.GUIDE_PLAY_SKILL);
         }
-        // if (Game.playData.guideIndex == GuideType.fiveMoveHeroSeat && x < 906) {
-        //     Game.playData.guideIndex = GuideType.fiveMoveHeroSeat2;
-        //     Game.gameStatus = GameStatus.Pause;
-        //     EventManager.event(EventKey.GUIDEMOVEHERO);
-        // }
-        // if (this.blood) {
-        //     this.blood.setXY(x, y - 100);
-        // }
         if (this.shadow) {
             this.shadow.setXY(x, y);
         }
-        // if (this.isActivation) {
-        //     this.activationEff.sk.pos(x, y - 5);
-        // }
     }
 
     private dataInf: EnemyData = null;
     private goalStone: UI_Stone = null;
 
+    // boss初始化
+    private bossInit(initPoint: Point) {
+        if (this.initPos == 2) {
+            this.init(initPoint);
+        }
+        else {
+            this.bossStand = true;
+            this.isHaveSpeedBuff = 0;
+            this.dataInf.curHp = this.dataInf.maxHp;
+            this.blood.value = this.dataInf.maxHp;
+            this.blood.max = this.dataInf.maxHp;
+            this._haveDeath = false;
+            this.initPoint = new Point(1500, 400);;
+            this.updatePos(this.initPoint.x, this.initPoint.y);
+            this.playMove();
+            fairygui.tween.GTween.to2(this.x, this.y, 1200, this.y, 2)
+                .setTarget(this, this.updatePos)
+                .setEase(fairygui.tween.EaseType.Linear)
+                .onComplete(this.bossMoveOver, this);
+        }
+    }
+    private bossMoveOver(): void {
+        this.playStand();
+    }
+    public bossStand: boolean = false;
 
-    private init(initPoint) {
+    public bossStartMove(): void {
+        this.playMove();
+        this.bossStand = false;
+        fairygui.tween.GTween.to2(this.x, this.y, 1200, 480, 1)
+            .setTarget(this, this.updatePos)
+            .setEase(fairygui.tween.EaseType.Linear)
+            .onComplete(this.bossStartEnterScene, this);
+    }
+    private bossStartEnterScene(): void {
+        this.initPoint = new Point(1200, 480);
+        this.setMovePath();
+    }
+    // 普通怪初始化
+    private init(initPoint: Point) {
         this.isHaveSpeedBuff = 0;
         this.dataInf.curHp = this.dataInf.maxHp;
         this.blood.value = this.dataInf.maxHp;
         this.blood.max = this.dataInf.maxHp;
         this._haveDeath = false;
-        // this.blood.visible = false;
         if (this.initPos == 1) {
             this.initPoint = this.initPointTop;
         }
@@ -293,11 +370,55 @@ export default class BattleSoldier extends Laya.Sprite {
     private isPause: boolean = false;
     private preStatus: HeroAniEnums = HeroAniEnums.None;
     public update(dt): void {
-        dt = dt * 0.001;
-        if (!this.initOver) return;
         if (this.dataInf == null || this.dataInf.curHp <= 0) {
             return;
         }
+        this.onRotationHuoYan();
+        dt = dt * 0.001;
+        if (this.byRepel) {
+            // 被击退过程中
+            this._frame++;
+            if (this._frame >= 30) {
+                this._sk.y = 0;
+                this._sk.x = 0;
+                this.byRepelOver();
+            } else {
+                this._sk.y = ((15 - this._frame) * (15 - this._frame) - 160 / 0.5) * 0.5;
+                this._sk.x += (this.byRepelX - this.x) / 30;
+                if (this.shadow) {
+                    this.shadow.setXY(this.x + this._sk.x, this.y);
+                }
+            }
+            return;
+        }
+        if (this.byTimeMachine) {
+            if (this.timeMachineTime > 0) {
+                this.timeMachineTime -= dt;
+                if (this.timeMachineTime <= 0) {
+                    this.timeMachineTime = -1;
+                    this.timeMachineAction();
+                    return;
+                }
+            } else {
+                return;
+            }
+        }
+
+        if (this.bossStand) {
+            for (let i = this.soldierBuff.length - 1; i >= 0; i--) {
+                if (this.soldierBuff[i].update(dt)) {
+                    this.dataInf.unActionBuff(this.soldierBuff[i], this);
+                    this.soldierBuff.splice(i, 1);
+                }
+            }
+            if (this.dataInf.skill && this.dataInf.skillInfoGetReady(dt)) {
+                if (this.currentState == HeroAniEnums.Stand || this.currentState == HeroAniEnums.Move) {
+                    this.dataInf.cast();
+                    this.playCast();
+                }
+            }
+        }
+        if (!this.initOver) return;
         // boss技能触发的buff
         for (let i = this.soldierBuff.length - 1; i >= 0; i--) {
             if (this.soldierBuff[i].update(dt)) {
@@ -336,28 +457,28 @@ export default class BattleSoldier extends Laya.Sprite {
             }
         }
         let canSkill = this.dataInf.skillInfoGetReady(dt);
-        this.sk.updateFilter();
         this.buffScaleSpeed = 1;
         let enterReduce = true;
         if (Game.halo.haloList.length > 0) {
             for (let i = Game.halo.haloList.length - 1; i >= 0; i--) {
                 let halo: Halo = Game.halo.haloList[i];
-                // 处于光环范围内的敌人才生效
-                if (halo.seatList.indexOf(this.atkRangIndex) != -1) {
-                    switch (halo.types) {
-                        case HaloType.BurningGround:
-                            halo.update(dt, this);
-                            break;
-                        case HaloType.ReduceSpeed:
-                            this.buffScaleSpeed = (100 - halo.val) * 0.01;
-                            this.isHaveSpeedBuff = 100;
-                            this.sk.addTimerFilter("9", 300);
-                            enterReduce = false;
-                            break;
-                        case HaloType.NoSkill:
-                            // 禁止释放技能  
-                            canSkill = false;
-                            break;
+                if (halo.types == HaloType.NoSkill) {
+                    // 禁止释放技能  
+                    canSkill = false;
+                } else {
+                    // 处于光环范围内的敌人才生效
+                    if (halo.seatList.indexOf(this.atkRangIndex) != -1) {
+                        switch (halo.types) {
+                            case HaloType.BurningGround:
+                                halo.update(dt, this);
+                                break;
+                            case HaloType.ReduceSpeed:
+                                this.buffScaleSpeed = (100 - halo.val) * 0.01;
+                                this.isHaveSpeedBuff = 100;
+                                this.sk.addTimerFilter("9", 300);
+                                enterReduce = false;
+                                break;
+                        }
                     }
                 }
             }
@@ -475,7 +596,7 @@ export default class BattleSoldier extends Laya.Sprite {
                 }
                 break;
         }
-        if (this.x <= 1200 && this.dataInf.skill && canSkill) {
+        if (canSkill && this.x <= 1200 && this.dataInf.skill) {
             if (this.currentState == HeroAniEnums.Stand || this.currentState == HeroAniEnums.Move) {
                 this.dataInf.cast();
                 this.playCast();
@@ -483,7 +604,7 @@ export default class BattleSoldier extends Laya.Sprite {
         }
     }
     // 敌人死亡
-    protected enemyDeath(): void {
+    private enemyDeath(clear: boolean = false): void {
         this.sk.clearFilters();
         this._haveDeath = true;
         if (this.blood) {
@@ -505,12 +626,51 @@ export default class BattleSoldier extends Laya.Sprite {
         if (this.activationEff) {
             this.activationEff.removeNum();
         }
-        this.playDeath();
+        if (clear) {
+            this.clearThis();
+        }
+        else {
+            this.playDeath();
+        }
+    }
+    private enemy_death(): void {
+        this._canHit = false;
+        let showDeath: boolean = true;
+        let delayClear: number = 1000;
+        if (Game.gameStatus == GameStatus.Gaming) {
+            if (this.dataInf.resurrection > 0) {
+                showDeath = false;
+                if (this.dengeHuoyan.length > 0) {
+                    Game.battleData.sUpdateResurrection.dispatch([1031, this.x, this.y]);
+                }
+                this.dataInf.resurrectionEnemy();
+                let point1: Laya.Point = new Laya.Point(this.x + Game.battleMap.mathrandomBattle.random(20) - 10, this.y);
+                Game.battleScene.createEnemy(2, true, this.dataInf, point1);
+            } else if (this.dataInf.monsterInf.split > 0) {
+                showDeath = false;
+                Game.battleData.sUpdateResurrection.dispatch([1030, this.x, this.y]);
+                setTimeout(() => {
+                    for (let i = 0; i < this.dataInf.monsterInf.split; i++) {
+                        let data1 = EnemyData.createSplitNew(this.dataInf);
+                        let point1: Laya.Point = new Laya.Point(this.x + Game.battleMap.mathrandomBattle.random(60) - 30, this.y + Game.battleMap.mathrandomBattle.random(60) - 30);
+                        Game.battleScene.createEnemy(2, true, data1, point1);
+                    }
+                }, 200);
+            }
+        }
+        if (showDeath) {
+            this.enemyDeath();
+        } else {
+            this.clearThis();
+        }
+    }
+    onDestroy(): void {
+        EventManager.offAllCaller(this);
     }
     public addClearEvent(): void {
-        EventManager.on(EventKey.GAMEWIN, this, this.enemyDeath);
-        EventManager.on(EventKey.GAMEEXIT, this, this.enemyDeath);
-        EventManager.on(EventKey.GAMELOSE, this, this.enemyDeath);
+        EventManager.on(EventKey.GAMEWIN, this, this.enemyDeath, [false]);
+        EventManager.on(EventKey.GAMEEXIT, this, this.enemyDeath, [true]);
+        EventManager.on(EventKey.GAMELOSE, this, this.enemyDeath, [false]);
     }
     public clearThis() {
         this._haveDeath = true;
@@ -535,33 +695,28 @@ export default class BattleSoldier extends Laya.Sprite {
                 effList[i] = null;
             }
         }
+        for (let i = this.battleEffList.length - 1; i >= 0; i--) {
+            if (this.battleEffList[i]) {
+                this.battleEffList[i].sk.destroySk();
+                this.battleEffList[i] = null;
+            }
+        }
+        this.battleEffList = [];
         this.battleEffectList.clear();
-        // if (this._node) {
-        //     Pools.recycle(this._node);
-        // }
         Game.battleMap.sUpdateExitBattleMain.remove(this.clearThis, this);
         this.destroy();
     }
-
+    private _showEffectAndClear: boolean = false;
+    // 看视频清场
+    public showEffectAndClear(): void {
+        this._showEffectAndClear = true;
+        this.enemyDeath(false);
+    }
 
     private overEvent(): void {
         switch (this.currentState) {
             case HeroAniEnums.Death:
                 {
-                    if (Game.gameStatus == GameStatus.Gaming) {
-                        if (this.dataInf.resurrection > 0) {
-                            this.dataInf.resurrectionEnemy();
-                            let point1: Laya.Point = new Laya.Point(this.x + Game.battleMap.mathrandomBattle.random(20) - 10, this.y);
-                            Game.battleScene.createEnemy(2, true, this.dataInf, point1);
-                        }
-                        else if (this.dataInf.monsterInf.split > 0) {
-                            for (let i = 0; i < this.dataInf.monsterInf.split; i++) {
-                                let data1 = EnemyData.createSplitNew(this.dataInf);
-                                let point1: Laya.Point = new Laya.Point(this.x + Game.battleMap.mathrandomBattle.random(20) - 10, this.y);
-                                Game.battleScene.createEnemy(2, true, data1, point1);
-                            }
-                        }
-                    }
                     this.clearThis();
                 }
                 break;
@@ -648,7 +803,7 @@ export default class BattleSoldier extends Laya.Sprite {
     }
     // 受到攻击
     public skillHit(hero: BattleHero, userSkill: number) {
-        if (this.dataInf.curHp <= 0) {
+        if (!this.canHit) {
             return;
         }
         if (Game.gameStatus != GameStatus.Gaming) {
@@ -672,6 +827,12 @@ export default class BattleSoldier extends Laya.Sprite {
                 case 2: //  2、高暴率buff，敌人身上buff，被暴击率 + {specialvalue}%，不可叠加，永不消失     
                     {
                         this.dataInf.byCrit = heroSkillinf.specialvalue;
+                    }
+                    break;
+                case 4:
+                    {
+                        // 时间机器，敌人specialvalue时间后，被拽回来
+                        this.timeMachine(heroSkillinf.specialvalue);
                     }
                     break;
                 case 6: //  6、减速加伤   正常敌人，正常伤害，  被减速的敌人，造成正常伤害，再额外加伤害{0}
@@ -730,7 +891,7 @@ export default class BattleSoldier extends Laya.Sprite {
             this.dataInf.curHp -= sub;
             this.blood.value = this.dataInf.curHp;
             if (this.dataInf.curHp <= 0) {
-                this.enemyDeath();
+                this.enemy_death();
             }
             else {
                 if (Game.playData.gameSpeed < 1.5) {
@@ -741,23 +902,21 @@ export default class BattleSoldier extends Laya.Sprite {
                 // 减速
                 let reduce = hero.dataInf.reduceEnemyMoveSpeedTime(userSkill);
                 if (reduce > 0) {
-                    let buff = HurtBuff.create(HaloType.ReduceSpeed, reduce, 50, 0, -1);
+                    let buff = HurtBuff.create(HaloType.ReduceSpeed, 5, reduce, 0, -1);
                     this.hurtBuff.push(buff);
-                    this.sk.addTimerFilter("9", reduce * 60);
+                    this.sk.addTimerFilter("9", 5 * 60);
                 }
                 // 中毒
                 let pois = hero.dataInf.poisoningTime(userSkill);
                 if (pois > 0) {
-                    if (this.poisoningEffectTime < pois) {
-                        this.poisoningEffectTime = pois;
-                        if (this.poisoningEffect == null) {
-                            this.poisoningEffect = this.addBattleEffect(1017, true);
-                        }
-                        else {
-                            this.poisoningEffect.replay(true);
-                        }
+                    this.poisoningEffectTime += 5;
+                    if (this.poisoningEffect == null) {
+                        this.poisoningEffect = this.addBattleEffect(1017, true);
                     }
-                    let buff = HurtBuff.create(HaloType.Poisoning, pois, sub * 0.1, hero.dataInf.curReduceDefense);
+                    else {
+                        this.poisoningEffect.replay(true);
+                    }
+                    let buff = HurtBuff.create(HaloType.Poisoning, 5, sub * pois * 0.01, hero.dataInf.curReduceDefense);
                     this.hurtBuff.push(buff);
                 }
                 // 晕眩
@@ -769,16 +928,14 @@ export default class BattleSoldier extends Laya.Sprite {
                 // 灼烧
                 let burn = hero.dataInf.burnHurt(userSkill);
                 if (burn > 0) {
-                    if (this.burningGroundTime < burn) {
-                        this.burningGroundTime = burn;
-                        if (this.burningGroundEffect == null) {
-                            this.burningGroundEffect = this.addBattleEffect(1015, true);
-                        }
-                        else {
-                            this.burningGroundEffect.replay(true);
-                        }
+                    this.burningGroundTime += 5;
+                    if (this.burningGroundEffect == null) {
+                        this.burningGroundEffect = this.addBattleEffect(1015, true);
                     }
-                    let buff = HurtBuff.create(HaloType.BurningGround, burn, sub * 0.1, hero.dataInf.curReduceDefense);
+                    else {
+                        this.burningGroundEffect.replay(true);
+                    }
+                    let buff = HurtBuff.create(HaloType.BurningGround, 5, sub * burn * 0.01, hero.dataInf.curReduceDefense);
                     this.hurtBuff.push(buff);
                 }
                 // 击退
@@ -787,7 +944,7 @@ export default class BattleSoldier extends Laya.Sprite {
                     switch (this.atkRangIndex) {
                         case 0:
                             {
-                                this.updatePos(this.pathX[4], this.y);
+                                this.repelPos(this.pathX[4], this.y);
                                 this.repelSetMovePath(3, 0);
                             }
                             break;
@@ -797,14 +954,14 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 13:
                         case 14:
                             {
-                                this.updatePos(this.pathX[2], this.y);
+                                this.repelPos(this.pathX[2], this.y);
                                 this.repelSetMovePath(2, this.atkRangIndex);
                             }
                             break;
                         case 15:
                         case 16:
                             {
-                                this.updatePos(this.pathX[2], this.y);
+                                this.repelPos(this.pathX[2], this.y);
                                 this.currentState = HeroAniEnums.None;
                                 this.dataInf.curStarIndex = 0;
                                 this.dataInf.curMoveX--;
@@ -814,14 +971,14 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 21:
                         case 22:
                             {
-                                this.updatePos(this.pathX[2] + 110, this.y);
+                                this.repelPos(this.pathX[2] + 110, this.y);
                                 this.repelSetMovePath(2, this.atkRangIndex);
                             }
                             break;
                         case 25:
                         case 26:
                             {
-                                this.updatePos(this.pathX[2] + 110, this.y);
+                                this.repelPos(this.pathX[2] + 110, this.y);
                                 this.currentState = HeroAniEnums.None;
                                 this.dataInf.curStarIndex = 0;
                                 this.dataInf.curMoveX--;
@@ -832,7 +989,7 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 23:
                         case 24:
                             {
-                                this.updatePos(this.pathX[2], this.y);
+                                this.repelPos(this.pathX[2], this.y);
                                 this.repelSetMovePath(2, this.atkRangIndex);
                             }
                             break;
@@ -842,14 +999,14 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 33:
                         case 34:
                             {
-                                this.updatePos(this.pathX[1], this.y);
+                                this.repelPos(this.pathX[1], this.y);
                                 this.repelSetMovePath(1, this.atkRangIndex);
                             }
                             break;
                         case 35:
                         case 36:
                             {
-                                this.updatePos(this.pathX[1], this.y);
+                                this.repelPos(this.pathX[1], this.y);
                                 this.currentState = HeroAniEnums.None;
                                 this.dataInf.curStarIndex = 0;
                                 this.dataInf.curMoveX--;
@@ -859,14 +1016,14 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 41:
                         case 42:
                             {
-                                this.updatePos(this.pathX[1] + 110, this.y);
+                                this.repelPos(this.pathX[1] + 110, this.y);
                                 this.repelSetMovePath(1, this.atkRangIndex);
                             }
                             break;
                         case 45:
                         case 46:
                             {
-                                this.updatePos(this.pathX[1] + 110, this.y);
+                                this.repelPos(this.pathX[1] + 110, this.y);
                                 this.currentState = HeroAniEnums.None;
                                 this.dataInf.curStarIndex = 0;
                                 this.dataInf.curMoveX--;
@@ -877,7 +1034,7 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 43:
                         case 44:
                             {
-                                this.updatePos(this.pathX[1], this.y);
+                                this.repelPos(this.pathX[1], this.y);
                                 this.repelSetMovePath(1, this.atkRangIndex);
                             }
                             break;
@@ -887,14 +1044,14 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 53:
                         case 54:
                             {
-                                this.updatePos(this.pathX[0], this.y);
+                                this.repelPos(this.pathX[0], this.y);
                                 this.repelSetMovePath(0, this.atkRangIndex);
                             }
                             break;
                         case 55:
                         case 56:
                             {
-                                this.updatePos(this.pathX[0], this.y);
+                                this.repelPos(this.pathX[0], this.y);
                                 this.currentState = HeroAniEnums.None;
                                 this.dataInf.curStarIndex = 0;
                                 this.dataInf.curMoveX--;
@@ -906,14 +1063,14 @@ export default class BattleSoldier extends Laya.Sprite {
                         case 63:
                         case 64:
                             {
-                                this.updatePos(this.pathX[0], this.y);
+                                this.repelPos(this.pathX[0], this.y);
                                 this.repelSetMovePath(0, this.atkRangIndex);
                             }
                             break;
                         case 65:
                         case 66:
                             {
-                                this.updatePos(this.pathX[0], this.y);
+                                this.repelPos(this.pathX[0], this.y);
                                 this.currentState = HeroAniEnums.None;
                                 this.dataInf.curStarIndex = 0;
                                 this.dataInf.curMoveX--;
@@ -922,13 +1079,13 @@ export default class BattleSoldier extends Laya.Sprite {
                             break;
                         case 60:
                             {
-                                this.updatePos(this.pathX[0] + 110, this.y);
+                                this.repelPos(this.pathX[0] + 110, this.y);
                                 this.repelSetMovePath(0, this.atkRangIndex);
                             }
                             break;
                         case 70:
                             {
-                                this.updatePos(this.pathX[0] + 220, this.y);
+                                this.repelPos(this.pathX[0] + 220, this.y);
                                 this.repelSetMovePath(0, this.atkRangIndex);
                             }
                             break;
@@ -938,6 +1095,7 @@ export default class BattleSoldier extends Laya.Sprite {
         }
     }
     public buffHit(hitVal: number, curReduceDefense: number, haloType: HaloType = HaloType.None, durTime: number = 0): void {
+        if (!this.canHit) return;
         if (haloType != HaloType.None && durTime > 0) {
             // 添加对应受击特效
             switch (haloType) {
@@ -979,7 +1137,7 @@ export default class BattleSoldier extends Laya.Sprite {
             this.blood.value = this.dataInf.curHp;
         }
         if (this.dataInf.curHp <= 0) {
-            this.enemyDeath();
+            this.enemy_death();
         }
     }
     private addHpEffect: BattleEffectEnemy = null;
@@ -1034,6 +1192,9 @@ export default class BattleSoldier extends Laya.Sprite {
     }
 
     private dropBlood(sub: number, _crit: number = 1): void {
+        if (_crit <= 1 && sub > 0) {
+            return;
+        }
         // 飘血
         let subStr = Fun.formatNumberUnitBattle(sub);
         var txt: Laya.Text = Laya.Pool.getItemByClass("txt", Laya.Text);
@@ -1051,7 +1212,8 @@ export default class BattleSoldier extends Laya.Sprite {
         } else {
             txt.font = "num_battle_1";
         }
-        txt.text = subStr;
+        txt.changeText(subStr);
+        // txt.text = subStr;
         txt.pivotX = txt.width / 2;
         txt.x = 0;
         txt.y = -100;
@@ -1061,6 +1223,150 @@ export default class BattleSoldier extends Laya.Sprite {
     private hpRemove(txt: Laya.Text): void {
         this.removeChild(txt);
         Laya.Pool.recover("txt", txt);
+    }
+
+    private byTimeMachine: boolean = false;
+    private timeMachineTime: number = -1;
+    private timeMachineX: number = 0;
+    private timeMachineY: number = 0;
+    private timeMachineMoveX: number = 0;
+    private timeMachineEffect: BattleEffectEnemy = null;
+    private timeMachineEffect2: BattleEffectEnemy = null;
+    private timeMachineEffect3: BattleEffectEnemy = null;
+
+    // 敌人将在规定时间后，被移动回来这个位置
+    private timeMachine(specialvalue: number): void {
+        if (!this.byTimeMachine) {
+            if (this.timeMachineEffect == null) {
+                this.timeMachineEffect = this.addBattleEffect(1036, true);
+                this.timeMachineEffect.sk.scale(1, 1, true);
+                this.timeMachineEffect.sk.pos(0, -100);
+            } else {
+                this.timeMachineEffect.replay(true);
+            }
+            this.timeMachineTime = specialvalue;
+            this.byTimeMachine = true;
+            this.timeMachineX = this.x;
+            this.timeMachineY = this.y;
+            this.timeMachineMoveX = this.dataInf.curMoveX;
+        }
+    }
+    // 时间机器生效
+    private timeMachineAction(): void {
+        this.timeMachineEffect.stopeAndHide();
+        if (this.timeMachineEffect2 == null) {
+            this.timeMachineEffect2 = this.addBattleEffect(1037, false);
+            this.timeMachineEffect2.sk.scale(1, 1, true);
+        } else {
+            this.timeMachineEffect2.replay(false);
+        }
+        this._canHit = false;
+        this.currentState = HeroAniEnums.None;
+        Laya.Tween.to(this.sk, { scaleX: -0.1, scaleY: 0.1 }, 200, null, Laya.Handler.create(this, this.machineSmallok));
+    }
+    private machineSmallok(): void {
+        if (this.timeMachineEffect3 == null) {
+            this.timeMachineEffect3 = this.addBattleEffect(1034, false);
+            this.timeMachineEffect3.sk.scale(1, 1, true);
+        } else {
+            this.timeMachineEffect3.replay(false);
+        }
+        this.updatePos(this.timeMachineX, this.timeMachineY);
+        Laya.Tween.to(this.sk, { scaleX: this.skScaleX, scaleY: this.skScaleY }, 200, null, Laya.Handler.create(this, this.machineBigOk));
+    }
+    private machineBigOk(): void {
+        let curY = 0;
+        switch (this.timeMachineMoveX % 10) {
+            case 0:
+                curY = 3;
+                break;
+            case 1:
+                curY = 2;
+                break;
+            case 2:
+                curY = 4;
+                break;
+            case 3:
+                curY = 1;
+                break;
+            case 4:
+                curY = 5;
+                break;
+            case 5:
+                curY = 0;
+                break;
+            case 6:
+                curY = 6;
+                break;
+        }
+        this.goalStone = null;
+        this.dataInf.curMoveX = this.timeMachineMoveX;
+        this.dataInf.movePath = [];
+        this.dataInf.curMoveIndex = 0;
+        let randomX = Game.battleMap.mathrandomBattle.random(20) - 10;
+        let randomY = 0;
+        if (this.dataInf.curMoveX == 0) {
+            // 除了出生的，其他路径均要行走
+            if (this.initPos == 1) {
+                this.dataInf.movePath.push(new Point(this.pathX[this.dataInf.curMoveX] + randomX, this.pathY[0] + randomY));
+            }
+            else {
+                this.dataInf.movePath.push(new Point(this.pathX[this.dataInf.curMoveX] + randomX, this.pathY[6] + randomY));
+            }
+        }
+        else if (this.dataInf.curMoveX == 3) {
+            // 直接移动到终点
+            this.dataInf.movePath.push(new Point(this.pathX[this.dataInf.curMoveX + 1] + randomX, this.pathY[3] + randomY));
+        }
+        else {
+            let mmmtop = false;
+            if (this.initPos == 1) {
+                mmmtop = this.dataInf.curMoveX % 2 == 1;
+            }
+            else {
+                mmmtop = this.dataInf.curMoveX % 2 == 0;
+            }
+            if (mmmtop) {
+                for (let i = curY + 1, len = this.pathY.length; i < len; i++) {
+                    this.dataInf.movePath.push(new Point(this.pathX[this.dataInf.curMoveX] + randomX, this.pathY[i] + randomY));
+                }
+            }
+            else {
+                let start = curY > 0 ? curY : this.pathY.length - 1;
+                for (let i = start - 1; i >= 0; i--) {
+                    this.dataInf.movePath.push(new Point(this.pathX[this.dataInf.curMoveX] + randomX, this.pathY[i] + randomY));
+                }
+            }
+        }
+        this.dataInf.curStarIndex = 0;
+        this.byTimeMachine = false;
+        this._canHit = true;
+        this.playMove();
+    }
+
+    // 被击退中
+    private byRepel: boolean = false;
+    private _frame: number = 0;
+    private byRepelX: number = 0;
+    private byRepelY: number = 0;
+    /**
+     * 准备被击退到哪个位置
+     * @param x 
+     * @param y 
+     */
+    private repelPos(x: number, y: number): void {
+        this.byRepelX = x;
+        this.byRepelY = y;
+        this._frame = 0;
+        this._sk.rotation = 90;
+        this._canHit = false;
+        this.byRepel = true;
+    }
+    private byRepelOver(): void {
+        this._sk.rotation = 0;
+        this.updatePos(this.byRepelX, this.byRepelY);
+        this._canHit = true;
+        this.byRepel = false;
     }
 
     /**
@@ -1157,6 +1463,15 @@ export default class BattleSoldier extends Laya.Sprite {
 
     // 战斗特效列表
     protected battleEffectList: Dictionary<string, BattleEffectEnemy> = new Dictionary<string, BattleEffectEnemy>();
+    private battleEffList: Array<BattleEffectEnemy> = [];
+    public addBattleEffectDouble(id: number, loop: boolean): BattleEffectEnemy {
+        let _effect: BattleEffectEnemy = BattleEffectEnemy.create(id, loop);
+        this.addChild(_effect.sk);
+        this.battleEffList.push(_effect);
+        let _size = 0.5;
+        _effect.sk.scale(_size, _size, true);
+        return _effect;
+    }
     // 受击特效
     public addBattleEffect(id: number, loop: boolean): BattleEffectEnemy {
         let key: string = String(id);

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="530,162" extention="Button">
   <controller name="button" pages="0,up,1,down" selected="0"/>
+  <controller name="redTip" pages="0,,1," selected="0"/>
   <displayList>
-    <image id="n42_j5ct" name="n42" src="bcle2b" fileName="pics/guaji.png" xy="0,0"/>
+    <image id="n42_j5ct" name="n42" src="bcle2b" fileName="pics/guaji.png" xy="0,0" pkg="3o5nmzs6"/>
     <richtext id="n46_j5ct" name="tip1" xy="195,62" size="278,31" fontSize="20" color="#371167" align="center" vAlign="middle" leading="0" ubb="true" vars="true" autoSize="none" text="已征服[color=#ff9900]{count=0}[/color]个关卡"/>
     <richtext id="n47_j5ct" name="tip2" xy="195,98" size="249,58" fontSize="18" color="#371167" leading="0" ubb="true" vars="true" autoSize="none" bold="true" text="最近{time=0分钟}收获[color=#ff6600]{count=0}[/color]金币、[color=#ff6600]{count2=0}[/color]钻石"/>
+    <component id="n48_94yv" name="n48" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="513,17">
+      <gearDisplay controller="redTip" pages="1"/>
+    </component>
   </displayList>
   <Button/>
 </component>

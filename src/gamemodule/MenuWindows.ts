@@ -12,6 +12,7 @@ import GMWin from "./Windows/GMWin";
 import ShopWin from "./Windows/ShopWin";
 import SurroundWin from "./Windows/SurroundWin";
 import IllustrationWin from "./Windows/IllustrationWin";
+import AuthorizationWin from "./Windows/AuthorizationWin";
 
 export default class MenuWindows {
 	static dict: Dictionary<MenuId, ModuleConfig> = new Dictionary<MenuId, ModuleConfig>();
@@ -34,5 +35,6 @@ export default class MenuWindows {
 		MenuWindows.add(MenuId.Shop, ShopWin);
 		MenuWindows.add(MenuId.Active, SurroundWin);
 		MenuWindows.add(MenuId.Hero, IllustrationWin);
+		MenuWindows.add(MenuId.Authorization, AuthorizationWin);
 	}
 }

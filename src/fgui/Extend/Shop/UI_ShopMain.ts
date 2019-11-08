@@ -8,6 +8,7 @@ import ProtoEvent from "../../../protobuf/ProtoEvent";
 import EventKey from "../../../tool/EventKey";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import Fun from "../../../tool/Fun";
+import AdsManager from "../../../tool/AdsManager";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ShopMain extends fui_ShopMain {
@@ -35,6 +36,7 @@ export default class UI_ShopMain extends fui_ShopMain {
 		this.m_limtBtn.onClick(this, this.changeType, [0]);
 		this.m_cardBtn.onClick(this, this.changeType, [1]);
 		this.m_buyBtn.onClick(this, this.changeType, [2]);
+		this.m_shopBtn.onClick(this, this.refrushLimitShop, [true]);
 	}
 
 	// 关闭ui
@@ -52,11 +54,14 @@ export default class UI_ShopMain extends fui_ShopMain {
 		EventManager.on(EventKey.COIN_GOLD_UPDATE, this, this.refreshCoinGold);
 		EventManager.on(EventKey.COIN_DIAMOND_UPDATE, this, this.refreshCoinDiamond);
 		EventManager.on(EventKey.COIN_JADEITE_UPDATE, this, this.refreshCoinJadeite);
+		EventManager.on(EventKey.REWARDED_VIDEO_AD_YES, this, this.adOk);
+		Game.playData.sShowFetters.add(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		this.curSelect = 0;
 		this.setData();
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
+		Game.playData.sShowFetters.remove(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		EventManager.offAllCaller(this);
 	}
 	private refreshCoinGold(): void {
@@ -74,7 +79,7 @@ export default class UI_ShopMain extends fui_ShopMain {
 		switch (this.curSelect) {
 			case 0:
 				{
-					item.setLimitData(Game.playData.limitShopData[index]);
+					item.setLimitData(Game.playData.limitShopData[index], this.moduleWindow);
 				}
 				break;
 			case 1:
@@ -97,6 +102,13 @@ export default class UI_ShopMain extends fui_ShopMain {
 			case 0:
 				{
 					this.m_list.numItems = Game.playData.limitShopData.length;
+					if (Game.playData.shopDiamondRefresh < 20 && AdsManager.usable) {
+						this.m_shopBtn.m_adOrPrice.setSelectedIndex(0);
+					}
+					else {
+						this.m_shopBtn.m_adOrPrice.setSelectedIndex(1);
+						this.m_shopBtn.m_price.text = Game.playData.shopDiamondRefresh.toString();
+					}
 				}
 				break;
 			case 1:
@@ -119,7 +131,58 @@ export default class UI_ShopMain extends fui_ShopMain {
 		this.refreshCoinGold();
 		this.refreshCoinDiamond();
 		this.refreshCoinJadeite();
-		Game.proto.shopGain();
+		this.refrushLimitShop(false);
+	}
+	private refrushLimitShop(real: boolean): void {
+		if (real) {
+			if (Game.playData.shopDiamondRefresh > 10) {
+				if (Game.playData.shopDiamondRefresh > Game.playData.curDiamond) {
+					Game.tipWin.showTip("钻石不足，无法刷新!", false);
+				}
+				else {
+					let data = {
+						diamondRefresh: 2,
+					}
+					Game.proto.shopGain(data);
+				}
+			}
+			else {
+				Game.playData.shopLimitBuyHeroId = 0;
+				if (AdsManager.usable) {
+					if (Game.showLog) {
+						this.adOk();
+					}
+					else {
+						AdsManager.show();
+					}
+				}
+				else {
+					Game.tipWin.showTip("视频加载失败，请稍后再试!", false);
+				}
+			}
+		}
+		else {
+			let data = {
+				diamondRefresh: 0,
+			}
+			Game.proto.shopGain(data);
+		}
+	}
+	private adOk(): void {
+		if (Game.playData.shopLimitBuyHeroId == 0) {
+			let data = {
+				diamondRefresh: 1,
+			}
+			Game.proto.shopGain(data);
+		}
+		else {
+			let data = {
+				heroId: Game.playData.shopLimitBuyHeroId,
+				num: 1,
+				adBuy: true,
+			}
+			Game.proto.shopBuy(data);
+		}
 	}
 	private shopGainCall(): void {
 		this.changeType(this.curSelect);

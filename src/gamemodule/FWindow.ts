@@ -216,7 +216,7 @@ export default class FWindow extends fairygui.Window {
 		return false
 	}
 
-	destory(): void {
+	destroy(): void {
 		this.sShowComplete.removeAll();
 		this.sHideComplete.removeAll();
 
@@ -332,9 +332,6 @@ export default class FWindow extends fairygui.Window {
 		Game.playData.guideTipPos = locat;
 		if (!this.GuideLayer || this.GuideLayer == null) {
 			this.GuideLayer = UI_GuideLayer.createInstance();
-		}
-		if (Game.playData.guideHandler == null) {
-			console.log("null");
 		}
 		this.windowAddChild(this.GuideLayer);
 	}

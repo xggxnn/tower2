@@ -4,6 +4,7 @@ import Handler = Laya.Handler;
 import Dictionary from "../../tool/Dictionary";
 import SoundKey from "../../fgui/SoundKey";
 import Game from "../../Game";
+import SystemManager from "../../tool/SystemManager";
 
 // 声音管理器
 export default class AudioManager {
@@ -37,9 +38,17 @@ export default class AudioManager {
             return;
         }
         let path = SoundKey.getPath(soundKey);
-        SoundManager.stopMusic();
-        return SoundManager.playMusic(path, loops, complete, startTime);
+        if (this.musicChannel) {
+            if (this.musicChannel.isStopped) {
+                this.musicChannel.resume();
+            }
+        } else {
+            this.musicChannel = SoundManager.playMusic(path, loops, complete, startTime);
+        }
+        // SoundManager.stopMusic();
+        return this.musicChannel;
     }
+    private musicChannel: SoundChannel;
 
     /**
      * 重新播放背景音乐
@@ -82,6 +91,7 @@ export default class AudioManager {
         //     }
         // }
         // if (isPlay) {
+        // this.soundStartDic.add(path, path);
         let soundChannel = SoundManager.playSound(path, loops);
         // this.soundPlayingDic.add(path, soundChannel);
         // }
@@ -89,10 +99,16 @@ export default class AudioManager {
     }
     // 声音播放完成
     // playSoundComplete(path: string) {
-    //     if (this.soundPlayingDic.hasKey(path)) {
-    //         this.soundPlayingDic.remove(path);
-    //     }
+    //     // if (this.soundPlayingDic.hasKey(path)) {
+    //     //     this.soundPlayingDic.remove(path);
+    //     // }
+    //     // this.soundCompleDic.push(path);
     // }
+
+    stopAndClear(): void {
+        SoundManager.stopAllSound();
+        SystemManager.wxTriggerGC();
+    }
 
     /**
      * 停止声音播放。此方法能够停止任意声音的播放（包括背景音乐和音效），只需传入对应的声音播放地址。

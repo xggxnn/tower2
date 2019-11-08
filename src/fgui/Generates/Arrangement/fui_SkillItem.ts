@@ -6,6 +6,7 @@ export default class fui_SkillItem extends fairygui.GComponent {
 
 	public m_double:fairygui.Controller;
 	public m_locks:fairygui.Controller;
+	public m_redTip:fairygui.Controller;
 	public m_icons:fairygui.GLoader;
 	public m_skillName:fairygui.GTextField;
 	public m_lock:fairygui.GTextField;
@@ -25,6 +26,7 @@ export default class fui_SkillItem extends fairygui.GComponent {
 
 		this.m_double = this.getControllerAt(0);
 		this.m_locks = this.getControllerAt(1);
+		this.m_redTip = this.getControllerAt(2);
 		this.m_icons = <fairygui.GLoader><any>(this.getChildAt(1));
 		this.m_skillName = <fairygui.GTextField><any>(this.getChildAt(2));
 		this.m_lock = <fairygui.GTextField><any>(this.getChildAt(5));

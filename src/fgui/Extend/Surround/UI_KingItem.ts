@@ -3,6 +3,8 @@ import SurroundWin from "../../../gamemodule/Windows/SurroundWin";
 import KingInfo from "../../../csvInfo/KingInfo";
 import UI_ItemIcon from "../System/UI_ItemIcon";
 import Game from "../../../Game";
+import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
+import SpriteKey from "../../SpriteKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_KingItem extends fui_KingItem {
@@ -127,10 +129,13 @@ export default class UI_KingItem extends fui_KingItem {
 		item.m_number.setVar("count", count.toString()).flushVars();
 		item.m_headIcon.icon = Game.playData.getIcon(id);
 		if (id > 11) {
-			item.m_c1.setSelectedIndex(1);
+			item.m_c1.setSelectedIndex(3);
+			let heros = HeroInfoData.getInfo(id - 11);
+			item.m_nam.icon = SpriteKey.getUrl("hero_name_" + heros.skin + ".png");
 		}
 		else {
 			item.m_c1.setSelectedIndex(2);
+			item.m_nam.icon = "";
 		}
 	}
 

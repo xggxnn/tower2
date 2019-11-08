@@ -26,7 +26,14 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "Arrangement.bin";
         config.resAtlas.push("Arrangement_atlas0.png");
-        config.resAtlas.push("Arrangement_atlas0_1.png");
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
+        config.packageName = "Authorization";
+        config.resDir = "fgui";
+        config.resBin = "Authorization.bin";
+        config.resAtlas.push("Authorization_atlas0.png");
         this.addconfig(config);
 
 
@@ -34,6 +41,7 @@ export default class FGUIResPackageConfig {
         config.packageName = "Bag";
         config.resDir = "fgui";
         config.resBin = "Bag.bin";
+        config.resAtlas.push("Bag_atlas0.png");
         this.addconfig(config);
 
 
@@ -42,15 +50,32 @@ export default class FGUIResPackageConfig {
         config.resDir = "";
         config.resBin = "Battle.bin";
         config.resAtlas.push("Battle_atlas0.png");
-        config.resAtlas.push("Battle_atlas0_1.png");
-        config.resAtlas.push("Battle_atlas0_2.png");
-        config.resAtlas.push("Battle_atlas0_3.png");
-        config.resAtlas.push("Battle_atlas0_4.png");
-        config.resAtlas.push("Battle_atlas0_5.png");
-        config.resAtlas.push("Battle_atlas0_6.png");
-        config.resAtlas.push("Battle_atlas0_7.png");
-        config.resAtlas.push("Battle_atlas0_8.png");
-        config.resAtlas.push("Battle_atlas0_9.png");
+        this.addconfig(config);
+
+
+        config = new ResPackageConfig();
+        config.packageName = "BigSprite";
+        config.resDir = "";
+        config.resBin = "BigSprite.bin";
+        config.resAtlas.push("BigSprite_atlas0.png");
+        config.resAtlas.push("BigSprite_atlas0_1.png");
+        config.resAtlas.push("BigSprite_atlas0_10.png");
+        config.resAtlas.push("BigSprite_atlas0_11.png");
+        config.resAtlas.push("BigSprite_atlas0_12.png");
+        config.resAtlas.push("BigSprite_atlas0_13.png");
+        config.resAtlas.push("BigSprite_atlas0_14.png");
+        config.resAtlas.push("BigSprite_atlas0_15.png");
+        config.resAtlas.push("BigSprite_atlas0_16.png");
+        config.resAtlas.push("BigSprite_atlas0_2.png");
+        config.resAtlas.push("BigSprite_atlas0_3.png");
+        config.resAtlas.push("BigSprite_atlas0_4.png");
+        config.resAtlas.push("BigSprite_atlas0_5.png");
+        config.resAtlas.push("BigSprite_atlas0_6.png");
+        config.resAtlas.push("BigSprite_atlas0_7.png");
+        config.resAtlas.push("BigSprite_atlas0_8.png");
+        config.resAtlas.push("BigSprite_atlas0_9.png");
+        config.resAtlas.push("BigSprite_atlas_j5ct1u.png");
+        config.resAtlas.push("BigSprite_atlas_udz4m.png");
         this.addconfig(config);
 
 
@@ -60,6 +85,7 @@ export default class FGUIResPackageConfig {
         config.resBin = "FSprite.bin";
         config.resAtlas.push("FSprite_atlas0.png");
         config.resAtlas.push("FSprite_atlas0_1.png");
+        config.resAtlas.push("FSprite_atlas0_2.png");
         this.addconfig(config);
 
 
@@ -75,9 +101,6 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "Home.bin";
         config.resAtlas.push("Home_atlas0.png");
-        config.resAtlas.push("Home_atlas0_1.png");
-        config.resAtlas.push("Home_atlas0_2.png");
-        config.resAtlas.push("Home_atlas0_3.png");
         this.addconfig(config);
 
 
@@ -94,8 +117,6 @@ export default class FGUIResPackageConfig {
         config.resDir = "";
         config.resBin = "Menus.bin";
         config.resAtlas.push("Menus_atlas0.png");
-        config.resAtlas.push("Menus_atlas0_1.png");
-        config.resAtlas.push("Menus_atlas0_2.png");
         this.addconfig(config);
 
 
@@ -145,6 +166,7 @@ export default class FGUIResPackageConfig {
         config.packageName = "Surround";
         config.resDir = "fgui";
         config.resBin = "Surround.bin";
+        config.resAtlas.push("Surround_atlas0.png");
         this.addconfig(config);
 
 
@@ -153,8 +175,6 @@ export default class FGUIResPackageConfig {
         config.resDir = "fgui";
         config.resBin = "System.bin";
         config.resAtlas.push("System_atlas0.png");
-        config.resAtlas.push("System_atlas_j5ct1u.png");
-        config.resAtlas.push("System_atlas_udz4m.png");
         this.addconfig(config);
     }
 }

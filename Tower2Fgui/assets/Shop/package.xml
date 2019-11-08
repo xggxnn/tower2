@@ -7,6 +7,9 @@
     <image id="bxj05" name="limtShop.png" path="/pic/"/>
     <image id="bxj06" name="shopTitle.png" path="/pic/"/>
     <image id="bxj07" name="buyDiamond.png" path="/pic/"/>
+    <image id="94yv8" name="hongsezhuangshi.png" path="/pic/"/>
+    <component id="94yva" name="ShopBtn.xml" path="/" exported="true"/>
+    <image id="94yv54k" name="yunwen3.png" path="/pic/"/>
   </resources>
   <publish name="Shop" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

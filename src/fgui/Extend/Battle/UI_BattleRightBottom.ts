@@ -84,6 +84,8 @@ export default class UI_BattleRightBottom extends fui_BattleRightBottom {
 		this.setData();
 		this.clearThis();
 		this.m_waveBtn.title = "";
+		this.curSelect = 0;
+		this.m_showHide.setSelectedIndex(0);
 		Game.battleMap.sUpdateExitBattleMain.add(this.clearThis, this);
 		Game.battleData.countdown.add(this.countdown, this);
 	}

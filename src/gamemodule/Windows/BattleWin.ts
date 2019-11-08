@@ -4,7 +4,6 @@ import UI_BattleLeftBottom from "../../fgui/Extend/Battle/UI_BattleLeftBottom";
 import UI_BattleLeftTop from "../../fgui/Extend/Battle/UI_BattleLeftTop";
 import UI_BattleMain from "../../fgui/Extend/Battle/UI_BattleMain";
 import UI_BattleRightBottom from "../../fgui/Extend/Battle/UI_BattleRightBottom";
-import UI_BattleRightTop from "../../fgui/Extend/Battle/UI_BattleRightTop";
 import UI_BattleTopMiddle from "../../fgui/Extend/Battle/UI_BattleTopMiddle";
 import UI_Blood from "../../fgui/Extend/Battle/UI_Blood";
 import UI_DriftingBlood from "../../fgui/Extend/Battle/UI_DriftingBlood";
@@ -13,7 +12,6 @@ import UI_Shadow from "../../fgui/Extend/Battle/UI_Shadow";
 import UI_SkillBtn from "../../fgui/Extend/Battle/UI_SkillBtn";
 import UI_Stone from "../../fgui/Extend/Battle/UI_Stone";
 import Fun from "../../tool/Fun";
-import UI_HeroInfo from "../../fgui/Extend/Home/UI_HeroInfo";
 import TypedSignal from "../../tool/TypedSignal";
 import UI_bagua from "../../fgui/Extend/Battle/UI_bagua";
 import UI_AddSpeedBtn from "../../fgui/Extend/Battle/UI_AddSpeedBtn";
@@ -21,6 +19,7 @@ import UI_HeroIcon6060 from "../../fgui/Extend/Battle/UI_HeroIcon6060";
 import HeroInfoData from "../DataStructs/HeroInfoData";
 import UI_CloudCom from "../../fgui/Extend/Battle/UI_CloudCom";
 import UI_EnemyItem from "../../fgui/Extend/Battle/UI_EnemyItem";
+import UI_scrollTip from "../../fgui/Extend/Battle/UI_scrollTip";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class BattleWin extends FWindow {
 
@@ -33,7 +32,6 @@ export default class BattleWin extends FWindow {
 	BattleLeftBottom: UI_BattleLeftBottom;
 	BattleLeftTop: UI_BattleLeftTop;
 	BattleRightBottom: UI_BattleRightBottom;
-	BattleRightTop: UI_BattleRightTop;
 	BattleTopMiddle: UI_BattleTopMiddle;
 	Blood: UI_Blood;
 	DriftingBlood: UI_DriftingBlood;
@@ -41,7 +39,6 @@ export default class BattleWin extends FWindow {
 	Shadow: UI_Shadow;
 	SkillBtn: UI_SkillBtn;
 	Stone: UI_Stone;
-	HeroInfoUI: UI_HeroInfo;
 	constructor() {
 		super();
 		this.addAssetForFguiComponent(UI_AssociationBtn);
@@ -49,7 +46,6 @@ export default class BattleWin extends FWindow {
 		this.addAssetForFguiComponent(UI_BattleLeftTop);
 		this.addAssetForFguiComponent(UI_BattleMain);
 		this.addAssetForFguiComponent(UI_BattleRightBottom);
-		this.addAssetForFguiComponent(UI_BattleRightTop);
 		this.addAssetForFguiComponent(UI_BattleTopMiddle);
 		this.addAssetForFguiComponent(UI_Blood);
 		this.addAssetForFguiComponent(UI_DriftingBlood);
@@ -62,6 +58,7 @@ export default class BattleWin extends FWindow {
 		this.addAssetForFguiComponent(UI_HeroIcon6060);
 		this.addAssetForFguiComponent(UI_CloudCom);
 		this.addAssetForFguiComponent(UI_EnemyItem);
+		this.addAssetForFguiComponent(UI_scrollTip);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_BattleMain.createInstance();
@@ -75,6 +72,12 @@ export default class BattleWin extends FWindow {
 			this.GameOver = UI_GameOver.createInstance();
 		}
 		this.windowAddChild(this.GameOver);
+	}
+	public closeGameResult(): void {
+		this.windowRemoveChild(this.GameOver);
+	}
+	public continueRefight(): void {
+		this.content.reFightGame();
 	}
 	// 左上角UI
 	public createLeftTop() {
@@ -92,14 +95,6 @@ export default class BattleWin extends FWindow {
 		this.windowAddChild(this.BattleLeftBottom);
 		this.BattleLeftBottom.setXY(Fun.leftBottomPoint.x, Fun.leftBottomPoint.y);
 	}
-	// 右上角UI
-	public createRightTop() {
-		if (!this.BattleRightTop || this.BattleRightTop == null) {
-			this.BattleRightTop = UI_BattleRightTop.createInstance();
-		}
-		this.windowAddChild(this.BattleRightTop);
-		this.BattleRightTop.setXY(Fun.rightTopPoint.x, Fun.rightTopPoint.y);
-	}
 	// 右下角UI
 	public createRightBottom() {
 		if (!this.BattleRightBottom || this.BattleRightBottom == null) {
@@ -115,11 +110,5 @@ export default class BattleWin extends FWindow {
 		}
 		this.windowAddChild(this.BattleTopMiddle);
 		this.BattleTopMiddle.setXY(Fun.topMiddlePoint.x, Fun.topMiddlePoint.y);
-	}
-	public createHeroInfoUI() {
-		if (!this.HeroInfoUI || this.HeroInfoUI == null) {
-			this.HeroInfoUI = UI_HeroInfo.createInstance();
-		}
-		this.windowAddChild(this.HeroInfoUI);
 	}
 }

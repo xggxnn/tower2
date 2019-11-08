@@ -12,6 +12,7 @@ export default class fui_MenusMain extends fairygui.GComponent {
 	public m_rightBtn:fairygui.GButton;
 	public m_leftBtn:fairygui.GButton;
 	public m_clearBtn:fairygui.GButton;
+	public m_qq:fairygui.GImage;
 	public m_help:fairygui.GButton;
 	public m_backBtn:fairygui.GButton;
 
@@ -36,7 +37,8 @@ export default class fui_MenusMain extends fairygui.GComponent {
 		this.m_rightBtn = <fairygui.GButton><any>(this.getChildAt(7));
 		this.m_leftBtn = <fairygui.GButton><any>(this.getChildAt(8));
 		this.m_clearBtn = <fairygui.GButton><any>(this.getChildAt(9));
-		this.m_help = <fairygui.GButton><any>(this.getChildAt(10));
-		this.m_backBtn = <fairygui.GButton><any>(this.getChildAt(11));
+		this.m_qq = <fairygui.GImage><any>(this.getChildAt(10));
+		this.m_help = <fairygui.GButton><any>(this.getChildAt(11));
+		this.m_backBtn = <fairygui.GButton><any>(this.getChildAt(13));
 	}
 }

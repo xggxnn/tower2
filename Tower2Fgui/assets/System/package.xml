@@ -15,7 +15,7 @@
     <image id="q080g" name="tip_ok.png" path="/pic/"/>
     <image id="q080h" name="btn_b.png" path="/pic/" exported="true" scale="9grid" scale9grid="59,44,9,17"/>
     <image id="q080i" name="btn_g.png" path="/pic/" exported="true" scale="9grid" scale9grid="73,42,5,20"/>
-    <image id="q080j" name="btn_p.png" path="/pic/" scale="9grid" scale9grid="65,38,4,31"/>
+    <image id="q080j" name="btn_p.png" path="/pic/" exported="true" scale="9grid" scale9grid="65,38,4,31"/>
     <image id="q080k" name="btn_r.png" path="/pic/" scale="9grid" scale9grid="63,41,5,22"/>
     <component id="q080m" name="GeneralBtn.xml" path="/" exported="true"/>
     <image id="opk1n" name="wait.png" path="/pic/"/>
@@ -24,30 +24,25 @@
     <component id="nvpox" name="PopupMenu.xml" path="/" exported="true"/>
     <component id="ngrsz" name="winBtn.xml" path="/" exported="true"/>
     <component id="j5ct15" name="comBtn.xml" path="/" exported="true"/>
-    <image id="udz4m" name="zu2.png" path="/pic/" exported="true" scale="9grid" scale9grid="30,36,6,288" atlas="alone"/>
     <image id="udz4j" name="guangbianniu.png" path="/pic/" exported="true"/>
     <component id="udz4q" name="IconBtn.xml" path="/" exported="true"/>
     <image id="j5ct16" name="contentBg.png" path="/pic/" exported="true" scale="9grid" scale9grid="26,30,2,3"/>
     <image id="udz4l" name="zu1.png" path="/pic/" exported="true" scale="9grid" scale9grid="48,46,4,3"/>
     <image id="n1s0a" name="stone.png" path="/pic/" exported="true"/>
-    <image id="gc5lp" name="diguang.png" path="/pic/" exported="true"/>
+    <image id="gc5lp" name="diguang.png" path="/pic/" exported="true" scale9grid="38,38,2,3"/>
     <image id="gc5lq" name="dizuo.png" path="/pic/" exported="true"/>
     <image id="j5ctg" name="yunzhuangshi.png" path="/pic/" exported="true"/>
     <component id="j5ctl" name="TabBtn.xml" path="/" exported="true"/>
-    <image id="j5cte" name="taban.png" path="/pic/" scale="9grid" scale9grid="23,26,2,15"/>
-    <image id="j5ctf" name="tabliang.png" path="/pic/" scale="9grid" scale9grid="23,25,2,22"/>
+    <image id="j5cte" name="taban.png" path="/pic/" scale="9grid" scale9grid="31,29,2,2"/>
+    <image id="j5ctf" name="tabliang.png" path="/pic/" scale="9grid" scale9grid="32,35,2,2"/>
     <component id="bxj0e" name="HeadIcon120107.xml" path="/" exported="true"/>
     <component id="bxj017" name="GainRewards.xml" path="/" exported="true"/>
-    <image id="udz4k" name="xiangyunzhuangshi01.png" path="/pic/" exported="true"/>
-    <image id="gc5l1t" name="xiangyunzhuangshi02.png" path="/pic/" exported="true"/>
     <image id="bxj04" name="huodeTitle.png" path="/pic/"/>
-    <image id="gc5ls" name="yunwen.png" path="/pic/" exported="true"/>
     <component id="bxj018" name="HeroIcon.xml" path="/" exported="true"/>
     <image id="ngrs11" name="suipian.png" path="/pic/" exported="true"/>
     <component id="ngrs10" name="HeadIcon.xml" path="/" exported="true"/>
     <component id="bxj019" name="ItemIcon.xml" path="/" exported="true"/>
     <image id="bxj06" name="tujiandi.png" path="/pic/" exported="true" scale="9grid" scale9grid="24,23,15,7"/>
-    <image id="bxj02" name="cebiantiao.png" path="/pic/" exported="true"/>
     <image id="h5p91u" name="red_tips.png" path="/pic/"/>
     <component id="h5p91v" name="RedTips.xml" path="/" exported="true"/>
     <component id="h5p91y" name="RewardItem.xml" path="/" exported="true"/>
@@ -70,35 +65,26 @@
     <image id="qss353p" name="frame.png" path="/pic/" exported="true" scale="9grid" scale9grid="38,17,2,3"/>
     <component id="qss353q" name="DialogBox.xml" path="/" exported="true"/>
     <component id="udz4v" name="ProgressBar.xml" path="/" exported="true"/>
-    <image id="udz4t" name="jindutiao.png" path="/pic/" scale="9grid" scale9grid="11,11,6,4"/>
-    <image id="udz4u" name="jindutiaodi.png" path="/pic/" scale="9grid" scale9grid="11,11,5,3"/>
     <image id="qrw053r" name="hand.png" path="/pic/"/>
     <component id="qrw053s" name="Hand.xml" path="/" exported="true"/>
     <image id="qrw053t" name="btn.png" path="/pic/"/>
     <component id="qrw053u" name="Help.xml" path="/" exported="true"/>
     <image id="czuw53v" name="btn_y.png" path="/pic/" scale="9grid" scale9grid="68,47,4,12"/>
     <image id="j8q22" name="lock.png" path="/pic/" exported="true"/>
-    <image id="hbcf53w" name="atk.png" path="/pic/" exported="true"/>
-    <image id="hbcf53x" name="burst.png" path="/pic/" exported="true"/>
     <image id="hbcf53y" name="close.png" path="/pic/" exported="true"/>
-    <image id="hbcf53z" name="crit.png" path="/pic/" exported="true"/>
     <image id="hbcf540" name="down.png" path="/pic/" exported="true"/>
-    <image id="hbcf541" name="speed.png" path="/pic/" exported="true"/>
     <image id="hbcf542" name="di.png" path="/pic/" exported="true" scale="9grid" scale9grid="21,13,1,3"/>
     <component id="c8j3543" name="PopupItem.xml" path="/" exported="true"/>
     <image id="qvb6544" name="h.png" path="/pic/"/>
     <image id="qvb6545" name="m.png" path="/pic/"/>
-    <image id="qvb6546" name="jianbiandi.png" path="/pic/" scale="9grid" scale9grid="55,10,12,20"/>
+    <image id="qvb6546" name="jianbiandi.png" path="/pic/" exported="true" scale="9grid" scale9grid="55,10,12,20"/>
     <image id="ngrs14" name="mask.png" path="/" exported="true"/>
     <image id="qvb6548" name="nameDi.png" path="/pic/" exported="true" scale="9grid" scale9grid="12,3,7,3"/>
-    <image id="udz4d" name="zhuangshi1.png" path="/pic/" exported="true"/>
-    <image id="udz4f" name="jianbiandizong.png" path="/pic/" exported="true"/>
+    <image id="udz4f" name="jianbiandizong.png" path="/pic/" exported="true" scale9grid="65,10,4,20"/>
     <component id="udz4c" name="TxtBtn.xml" path="/" exported="true"/>
     <image id="udz4b" name="kuangti01.png" path="/pic/" exported="true" scale="9grid" scale9grid="23,23,3,6"/>
     <image id="qvb6549" name="dikuang.png" path="/pic/" exported="true" scale="9grid" scale9grid="27,26,5,7"/>
-    <image id="j5ct1u" name="waveBg_4.png" path="/pic/" exported="true" atlas="alone"/>
     <image id="qyum1" name="tujianTitle.png" path="/pic/" exported="true"/>
-    <image id="bxj01" name="bagTitle.png" path="/pic/" exported="true"/>
     <image id="j8q26" name="line.png" path="/pic/" exported="true"/>
     <image id="j8q23" name="right.png" path="/pic/" exported="true"/>
     <image id="j8q24" name="title.png" path="/pic/" exported="true"/>
@@ -106,8 +92,28 @@
     <image id="udz4g" name="chuangguan.png" path="/pic/" exported="true"/>
     <image id="udz4w" name="shilian.png" path="/pic/" exported="true"/>
     <component id="bcle54b" name="Exchange.xml" path="/" exported="true"/>
-    <image id="ajdp54c" name="bigDi.png" path="/pic/" exported="true" scale="9grid" scale9grid="31,247,7,28"/>
-    <image id="ajdp54d" name="yunwen2.png" path="/pic/" exported="true"/>
+    <component id="94yv54f" name="DoubleGainTipWin.xml" path="/" exported="true"/>
+    <image id="94yv54g" name="tipTitle.png" path="/pic/" exported="true"/>
+    <image id="94yv54h" name="havelingqu.png" path="/pic/" exported="true"/>
+    <image id="94yv54i" name="lingqu.png" path="/pic/"/>
+    <image id="ajdp5" name="bigRed.png" path="/pic/" exported="true"/>
+    <image id="94yv54l" name="adicon.png" path="/pic/" exported="true"/>
+    <image id="94yv52n" name="qq.png" path="/pic/" exported="true"/>
+    <image id="94yv54m" name="friendGain.png" path="/pic/"/>
+    <component id="94yv54n" name="FriendGain.xml" path="/" exported="true"/>
+    <image id="eaol54o" name="wishingTitle.png" path="/pic/"/>
+    <image id="hbcf53w" name="atk.png" path="/pic/" exported="true"/>
+    <image id="hbcf53x" name="burst.png" path="/pic/" exported="true"/>
+    <image id="hbcf2j" name="chengse.png" path="/pic/" exported="true"/>
+    <image id="hbcf53z" name="crit.png" path="/pic/" exported="true"/>
+    <image id="hbcf541" name="speed.png" path="/pic/" exported="true"/>
+    <component id="hbcf2o" name="FightTip.xml" path="/" exported="true"/>
+    <image id="hbcf2g" name="arrowdown.png" path="/pic/" exported="true"/>
+    <image id="hbcf2h" name="arrowping.png" path="/pic/" exported="true"/>
+    <image id="hbcf2i" name="arrowup.png" path="/pic/" exported="true"/>
+    <image id="eaol54q" name="blackBg.png" path="/pic/" exported="true" scale="9grid" scale9grid="17,17,3,4"/>
+    <image id="eaol54r" name="progress.png" path="/pic/" scale="9grid" scale9grid="13,10,149,2"/>
+    <image id="eaol54s" name="progressdi.png" path="/pic/"/>
   </resources>
   <publish name="System" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

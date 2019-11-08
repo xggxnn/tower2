@@ -18,7 +18,7 @@
       <gearDisplay controller="initStatus" pages="0"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
-    <image id="n28_j5ct" name="n28" src="ajdp54c" fileName="pic/bigDi.png" pkg="130tmfxd" xy="54,140" size="1168,706">
+    <image id="n28_j5ct" name="n28" src="ajdp54c" fileName="pic/bigDi.png" pkg="3o5nmzs6" xy="54,140" size="1168,706">
       <gearDisplay controller="initStatus" pages="0"/>
     </image>
     <image id="n30_j5ct" name="n30" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="58,144">
@@ -62,10 +62,10 @@
     <component id="n59_gc5l" name="skillBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="76,663" size="142,142" group="n41_gc5l">
       <Button icon="ui://88du1wabczuw53q"/>
     </component>
-    <component id="n167_hbcf" name="atkTip" src="hbcf2o" fileName="FightTip.xml" xy="91,318" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,0"/>
-    <component id="n168_hbcf" name="speedTip" src="hbcf2o" fileName="FightTip.xml" xy="91,401" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,1"/>
-    <component id="n169_hbcf" name="critTip" src="hbcf2o" fileName="FightTip.xml" xy="91,485" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,2"/>
-    <component id="n170_hbcf" name="burstTip" src="hbcf2o" fileName="FightTip.xml" xy="91,573" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,3"/>
+    <component id="n167_hbcf" name="atkTip" src="hbcf2o" fileName="FightTip.xml" xy="91,318" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,0" pkg="130tmfxd"/>
+    <component id="n168_hbcf" name="speedTip" src="hbcf2o" fileName="FightTip.xml" xy="91,401" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,1" pkg="130tmfxd"/>
+    <component id="n169_hbcf" name="critTip" src="hbcf2o" fileName="FightTip.xml" xy="91,485" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,2" pkg="130tmfxd"/>
+    <component id="n170_hbcf" name="burstTip" src="hbcf2o" fileName="FightTip.xml" xy="91,573" pivot="0.5,0.5" anchor="true" group="n41_gc5l" scale="0.65,0.65" controller="att,3" pkg="130tmfxd"/>
     <text id="n171_hbcf" name="n171" xy="477,813" size="89,28" group="n41_gc5l" fontSize="20" bold="true" text="英雄排序"/>
     <image id="n188_hbcf" name="n188" src="hbcf542" fileName="pic/di.png" pkg="130tmfxd" xy="594,810" size="120,32" group="n41_gc5l"/>
     <image id="n197_c8j3" name="n197" src="hbcf540" fileName="pic/down.png" pkg="130tmfxd" xy="681,815" group="n41_gc5l"/>
@@ -80,18 +80,18 @@
     <image id="n80_gc5l" name="n80" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="388,681" size="505,132" group="n42_gc5l">
       <gearDisplay controller="initStatus" pages="0"/>
     </image>
-    <image id="n31_j5ct" name="n31" src="j5ctb" fileName="pic/buzhenditu.png" xy="380,233" group="n42_gc5l">
+    <image id="n31_j5ct" name="n31" src="j5ctb" fileName="pic/buzhenditu.png" xy="380,233" group="n42_gc5l" pkg="3o5nmzs6">
       <gearDisplay controller="initStatus" pages="0"/>
     </image>
-    <component id="n37_j5ct" name="select1" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="412,179" group="n42_gc5l">
+    <component id="n37_j5ct" name="select1" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="412,164" group="n42_gc5l">
       <gearDisplay controller="initStatus" pages="0"/>
       <Button checked="true" icon="ui://9wh71t3fj5cth" controller="tab" page="0"/>
     </component>
-    <component id="n38_j5ct" name="select2" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="566,179" group="n42_gc5l">
+    <component id="n38_j5ct" name="select2" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="566,164" group="n42_gc5l">
       <gearDisplay controller="initStatus" pages="0"/>
       <Button icon="ui://9wh71t3fj5ctj" controller="tab" page="1"/>
     </component>
-    <component id="n39_j5ct" name="select3" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="719,179" group="n42_gc5l">
+    <component id="n39_j5ct" name="select3" src="j5ctl" fileName="TabBtn.xml" pkg="130tmfxd" xy="719,164" group="n42_gc5l">
       <gearDisplay controller="initStatus" pages="0"/>
       <Button icon="ui://9wh71t3fj5cti" controller="tab" page="2"/>
     </component>
@@ -125,7 +125,7 @@
     <list id="n7_nn3i" name="heroList" xy="401,681" size="472,120" group="n42_gc5l" layout="row" overflow="scroll" scroll="horizontal" lineGap="70" colGap="15" defaultItem="ui://9wh71t3fnn3i4" autoItemSize="false" vAlign="middle" autoClearItems="true">
       <gearDisplay controller="initStatus" pages="0"/>
     </list>
-    <group id="n42_gc5l" name="middle" xy="380,179" size="524,634" advanced="true"/>
+    <group id="n42_gc5l" name="middle" xy="380,164" size="524,649" advanced="true"/>
     <image id="n35_j5ct" name="n35" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="911,205" size="302,355" group="n43_gc5l"/>
     <image id="n40_gc5l" name="n40" src="j5ctc" fileName="pic/jihuojiban.png" xy="934,217" group="n43_gc5l"/>
     <list id="n57_gc5l" name="associationList" xy="913,254" size="298,288" group="n43_gc5l" selectionMode="none" overflow="scroll" defaultItem="ui://9wh71t3fczuw2c" autoClearItems="true"/>

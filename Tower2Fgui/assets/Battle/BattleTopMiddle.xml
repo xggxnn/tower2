@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1,1" opaque="false">
-  <controller name="c1" pages="0,,1," selected="0"/>
+  <controller name="c1" pages="0,,1," selected="1"/>
+  <controller name="showTip" pages="0,,1," selected="0"/>
   <displayList>
     <image id="n13_lljr" name="bg" src="qvb6549" fileName="pic/dikuang.png" pkg="130tmfxd" xy="1,47" pivot="0.5,0.5" anchor="true" size="0,62">
       <relation target="n9_ngrs" sidePair="middle-middle,center-center"/>
@@ -17,6 +18,9 @@
     <list id="n12_qyum" name="heroList" xy="0,184" pivot="0.5,0.5" anchor="true" size="383,60" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://3jvhuirzqyum1p" autoItemSize="false" align="center" vAlign="middle">
       <gearDisplay controller="c1" pages="1"/>
     </list>
+    <component id="n17_exbk" name="tips" src="exbk25" fileName="scrollTip.xml" xy="-499,90">
+      <gearDisplay controller="showTip" pages="1"/>
+    </component>
   </displayList>
   <transition name="t0">
     <item time="0" type="Alpha" target="n10_ngrs" value="1"/>

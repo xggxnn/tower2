@@ -58,10 +58,11 @@ export default class GamePreload {
 	}
 
 	private static generate() {
+		this.addAssetForFguiPackagename(GuiPackageNames.FSprite);
+		this.addAssetForFguiPackagename(GuiPackageNames.BigSprite);
 		this.addAssetForFguiPackagename(GuiPackageNames.System);
 		this.addAssetForFguiPackagename(GuiPackageNames.GM);
 		this.addAssetForFguiPackagename(GuiPackageNames.Sound);
-		this.addAssetForFguiPackagename(GuiPackageNames.FSprite);
 		this.addAssetForFguiPackagename(GuiPackageNames.Home);
 		// this.addAssetForFguiPackagename(GuiPackageNames.Arrangement);
 		// this.addAssetForFguiPackagename(GuiPackageNames.Menus);

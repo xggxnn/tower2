@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1076,96">
+  <controller name="colorTab" exported="true" pages="0,,1,,2,,3," selected="3"/>
+  <displayList>
+    <image id="n58_eaol" name="n58" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="0,0" size="1076,96"/>
+    <text id="n59_eaol" name="sort" xy="77,49" pivot="0.5,0.5" anchor="true" size="30,54" fontSize="45" color="#ffb47d" align="center" vAlign="middle" text="1">
+      <gearColor controller="colorTab" pages="0,2,3" values="#c3b2f5,#000000|#e9e8d8,#000000|#ffb47d,#000000" default="#fff25d,#000000"/>
+    </text>
+    <loader id="n61_eaol" name="icons" xy="161,11" size="70,70" align="center" vAlign="middle" fill="scale" shrinkOnly="true"/>
+    <image id="n60_eaol" name="n60" src="94yv7" fileName="wxTop.png" pkg="88du1wab" xy="158,8"/>
+    <text id="n62_eaol" name="nam" xy="538,50" pivot="0.5,0.5" anchor="true" size="10,39" fontSize="30" color="#edbf92" align="center" vAlign="middle" text=""/>
+    <text id="n63_eaol" name="waves" xy="959,52" pivot="0.5,0.5" anchor="true" size="109,50" fontSize="40" color="#ffb47d" align="center" vAlign="middle" vars="true" bold="true" text="第{count=1}关">
+      <gearColor controller="colorTab" pages="0,2,3" values="#c3b2f5,#000000|#e9e8d8,#000000|#ffb47d,#000000" default="#fff25d,#000000"/>
+    </text>
+    <loader id="n64_eaol" name="n64" xy="154,0" size="44,31" aspect="true" url="ui://9cap1puyeaolx" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearIcon controller="colorTab" pages="0,2,3" values="|ui://9cap1puyeaolw|ui://9cap1puyeaolx" default="ui://9cap1puyeaolv"/>
+    </loader>
+  </displayList>
+</component>

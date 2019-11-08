@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="80,80">
-  <controller name="status" exported="true" pages="0,none,1,fighting,2,progress,3,complete,4,day" selected="0"/>
+  <controller name="status" exported="true" pages="0,none,1,fighting,2,progress,3,complete,4,day" selected="1"/>
   <controller name="starNum" exported="true" pages="0,,1,,2,,3,,4,,5," selected="0"/>
   <controller name="forward" exported="true" pages="0,,1,,2,,3,,4," selected="0"/>
-  <controller name="unlockstatus" pages="0,,1," selected="0"/>
+  <controller name="unlockstatus" pages="0,,1," selected="1"/>
   <controller name="redTip" pages="0,,1," selected="0"/>
   <controller name="starMax" pages="0,,1,,2,,3,,4,,5," selected="0"/>
   <displayList>
@@ -103,15 +103,14 @@
       <gearDisplay controller="status" pages="4"/>
       <gearLook controller="starNum" pages="0,1,2,3,4" values="0,0,0,1|0,0,0,1|0,0,0,1|0,0,0,1|0,0,0,1" default="1,0,0,1"/>
     </image>
-    <image id="n37_bcle" name="n37" src="bcle52l" fileName="pic/unlock.png" xy="-38,45" size="164,56">
-      <gearDisplay controller="unlockstatus" pages="1"/>
-      <relation target="n38_bcle" sidePair="bottomext-bottom"/>
-    </image>
-    <text id="n38_bcle" name="unlock" xy="-19,68" size="125,27" fontSize="20" color="#f9f3d2" align="center" autoSize="height" text="解锁征服之路">
-      <gearDisplay controller="unlockstatus" pages="1"/>
-    </text>
     <component id="n39_bcle" name="n39" src="h5p91v" fileName="RedTips.xml" pkg="130tmfxd" xy="93,0">
       <gearDisplay controller="redTip" pages="1"/>
     </component>
+    <image id="n37_bcle" name="n37" src="bcle52l" fileName="pic/unlock.png" xy="-49,43" size="179,89">
+      <gearDisplay controller="unlockstatus" pages="1"/>
+    </image>
+    <list id="n41_94yv" name="unLockTipList" xy="-41,71" size="325,100" scale="0.5,0.5" layout="flow_hz" colGap="5" defaultItem="ui://130tmfxdh5p91y" vAlign="middle" autoClearItems="true">
+      <gearDisplay controller="unlockstatus" pages="1"/>
+    </list>
   </displayList>
 </component>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="240,108" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <controller name="adOrPrice" exported="true" pages="0,,1," selected="0"/>
+  <displayList>
+    <image id="n3_94yv" name="n3" src="q080j" fileName="pic/btn_p.png" pkg="130tmfxd" xy="0,0" size="240,108">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n4_94yv" name="n4" xy="79,38" size="129,39" fontSize="30" color="#f0f5ff" bold="true" text="免费刷新">
+      <gearDisplay controller="adOrPrice" pages="0"/>
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
+    <loader id="n5_94yv" name="diam" xy="35,35" size="40,40" aspect="true" url="ui://88du1wabj5ct16" align="center" vAlign="middle" fill="scale" shrinkOnly="true">
+      <gearDisplay controller="adOrPrice" pages="1"/>
+    </loader>
+    <text id="n6_94yv" name="price" xy="79,37" size="39,39" fontSize="30" color="#f0f5ff" bold="true" text="20">
+      <gearDisplay controller="adOrPrice" pages="1"/>
+    </text>
+    <text id="n7_94yv" name="n7" xy="125,37" size="67,39" fontSize="30" color="#f0f5ff" bold="true" text="刷新">
+      <gearDisplay controller="adOrPrice" pages="1"/>
+      <relation target="n6_94yv" sidePair="left-right"/>
+    </text>
+    <image id="n8_94yv" name="n8" src="94yv54l" fileName="pic/adicon.png" pkg="130tmfxd" xy="27,35">
+      <gearDisplay controller="adOrPrice" pages="0"/>
+    </image>
+  </displayList>
+  <Button downEffect="scale" downEffectValue="1.05"/>
+</component>

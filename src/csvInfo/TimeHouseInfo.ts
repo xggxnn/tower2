@@ -102,7 +102,9 @@ export default class TimeHouseInfo {
 
     private _star: number;
     public get star(): number {
-        return this._star;
+        // 测试专用
+        return 5;
+        // return this._star;
     }
 
     private _cost_gold: number;

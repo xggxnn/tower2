@@ -31,10 +31,12 @@ export default class UI_BattleLeftTop extends fui_BattleLeftTop {
 	}
 	private exitGame(): void {
 		EventManager.event(EventKey.GAMEEXIT);
-		Game.battleScene.stoneReset();
-		Game.battleScene.clearEnemy();
-		Game.battleScene.clearHero();
-		Game.menu.open(MenuId.MenuSelect);
+		Game.battleScene.clearBattleScene();
+		if (Game.battleData.curEnterFightType == 3) {
+			Game.menu.open(MenuId.Home);
+		} else {
+			Game.menu.open(MenuId.MenuSelect);
+		}
 	}
 	// 关闭ui
 	closeUI(): void {
@@ -46,12 +48,15 @@ export default class UI_BattleLeftTop extends fui_BattleLeftTop {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			this.m_tip.setVar("level", Game.battleData.dayFightProgress.toString()).flushVars();
+		}
+		else if (Game.battleData.curEnterFightType == 3) {
+			this.m_tip.setVar("level", (Game.battleData.endlessMy.progress + 1).toString()).flushVars();
 		}
 		else {
 			let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
-			this.m_tip.setVar("level", mapLevel.map + "-" + mapLevel.level).flushVars();
+			this.m_tip.setVar("level", mapLevel.map.toString() + "-" + mapLevel.level).flushVars();
 		}
 	}
 	// 关闭时调用，相当于disable

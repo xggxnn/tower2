@@ -15,6 +15,9 @@ import EventKey from "../../../tool/EventKey";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
 import SpriteKey from "../../SpriteKey";
 import UnlockInfo from "../../../csvInfo/UnlockInfo";
+import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
+import ResourceInfo from "../../../csvInfo/ResourceInfo";
+import UI_RewardItem from "../System/UI_RewardItem";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_Selection extends fui_Selection {
@@ -36,7 +39,30 @@ export default class UI_Selection extends fui_Selection {
 		// ToDo
 		this.selectionBtn = this.m_selBtn as UI_selectionBtn;
 		this.selectionBtn.onClick(this, this.clickBtn);
+
+		this.m_unLockTipList.itemRenderer = Laya.Handler.create(this, this.initItem, null, false);
+		// this.m_unLockTipList.itemProvider = Laya.Handler.create(this, this.getListItemResource, null, false);
 	}
+	private rewardList: Array<RewardItem> = [];
+	private tipTxt: Array<string> = [];
+	// 渲染item 列表的item
+	initItem(index: number, obj: fairygui.GObject) {
+		let item = obj as UI_RewardItem;
+		if (index < this.rewardList.length) {
+			item.setData(this.rewardList[index]);
+		}
+		else {
+			item.setDataTxt(this.tipTxt[index - this.rewardList.length]);
+		}
+	}
+	// getListItemResource(index: number) {
+	// 	if (index < this.rewardList.length) {
+	// 		return UI_RewardItem.URL;
+	// 	}
+	// 	else {
+	// 		return UI_ScrollTxtNormal.URL;
+	// 	}
+	// }
 
 	// 关闭ui
 	closeUI(): void {
@@ -95,15 +121,28 @@ export default class UI_Selection extends fui_Selection {
 		// 功能解锁情况
 		this.m_unlockstatus.setSelectedIndex(0);
 		let unlock = UnlockInfo.getInfo(Game.playData.unlockIndex + 1);
+		this.tipTxt = [];
+		this.rewardList = [];
 		if (unlock) {
 			if (unlock.mapId == this.wave.id) {
-				this.m_unlock.text = unlock.tip[0];
+				this.tipTxt.push(unlock.tip[0]);
 				if (unlock.tip.length > 1) {
 					for (let i = 1; i < unlock.tip.length; i++) {
-						this.m_unlock.text += unlock.tip[i];
+						this.tipTxt.push(unlock.tip[i]);
 					}
 				}
-				this.m_unlockstatus.setSelectedIndex(1);
+				if (Game.battleMap.maxMapId != this.wave.id) {
+					this.m_unLockTipList.numItems = this.tipTxt.length;
+					this.m_unlockstatus.setSelectedIndex(1);
+				}
+			}
+		} else {
+			if (this.wave.id == 14 && this.wave.id >= Game.battleMap.maxMapId) {
+				this.tipTxt.push("解锁无尽天宫");
+				if (Game.battleMap.maxMapId != this.wave.id) {
+					this.m_unLockTipList.numItems = this.tipTxt.length;
+					this.m_unlockstatus.setSelectedIndex(1);
+				}
 			}
 		}
 		this.canClick = true;
@@ -159,19 +198,50 @@ export default class UI_Selection extends fui_Selection {
 		}
 		else {
 			this.m_redTip.setSelectedIndex(0);
-			if (Game.battleMap.maxMapId == this.wave.id) {
+			// 测试专用
+			// if (Game.battleMap.maxMapId == this.wave.id) {
+			if (Game.battleMap.maxMapId >= this.wave.id) {
 				this.m_status.setSelectedIndex(1);
 				this.m_selBtn.enabled = true;
 				this._sk = this.addBattleEffect("ui03", true);
 				this._sk.sk.pos(0, -20);
+				// 设置显示
+				this.m_unlockstatus.setSelectedIndex(1);
+				let rewardInf = WaveRewardInfo.getInfo(this.wave.id);
+				if (rewardInf.coin_first > 0) {
+					let itemRew = new RewardItem();
+					itemRew.itemId = ResourceInfo.gold;
+					itemRew.itemNum = rewardInf.coin_first;
+					this.rewardList.push(itemRew);
+				}
+				if (rewardInf.jade > 0) {
+					let itemRew = new RewardItem();
+					itemRew.itemId = ResourceInfo.jadeite;
+					itemRew.itemNum = rewardInf.jade;
+					this.rewardList.push(itemRew);
+				}
+				if (rewardInf.card_count > 0 && rewardInf.card_type > 0) {
+					let itemRew = new RewardItem();
+					itemRew.itemId = rewardInf.card_type;
+					itemRew.itemNum = rewardInf.card_count;
+					this.rewardList.push(itemRew);
+				}
+				if (rewardInf.hero_id > 0 && rewardInf.hero_clips > 0) {
+					let itemRew = new RewardItem();
+					itemRew.itemId = rewardInf.hero_id;
+					itemRew.itemNum = rewardInf.hero_clips;
+					itemRew.isClips = true;
+					this.rewardList.push(itemRew);
+				}
+				this.m_unLockTipList.numItems = this.rewardList.length + this.tipTxt.length;
 			}
 			else {
 				this.m_status.setSelectedIndex(0);
 				this.m_selBtn.enabled = false;
 			}
 		}
-		if (Game.playData.unlockInit == 8 && this.wave.id == 1) {
-			Game.playData.unlockInit = 9;
+		if (Game.playData.unlockInit == 9 && this.wave.id == 1) {
+			Game.playData.unlockInit = 10;
 			if (this.item) {
 				EventManager.event(EventKey.SHOW_WAIT);
 				setTimeout(() => {
@@ -209,21 +279,26 @@ export default class UI_Selection extends fui_Selection {
 	private curMaxCd: number = 0;
 	private showFightCd(waves: WaveStatus): void {
 		if (this.item && this.item.id == waves.id && this.item.level <= this.wave.levelcounts) {
-			this.m_mask.fillAmount = waves.fightCd / this.curMaxCd;
-			this.m_protime.text = Fun.formatTimeEN(waves.fightCd);
 			if (waves.fightCd <= 0) {
+				this.m_protime.text = "";
 				this.m_mask.fillAmount = 0;
 				this.m_mask.visible = false;
 				this.m_redTip.setSelectedIndex(1);
 				Game.battleMap.sUpdateFightCd.remove(this.showFightCd, this);
 			}
 			else {
+				this.m_mask.fillAmount = waves.fightCd / this.curMaxCd;
+				this.m_protime.text = Fun.formatTimeEN(waves.fightCd);
 				this.m_redTip.setSelectedIndex(0);
 			}
 		}
 	}
-
+	private _clickTime: number = 0;
 	private clickBtn(): void {
+		if (Laya.Browser.now() - this._clickTime <= 1000) {
+			return;
+		}
+		this._clickTime = Laya.Browser.now();
 		if (this.canClick) {
 			Game.battleData.level_id = this.wave.id;
 			if (this.item && this.item.level > this.wave.levelcounts) {

@@ -47,6 +47,12 @@ export default class UI_SkillItem extends fui_SkillItem {
 		this.m_double.setSelectedIndex(index);
 		if (inf.unlock <= Game.playData.curLevel) {
 			this.m_locks.setSelectedIndex(0);
+			if (Game.redData.skillItemRed.hasKey(inf.id)) {
+				this.m_redTip.setSelectedIndex(0);
+			} else {
+				this.m_redTip.setSelectedIndex(1);
+				Game.redData.setSkillItemRed(inf.id);
+			}
 		}
 		else {
 			this.m_locks.setSelectedIndex(1);

@@ -39,48 +39,48 @@
       <gearDisplay controller="status" pages="5"/>
     </text>
     <image id="n13_hbcf" name="n13" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="-12,-34" size="128,140" group="n26_hbcf"/>
-    <component id="n14_hbcf" name="atktip" src="hbcf2o" fileName="FightTip.xml" xy="-7,-28" group="n26_hbcf" scale="0.45,0.45" controller="att,0"/>
+    <component id="n14_hbcf" name="atktip" src="hbcf2o" fileName="FightTip.xml" xy="-7,-28" group="n26_hbcf" scale="0.45,0.45" controller="att,0" pkg="130tmfxd"/>
     <text id="n15_hbcf" name="atk" xy="64,-10" pivot="0.5,0.5" anchor="true" size="120,28" group="n26_hbcf" fontSize="20" color="#feda49" align="center" vAlign="middle" autoSize="none" text="28992899289928992899"/>
-    <image id="n16_hbcf" name="n16" src="hbcf2i" fileName="pic/arrowup.png" xy="96,-21" group="n26_hbcf">
+    <image id="n16_hbcf" name="n16" src="hbcf2i" fileName="pic/arrowup.png" xy="96,-21" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infAtk" pages="0"/>
     </image>
-    <image id="n27_hbcf" name="n27" src="hbcf2h" fileName="pic/arrowping.png" xy="96,-16" group="n26_hbcf">
+    <image id="n27_hbcf" name="n27" src="hbcf2h" fileName="pic/arrowping.png" xy="96,-16" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infAtk" pages="1"/>
     </image>
-    <image id="n31_hbcf" name="n31" src="hbcf2g" fileName="pic/arrowdown.png" xy="95,-21" group="n26_hbcf">
+    <image id="n31_hbcf" name="n31" src="hbcf2g" fileName="pic/arrowdown.png" xy="95,-21" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infAtk" pages="2"/>
     </image>
-    <component id="n17_hbcf" name="speedtip" src="hbcf2o" fileName="FightTip.xml" xy="-7,3" group="n26_hbcf" scale="0.45,0.45" controller="att,1"/>
+    <component id="n17_hbcf" name="speedtip" src="hbcf2o" fileName="FightTip.xml" xy="-7,3" group="n26_hbcf" scale="0.45,0.45" controller="att,1" pkg="130tmfxd"/>
     <text id="n18_hbcf" name="speed" xy="63,21" pivot="0.5,0.5" anchor="true" size="120,28" group="n26_hbcf" fontSize="20" color="#feda49" align="center" vAlign="middle" autoSize="none" text="{count=25}次/秒"/>
-    <image id="n19_hbcf" name="n19" src="hbcf2i" fileName="pic/arrowup.png" xy="95,10" group="n26_hbcf">
+    <image id="n19_hbcf" name="n19" src="hbcf2i" fileName="pic/arrowup.png" xy="95,10" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infSpeed" pages="0"/>
     </image>
-    <image id="n28_hbcf" name="n28" src="hbcf2h" fileName="pic/arrowping.png" xy="95,15" group="n26_hbcf">
+    <image id="n28_hbcf" name="n28" src="hbcf2h" fileName="pic/arrowping.png" xy="95,15" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infSpeed" pages="1"/>
     </image>
-    <image id="n34_hbcf" name="n34" src="hbcf2g" fileName="pic/arrowdown.png" xy="94,10" group="n26_hbcf">
+    <image id="n34_hbcf" name="n34" src="hbcf2g" fileName="pic/arrowdown.png" xy="94,10" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infSpeed" pages="2"/>
     </image>
-    <component id="n20_hbcf" name="crittip" src="hbcf2o" fileName="FightTip.xml" xy="-7,33" group="n26_hbcf" scale="0.45,0.45" controller="att,2"/>
+    <component id="n20_hbcf" name="crittip" src="hbcf2o" fileName="FightTip.xml" xy="-7,33" group="n26_hbcf" scale="0.45,0.45" controller="att,2" pkg="130tmfxd"/>
     <text id="n21_hbcf" name="crit" xy="63,51" pivot="0.5,0.5" anchor="true" size="120,28" group="n26_hbcf" fontSize="20" color="#feda49" align="center" vAlign="middle" autoSize="none" text="{count=25}%"/>
-    <image id="n22_hbcf" name="n22" src="hbcf2i" fileName="pic/arrowup.png" xy="95,40" group="n26_hbcf">
+    <image id="n22_hbcf" name="n22" src="hbcf2i" fileName="pic/arrowup.png" xy="95,40" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infCrit" pages="0"/>
     </image>
-    <image id="n29_hbcf" name="n29" src="hbcf2h" fileName="pic/arrowping.png" xy="95,45" group="n26_hbcf">
+    <image id="n29_hbcf" name="n29" src="hbcf2h" fileName="pic/arrowping.png" xy="95,45" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infCrit" pages="1"/>
     </image>
-    <image id="n35_hbcf" name="n35" src="hbcf2g" fileName="pic/arrowdown.png" xy="94,40" group="n26_hbcf">
+    <image id="n35_hbcf" name="n35" src="hbcf2g" fileName="pic/arrowdown.png" xy="94,40" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infCrit" pages="2"/>
     </image>
-    <component id="n23_hbcf" name="bursttip" src="hbcf2o" fileName="FightTip.xml" xy="-7,65" group="n26_hbcf" scale="0.45,0.45" controller="att,3"/>
+    <component id="n23_hbcf" name="bursttip" src="hbcf2o" fileName="FightTip.xml" xy="-7,65" group="n26_hbcf" scale="0.45,0.45" controller="att,3" pkg="130tmfxd"/>
     <text id="n24_hbcf" name="burst" xy="63,83" pivot="0.5,0.5" anchor="true" size="120,28" group="n26_hbcf" fontSize="20" color="#feda49" align="center" vAlign="middle" autoSize="none" text="{count=25}%"/>
-    <image id="n25_hbcf" name="n25" src="hbcf2i" fileName="pic/arrowup.png" xy="95,72" group="n26_hbcf">
+    <image id="n25_hbcf" name="n25" src="hbcf2i" fileName="pic/arrowup.png" xy="95,72" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infBurst" pages="0"/>
     </image>
-    <image id="n30_hbcf" name="n30" src="hbcf2h" fileName="pic/arrowping.png" xy="95,77" group="n26_hbcf">
+    <image id="n30_hbcf" name="n30" src="hbcf2h" fileName="pic/arrowping.png" xy="95,77" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infBurst" pages="1"/>
     </image>
-    <image id="n36_hbcf" name="n36" src="hbcf2g" fileName="pic/arrowdown.png" xy="94,72" group="n26_hbcf">
+    <image id="n36_hbcf" name="n36" src="hbcf2g" fileName="pic/arrowdown.png" xy="94,72" group="n26_hbcf" pkg="130tmfxd">
       <gearDisplay controller="infBurst" pages="2"/>
     </image>
     <group id="n26_hbcf" name="n26" xy="-12,-34" size="136,172" advanced="true">

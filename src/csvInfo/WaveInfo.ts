@@ -69,7 +69,9 @@ export default class WaveInfo {
 
     private _lv: number;
     public get lv(): number {
-        return this._lv;
+        // 测试专用
+        return 50;
+        // return this._lv;
     }
 
     private _type: number;

@@ -965,7 +965,7 @@ declare module laya.webgl.submit {
         static TYPE_CMDSETRT: number;
         static TYPE_CUSTOM: number;
         static TYPE_BLURRT: number;
-        static TYPE_CMDDESTORYPRERT: number;
+        static TYPE_CMDDESTROYPRERT: number;
         static TYPE_DISABLESTENCIL: number;
         static TYPE_OTHERIBVB: number;
         static TYPE_PRIMITIVE: number;
@@ -15869,7 +15869,7 @@ declare module laya.ani.bone {
         lengths: Array<any>;
         verLen: number;
         createTexture(currTexture: Texture): Texture;
-        destory(): void;
+        destroy(): void;
     }
 }
 declare module laya.ani.bone {
@@ -24044,7 +24044,7 @@ declare module laya.webgl.utils {
          * @inheritDoc
          */
         bind(): boolean;
-        destory(): void;
+        destroy(): void;
         disposeResource(): void;
     }
 }

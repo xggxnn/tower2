@@ -27,6 +27,9 @@ import BattleEffectEnemy from "../../../gamemodule/Models/BattleEffectEnemy";
 import UI_Hand from "../System/UI_Hand";
 import UI_BlackText from "../System/UI_BlackText";
 import LevelmapInfo from "../../../csvInfo/LevelmapInfo";
+import AdsManager from "../../../tool/AdsManager";
+import BigPicKey from "../../BigPicKey";
+import ProtoEvent from "../../../protobuf/ProtoEvent";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_BattleMain extends fui_BattleMain {
@@ -98,7 +101,12 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		let mapLevel = Fun.idToMapLevel(Game.battleData.level_id);
 		let levelmap = LevelmapInfo.getInfo(mapLevel.map);
-		this.m_bgStatus.setSelectedIndex(levelmap.levelbg - 1);
+		let bg = 1;
+		if (levelmap && levelmap.levelbg) {
+			bg = levelmap.levelbg;
+		}
+		this.m_bg.icon = BigPicKey.getUrl("bg_" + bg + ".png");
+		this.m_bg00.icon = BigPicKey.getUrl("bg02_" + bg + ".png");
 	}
 
 	// 关闭ui
@@ -109,8 +117,15 @@ export default class UI_BattleMain extends fui_BattleMain {
 	backUI(): void {
 		this.moduleWindow.menuBack();
 	}
+	private curGameSpeed: number = -1;
 	// 显示，相当于enable
 	onWindowShow(): void {
+		if (this.curGameSpeed < 0) {
+			this.curGameSpeed = Game.playData.gameSpeed;
+		} else {
+			Game.playData.gameSpeed = this.curGameSpeed;
+		}
+		Game.sound.stopAndClear();
 		this.maskBj();
 		Game.gameStatus = GameStatus.Pause;
 		this._skipGame = false;
@@ -124,7 +139,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.m_showRange.setSelectedIndex(0);
 
 		EventManager.event(EventKey.CHANGESPEED);
-		EventManager.on(EventKey.ENTER_FRAME, this, this.update);
+		EventManager.on(ProtoEvent.ENDLESSCONFIG_CALL_BACK, this, this.reFightGame);
 		EventManager.on(EventKey.GAMELOSE, this, this.gameLose);
 		EventManager.on(EventKey.GAMEWIN, this, this.gameWin);
 		EventManager.on(EventKey.GAMESTART, this, this.startGame);
@@ -133,10 +148,10 @@ export default class UI_BattleMain extends fui_BattleMain {
 		EventManager.on(EventKey.GAMEEXIT, this, this.closeUI);
 		this.moduleWindow.sUpdateHeroInf.add(this.clickHero, this);
 		EventManager.once(EventKey.GUIDE_PLAY_SKILL, this, this.guidePlaySkill);
+		Game.battleData.sUpdateResurrection.add(this.createresurrectionEffect, this);
 
 		this.moduleWindow.createLeftTop();
 		this.moduleWindow.createLeftBottom();
-		this.moduleWindow.createRightTop();
 		this.moduleWindow.createRightBottom();
 		this.moduleWindow.createTopMiddle();
 		this.toastTime = 0;
@@ -170,9 +185,28 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		this.clearGuideMoveHero();
 		this.clearHaloEffect();
+		if (this.skipEffect) {
+			this.skipEffect.sk.destroySk();
+			this.skipEffect = null;
+		}
+		if (this.skipEffect2) {
+			this.skipEffect2.sk.destroySk();
+			this.skipEffect2 = null;
+		}
+		for (let i = this.resurrectionEffectList.length - 1; i >= 0; i--) {
+			if (this.resurrectionEffectList[i]) {
+				this.resurrectionEffectList[i].sk.destroySk();
+				this.resurrectionEffectList[i] = null;
+			}
+		}
+		this.resurrectionEffectList = [];
 		Game.battleMap.sUpdateExitBattleMain.dispatch();
 		EventManager.offAllCaller(this);
 		this.moduleWindow.sUpdateHeroInf.remove(this.clickHero, this);
+		Game.battleData.sUpdateResurrection.removeAll();
+		Game.sound.stopAndClear();
+		this.curGameSpeed = Game.playData.gameSpeed;
+		Game.playData.gameSpeed = 1;
 	}
 
 	/*********************	巡视场景	******************************************************************************/
@@ -190,7 +224,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this.moduleWindow.BattleLeftTop.visible = false;
 			this.moduleWindow.BattleLeftBottom.visible = false;
 			this.moduleWindow.BattleTopMiddle.visible = false;
-			this.moduleWindow.BattleRightTop.visible = false;
 			this.moduleWindow.BattleRightBottom.visible = false;
 		}
 		else if (Game.playData.guideIndex < GuideType.CastSkillOver) {
@@ -205,7 +238,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this.moduleWindow.BattleLeftTop.visible = false;
 			this.moduleWindow.BattleLeftBottom.visible = false;
 			this.moduleWindow.BattleTopMiddle.visible = false;
-			this.moduleWindow.BattleRightTop.visible = false;
 			this.moduleWindow.BattleRightBottom.visible = false;
 		}
 		else {
@@ -221,7 +253,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this.moduleWindow.BattleLeftTop.visible = Game.playData.guideIndex > GuideType.sevenEnterMenus;
 			this.moduleWindow.BattleLeftBottom.visible = true;
 			this.moduleWindow.BattleTopMiddle.visible = true;
-			this.moduleWindow.BattleRightTop.visible = true;
 			this.moduleWindow.BattleRightBottom.visible = true;
 		}
 
@@ -263,7 +294,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.basPos = new Laya.Point(this.m_bas.x, this.m_bas.y);
 		this.m_bg.setXY(-1000, 0);
 		this.m_bg00.setXY(1280 - 1000, 0);
-		this.m_door.setXY(2073 - 1000, 0);
+		// this.m_door.setXY(2073 - 1000, 0);
 		this.cloud = Pools.fetch(UI_CloudCom);
 		this.m_cloud.displayObject.addChild(this.cloud.displayObject);
 		this.cloud.setXY(0, 0);
@@ -292,7 +323,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x, this.basPos.y, this.aniMoveSpeed * 1.5).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, 0, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
+		// fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this.m_cloud.x, this.m_cloud.y, 1500, 0, this.aniMoveSpeed * 1.5).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this.tip.x, this.tip.y, 235, this.tip.y, this.aniMoveSpeed * 1.5).setTarget(this.tip, this.tip.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, 94, this._skts.y, this.aniMoveSpeed * 1.5).setTarget(this._skts, this._skts.pos).setEase(this.easetype).onComplete(this.tsMoveOver, this);
@@ -317,7 +348,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 			fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x - 500, this.basPos.y, this.aniMoveSpeed).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
 			fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, -500, 0, this.aniMoveSpeed).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
 			fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280 - 500, 0, this.aniMoveSpeed).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-			fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073 - 500, 0, this.aniMoveSpeed).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
+			// fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073 - 500, 0, this.aniMoveSpeed).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
 			fairygui.tween.GTween.to2(this._skts.x, this._skts.y, this._skts.x - 500, this._skts.y, this.aniMoveSpeed).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
 			fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x - 500, this._skxzf.y, this.aniMoveSpeed).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype);
 			fairygui.tween.GTween.to2(1500, 0, 1500 - 500, 0, this.aniMoveSpeed).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype).onComplete(this.showWuKong, this);
@@ -343,7 +374,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		fairygui.tween.GTween.to2(this.m_bas.x, this.m_bas.y, this.basPos.x, this.basPos.y, this.aniMoveSpeed).setTarget(this.m_bas, this.m_bas.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this.m_bg.x, this.m_bg.y, 0, 0, this.aniMoveSpeed).setTarget(this.m_bg, this.m_bg.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this.m_bg00.x, this.m_bg00.y, 1280, 0, this.aniMoveSpeed).setTarget(this.m_bg00, this.m_bg00.setXY).setEase(this.easetype);
-		fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, this.aniMoveSpeed).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
+		// fairygui.tween.GTween.to2(this.m_door.x, this.m_door.y, 2073, 0, this.aniMoveSpeed).setTarget(this.m_door, this.m_door.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this.m_cloud.x, this.m_cloud.y, 1500, 0, this.aniMoveSpeed).setTarget(this.m_cloud, this.m_cloud.setXY).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this._skts.x, this._skts.y, 94, this._skts.y, this.aniMoveSpeed).setTarget(this._skts, this._skts.pos).setEase(this.easetype);
 		fairygui.tween.GTween.to2(this._skxzf.x, this._skxzf.y, this._skxzf.x + 500, this._skxzf.y, this.aniMoveSpeed).setTarget(this._skxzf, this._skxzf.pos).setEase(this.easetype);
@@ -403,16 +434,14 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this.tip.visible = false;
 			this._skxzf.destroyThis();
 			this._skxzf = null;
-			// for (let i = this._skEnemy.length - 1; i >= 0; i--) {
-			// 	this._skEnemy[i].destroyThis();
-			// }
 			this._skswk = null;
-			// this._skEnemy = [];
 			for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
 				Game.battleScene.battleSeat[i].showHidefacade(false);
 			}
 			Game.playData.guideIndex = GuideType.FightReady;
-			Game.menu.open(MenuId.Arrange, Game.battleData.trial_level == 0 ? 0 : 1, -1);
+			Game.battleData.trial_level = 0;
+			Game.battleData.curEnterFightType = 0;
+			Game.menu.open(MenuId.Arrange);
 		}, 1000);
 	}
 
@@ -434,7 +463,13 @@ export default class UI_BattleMain extends fui_BattleMain {
 			this._skts.pos(94, 522);
 			this._skts.play(HeroAniEnums.Stand, true);
 		}
-		Game.menu.open(MenuId.Arrange, Game.battleData.trial_level == 0 ? 0 : 1, -1);
+		Game.menu.open(MenuId.Arrange);
+	}
+	// 无尽下一关开始
+	// 重新开始
+	public reFightGame(): void {
+		this.hideShowMenu();
+		this.showBgOver();
 	}
 	// 小钻风sk
 	private _skxzf: BaseSK = null;
@@ -487,8 +522,18 @@ export default class UI_BattleMain extends fui_BattleMain {
 			}
 		}
 	}
-
+	// 每局可观看视频一次
+	private adLookNum: number = 0;
 	public startGame(): void {
+		this.clearHaloEffect();
+		let dat = {
+			type: Game.battleData.curEnterFightType + 1,
+		}
+		Game.proto.recodeInfo(dat);
+		EventManager.on(EventKey.REWARDED_VIDEO_AD_YES, this, this.skipOk);
+		EventManager.on(EventKey.REWARDED_VIDEO_AD_CLOSE, this, this.loseAdExit);
+		EventManager.on(EventKey.ENTER_FRAME, this, this.update);
+		this.adLookNum = 0;
 		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
 			Game.battleScene.battleSeat[i].showHidefacade(true);
 			Game.battleScene.battleSeat[i].onShow(this);
@@ -499,7 +544,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		EventManager.once(EventKey.LOADER_OVER, this, this.startGameloadSKOver);
 		let _list: Array<string> = [];
 		_list = _list.concat(LoadFilesList.res_npc_ResList);
-		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		// _list = _list.concat(LoadFilesList.res_effect_effect_ResList);
 		LoaderManager.addList(_list);
 	}
 	private startGameloadSKOver(): void {
@@ -510,6 +555,14 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		this.moduleWindow.menuCloseOther();
 		Game.battleData.countdown.dispatch();
+		if (Game.battleData.curEnterFightType != 2) {
+			if (Game.battleData.fight_type == 1) {
+				Game.task.sUpdateStatus.dispatch(4);
+			}
+			else {
+				Game.task.sUpdateStatus.dispatch(1);
+			}
+		}
 		setTimeout(() => {
 			this.createHaloEffect();
 		}, 100);
@@ -536,7 +589,10 @@ export default class UI_BattleMain extends fui_BattleMain {
 			}
 			this.tip.visible = true;
 			this.tip.setXY(this._skts.x + 50, this._skts.y - 150);
-			Game.writeEff.startTypeWrite(100, Game.tipTxt.PassWaveTip[0], this.tip.m_titles, Laya.Handler.create(this, this.guide10BossTip, null, false));
+			if (this.passWaveTips.length == 0) {
+				this.passWaveTips = Game.tipTxt.PassWaveTip as Array<string>;
+			}
+			Game.writeEff.startTypeWrite(100, this.passWaveTips[0], this.tip.m_titles, Laya.Handler.create(this, this.guide10BossTip, null, false));
 		}
 	}
 	private guide10BossTip(): void {
@@ -592,17 +648,96 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}, 2000);
 	}
 	private gameLose(): void {
+		if (Game.gameStatus != GameStatus.WaitForRest) {
+			Game.gameStatus = GameStatus.WaitForRest;
+			EventManager.event(EventKey.GAME_PAUSE);
+			EventManager.off(EventKey.ENTER_FRAME, this, this.update);
+			if (Game.battleData.curEnterFightType < 2 && Game.battleData.level_id < 21 && AdsManager.usable && this.adLookNum < 1) {
+				Game.sound.stopAndClear();
+				Game.tipWin.battleSkip(Laya.Handler.create(this, this.restGame),
+					Laya.Handler.create(this, this.skipCancel), 10);
+			}
+			else {
+				this.skipCancel();
+			}
+		}
+	}
+	// 看视频复活
+	private restGame(): void {
+		if (!Game.redData.adOneFree || Game.showLog) {
+			Game.redData.adOneFree = true;
+			this.skipOk();
+		}
+		else {
+			AdsManager.show();
+		}
+	}
+	private skipEffect: BattleEffectEnemy = null;
+	private skipEffect2: BattleEffectEnemy = null;
+	private skipOk(): void {
+		this.adLookNum++;
+		if (this.skipEffect2 == null) {
+			this.skipEffect2 = BattleEffectEnemy.create(3001, false);
+			this.m_bloods.displayObject.addChild(this.skipEffect2.sk);
+			this.skipEffect2.scale(1, 1, true);
+			this.skipEffect2.sk.pos(this.m_base4.x, this.m_base4.y);
+		}
+		else {
+			this.skipEffect2.replay(false);
+		}
+		let speed = Game.playData.gameSpeed > 1.5 ? 600 : 1100;
+		setTimeout(() => {
+			this.skipEffect2.stopeAndHide();
+			this.skipEffOk();
+		}, speed);
+	}
+	private skipEffOk(): void {
+		Game.sound.playSound(SoundKey.s80, true, 1);
+		if (this.skipEffect == null) {
+			this.skipEffect = BattleEffectEnemy.create(1029, false);
+			this.m_bloods.displayObject.addChild(this.skipEffect.sk);
+			this.skipEffect.scale(0.3, 0.3, true);
+			this.skipEffect.sk.pos(this.m_base4.x, this.m_base4.y);
+		}
+		else {
+			this.skipEffect.replay(false);
+		}
+		let speed = Game.playData.gameSpeed > 1.5 ? 800 : 1500;
+		setTimeout(() => {
+			this.skipEffect.stopeAndHide();
+			for (let i = Game.battleScene.enemyList.length - 1; i >= 0; i--) {
+				var enemy = Game.battleScene.enemyList[i];
+				if (enemy) {
+					if (!enemy.bossStand) {
+						enemy.showEffectAndClear();
+						Game.battleScene.enemyList.splice(i, 1);
+					}
+				}
+				else {
+					Game.battleScene.enemyList.splice(i, 1);
+				}
+			}
+			setTimeout(() => {
+				EventManager.on(EventKey.ENTER_FRAME, this, this.update);
+				Game.gameStatus = GameStatus.Gaming;
+			}, 1000);
+		}, speed);
+	}
+	private skipCancel(): void {
 		if (Game.gameStatus != GameStatus.Failed) {
 			Game.gameStatus = GameStatus.Failed;
 			if (this.tip) {
 				Game.writeEff.stopTypeWrite();
 				this.tip.visible = false;
 			}
-			EventManager.event(EventKey.GAME_PAUSE);
 			this.moduleWindow.gameResult();
 		}
-		EventManager.off(EventKey.ENTER_FRAME, this, this.update);
 	}
+	private loseAdExit(): void {
+		Game.tipWin.battleSkip(Laya.Handler.create(this, this.restGame),
+			Laya.Handler.create(this, this.skipCancel), 10);
+	}
+
 	// 提示box
 	private _guidTip: UI_DialogBox = null;
 	private _guidHand: UI_Hand = null;
@@ -637,6 +772,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 	// 提示集火计数器
 	private toastTime: number = 0;
 	private toastTxt: Array<string> = [];
+	private passWaveTips: Array<string> = [];
 	// update
 	private update(): void {
 		for (let i = 0; i < Game.battleScene.battleSeat.length; i++) {
@@ -644,7 +780,7 @@ export default class UI_BattleMain extends fui_BattleMain {
 		}
 		if (Game.gameStatus != GameStatus.Gaming) return;
 		var dt = Laya.timer.delta * Game.playData.gameSpeed;
-		if (Game.playData.guideIndex > GuideType.fiveWin) {
+		if (Game.playData.guideIndex > GuideType.sixWin) {
 			if (Game.battleMap.curTime < Game.battleMap.waveTime - 1000) {
 				this.toastTime++;
 				if (this.toastTime > 500) {
@@ -652,24 +788,30 @@ export default class UI_BattleMain extends fui_BattleMain {
 					if (this.toastTxt.length == 0) {
 						this.toastTxt = Game.tipTxt.txtArray("floatmsg") as Array<string>;
 					}
-					Game.total.toastMsg(this.toastTxt[Fun.range(0, this.toastTxt.length)], true, true);
+					if (this.passWaveTips.length == 0) {
+						this.passWaveTips = Game.tipTxt.PassWaveTip as Array<string>;
+					}
+					this.moduleWindow.BattleTopMiddle.showScrollTip(this.toastTxt[Fun.range(0, this.toastTxt.length)]);
+					// Game.total.toastMsg(this.toastTxt[Fun.range(0, this.toastTxt.length)], true, true);
 					if (this.tip == null) {
 						this.tip = Pools.fetch(UI_DialogBox);
 						Game.bloodParent.addChild(this.tip);
 					}
 					this.tip.visible = true;
 					this.tip.setXY(this._skts.x + 50, this._skts.y - 150);
-					Game.writeEff.startTypeWrite(50, Game.tipTxt.PassWaveTip[Fun.range(0, Game.tipTxt.PassWaveTip.length)], this.tip.m_titles, Laya.Handler.create(this, this.closeTip, null, false));
+					Game.writeEff.startTypeWrite(50, this.passWaveTips[Fun.range(0, this.passWaveTips.length)], this.tip.m_titles, Laya.Handler.create(this, this.closeTip, null, false));
 
 				}
 			}
 		}
-		Game.battleData.update();
-		if (Game.playData.gameSpeed == 2) {
-			Game.battleData.update();
-		}
+		Game.battleData.update(dt);
 		this.updateHero(dt);
 		this.updateEnemy(dt);
+		// if (Game.playData.gameSpeed == 2) {
+		// 	Game.battleData.update(dt);
+		// 	this.updateHero(dt);
+		// 	this.updateEnemy(dt);
+		// }
 		this.refreshIndex();
 		this.refrushHaloEffect(dt);
 		Game.playData.sBattleMainUpdate.dispatch(dt);
@@ -927,7 +1069,6 @@ export default class UI_BattleMain extends fui_BattleMain {
 	}
 	private battleEffectList: Array<BattleEffectEnemy> = [];
 	private addBattleEffect(id: number, loop: boolean): BattleEffectEnemy {
-		let key: string = String(id);
 		let _effect: BattleEffectEnemy = BattleEffectEnemy.create(id, loop);
 		if (id == 1025) {
 			this.m_bloods.displayObject.addChild(_effect.sk);
@@ -938,6 +1079,22 @@ export default class UI_BattleMain extends fui_BattleMain {
 		this.battleEffectList.push(_effect);
 		_effect.scale(1, 1, true);
 		return _effect;
+	}
+
+	private resurrectionEffectList: Array<BattleEffectEnemy> = [];
+	// 创建复活特效
+	public createresurrectionEffect(ids: Array<number>) {
+		let _effect: BattleEffectEnemy = BattleEffectEnemy.create(ids[0], false);
+		Game.EffectsParent.addChild(_effect.sk);
+		this.resurrectionEffectList.push(_effect);
+		_effect.scale(0.5, 0.5, true);
+		_effect.sk.pos(ids[1], ids[2]);
+		Laya.Tween.to(_effect.sk, { scaleX: 2.5, scaleY: 2.5 }, 500, null, Laya.Handler.create(this, this.resurrectionEffectRemove, [_effect]));
+	}
+	private resurrectionEffectRemove(_effect: BattleEffectEnemy): void {
+		_effect.sk.destroySk();
+		_effect.destroy();
+		_effect = null;
 	}
 }
 UI_BattleMain.bind();

@@ -4,7 +4,7 @@
 
 export default class fui_seatBtn extends fairygui.GButton {
 
-	public m_speedStatus:fairygui.Controller;
+	public m_redTip:fairygui.Controller;
 	public m_hitTip:fairygui.GTextField;
 	public m_speedTip:fairygui.GTextField;
 
@@ -21,7 +21,7 @@ export default class fui_seatBtn extends fairygui.GButton {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
-		this.m_speedStatus = this.getControllerAt(1);
+		this.m_redTip = this.getControllerAt(1);
 		this.m_hitTip = <fairygui.GTextField><any>(this.getChildAt(1));
 		this.m_speedTip = <fairygui.GTextField><any>(this.getChildAt(2));
 	}

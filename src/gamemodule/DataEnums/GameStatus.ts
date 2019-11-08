@@ -4,4 +4,5 @@ export enum GameStatus {
 	Pause,
 	Win,
 	Failed,
+	WaitForRest,
 }

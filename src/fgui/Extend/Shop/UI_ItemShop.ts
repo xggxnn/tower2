@@ -8,6 +8,9 @@ import ResourceInfo from "../../../csvInfo/ResourceInfo";
 import RewardItem from "../../../gamemodule/DataStructs/RewardItem";
 import HeroqualityInfo from "../../../csvInfo/HeroqualityInfo";
 import HeroInfoData from "../../../gamemodule/DataStructs/HeroInfoData";
+import AdsManager from "../../../tool/AdsManager";
+import EventManager from "../../../tool/EventManager";
+import EventKey from "../../../tool/EventKey";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_ItemShop extends fui_ItemShop {
@@ -29,6 +32,7 @@ export default class UI_ItemShop extends fui_ItemShop {
 		// ToDo
 		this.m_picBtn.onClick(this, this.showTip);
 		this.m_checkBtn.onClick(this, this.buyClick);
+		this.m_freeBuy.onClick(this, this.freeBuyClick);
 	}
 
 	// 关闭ui
@@ -47,35 +51,33 @@ export default class UI_ItemShop extends fui_ItemShop {
 	onWindowHide(): void {
 
 	}
-	public setLimitData(inf: RewardItem): void {
+	public setLimitData(inf: RewardItem, moduleWindow: ShopWin): void {
+		this.moduleWindow = moduleWindow;
 		this.limitShopInf = inf;
 		this.types = 0;
-		let hero = HeroInfoData.getInfo(this.limitShopInf.itemId);
-		this.m_quality.icon = SpriteKey.getUrl("quality" + hero.quality + ".png");
-		this.m_heroName.setVar("name", hero.name).flushVars();
-		let heroclip = HeroqualityInfo.getInfoQuality(hero.quality);
-		let haveHeroClip = 0;
-		if (Game.playData.curClips.hasKey(hero.id)) {
-			haveHeroClip = Game.playData.curClips.getValue(hero.id);
-		}
-		if (Game.playData.curHeroInfoList.hasKey(hero.id)) {
-			this.limitHeroTip = Fun.format("当前拥有及需求数量：{0}/{1}", haveHeroClip, Game.redData.requestClips(hero, false));
-		}
-		else {
-			this.limitHeroTip = Fun.format("当前拥有及需求数量：{0}/{1}", haveHeroClip, Game.redData.requestClips(hero, true));
-		}
+		this.limitHero = HeroInfoData.getInfo(this.limitShopInf.itemId);
+		this.m_quality.icon = SpriteKey.getUrl("quality" + this.limitHero.quality + ".png");
+		this.m_heroname.icon = SpriteKey.getUrl("hero_name_" + this.limitHero.skin + ".png");
+		let heroclip = HeroqualityInfo.getInfoQuality(this.limitHero.quality);
 		this.m_price.setVar("count", heroclip.magic_clip.toString()).setVar("price", "钻石").flushVars();
 		this.m_buyPrice.setVar("count", this.limitShopInf.itemNum.toString()).flushVars();
-		this.m_pic.icon = SpriteKey.getUrl("hero_" + hero.skin + ".png");
+		this.m_pic.icon = SpriteKey.getUrl("hero_" + this.limitHero.skin + ".png");
+		this.m_checkBtn.title = "购买";
 		this.m_type.setSelectedIndex(1);
 		this.m_limNum.setSelectedIndex(0);
+		if (this.limitShopInf.itemBuyTimes < 1) {
+			this.m_posStatus.setSelectedIndex(1);
+		}
+		else {
+			this.m_posStatus.setSelectedIndex(0);
+		}
 	}
 
 	public setShopData(inf: ShopInfo): void {
 		this.m_quality.icon = SpriteKey.getUrl("quality" + 3 + ".png");
 		this.itemShopInf = inf;
 		this.types = 2;
-		this.m_heroName.setVar("name", this.itemShopInf.name).flushVars();
+		this.m_posStatus.setSelectedIndex(0);
 		let types = "元";
 		if (this.itemShopInf.price_type > 0) {
 			let resource = ResourceInfo.getInfo(this.itemShopInf.price_type);
@@ -108,34 +110,19 @@ export default class UI_ItemShop extends fui_ItemShop {
 			this.m_limNum.setSelectedIndex(1);
 		}
 		this.m_pic.icon = SpriteKey.getUrl(this.itemShopInf.icon + ".png");
-		this.m_type.setSelectedIndex(1);
-	}
-	public setCardData(inf: ShopInfo): void {
-		this.m_quality.icon = SpriteKey.getUrl("quality" + 3 + ".png");
-		this.itemCardInf = inf;
-		this.types = 1;
-		this.m_heroName.setVar("name", this.itemCardInf.name).flushVars();
-		this.m_price.setVar("count", this.itemCardInf.price.toString()).setVar("price", "宝石").flushVars();
-		this.m_pic.icon = SpriteKey.getUrl(this.itemCardInf.icon + ".png");
-		this.m_tip.text = this.itemCardInf.name;
-		if (this.itemCardInf.max_num > 0) {
-			this.m_buyPrice.setVar("count", this.itemCardInf.max_num.toString()).flushVars();
-			this.m_limNum.setSelectedIndex(0);
-		}
-		else {
-			this.m_limNum.setSelectedIndex(1);
-		}
 		this.m_type.setSelectedIndex(0);
 	}
+
 	private itemShopInf: ShopInfo = null;
 	private itemCardInf: ShopInfo = null;
 	private limitShopInf: RewardItem = null;
-	private limitHeroTip: string = "";
+	private limitHero: HeroInfoData = null;
 	private types: number = 0;
 	private showTip(): void {
 		switch (this.types) {
 			case 0:
-				Game.popup.showPopup(this.m_pic, false, false, this.limitHeroTip);
+				Game.battleData.clickHeroInf = this.limitHero;
+				this.moduleWindow.createSynthetiseUI();
 				break;
 			case 1:
 				Game.popup.showPopup(this.m_pic, false, false, this.itemCardInf.des);
@@ -152,10 +139,10 @@ export default class UI_ItemShop extends fui_ItemShop {
 			case 0:
 				{
 					if (this.limitShopInf.itemNum > 0) {
-						let heroId = 1;
 						let data = {
 							heroId: this.limitShopInf.itemId,
 							num: num,
+							adBuy: false,
 						}
 						Game.proto.shopBuy(data);
 					}
@@ -171,6 +158,7 @@ export default class UI_ItemShop extends fui_ItemShop {
 					let data = {
 						shopId: id,
 						num: num,
+						adBuy: false,
 					}
 					Game.proto.shopBuy(data);
 				}
@@ -178,5 +166,25 @@ export default class UI_ItemShop extends fui_ItemShop {
 		}
 	}
 
+	private freeBuyClick(): void {
+		if (this.limitShopInf.itemNum > 0 && this.limitShopInf.itemBuyTimes < 1) {
+			if (AdsManager.usable) {
+				Game.playData.shopLimitBuyHeroId = this.limitShopInf.itemId;
+				if (Game.showLog) {
+					EventManager.event(EventKey.REWARDED_VIDEO_AD_YES);
+				}
+				else {
+					AdsManager.show();
+				}
+			}
+			else {
+				Game.tipWin.showTip("视频加载失败，请稍后再试!", false);
+			}
+
+		}
+		else {
+			Game.tipWin.showTip("无法免费获取，已达免费上限！");
+		}
+	}
 }
 UI_ItemShop.bind();

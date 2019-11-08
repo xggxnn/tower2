@@ -8,5 +8,6 @@ export enum MenuId {
 	Shop = 7, // 商城
 	Active = 9, // 活动界面
 	Hero = 10,//英雄图鉴界面
+	Authorization = 11,//分享相关界面
 	GM = 100, // GM命令界面
 }

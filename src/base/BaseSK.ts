@@ -21,11 +21,20 @@ export default class BaseSK extends BaseFilter {
 			Game.isShowLoadUI = false;
 			//添加高权资源
 			let _list: Array<string> = [];
-			_list.push("res_sk/" + key + ".sk");
+			if (key.split("_")[0] == "effect") {
+				_list.push("res_effect/" + key + ".sk");
+			}
+			else {
+				_list.push("res_sk/" + key + ".sk");
+			}
 			LoaderManager.addList(_list);
 		}
 	}
 	public onDisable(): void {
+		EventManager.offAllCaller(this);
+		if (this._skeleton) this._skeleton.offAll();
+	}
+	onDestroy(): void {
 		EventManager.offAllCaller(this);
 		if (this._skeleton) this._skeleton.offAll();
 	}
@@ -138,6 +147,7 @@ export default class BaseSK extends BaseFilter {
 		}
 	}
 	private _changeSpeeds: number = 1;
+	// 攻速变化
 	public changeSpeeds(v: number): void {
 		this._changeSpeeds += (v / 100);
 		this.speed = this._speed;

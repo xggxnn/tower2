@@ -4,6 +4,30 @@
     <component id="bxj00" name="SurroundMain.xml" path="/" exported="true"/>
     <component id="j8q25" name="KingItem.xml" path="/" exported="true"/>
     <component id="qrw07" name="TaskItem.xml" path="/" exported="true"/>
+    <image id="94yvb" name="freeTitle.png" path="/pic/"/>
+    <image id="94yvd" name="box1.png" path="/pic/"/>
+    <image id="94yve" name="box2.png" path="/pic/"/>
+    <image id="94yvf" name="box3.png" path="/pic/"/>
+    <image id="94yvg" name="boxTitle.png" path="/pic/"/>
+    <component id="94yvi" name="boxItem.xml" path="/" exported="true"/>
+    <image id="94yva" name="dawangmianfeilingjiang.png" path="/pic/"/>
+    <image id="94yvc" name="xiaozuanfeng.png" path="/pic/"/>
+    <image id="eaolj" name="chengsedi.png" path="/pic/" scale="9grid" scale9grid="20,17,6,3"/>
+    <image id="eaolk" name="chengseding.png" path="/pic/" scale="9grid" scale9grid="17,14,8,3"/>
+    <image id="eaoll" name="qiicon.png" path="/pic/"/>
+    <image id="eaolm" name="signTab.png" path="/pic/"/>
+    <image id="eaoln" name="taskTab.png" path="/pic/"/>
+    <image id="eaolo" name="taskTitle.png" path="/pic/"/>
+    <image id="eaolp" name="weekReward.png" path="/pic/"/>
+    <component id="eaolq" name="weekProgress.xml" path="/" exported="true"/>
+    <image id="eaols" name="tip.png" path="/pic/"/>
+    <image id="eaolt" name="endlessTab.png" path="/pic/"/>
+    <image id="eaolu" name="endlessTitle.png" path="/pic/"/>
+    <image id="eaolv" name="g1.png" path="/pic/"/>
+    <image id="eaolw" name="g2.png" path="/pic/"/>
+    <image id="eaolx" name="g3.png" path="/pic/"/>
+    <image id="eaoly" name="line.png" path="/pic/"/>
+    <component id="eaol10" name="EndlessItem.xml" path="/" exported="true"/>
   </resources>
   <publish name="Surround" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

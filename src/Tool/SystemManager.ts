@@ -62,9 +62,13 @@ export default class SystemManager {
 				if (SystemManager.channelAPPID) {
 					data["channelAPPID"] = SystemManager.channelAPPID;
 				}
+				console.log(data);
 				Game.proto.login(data);
 			},
-			fail: null,
+			fail: function () {
+				console.log("fail to rety login");
+				SystemManager.login();
+			},
 			complete: null,
 			pkgName: "",
 		});
@@ -324,6 +328,12 @@ export default class SystemManager {
 	}
 	public static set shareUnlock(v: boolean) {
 		this._shareUnlock = v;
+	}
+
+	public static wxTriggerGC(): void {
+		if (window.hasOwnProperty("wx")) {
+			window["wx"].triggerGC();
+		}
 	}
 
 }

@@ -15,6 +15,13 @@ export default class Proto1016 extends Proto {
     }
     // any == T
     protected read(json: any): void {
+        if (json.hasOwnProperty("diamondRefresh")) {
+            Game.playData.shopDiamondRefresh = Number(json.diamondRefresh);
+        }
+        if (json.hasOwnProperty("diamond")) {
+            Game.playData.curJadeite = json.diamond;
+        }
         Game.playData.checkShopInf(json.resData);
+        Game.playData.checkShopBuyTimes(json.buyTimes);
     }
 }

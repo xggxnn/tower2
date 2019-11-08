@@ -7,8 +7,7 @@
   },
   "include": [
     "src",
-    "libs",
-    "bin/protobuf/**/*.d.ts"
+    "libs"
   ],
   "exclude": [
     "node_modules"

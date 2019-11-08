@@ -8,31 +8,26 @@
     <component id="j5ct1n" name="seatBtn.xml" path="/" exported="true"/>
     <component id="j5ct1q" name="fightBtn.xml" path="/" exported="true"/>
     <component id="j5ct1r" name="conquestBtn.xml" path="/" exported="true"/>
-    <component id="nn3i9" name="HeroInfo.xml" path="/" exported="true"/>
     <component id="bxj01u" name="HeroFetters.xml" path="/" exported="true"/>
     <component id="qrw01v" name="Synthetise.xml" path="/" exported="true"/>
-    <image id="c8j320" name="synthetiseBg.png" path="/pics/"/>
     <image id="lljr23" name="passAll.png" path="/pics/"/>
     <image id="bcle24" name="act.png" path="/pics/"/>
     <image id="bcle25" name="ad.png" path="/pics/"/>
     <image id="bcle26" name="bag.png" path="/pics/"/>
-    <image id="bcle27" name="bg.png" path="/pics/"/>
-    <image id="bcle28" name="bg2.png" path="/pics/"/>
-    <image id="bcle29" name="bg3.png" path="/pics/"/>
-    <image id="bcle2a" name="fight.png" path="/pics/"/>
-    <image id="bcle2b" name="guaji.png" path="/pics/"/>
     <image id="bcle2c" name="hero.png" path="/pics/"/>
     <image id="bcle2d" name="king.png" path="/pics/"/>
     <image id="bcle2e" name="lineIcon.png" path="/pics/"/>
-    <image id="bcle2g" name="seat.png" path="/pics/"/>
     <image id="bcle2h" name="set.png" path="/pics/"/>
     <image id="bcle2i" name="shop.png" path="/pics/"/>
     <image id="bcle2j" name="sort.png" path="/pics/"/>
-    <image id="bcle2k" name="topBg.png" path="/pics/"/>
-    <image id="bcle2l" name="zhizhusi.png" path="/pics/"/>
     <image id="bcle2n" name="dayFight.png" path="/pics/"/>
-    <image id="bcle2o" name="bg4.png" path="/pics/"/>
-    <image id="bcle2p" name="bg5.png" path="/pics/"/>
+    <image id="94yv2q" name="free.png" path="/pics/"/>
+    <image id="eaol2r" name="xuyuanqiang.png" path="/pics/"/>
+    <image id="eaol2t" name="heroInfTitle.png" path="/pics/"/>
+    <image id="eaol2u" name="resetAtt.png" path="/pics/"/>
+    <image id="eaol2v" name="resetTitle.png" path="/pics/"/>
+    <image id="eaol2w" name="heroNew.png" path="/pics/"/>
+    <image id="eaol2x" name="kefu.png" path="/pics/"/>
   </resources>
   <publish name="Home" genCode="true" maxAtlasSize="1024">
     <atlas compression="true" index="0"/>

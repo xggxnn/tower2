@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1030,140">
+<component size="1030,100">
+  <controller name="gainStatus" pages="0,,1,,2," selected="2"/>
   <displayList>
-    <image id="n22_qrw0" name="n22" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="0,0" size="1030,140"/>
-    <component id="n24_qrw0" name="task" src="q080f" fileName="ScrollTxt.xml" pkg="130tmfxd" xy="40,15" size="383,110">
-      <Label title="击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人" titleColor="#fcae3e"/>
+    <image id="n22_qrw0" name="n22" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="0,0" size="1030,100"/>
+    <component id="n24_qrw0" name="task" src="q080f" fileName="ScrollTxt.xml" pkg="130tmfxd" xy="118,31" size="357,39">
+      <Label title="击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人击杀100个敌人" titleColor="#feda49"/>
     </component>
-    <component id="n25_qrw0" name="progress" src="udz4v" fileName="ProgressBar.xml" pkg="130tmfxd" xy="445,56" size="193,27">
+    <component id="n25_qrw0" name="progress" src="udz4v" fileName="ProgressBar.xml" pkg="130tmfxd" xy="485,34" size="182,30">
       <ProgressBar value="50" max="100"/>
     </component>
-    <component id="n27_qrw0" name="reward" src="h5p91y" fileName="RewardItem.xml" pkg="130tmfxd" xy="695,45"/>
-    <component id="n26_qrw0" name="gainBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="810,16" size="192,108" controller="bgColor,0">
+    <component id="n27_qrw0" name="reward" src="h5p91y" fileName="RewardItem.xml" pkg="130tmfxd" xy="684,23"/>
+    <component id="n26_qrw0" name="gainBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="842,-4" size="192,108" scale="0.8,0.8" touchable="false" grayed="true" controller="bgColor,0,adStatus,0">
+      <gearDisplay controller="gainStatus" pages="0,1"/>
+      <gearLook controller="gainStatus" pages="0,1,2" values="1,0,1,0|1,0,0,1|1,0,1,0"/>
+      <gearText controller="gainStatus" pages="1" values="领取" default="进行中"/>
       <Button title="进行中"/>
     </component>
+    <image id="n29_eaol" name="n29" src="eaoll" fileName="pic/qiicon.png" xy="19,10"/>
+    <image id="n30_eaol" name="n30" src="94yv54h" fileName="pic/havelingqu.png" pkg="130tmfxd" xy="900,9" scale="0.8,0.8">
+      <gearDisplay controller="gainStatus" pages="2"/>
+    </image>
   </displayList>
 </component>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="567,332">
   <displayList>
-    <image id="n0_czuw" name="n0" src="czuw1r" fileName="pic/cloud01.png" xy="0,0"/>
+    <image id="n0_czuw" name="n0" src="czuw1r" fileName="pic/cloud01.png" xy="0,0" pkg="3o5nmzs6"/>
   </displayList>
   <transition name="t0" autoPlay="true" autoPlayRepeat="-1">
     <item time="0" type="Scale" target="n0_czuw" tween="true" startValue="1,1" endValue="1.1,1.1" duration="12" ease="Linear"/>

@@ -1,6 +1,5 @@
 import FWindow from "../FWindow";
 import UI_IllustrationMain from "../../fgui/Extend/Illustration/UI_IllustrationMain";
-import UI_HeroInfo from "../../fgui/Extend/Home/UI_HeroInfo";
 import UI_HeroFetters from "../../fgui/Extend/Home/UI_HeroFetters";
 import UI_Synthetise from "../../fgui/Extend/Home/UI_Synthetise";
 import UI_HeroItem2 from "../../fgui/Extend/Illustration/UI_HeroItem2";
@@ -8,7 +7,6 @@ import UI_HeroItem2 from "../../fgui/Extend/Illustration/UI_HeroItem2";
 export default class IllustrationWin extends FWindow {
 	content: UI_IllustrationMain;
 
-	HeroInfoUI: UI_HeroInfo;
 	HeroFetters: UI_HeroFetters;
 	Synthetise: UI_Synthetise;
 
@@ -21,12 +19,6 @@ export default class IllustrationWin extends FWindow {
 		this.content = UI_IllustrationMain.createInstance();
 		this.contentPane = this.content;
 		super.onMenuCreate();
-	}
-	public createHeroInfoUI() {
-		if (!this.HeroInfoUI || this.HeroInfoUI == null) {
-			this.HeroInfoUI = UI_HeroInfo.createInstance();
-		}
-		this.windowAddChild(this.HeroInfoUI);
 	}
 	public createHeroFetters() {
 		if (!this.HeroFetters || this.HeroFetters == null) {

@@ -8,7 +8,7 @@ import EventManager from "../../../tool/EventManager";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import { MenuId } from "../../../gamemodule/MenuId";
 import EventKey from "../../../tool/EventKey";
-import LoaderManager from "../../../tool/LoaderManager";
+// import LoaderManager from "../../../tool/LoaderManager";
 import LoadFilesList from "../../../tool/LoadFilesList";
 import UI_HeroItem2 from "./UI_HeroItem2";
 import Fun from "../../../tool/Fun";
@@ -55,9 +55,9 @@ export default class UI_IllustrationMain extends fui_IllustrationMain {
 	}
 	// 显示，相当于enable
 	onWindowShow(): void {
-		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
 		EventManager.on(ProtoEvent.SYNTHETISE_CALL_BACK, this, this.setData);
-		EventManager.on(ProtoEvent.UPQUALITY_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
+		EventManager.on(ProtoEvent.RESETATT_CALL_BACK, this, this.setData);
+		EventManager.on(ProtoEvent.UPQUALITY_CALL_BACK, this, this.setData);
 		EventManager.on(ProtoEvent.UPQUALITY_CALL_BACK, this, this.setData);
 		Game.playData.sShowFetters.add(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		if (Game.playData.guideIndex == GuideType.Win) {
@@ -65,19 +65,20 @@ export default class UI_IllustrationMain extends fui_IllustrationMain {
 		}
 		this.scrollToViewNum = -1;
 		EventManager.event(EventKey.SHOW_UI_WAIT);
-		EventManager.once(EventKey.LOADER_OVER, this, this.setData);
-		let _list: Array<string> = [];
-		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
-		// _list = _list.concat(LoadFilesList.res_sk_hero_ResList);
-		LoaderManager.addList(_list);
+		// EventManager.once(EventKey.LOADER_OVER, this, this.setData);
+		// let _list: Array<string> = [];
+		// _list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		// // _list = _list.concat(LoadFilesList.res_sk_hero_ResList);
+		// LoaderManager.addList(_list);
+		this.setData();
 	}
 	private scrollToViewNum: number = 0;
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
 		Game.playData.sShowFetters.remove(this.moduleWindow.createHeroFetters, this.moduleWindow);
 		EventManager.offAllCaller(this);
-		EventManager.off(ProtoEvent.UPQUALITY_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
-		EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
+		// EventManager.off(ProtoEvent.UPQUALITY_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
+		// EventManager.off(ProtoEvent.SYNTHETISE_CALL_BACK, this.moduleWindow, this.moduleWindow.createSynthetiseUI);
 	}
 	// 英雄碎片情况
 	private datas: Dictionary<number, number> = new Dictionary<number, number>();

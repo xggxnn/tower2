@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="3gd37va8" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="94yv0" name="AuthorizationMain.xml" path="/" exported="true"/>
+    <image id="94yv1" name="black.png" path="/pic/"/>
+    <image id="94yv2" name="friendTitle.png" path="/pic/"/>
+    <image id="94yv3" name="wxDi.png" path="/pic/"/>
+    <component id="94yv5" name="FriendPatrol.xml" path="/" exported="true"/>
+    <component id="94yv6" name="FriendItem.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="Authorization" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

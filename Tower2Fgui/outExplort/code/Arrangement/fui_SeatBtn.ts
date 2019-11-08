@@ -1,6 +1,6 @@
 /** This is an automatically generated class by FairyGUI. Please do not modify it. **/
 
-import fui_FightTip from "./fui_FightTip";
+
 
 export default class fui_SeatBtn extends fairygui.GButton {
 
@@ -17,13 +17,13 @@ export default class fui_SeatBtn extends fairygui.GButton {
 	public m_race:fairygui.GLoader;
 	public m_career:fairygui.GLoader;
 	public m_unlock:fairygui.GTextField;
-	public m_atktip:fui_FightTip;
+	public m_atktip:fairygui.GComponent;
 	public m_atk:fairygui.GTextField;
-	public m_speedtip:fui_FightTip;
+	public m_speedtip:fairygui.GComponent;
 	public m_speed:fairygui.GTextField;
-	public m_crittip:fui_FightTip;
+	public m_crittip:fairygui.GComponent;
 	public m_crit:fairygui.GTextField;
-	public m_bursttip:fui_FightTip;
+	public m_bursttip:fairygui.GComponent;
 	public m_burst:fairygui.GTextField;
 	public m_t0:fairygui.Transition;
 	public m_big:fairygui.Transition;
@@ -55,13 +55,13 @@ export default class fui_SeatBtn extends fairygui.GButton {
 		this.m_race = <fairygui.GLoader><any>(this.getChildAt(5));
 		this.m_career = <fairygui.GLoader><any>(this.getChildAt(6));
 		this.m_unlock = <fairygui.GTextField><any>(this.getChildAt(8));
-		this.m_atktip = <fui_FightTip><any>(this.getChildAt(10));
+		this.m_atktip = <fairygui.GComponent><any>(this.getChildAt(10));
 		this.m_atk = <fairygui.GTextField><any>(this.getChildAt(11));
-		this.m_speedtip = <fui_FightTip><any>(this.getChildAt(15));
+		this.m_speedtip = <fairygui.GComponent><any>(this.getChildAt(15));
 		this.m_speed = <fairygui.GTextField><any>(this.getChildAt(16));
-		this.m_crittip = <fui_FightTip><any>(this.getChildAt(20));
+		this.m_crittip = <fairygui.GComponent><any>(this.getChildAt(20));
 		this.m_crit = <fairygui.GTextField><any>(this.getChildAt(21));
-		this.m_bursttip = <fui_FightTip><any>(this.getChildAt(25));
+		this.m_bursttip = <fairygui.GComponent><any>(this.getChildAt(25));
 		this.m_burst = <fairygui.GTextField><any>(this.getChildAt(26));
 		this.m_t0 = this.getTransitionAt(0);
 		this.m_big = this.getTransitionAt(1);

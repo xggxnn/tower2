@@ -57,12 +57,12 @@ export default class UI_conquestBtn extends fui_conquestBtn {
 				this.duration = this.maxHoures;
 				if (!this.haveRed) {
 					this.haveRed = true;
-					Game.redTip.showRedTip(this);
+					this.m_redTip.setSelectedIndex(1);
 				}
 			} else {
 				if (this.haveRed) {
 					this.haveRed = false;
-					Game.redTip.hideRedTip(this);
+					this.m_redTip.setSelectedIndex(0);
 				}
 			}
 			this.canGet = Math.floor(this.duration / 60) > 0;

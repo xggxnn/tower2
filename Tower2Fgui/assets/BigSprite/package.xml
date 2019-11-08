@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="3o5nmzs6" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="j5ctb" name="buzhenditu.png" path="/" exported="true"/>
+    <image id="qvb62p" name="jinwuyuchanbg.png" path="/" exported="true"/>
+    <image id="9mhx1x" name="bg02_1.png" path="/" exported="true"/>
+    <image id="9mhx1y" name="bg02_2.png" path="/" exported="true"/>
+    <image id="9mhx1z" name="bg02_3.png" path="/" exported="true"/>
+    <image id="czuw1q" name="bg02_4.png" path="/" exported="true"/>
+    <image id="9mhx20" name="bg_1.png" path="/" exported="true"/>
+    <image id="9mhx21" name="bg_2.png" path="/" exported="true"/>
+    <image id="9mhx22" name="bg_3.png" path="/" exported="true"/>
+    <image id="j5ct1j" name="bg_4.png" path="/" exported="true"/>
+    <image id="czuw1r" name="cloud01.png" path="/" exported="true"/>
+    <image id="ngrsq" name="losetip.png" path="/" exported="true"/>
+    <image id="ngrst" name="wintip.png" path="/" exported="true"/>
+    <image id="bcle27" name="bg.png" path="/" exported="true"/>
+    <image id="bcle28" name="bg2.png" path="/" exported="true"/>
+    <image id="bcle29" name="bg3.png" path="/" exported="true"/>
+    <image id="bcle2p" name="bg5.png" path="/" exported="true"/>
+    <image id="bcle2a" name="fight.png" path="/" exported="true"/>
+    <image id="bcle2b" name="guaji.png" path="/" exported="true"/>
+    <image id="bcle2g" name="seat.png" path="/" exported="true"/>
+    <image id="c8j320" name="synthetiseBg.png" path="/" exported="true"/>
+    <image id="bcle2k" name="topBg.png" path="/" exported="true"/>
+    <image id="bcle2l" name="zhizhusi.png" path="/" exported="true"/>
+    <image id="9mhx52h" name="waveBg_1.png" path="/" exported="true"/>
+    <image id="9mhx52i" name="waveBg_2.png" path="/" exported="true"/>
+    <image id="9mhx52j" name="waveBg_3.png" path="/" exported="true"/>
+    <image id="udz4e" name="zhuangshi2.png" path="/" exported="true"/>
+    <image id="bcle2o" name="bg4.png" path="/" exported="true"/>
+    <image id="ajdp54c" name="bigDi.png" path="/" exported="true" scale="9grid" scale9grid="31,247,7,28"/>
+    <image id="j5ct1u" name="waveBg_4.png" path="/" exported="true" atlas="alone"/>
+    <image id="gc5ls" name="yunwen.png" path="/" exported="true"/>
+    <image id="udz4d" name="zhuangshi1.png" path="/" exported="true"/>
+    <image id="udz4m" name="zu2.png" path="/" exported="true" scale="9grid" scale9grid="30,36,6,288" atlas="alone"/>
+  </resources>
+  <publish name="BigSprite" genCode="true" maxAtlasSize="1024">
+    <atlas compression="true" index="0"/>
+    <atlas compression="true" index="1"/>
+    <atlas compression="true" index="2"/>
+    <atlas compression="true" index="3"/>
+    <atlas compression="true" index="4"/>
+    <atlas compression="true" index="5"/>
+    <atlas compression="true" index="6"/>
+    <atlas compression="true" index="7"/>
+    <atlas compression="true" index="8"/>
+    <atlas compression="true" index="9"/>
+    <atlas compression="true" index="10"/>
+  </publish>
+</packageDescription>

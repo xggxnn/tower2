@@ -24,6 +24,12 @@ import UI_Help from "../../fgui/Extend/System/UI_Help";
 import UI_PopupItem from "../../fgui/Extend/System/UI_PopupItem";
 import UI_BlackText from "../../fgui/Extend/System/UI_BlackText";
 import UI_Exchange from "../../fgui/Extend/System/UI_Exchange";
+import UI_DoubleGainTipWin from "../../fgui/Extend/System/UI_DoubleGainTipWin";
+import UI_comBtn from "../../fgui/Extend/System/UI_comBtn";
+import UI_FriendGain from "../../fgui/Extend/System/UI_FriendGain";
+import UI_FightTip from "../../fgui/Extend/System/UI_FightTip";
+import UI_TabBtn from "../../fgui/Extend/System/UI_TabBtn";
+import UI_ProgressBar from "../../fgui/Extend/System/UI_ProgressBar";
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class SystemWin extends FWindow {
 	content: UI_Circle;
@@ -55,6 +61,12 @@ export default class SystemWin extends FWindow {
 		this.addAssetForFguiComponent(UI_PopupItem);
 		this.addAssetForFguiComponent(UI_BlackText);
 		this.addAssetForFguiComponent(UI_Exchange);
+		this.addAssetForFguiComponent(UI_DoubleGainTipWin);
+		this.addAssetForFguiComponent(UI_comBtn);
+		this.addAssetForFguiComponent(UI_FriendGain);
+		this.addAssetForFguiComponent(UI_FightTip);
+		this.addAssetForFguiComponent(UI_TabBtn);
+		this.addAssetForFguiComponent(UI_ProgressBar);
 	}
 	protected onMenuCreate(): void {
 		this.content = UI_Circle.createInstance();

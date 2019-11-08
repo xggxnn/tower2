@@ -33,10 +33,17 @@ export default class ProtoServer {
 		// 线上版本
 		// return "https://td2.yz063.com/td2/v1/facade.php";
 		// return "https://td2.yz063.com/td2/v2/facade.php";
-		return "https://td2.yz063.com/td2/v3/facade.php";
+		// return "https://td2.yz063.com/td2/v3/facade.php";
+		// return "https://td2.yz063.com/td2/v4/facade.php";
+		// return "https://td2.yz063.com/td2/v5/facade.php";
+		// return "https://td2.yz063.com/td2/v6/facade.php";
+		return "https://td2.yz063.com/td2/v7/facade.php";
 		// 本地测试
 		// return "http://192.168.10.178/td2/v1/facade.php";
 		// return "http://192.168.10.178/td2/v2/facade.php";
+		// return "http://192.168.10.178/td2/v3/facade.php";
+		// return "http://192.168.10.178/td2/v4/facade.php";
+		// return "http://192.168.10.178/td2/v5/facade.php";
 	}
 	public static init(): void {
 		EventManager.on(EventKey.ENTER_SECOND, ProtoServer, ProtoServer.update);
@@ -75,7 +82,7 @@ export default class ProtoServer {
 		let data = this.dataList[0];
 		data["order"] = this.nextOrder;
 		data["ts"] = new Date().getTime();
-		data["version"] = "v1.1.13";
+		data["version"] = "v1.1.25";
 		wx.request(
 			{
 				url: ProtoServer.SERVER_URL,
@@ -105,7 +112,7 @@ export default class ProtoServer {
 						TimerManager.timestamp = json.sysTime;
 					}
 					if (json.hasOwnProperty("errCode")) {
-						Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), false, Laya.Handler.create(this, this.closeWait));
+						Game.tipWin.showTip(this.errorStr(parseInt(json.errCode)), false, Laya.Handler.create(this, this.closeWait), null, "确定", "", 0);
 					}
 					else {
 						if (Game.showLog) {
@@ -116,9 +123,6 @@ export default class ProtoServer {
 						// 	this.parseUserData(json.userData);
 						// }
 						let pro = ProtoManager.getProto(json.protoId);
-						// console.log("<<<<<<<<<<<-------------back-----------", json.protoId);
-						// console.log(json);
-						// console.log("<<<<<<<<<<<-------------back-----------");
 						pro.callBack(json);
 					}
 					ProtoServer.dataList.shift();
@@ -141,6 +145,9 @@ export default class ProtoServer {
 	}
 	private static closeWait(): void {
 		EventManager.event(EventKey.CLOSE_WAIT);
+	}
+	private static errExit(): void {
+		window["wx"].exitMiniProgram({});
 	}
 	// 错误码处理
 	private static errorStr(code: number): string {
@@ -219,7 +226,7 @@ export default class ProtoServer {
 				str = "魔尘没有";
 				break;
 		}
-		return str;
+		return str + "\n\n\n 请加Q群855988151";
 	}
 	private static ERR_LOGIN = 4000; //登录请求微信服务器错误
 	private static ERR_NO_REQ_PARAMS = 5000; //入参不完整

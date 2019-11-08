@@ -4,6 +4,7 @@
 
 export default class fui_RewardItem extends fairygui.GLabel {
 
+	public m_onLyTxt:fairygui.Controller;
 	public m_count:fairygui.GTextField;
 
 	public static URL:string = "ui://130tmfxdh5p91y";
@@ -19,6 +20,7 @@ export default class fui_RewardItem extends fairygui.GLabel {
 	protected constructFromXML(xml: any): void {
 		super.constructFromXML(xml);
 
+		this.m_onLyTxt = this.getControllerAt(0);
 		this.m_count = <fairygui.GTextField><any>(this.getChildAt(1));
 	}
 }

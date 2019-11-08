@@ -216,6 +216,18 @@ export default class SpriteKey {
         dict.add("hero_name_7.png", "ajdp56t");
         dict.add("hero_name_8.png", "ajdp56u");
         dict.add("hero_name_9.png", "ajdp56v");
+        dict.add("enemy_24.png", "94yv56w");
+        dict.add("enemy_25.png", "94yv56x");
+        dict.add("enemy_27.png", "94yv56y");
+        dict.add("enemy_28.png", "94yv56z");
+        dict.add("fun3.png", "94yv2r");
+        dict.add("QualityName_0.png", "eaol570");
+        dict.add("QualityName_1.png", "eaol571");
+        dict.add("QualityName_2.png", "eaol572");
+        dict.add("QualityName_3.png", "eaol573");
+        dict.add("QualityName_4.png", "eaol574");
+        dict.add("wxTop.png", "94yv7");
+        dict.add("fun11.png", "eaol2y");
 
         let exts = SpriteKey._extDict = new Dictionary<string, string>();
         exts.add("icon_1001.png", ".png");
@@ -395,6 +407,18 @@ export default class SpriteKey {
         exts.add("hero_name_7.png", ".png");
         exts.add("hero_name_8.png", ".png");
         exts.add("hero_name_9.png", ".png");
+        exts.add("enemy_24.png", ".png");
+        exts.add("enemy_25.png", ".png");
+        exts.add("enemy_27.png", ".png");
+        exts.add("enemy_28.png", ".png");
+        exts.add("fun3.png", ".png");
+        exts.add("QualityName_0.png", ".png");
+        exts.add("QualityName_1.png", ".png");
+        exts.add("QualityName_2.png", ".png");
+        exts.add("QualityName_3.png", ".png");
+        exts.add("QualityName_4.png", ".png");
+        exts.add("wxTop.png", ".png");
+        exts.add("fun11.png", ".png");
 
     }
 
@@ -578,6 +602,18 @@ export default class SpriteKey {
 	public static hero_name_7 = "hero_name_7.png";
 	public static hero_name_8 = "hero_name_8.png";
 	public static hero_name_9 = "hero_name_9.png";
+	public static enemy_24 = "enemy_24.png";
+	public static enemy_25 = "enemy_25.png";
+	public static enemy_27 = "enemy_27.png";
+	public static enemy_28 = "enemy_28.png";
+	public static fun3 = "fun3.png";
+	public static QualityName_0 = "QualityName_0.png";
+	public static QualityName_1 = "QualityName_1.png";
+	public static QualityName_2 = "QualityName_2.png";
+	public static QualityName_3 = "QualityName_3.png";
+	public static QualityName_4 = "QualityName_4.png";
+	public static wxTop = "wxTop.png";
+	public static fun11 = "fun11.png";
 
     
 }

@@ -1,3 +1,5 @@
+import TimerManager from "./TimerManager";
+
 export default class UserData {
 
     private static _Instance: UserData;
@@ -51,4 +53,44 @@ export default class UserData {
     public set inviter(v: string) {
         this._inviter = v;
     }
+
+    private _InviteData: Array<InviteInfo> = [];
+    public get InviteData(): Array<InviteInfo> {
+        return this._InviteData;
+    }
+    public set InviteData(v: Array<InviteInfo>) {
+        this._InviteData = v;
+    }
+
+    public InviteNum(): number {
+        let num: number = 0;
+        for (let i = this._InviteData.length - 1; i >= 0; i--) {
+            if (this._InviteData[i] && this._InviteData[i].delayTime > 0) {
+                num++;
+            }
+        }
+        return num;
+    }
+
+
+}
+
+export class InviteInfo {
+    constructor() { }
+
+    public avatarUrl: string;
+    public names: string;
+    public openId: string;
+    public delayTimeKey: string;
+    public get delayTime(): number {
+        if (this.delayTimeKey) { } else {
+            this.delayTimeKey = "InviteInfo" + this.openId;
+        }
+        return TimerManager.getTimeUpdate("InviteInfo" + this.openId);
+    }
+    public set delayTime(v: number) {
+        this.delayTimeKey = "InviteInfo" + this.openId;
+        TimerManager.setTimeUpdate("InviteInfo" + this.openId, v);
+    }
+
 }

@@ -4,21 +4,31 @@ import SpriteKey from "../fgui/SpriteKey";
 
 export default class Fun {
 	public static format(value, ...args): string {
-		try {
-			return value.replace(/{(\d+(:.*)?)}/g, function (match, i) {
-				var s = match.split(':');
-				if (s.length > 1) {
-					i = i[0];
-					match = s[1].replace('}', '');
-				}
+		return value.replace(/{(\d+(:.*)?)}/g, function (match, i) {
+			var s = match.split(':');
+			if (s.length > 1) {
+				i = i[0];
+				match = s[1].replace('}', '');
+			}
 
-				var arg = Fun.formatPattern(match, args[i]);
-				return typeof arg != 'undefined' && arg != null ? arg : "";
-			});
-		}
-		catch (e) {
-			return "";
-		}
+			var arg = Fun.formatPattern(match, args[i]);
+			return typeof arg != 'undefined' && arg != null ? arg : "";
+		});
+		// try {
+		// 	return value.replace(/{(\d+(:.*)?)}/g, function (match, i) {
+		// 		var s = match.split(':');
+		// 		if (s.length > 1) {
+		// 			i = i[0];
+		// 			match = s[1].replace('}', '');
+		// 		}
+
+		// 		var arg = Fun.formatPattern(match, args[i]);
+		// 		return typeof arg != 'undefined' && arg != null ? arg : "";
+		// 	});
+		// }
+		// catch (e) {
+		// 	return "";
+		// }
 	}
 	public static formatPattern(match, arg): string {
 		switch (match) {
@@ -149,7 +159,7 @@ export default class Fun {
      * 格式化时间
      * @param second 秒
      * @param length 返回几组信息
-     * @example         1表示只返回秒（没什么用）  0m
+     * @example         1表示只返回秒（没什么用）  0
      *          2表示返回分钟  3m
      *          3表示 返回小时分钟 2h3m4s
      *          4表示返回 天数 小时 分钟和秒数 1d2h3m4s
@@ -180,6 +190,9 @@ export default class Fun {
 				_str += _s;
 				_str += tabs[i];
 			}
+		}
+		if (_str.length == 0) {
+			_str = (second % 60).toString();
 		}
 		return _str;
 	}

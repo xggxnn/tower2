@@ -5,29 +5,29 @@
     <loader id="n0_bxj0" name="bg" xy="0,0" size="1280,960" alpha="0.8" url="ui://130tmfxdopk1o" fill="scaleFree">
       <relation target="" sidePair="width-width,height-height"/>
     </loader>
-    <loader id="n1_bxj0" name="n1" xy="409,171" size="464,644" url="ui://130tmfxdudz4m" fill="scaleFree"/>
-    <image id="n2_bxj0" name="n2" src="gc5l1t" fileName="pic/xiangyunzhuangshi02.png" pkg="130tmfxd" xy="375,158"/>
+    <loader id="n1_bxj0" name="n1" xy="409,171" size="464,644" url="ui://3o5nmzs6udz4m" fill="scaleFree"/>
+    <image id="n2_bxj0" name="n2" src="j5ctg" fileName="pic/yunzhuangshi.png" pkg="130tmfxd" xy="411,171"/>
     <image id="n3_bxj0" name="n3" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="423,292" size="436,134"/>
-    <text id="n4_bxj0" name="n4" xy="447,251" size="80,33" fontSize="24" color="#f3e9d5" leading="10" bold="true" text="英雄："/>
+    <text id="n4_bxj0" name="n4" xy="447,261" size="80,33" fontSize="24" color="#f3e9d5" leading="10" bold="true" text="英雄："/>
     <image id="n5_bxj0" name="n5" src="j5ct16" fileName="pic/contentBg.png" pkg="130tmfxd" xy="426,436" size="429,269"/>
     <component id="n6_bxj0" name="tip" src="q080f" fileName="ScrollTxt.xml" pkg="130tmfxd" xy="494,501" size="316,182">
       <Label titleColor="#ffa751" titleFontSize="24"/>
     </component>
-    <component id="n7_bxj0" name="tuijianbackBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="410,167"/>
-    <image id="n8_bxj0" name="n8" src="gc5ls" fileName="pic/yunwen.png" pkg="130tmfxd" xy="412,754"/>
+    <image id="n8_bxj0" name="n8" src="gc5ls" fileName="yunwen.png" pkg="3o5nmzs6" xy="412,754"/>
     <text id="n9_bxj0" name="n9" xy="447,458" size="130,33" fontSize="24" color="#fcae3e" leading="10" bold="true" text="激活羁绊："/>
     <list id="n11_bxj0" name="heroList" xy="433,297" size="412,122" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://130tmfxdbxj019" autoItemSize="false" vAlign="middle" autoClearItems="true"/>
-    <text id="n13_bxj0" name="typename" xy="640,198" pivot="0.5,0.5" anchor="true" size="340,50" fontSize="40" color="#663300" align="center" vAlign="middle" ubb="true" autoSize="none" bold="true" singleLine="true" text="英雄名称"/>
-    <component id="n17_lljr" name="rewardBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="536,701" size="207,108" scale="0.8,0.8" grayed="true" controller="bgColor,4">
-      <gearLook controller="c1" pages="0" values="1,0,1,1" default="1,0,0,1"/>
-      <gearText controller="c1" pages="2" values="确定" default="领奖"/>
-      <Button title="领奖"/>
-    </component>
+    <text id="n13_bxj0" name="typename" xy="551,201" pivot="0.5,0.5" anchor="true" size="340,50" fontSize="30" color="#663300" align="center" vAlign="middle" ubb="true" autoSize="none" bold="true" singleLine="true" text="英雄名称"/>
     <image id="n16_lljr" name="n16" src="j5ct16" fileName="diamond.png" pkg="88du1wab" xy="735,743">
       <gearDisplay controller="c1" pages="0,1"/>
     </image>
     <text id="n15_lljr" name="n17" xy="793,754" size="53,39" fontSize="30" text="x20">
       <gearDisplay controller="c1" pages="0,1"/>
     </text>
+    <component id="n7_bxj0" name="tuijianbackBtn" src="udz4q" fileName="IconBtn.xml" pkg="130tmfxd" xy="409,169"/>
+    <component id="n17_lljr" name="rewardBtn" src="q080m" fileName="GeneralBtn.xml" pkg="130tmfxd" xy="536,701" size="207,108" scale="0.8,0.8" grayed="true" controller="bgColor,4,adStatus,0">
+      <gearLook controller="c1" pages="0" values="1,0,1,1" default="1,0,0,1"/>
+      <gearText controller="c1" pages="2" values="确定" default="领奖"/>
+      <Button title="领奖"/>
+    </component>
   </displayList>
 </component>

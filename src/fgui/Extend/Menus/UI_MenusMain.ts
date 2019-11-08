@@ -7,12 +7,13 @@ import UI_MapItem from "./UI_MapItem";
 import WaveInfo from "../../../csvInfo/WaveInfo";
 import EventManager from "../../../tool/EventManager";
 import EventKey from "../../../tool/EventKey";
-import LoaderManager from "../../../tool/LoaderManager";
+// import LoaderManager from "../../../tool/LoaderManager";
 import LoadFilesList from "../../../tool/LoadFilesList";
 import ProtoEvent from "../../../protobuf/ProtoEvent";
 import UI_DayFight from "./UI_DayFight";
 import LevelmapInfo from "../../../csvInfo/LevelmapInfo";
-import UI_ScrollTxt from "../System/UI_ScrollTxt";
+import UI_FriendGain from "../System/UI_FriendGain";
+import ShareManager from "../../../tool/ShareManager";
 
 /** 此文件自动生成，可以直接修改，后续不会覆盖 **/
 export default class UI_MenusMain extends fui_MenusMain {
@@ -36,13 +37,8 @@ export default class UI_MenusMain extends fui_MenusMain {
 
 		this.m_backBtn.setXY(Fun.leftTopPoint.x + 15, Fun.leftTopPoint.y + 15);
 		this.m_middle.setXY(Fun.topMiddlePoint.x, Fun.topMiddlePoint.y + 5);
-		this.m_help.setXY(Fun.bottomMiddlePoint.x, Fun.bottomMiddlePoint.y - 80);
+		this.m_qq.setXY(Fun.rightBottomPoint.x - 280, Fun.bottomMiddlePoint.y - 80);
 		this.m_help.onClick(this, this.helpClick);
-		this.tipTxt = UI_ScrollTxt.createInstance();
-		this.addChild(this.tipTxt);
-		this.tipTxt.setXY(this.m_help.x + 42, this.m_help.y);
-		this.tipTxt.title = Game.tipTxt.txts("QInfo");
-
 		this.m_backBtn.onClick(this, this.backClick);
 
 		this.m_list.setVirtual();
@@ -57,10 +53,44 @@ export default class UI_MenusMain extends fui_MenusMain {
 
 
 		this.m_listDay.itemRenderer = Laya.Handler.create(this, this.initItemDay, null, false);
+		this.friendGain = UI_FriendGain.createInstance();
+		this.addChild(this.friendGain);
+		this.friendGain.setXY(this.m_backBtn.x + 50, this.m_backBtn.y + 100);
+		this.friendGain.onClick(this, this.clickFriendGain);
 	}
-	private tipTxt: UI_ScrollTxt = null;
+
+	private clickFriendGain(): void {
+		if (ShareManager.userinf) {
+			Game.proto.friendPatrolData();
+		}
+	}
+
+	private friendGain: UI_FriendGain = null;
+	private friendGainClick(): void {
+		this.hideFriendGain();
+		Game.menu.open(MenuId.Authorization, 2);
+	}
+	public checkFriendGainBtn(): void {
+		if (Game.battleData.curEnterFightType == 2 || Game.playData.unlockInit < 5) {
+			this.friendGain.visible = false;
+		} else {
+			this.friendGain.visible = true;
+			let num = Game.userData.InviteNum();
+			this.friendGain.m_titles
+				.setVar("count1", num.toString())
+				.setVar("count2", "10").flushVars();
+			if (ShareManager.userinf == null) {
+				let pos = this.friendGain.localToGlobalRect(0, 0, this.friendGain.width, this.friendGain.height);
+				ShareManager.UserInfMenu(pos);
+			}
+		}
+	}
+	public hideFriendGain(): void {
+		ShareManager.hideUserInfMenuBtn();
+	}
+
 	private helpClick(): void {
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			Game.tipWin.showTip(Game.tipTxt.txts("DailyChallengeHelp"), false, null, null, "确定", "", 0);
 		}
 		else {
@@ -82,7 +112,7 @@ export default class UI_MenusMain extends fui_MenusMain {
 	}
 
 	backClick(): void {
-		Game.battleData.MenuEnterDay = false;
+		Game.battleData.curEnterFightType = 0;
 		Game.menu.open(MenuId.Home);
 		this.closeUI();
 	}
@@ -109,29 +139,36 @@ export default class UI_MenusMain extends fui_MenusMain {
 	onWindowShow(): void {
 		EventManager.event(EventKey.SHOW_UI_WAIT);
 		EventManager.on(ProtoEvent.DAYFIGHTDATA_CALL_BACK, this, this.setDataDay);
+		EventManager.on(ProtoEvent.WAVEINFO_CALL_BACK, this, this.waveSetDataWave);
 		EventManager.on(EventKey.DAYFIGHTSELECT, this, this.enterBattle);
-		EventManager.once(EventKey.LOADER_OVER, this, this.setData);
+		// EventManager.once(EventKey.LOADER_OVER, this, this.setData);
 		EventManager.on(ProtoEvent.COLLECTDEBRIS_CALL_BACK, this, this.setData);
-		let _list: Array<string> = [];
-		_list = _list.concat(LoadFilesList.res_effect_effect_ResList);
-		LoaderManager.addList(_list);
+		// let _list: Array<string> = [];
+		// _list = _list.concat(LoadFilesList.res_effect_effect_ResList);
+		// LoaderManager.addList(_list);
+		this.setData();
+		EventManager.on(ProtoEvent.FRIEDNPATROLDATA_CALL_BACK, this, this.friendGainClick);
+		this.checkFriendGainBtn();
 	}
 	private setData(): void {
 		EventManager.event(EventKey.CLOSE_UI_WAIT);
 		this.clearNum = 0;
 		this.moduleWindow.closeOtherWindow(true);
-		if (Game.battleData.MenuEnterDay) {
+		if (Game.battleData.curEnterFightType == 2) {
 			Game.proto.dayFightData();
 		}
 		else {
-			this.setDataWave();
-			if (Game.playData.unlockInit == 7) {
-				Game.playData.unlockInit = 8;
-				EventManager.event(EventKey.SHOW_WAIT);
-				setTimeout(() => {
-					this.moduleWindow.createGuideUI(this.m_leftBtn, new Laya.Point(this.m_leftBtn.x, this.m_leftBtn.y), Laya.Handler.create(this, this.clickLeft), "返回上一张地图！");
-				}, 100);
-			}
+			Game.proto.waveInfo();
+		}
+	}
+	private waveSetDataWave(): void {
+		this.setDataWave();
+		if (Game.playData.unlockInit == 8) {
+			Game.playData.unlockInit = 9;
+			EventManager.event(EventKey.SHOW_WAIT);
+			setTimeout(() => {
+				this.moduleWindow.createGuideUI(this.m_leftBtn, new Laya.Point(this.m_leftBtn.x, this.m_leftBtn.y), Laya.Handler.create(this, this.clickLeft), "返回上一张地图！");
+			}, 100);
 		}
 	}
 	private dayFight: UI_DayFight = null;
@@ -154,35 +191,36 @@ export default class UI_MenusMain extends fui_MenusMain {
 			this.maxNum = maxNumss;
 		}
 		this.m_list.numItems = this.maxNum;
-		if (this.moduleWindow.menuParameter.args.length > 0) {
-			let showId = this.moduleWindow.menuParameter.args[0];
-			this.curShow = Math.floor(showId / 10) + (showId % 10 > 0 ? 1 : 0) - 1;
-			if (this.curShow >= this.maxNum) {
-				this.curShow = this.maxNum - 1;
-			}
+		// if (this.moduleWindow.menuParameter.args.length > 0) {
+		// 	let showId = this.moduleWindow.menuParameter.args[0];
+		// 	this.curShow = Math.floor(showId / 10) + (showId % 10 > 0 ? 1 : 0) - 1;
+		// 	if (this.curShow >= this.maxNum) {
+		// 		this.curShow = this.maxNum - 1;
+		// 	}
+		// 	this.m_list.scrollToView(this.curShow, false);
+		// 	this.checkLeftRight(this.curShow);
+		// 	Game.battleData.level_id = showId;
+		// 	this.moduleWindow.createTrialUI();
+		// }
+		// else {
+		if (this.curShow < 0) {
+			this.curShow = this.maxNum - 1;
 			this.m_list.scrollToView(this.curShow, false);
-			this.checkLeftRight(this.curShow);
-			Game.battleData.level_id = showId;
-			this.moduleWindow.createTrialUI();
 		}
-		else {
-			if (this.curShow < 0) {
-				this.curShow = this.maxNum - 1;
-				this.m_list.scrollToView(this.curShow, false);
-			}
-			this.checkLeftRight(this.curShow);
-			if (this.moduleWindow.menuParameter.initFunction.count > 0) {
-				let fun: Function[] = this.moduleWindow.menuParameter.initFunction.getValues();
-				for (let i = 0, len = fun.length; i < len; i++) {
-					if (fun[i]) {
-						fun[i].apply(this.moduleWindow);
-					}
-				}
-			}
-		}
+		this.checkLeftRight(this.curShow);
+		// if (this.moduleWindow.menuParameter.initFunction.count > 0) {
+		// 	let fun: Function[] = this.moduleWindow.menuParameter.initFunction.getValues();
+		// 	for (let i = 0, len = fun.length; i < len; i++) {
+		// 		if (fun[i]) {
+		// 			fun[i].apply(this.moduleWindow);
+		// 		}
+		// 	}
+		// }
+		// }
 	}
 	// 关闭时调用，相当于disable
 	onWindowHide(): void {
+		this.hideFriendGain();
 		Game.battleMap.sUpdateExploreTime.removeAll();
 		Game.battleMap.sUpdateFightCd.removeAll();
 		EventManager.offAllCaller(this);
@@ -243,7 +281,11 @@ export default class UI_MenusMain extends fui_MenusMain {
 		this.m_leftBtn.visible = cur > 0;
 		this.m_rightBtn.visible = cur < this.maxNum - 1;
 		let levelmap = LevelmapInfo.getInfo(this.curShow + 1);
-		this.m_bgStatus.setSelectedIndex(levelmap.levelbg - 1);
+		let bg = 1;
+		if (levelmap && levelmap.levelbg) {
+			bg = levelmap.levelbg;
+		}
+		this.m_bgStatus.setSelectedIndex(bg - 1);
 	}
 
 }

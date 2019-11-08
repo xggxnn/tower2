@@ -36,11 +36,11 @@ export default class BattleMap {
                 let wavestatus = new WaveStatus();
                 wavestatus.id = item.id;
                 wavestatus.level = item.level;
-                if (item.hasOwnProperty("exploreTime")) {
-                    wavestatus.exploreTime = item.exploreTime;
+                if (item.hasOwnProperty("exploreTime2")) {
+                    wavestatus.exploreTime = item.exploreTime2;
                 }
-                if (item.hasOwnProperty("exploreTotalTime")) {
-                    wavestatus.exploreTotalTime = item.exploreTotalTime;
+                if (item.hasOwnProperty("exploreTotalTime2")) {
+                    wavestatus.exploreTotalTime = item.exploreTotalTime2;
                 }
                 if (item.hasOwnProperty("exploreHeroId")) {
                     wavestatus.exploreHeroId = item.exploreHeroId;
@@ -62,16 +62,18 @@ export default class BattleMap {
             this.maxMapId = curwaveinf.id;
         }
         else {
-            let curwaveinf = WaveInfo.getInfo(maxId);
             let waveinf = WaveInfo.getInfo(maxId + 1);
             if (waveinf) {
                 this.maxMapId = waveinf.id;
             }
             else {
+                let curwaveinf = WaveInfo.getInfo(maxId);
                 // 已通关
                 this.maxMapId = curwaveinf.id;
             }
         }
+        // 测试专用
+        this.maxMapId = 40;
     }
     // 关卡状态字典
     public waveStatusDict: Dictionary<number, WaveStatus> = new Dictionary<number, WaveStatus>();
@@ -96,6 +98,13 @@ export default class BattleMap {
     }
     public set maxMapId(v: number) {
         this._maxMapId = v;
+        if (v > 14) {
+            if (Game.playData.unlockEndless == 0) {
+                Game.playData.unlockEndless = 1;
+            }
+        } else {
+            Game.playData.unlockEndless = 0;
+        }
     }
 
     // 关卡波次（当前关卡第几个敌人）
@@ -159,19 +168,19 @@ export default class BattleMap {
     /*******************怪物生成规则***********************/
 
     public setwaveInf(v: number) {
+        Game.battleData.startClear();
         // 关卡
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             v = Game.battleData.dayFightWave + Game.battleData.dayFightProgress - 1;
             this.dayWaveInfo = ConfigData.getInfo(v);
             this.waveInfo = null;
-            // console.log(this.dayWaveInfo, Game.battleData.dayFightWave);
         }
         else {
             this.waveInfo = WaveInfo.getInfo(v);
             this.dayWaveInfo = null;
         }
         // 类型
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             this.waveType = this.dayWaveInfo.type;
         }
         else {
@@ -179,14 +188,18 @@ export default class BattleMap {
         }
         // 难度
         let _difficulty: number = 0;
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             _difficulty = this.dayWaveInfo.difficulty;
         }
         else {
-            _difficulty = this.waveInfo.difficulty;
+            if (Game.battleData.curEnterFightType == 3) {
+                _difficulty = 10;
+            } else {
+                _difficulty = this.waveInfo.difficulty;
+            }
         }
         // 曲线系数
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             this.waveform = WaveformInfo.getInfoWithType(this.dayWaveInfo.waveform);
         }
         else {
@@ -194,18 +207,18 @@ export default class BattleMap {
         }
         // 随机种子
         let seed1: number = 0;
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             seed1 = this.dayWaveInfo.random;
         }
         else {
             seed1 = this.waveInfo.random;
         }
         // 关卡时长
-        if (Game.battleData.MenuEnterDay) {
-            this.waveTime = this.dayWaveInfo.time * 60;
+        if (Game.battleData.curEnterFightType == 2) {
+            this.waveTime = this.dayWaveInfo.time * 1000;
         }
         else {
-            this.waveTime = this.waveInfo.time * 60;
+            this.waveTime = this.waveInfo.time * 1000;
         }
 
 
@@ -225,18 +238,22 @@ export default class BattleMap {
         this.mathrandom1 = new MathRandom(seed1);
         this.mathrandomBattle = new MathRandom(seed1);
         // 时间与精神房子
-        if (Game.battleData.MenuEnterDay) {
+        if (Game.battleData.curEnterFightType == 2) {
             this.timeHouse = TimeHouseInfo.getInfoLv(Game.playData.curLevel);
             this.timeHouseVal = this.timeHouse.vals[Game.playData.curStar];
         }
         else {
-            this.timeHouse = TimeHouseInfo.getInfoLv(this.waveInfo.lv);
-            this.timeHouseVal = this.timeHouse.vals[this.timeHouse.star];
-            if (this.waveStatusDict.hasKey(v)) {
-                let status: WaveStatus = this.waveStatusDict.getValue(v);
-                let waveRewards = WaveRewardInfo.getInfo(v);
-                this.timeHouseVal = waveRewards.types[status.level - 1];
+            if (Game.battleData.curEnterFightType == 3) {
+                this.timeHouse = TimeHouseInfo.getInfoLv(Game.battleData.endlessMy.progress + 30);
+            } else {
+                this.timeHouse = TimeHouseInfo.getInfoLv(this.waveInfo.lv);
             }
+            this.timeHouseVal = this.timeHouse.vals[this.timeHouse.star];
+            // if (Game.battleData.curEnterFightType != 3 && this.waveStatusDict.hasKey(v)) {
+            //     let status: WaveStatus = this.waveStatusDict.getValue(v);
+            //     let waveRewards = WaveRewardInfo.getInfo(v);
+            //     this.timeHouseVal = waveRewards.types[status.level - 1];
+            // }
         }
         this.nextCD = 0;
         this.curTime = 0;
@@ -262,6 +279,7 @@ export default class BattleMap {
     private waveType: number = 0;
     // 基准
     public waveDifEfficiency: number = 0;
+    public waveScale: number = 0;
     // 曲线类型
     private waveform: Array<WaveformInfo> = [];
     // 随机种子
@@ -322,13 +340,20 @@ export default class BattleMap {
     public set curTime(v: number) {
         this._curTime = v;
     }
-
+    // 当前关卡怪物信息
     public curBattleEnemyDic: Dictionary<number, BattleMapEnemy> = new Dictionary<number, BattleMapEnemy>();
+    // 当前boss上场时间
+    public curBossShowTime: number = 0;
+    // 当前关卡boss信息列表
+    public curBattleBossList: Array<BattleMapEnemy> = [];
+    // 怪物可用数量信息
     public curBattleEnemyListNumber: Array<number> = [];
 
     // 初始化本关敌人信息
     private createEnemy(): void {
         this.curBattleEnemyDic.clear();
+        this.curBossShowTime = -1;
+        this.curBattleBossList = [];
         this.curBattleEnemyListNumber = [];
         let _curTime = 0;
         // 本关可用敌人列表
@@ -340,7 +365,7 @@ export default class BattleMap {
             if (item.type == this.waveType) {
                 // 适用关卡判断
                 let canAdd = false;
-                if (Game.battleData.MenuEnterDay) {
+                if (Game.battleData.curEnterFightType == 2) {
                     // 每日试炼不做关卡适用判断
                     canAdd = true;
                 }
@@ -407,43 +432,55 @@ export default class BattleMap {
                                 bossInfo = listBoss[Math.floor(this.mathrandom1.random(listBoss.length))];
                                 let cont2 = this.curBattleEnemyDic.count + 1;
                                 this.curBattleEnemyListNumber.push(this.curBattleEnemyDic.count);
-                                this.curBattleEnemyDic.add(this.curBattleEnemyDic.count, new BattleMapEnemy(cont2, cont2 % 2, bossInfo, _curTime, true));
+                                let _bossinf = new BattleMapEnemy(cont2, cont2 % 2, bossInfo, _curTime, true);
+                                if (this.curBossShowTime < 0) {
+                                    this.curBossShowTime = _curTime * 0.5;
+                                }
+                                this.curBattleBossList.push(_bossinf);
+                                this.curBattleEnemyDic.add(this.curBattleEnemyDic.count, _bossinf);
                             }
                         }
                         // 攻速判断
-                        if (Game.battleData.MenuEnterDay) {
+                        if (Game.battleData.curEnterFightType == 2) {
+                            this.waveScale = this.dayWaveInfo.difficultyscale;
                             if (this.waveType == 1 || this.waveType == 2) {
-                                let remain = nextMonster.base_num / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                                nextCd += remain * 60;
+                                let remain = nextMonster.base_num / (_xiaolv * this.dayWaveInfo.heronum);
+                                nextCd += remain * 1000;
                                 if (bossInfo) {
-                                    let remain2 = bossInfo.base_num / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                                    nextCd += remain2 * 60
+                                    let remain2 = bossInfo.base_num / (_xiaolv * this.dayWaveInfo.heronum);
+                                    nextCd += remain2 * 1000;
                                 }
                             }
                             else {
-                                let remain = nextMonster.base_hp / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                                nextCd += remain * 60;
+                                let remain = nextMonster.base_hp / (_xiaolv * this.dayWaveInfo.heronum);
+                                nextCd += remain * 1000;
                                 if (bossInfo) {
-                                    let remain2 = bossInfo.base_hp / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                                    nextCd += remain2 * 60
+                                    let remain2 = bossInfo.base_hp / (_xiaolv * this.dayWaveInfo.heronum);
+                                    nextCd += remain2 * 1000;
                                 }
                             }
                         }
                         else {
+                            let heronumsss = this.waveInfo.heronum;
+                            this.waveScale = this.waveInfo.difficultyscale;
+                            if (Game.battleData.curEnterFightType == 3) {
+                                heronumsss = 9;
+                                this.waveScale = 1.5;
+                            }
                             if (this.waveType == 1 || this.waveType == 2) {
-                                let remain = nextMonster.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                                nextCd += remain * 60;
+                                let remain = nextMonster.base_num / (_xiaolv * heronumsss);
+                                nextCd += remain * 1000;
                                 if (bossInfo) {
-                                    let remain2 = bossInfo.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                                    nextCd += remain2 * 60
+                                    let remain2 = bossInfo.base_num / (_xiaolv * heronumsss);
+                                    nextCd += remain2 * 1000;
                                 }
                             }
                             else {
-                                let remain = nextMonster.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                                nextCd += remain * 60;
+                                let remain = nextMonster.base_hp / (_xiaolv * heronumsss);
+                                nextCd += remain * 1000;
                                 if (bossInfo) {
-                                    let remain2 = bossInfo.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                                    nextCd += remain2 * 60
+                                    let remain2 = bossInfo.base_hp / (_xiaolv * heronumsss);
+                                    nextCd += remain2 * 1000;
                                 }
                             }
                         }
@@ -458,129 +495,6 @@ export default class BattleMap {
         }
     }
 
-    /*
 
-    // 获取下一个敌人的信息
-    public enemyInf(): void {
-        this.nextMonster = null;
-        this.bossInfo = null;
-        let list: MonsterInfo[] = [];
-        let listBoss: MonsterInfo[] = [];
-        for (let i = 1, len = MonsterInfo.getCount(); i <= len; i++) {
-            let item = MonsterInfo.getInfo(i);
-            if (item.type == this.waveType) {
-                // 适用关卡判断
-                let canAdd = false;
-                if (Game.battleData.MenuEnterDay) {
-                    canAdd = true;
-                }
-                else {
-                    let bigWave = item.big_wave.toString();
-                    for (let k = bigWave.length - 1; k >= 0; k--) {
-                        if (Math.floor((this.curMap - 1) / 10) + 1 == Number(bigWave[k])) {
-                            canAdd = true;
-                            break;
-                        }
-                    }
-                }
-                if (canAdd) {
-                    if (item.boss == 1) {
-                        listBoss.push(item);
-                    }
-                    else {
-                        list.push(item);
-                    }
-                }
-            }
-        }
-        if (list.length > 0) {
-            this.nextMonster = list[Math.floor(this.mathrandom1.random(list.length))];// 
-        }
-        else {
-            console.log("敌人刷新完毕");
-            if (listBoss.length == 0) {
-                this.nextCD = this.curTime * 100;
-                return;
-            }
-        }
-        if (this.nextMonster != null || listBoss.length > 0) {
-            this.levelWave++;
-            let curTimePeriod = Math.floor(this.waveTime / 9);
-            for (let i = 9; i >= 0; i--) {
-                if (this.curTime >= curTimePeriod * i) {
-                    let _waveform1: WaveformInfo = null;
-                    let _waveform2: WaveformInfo = null;
-                    for (let ll = this.waveform.length - 1; ll >= 0; ll--) {
-                        if (this.waveform[ll].index == i) {
-                            _waveform1 = this.waveform[ll];
-                        }
-                        else if (this.waveform[ll].index == i + 1) {
-                            _waveform2 = this.waveform[ll];
-                        }
-                        if (_waveform1 != null && _waveform2 != null) {
-                            break;
-                        }
-                    }
-                    if (_waveform2 == null) {
-                        _waveform2 = _waveform1;
-                    }
-                    let _xiaolv = _waveform1.waveform + (_waveform2.waveform - _waveform1.waveform) * ((this.curTime - curTimePeriod * i) / curTimePeriod);
-                    // 是否创建boss判断
-                    let bossNum = _waveform1.boss;
-                    if (bossNum > 0 && listBoss.length > 0) {
-                        let dicNum = 0;
-                        if (this.bossDic.hasKey(i)) {
-                            dicNum = this.bossDic.getValue(i);
-                        }
-                        if (bossNum > dicNum) {
-                            dicNum++;
-                            this.bossDic.set(i, dicNum);
-                            // 生成一个boss
-                            this.bossInfo = listBoss[Math.floor(this.mathrandom1.random(listBoss.length))];
-                        }
-                    }
-                    // 攻速判断
-                    if (Game.battleData.MenuEnterDay) {
-                        if (this.waveType == 1 || this.waveType == 2) {
-                            let remain = this.nextMonster.base_num / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                            this.nextCD = this.nextCD + remain * 60;
-                            if (this.bossInfo) {
-                                let remain2 = this.bossInfo.base_num / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                                this.nextCD += remain2 * 60
-                            }
-                        }
-                        else {
-                            let remain = this.nextMonster.base_hp / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                            this.nextCD = this.nextCD + remain * 60;
-                            if (this.bossInfo) {
-                                let remain2 = this.bossInfo.base_hp / (this.waveDifEfficiency * this.dayWaveInfo.difficultyscale * _xiaolv * this.dayWaveInfo.heronum);
-                                this.nextCD += remain2 * 60
-                            }
-                        }
-                    }
-                    else {
-                        if (this.waveType == 1 || this.waveType == 2) {
-                            let remain = this.nextMonster.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                            this.nextCD = this.nextCD + remain * 60;
-                            if (this.bossInfo) {
-                                let remain2 = this.bossInfo.base_num / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                                this.nextCD += remain2 * 60
-                            }
-                        }
-                        else {
-                            let remain = this.nextMonster.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                            this.nextCD = this.nextCD + remain * 60;
-                            if (this.bossInfo) {
-                                let remain2 = this.bossInfo.base_hp / (this.waveDifEfficiency * this.waveInfo.difficultyscale * _xiaolv * this.waveInfo.heronum);
-                                this.nextCD += remain2 * 60
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
-    */
 
 }

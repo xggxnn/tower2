@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1280,960" overflow="hidden" designImageLayer="1" adaptationTest="FitWidthAndSetMiddle">
   <controller name="waveDay" pages="0,,1," selected="0"/>
-  <controller name="bgStatus" pages="0,1,1,2,2,3,3,4" selected="3"/>
+  <controller name="bgStatus" pages="0,1,1,2,2,3,3,4" selected="0"/>
   <displayList>
     <list id="n22_ijuw" name="list" xy="0,0" size="1280,960" layout="row" selectionMode="none" overflow="scroll" scroll="horizontal" scrollBarFlags="128" defaultItem="ui://pdzut3tw11av51w" vAlign="middle" autoClearItems="true">
       <gearDisplay controller="waveDay" pages="0"/>
@@ -10,13 +10,13 @@
       <gearDisplay controller="waveDay" pages="1"/>
     </list>
     <image id="n3_udz4" name="middle" src="udz4f" fileName="pic/jianbiandizong.png" pkg="130tmfxd" xy="639,142" pivot="0.5,0" anchor="true" size="940,37"/>
-    <image id="n4_udz4" name="n4" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="141,145">
+    <image id="n4_udz4" name="n4" src="udz4d" fileName="zhuangshi1.png" pkg="3o5nmzs6" xy="141,145">
       <relation target="n3_udz4" sidePair="left-left,top-top"/>
     </image>
-    <image id="n5_udz4" name="n5" src="udz4d" fileName="pic/zhuangshi1.png" pkg="130tmfxd" xy="1137,145" scale="-1,1">
+    <image id="n5_udz4" name="n5" src="udz4d" fileName="zhuangshi1.png" pkg="3o5nmzs6" xy="1137,145" scale="-1,1">
       <relation target="n3_udz4" sidePair="right-right,top-top"/>
     </image>
-    <loader id="n7_udz4" name="n7" xy="639,160" pivot="0.5,0.5" anchor="true" size="106,78" url="ui://pdzut3tw9mhx52k" align="center" vAlign="middle" fill="scale">
+    <loader id="n7_udz4" name="n7" xy="639,160" pivot="0.5,0.5" anchor="true" size="106,78" url="ui://pdzut3tw9mhx52e" align="center" vAlign="middle" fill="scale">
       <gearDisplay controller="waveDay" pages="0"/>
       <gearIcon controller="bgStatus" pages="0,1,2,3" values="ui://pdzut3tw9mhx52e|ui://pdzut3tw9mhx52f|ui://pdzut3tw9mhx52g|ui://pdzut3tw9mhx52k"/>
       <relation target="n3_udz4" sidePair="center-center,middle-middle"/>
@@ -34,7 +34,13 @@
       <relation target="" sidePair="middle-middle,left-left"/>
     </component>
     <component id="n25_qvb6" name="clearBtn" src="j5ct15" fileName="comBtn.xml" pkg="130tmfxd" xy="1173,887" size="100,64"/>
-    <component id="n26_qvb6" name="help" src="qrw053u" fileName="Help.xml" pkg="130tmfxd" xy="617,865"/>
+    <image id="n32_94yv" name="qq" src="94yv52n" fileName="pic/qq.png" xy="1035,869" pivot="1,1" pkg="130tmfxd"/>
+    <component id="n26_qvb6" name="help" src="qrw053u" fileName="Help.xml" pkg="130tmfxd" xy="967,863">
+      <relation target="n32_94yv" sidePair="middle-middle,right-left"/>
+    </component>
+    <image id="n31_94yv" name="n31" src="94yv52m" fileName="pic/helptip.png" xy="971,890">
+      <relation target="n26_qvb6" sidePair="center-center,top-bottom"/>
+    </image>
     <component id="n2_udz4" name="backBtn" src="udz4c" fileName="TxtBtn.xml" pkg="130tmfxd" xy="14,140" size="140,53">
       <Button title="返回" titleColor="#ffffff" titleFontSize="28"/>
     </component>
